@@ -1,0 +1,98 @@
+#ifndef _COMMON_DATA_H_
+#define _COMMON_DATA_H_
+
+#include "type_def.h"
+
+//Platform ID
+typedef enum
+{
+    PLATFORM_ID_LAN = 0x00,
+    PLATFORM_ID_T100 = 0x01,
+    PLATFORM_ID_A70 = 0x02,
+    PLATFORM_ID_B35LC = 0x03,
+    PLATFORM_ID_B35LBPLUS = 0x04,
+    PLATFORM_ID_A65 = 0x05,
+    PLATFORM_ID_R70 = 0x06,
+    PLATFORM_ID_T50 = 0x07,
+    PLATFORM_ID_A35G2 = 0x08,
+    PLATFORM_ID_A70LK = 0x09,
+    PLATFORM_ID_A65LK = 0x0A,
+    PLATFORM_ID_A70G2 = 0x0B,
+    PLATFORM_ID_R70K = 0x0C,
+    PLATFORM_ID_H60_2K = 0x0D,
+    PLATFORM_ID_H60_4K = 0x0E,
+    PLATFORM_ID_H30_4K = 0x0F,
+    PLATFORM_ID_H30_FPGA_4K = 0x10,
+
+    PLATFORM_ID_INVALID,
+}PLATFORM_ID_INDEX;
+
+//Customer ID
+typedef enum
+{
+    CUSTOMER_ID_CHRISTIE    = 0x01,
+    CUSTOMER_ID_OPTOMA      = 0x02,
+    CUSTOMER_ID_BARCO       = 0x03,
+    CUSTOMER_ID_DONVIEW     = 0x04,
+    CUSTOMER_ID_EIKI        = 0x05,
+    CUSTOMER_ID_RICOH       = 0x06,
+    CUSTOMER_ID_KRINDA      = 0x07,
+    CUSTOMER_ID_HUALUSUMPO  = 0x08,
+    CUSTOMER_ID_AVIC        = 0x09,
+    CUSTOMER_ID_DHN         = 0x0A,
+
+    CUSTOMER_ID_SHARP       = 0x0C,
+    CUSTOMER_ID_NEC         = 0x0D,
+
+    CUSTOMER_ID_VIEWSONIC   = 0x0F,
+    CUSTOMER_ID_FUJIFILM    = 0x10,
+    CUSTOMER_ID_SNC    		= 0x11,
+
+    CUSTOMER_ID_INVALID,
+}CUSTOMER_ID_INDEX;
+
+typedef enum
+{
+    MODEL_ID_0 = 0x01,
+    MODEL_ID_1 = 0x02,
+    MODEL_ID_2 = 0x03,
+    MODEL_ID_3 = 0x04,
+    MODEL_ID_4 = 0x05,
+    MODEL_ID_5 = 0x06,
+    MODEL_ID_6 = 0x07,
+    MODEL_ID_7 = 0x08,
+    MODEL_ID_8 = 0x09,
+    MODEL_ID_9 = 0x0A,
+    MODEL_ID_10 = 0x0B,
+    MODEL_ID_11 = 0x0C,
+    MODEL_ID_12 = 0x0D,
+
+    MODEL_ID_INVALID,
+}MODEL_ID_INDEX;
+
+
+typedef enum
+{
+    eMN_PROJECTOR_ID,
+    eMN_MODEL_NAME,
+    eMN_SERVICE_MODE_NAME,
+    eMN_CHINA_REGION_NAME,
+    eMN_TWN_REGION_NAME,
+    eMN_FOTA_NAME,
+    eMN_NEUTRAL_NAME,
+
+    eMN_INVALID,
+}eMODEL_NAME_TYPE;
+
+#define MODEL_NAME_MAX_STR_LEN (32)
+#define MODEL_NAME_TABLE_INDEX_NOT_FOUND (UINT32)(0xFFFFFFFF)
+
+
+extern const char ModelNameString[][eMN_INVALID][MODEL_NAME_MAX_STR_LEN];
+
+UINT32 CommonData_ModelNameTable_SizeGet(void);
+UINT32 CommonData_ModelNameTable_IndexGet(char *ProjectorID);
+
+
+#endif   //_COMMON_DATA_H_
+
