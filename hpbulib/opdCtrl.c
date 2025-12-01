@@ -69,7 +69,11 @@ void utilOPD_System_Call(const char *pfmtstring, ...)
         va_start(args, pfmtstring);
         vsnprintf(cMsg, 1024, pfmtstring, args);
 
-    (void)system(cMsg);
+        int ret = system(cMsg);
+        if(ret == -1)
+        {
+            perror("system");
+        }
 
         va_end(args);
 
@@ -1735,14 +1739,14 @@ int utilOPD_Download_File(UINT32 dSelect) //G100_Julie_0015
 
 int utilOPD_EventSet(UINT8 ucEvent, uOPD_DATA *puData)
 {
-    char str[1024];
+    char str[4096];
 
     switch(ucEvent)
     {
         case eOPD_ERROR_LOG:
         case eOPD_WARNING_LOG:
             {
-                snprintf(str, 1023, "0x%08x,%s", puData->sErrorLog.dwGECCode, puData->sErrorLog.cString);
+            snprintf(str, sizeof(str), "0x%08x,%s", puData->sErrorLog.dwGECCode, puData->sErrorLog.cString);
                 utilOPD_Write2Buffer(ucEvent, str);
             }
             break;
@@ -1763,7 +1767,7 @@ int utilOPD_EventSet(UINT8 ucEvent, uOPD_DATA *puData)
 		case eOPD_CELING_MOUNT_ON_LOG:
 		case eOPD_CELING_MOUNT_AUTO_LOG:
             {
-                snprintf(str, 1023, "%ld,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%s,%s,%s,%s,%s,%d,%d,%d,%d,%d,%d,%d,%s,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%d,%d",
+                snprintf(str, sizeof(str), "%ld,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%s,%s,%s,%s,%s,%d,%d,%d,%d,%d,%d,%d,%s,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%d,%d",
 
                 (long)puData->sSnapshotLog.ulLDMinute,
                 puData->sSnapshotLog.wFanSpeed[0],
@@ -1988,7 +1992,7 @@ int utilOPD_EventSet(UINT8 ucEvent, uOPD_DATA *puData)
 
         case eOPD_PROJECTOR_LOG:
             {
-                snprintf(str, 1023, "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%f,%f,%f,%f,%d,%d,%d,%d,%d,%d,%s",
+                snprintf(str, sizeof(str), "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%f,%f,%f,%f,%d,%d,%d,%d,%d,%d,%s",
 
 				puData->sProjectorLog.wSensorFull_BLD_Y,
 				puData->sProjectorLog.wSensorFull_BLD_R,
@@ -2095,7 +2099,7 @@ int utilOPD_EventSet(UINT8 ucEvent, uOPD_DATA *puData)
 
         case eOPD_DEVICE_LOG:
             {
-                snprintf(str, 1023, "%s,%s,%d,%d,%d,%d,%2.2f", puData->sDev.cDevName, puData->sDev.cDevInfo, puData->sDev.cPara1, puData->sDev.cPara2, puData->sDev.cPara3, puData->sDev.cPara4, puData->sDev.fPara5);
+                snprintf(str, sizeof(str), "%s,%s,%d,%d,%d,%d,%2.2f", puData->sDev.cDevName, puData->sDev.cDevInfo, puData->sDev.cPara1, puData->sDev.cPara2, puData->sDev.cPara3, puData->sDev.cPara4, puData->sDev.fPara5);
                 //utilOPD_Write2Buffer(ucEvent, str);
                 utilOPD_Write2TestBuffer(puData->sDev.cDevInterface, str);
             }
@@ -2103,7 +2107,7 @@ int utilOPD_EventSet(UINT8 ucEvent, uOPD_DATA *puData)
 
 		case eOPD_RUNTIME_LOG:
 			{
-				snprintf(str, 1023, "%s,%d,%d,%d", puData->sRunTime.cDevName, puData->sRunTime.ulRetry, puData->sRunTime.ulError, puData->sRunTime.ulTotal);
+				snprintf(str, sizeof(str), "%s,%d,%d,%d", puData->sRunTime.cDevName, puData->sRunTime.ulRetry, puData->sRunTime.ulError, puData->sRunTime.ulTotal);
 				utilOPD_Write2RunTimeBuffer(puData->sRunTime.cDriveType, str);
 			}
 			break;
@@ -2140,14 +2144,14 @@ int utilOPD_EventSet(UINT8 ucEvent, uOPD_DATA *puData)
         case eOPD_ACCESS_DATA_LAN:
         case eOPD_ACCESS_DATACODE_LOG:
             {
-                snprintf(str, 1023, "%s,%s", puData->sDataCode.acDataCodeName, puData->sDataCode.acString);
+                snprintf(str, sizeof(str), "%s,%s", puData->sDataCode.acDataCodeName, puData->sDataCode.acString);
                 utilOPD_Write2Buffer(ucEvent, str);
 		    }
             break;
 
         case eOPD_SOURCE_LOG:
             {
-                snprintf(str, 1023, "%s,%s,%d,%d,%d,%d,%d,%d,%s,%s,%d",
+                snprintf(str, sizeof(str), "%s,%s,%d,%d,%d,%d,%d,%d,%s,%s,%d",
                 puData->sSource.cInput,
                 puData->sSource.cSourceName,
                 puData->sSource.wActiveH,
@@ -2167,7 +2171,7 @@ int utilOPD_EventSet(UINT8 ucEvent, uOPD_DATA *puData)
         case eOPD_FrontEnd_LOG: //G100_Steven_0059 start
         	{
 
-	            snprintf(str, 1023, "%s,%s,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d",//2+52
+	            snprintf(str, sizeof(str), "%s,%s,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d",//2+52
 
 				m_sOPDDataInfo.sRegulatoryInfo.cSourceName[0],
 				m_sOPDDataInfo.sRegulatoryInfo.cSourceName[1],
@@ -2260,7 +2264,7 @@ int utilOPD_EventSet(UINT8 ucEvent, uOPD_DATA *puData)
 
 		case eOPD_FW_VERSION_LOG: //G100_Julie_0044
 			{
-				snprintf(str, 1023, "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
+				snprintf(str, sizeof(str), "%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s",
 
 				puData->sVERSION.cFMCU,
 				puData->sVERSION.cSMCU,
@@ -2289,21 +2293,21 @@ int utilOPD_EventSet(UINT8 ucEvent, uOPD_DATA *puData)
 
 		case eOPD_HW_CHECK_LOG:
 			{
-				snprintf(str, 1023, "%s",puData->sVERSION.cFPGAID);
+				snprintf(str, sizeof(str), "%s",puData->sVERSION.cFPGAID);
 
             	utilOPD_Write2Buffer(ucEvent, str);
 			}
 			break;
         case eOPD_INTERFACE_LOG: //G100_Julie_0048
             {
-                snprintf(str, 1023, "%s", puData->sINTERFACE.cString);
+                snprintf(str, sizeof(str), "%s", puData->sINTERFACE.cString);
                 utilOPD_Write2InterfaceLogFile(puData->sINTERFACE.cOPD_Type, str);
             }
             break;
 
 		case eOPD_VOLTAGE_DETECT:
 			{
-                snprintf(str, 1023, "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d",
+                snprintf(str, sizeof(str), "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d",
 									 puData->awData[0], puData->awData[1], puData->awData[2], puData->awData[3], puData->awData[4],
 									  puData->awData[5], puData->awData[6], puData->awData[7], puData->awData[8], puData->awData[9],
 									   puData->awData[10], puData->awData[11], puData->awData[12], puData->awData[13], puData->awData[14]);
@@ -2316,7 +2320,7 @@ int utilOPD_EventSet(UINT8 ucEvent, uOPD_DATA *puData)
 
         case eOPD_LENS_CALIBRATION_LOG:
             {
-				snprintf(str, 1023, "HP %d,VP %d,HD %d,VD %d,ZP %d,FP %d,ZD %d,FD %d,ZoomMax %d,ZoomMin %d,FocusMax %d,FocusMin %d,MaxH %d,MinH %d,MaxV %d,MinV %d,BacklashH %d, V %d",
+				snprintf(str, sizeof(str), "HP %d,VP %d,HD %d,VD %d,ZP %d,FP %d,ZD %d,FD %d,ZoomMax %d,ZoomMin %d,FocusMax %d,FocusMin %d,MaxH %d,MinH %d,MaxV %d,MinV %d,BacklashH %d, V %d",
                                     puData->sLensCalibrationInfo.wLensHPosition,
                                     puData->sLensCalibrationInfo.wLensVPosition,
                                     puData->sLensCalibrationInfo.cDirH,
@@ -2342,7 +2346,7 @@ int utilOPD_EventSet(UINT8 ucEvent, uOPD_DATA *puData)
 
         case eOPD_LENS_MEMORY_LOG:
             {
-				snprintf(str, 1023, "%d, HP %d,VP %d,HD %d,VD %d,ZP %d,FP %d,ZD %d,FD %d",
+				snprintf(str, sizeof(str), "%d, HP %d,VP %d,HD %d,VD %d,ZP %d,FP %d,ZD %d,FD %d",
                                     puData->sLensMemInfo.cIndex,
                                     puData->sLensMemInfo.wLensHPosition,
                                     puData->sLensMemInfo.wLensVPosition,
@@ -2359,7 +2363,7 @@ int utilOPD_EventSet(UINT8 ucEvent, uOPD_DATA *puData)
 
         case eOPD_LENS_OPTICA_CENTER_LOG:
             {
-				snprintf(str, 1023, "%d HP %d,VP %d,HD %d,VD %d",
+				snprintf(str, sizeof(str), "%d HP %d,VP %d,HD %d,VD %d",
                                     puData->sLensOpticalCenter.ucLensCenterSetting,
                                     puData->sLensOpticalCenter.wLensHPosition,
                                     puData->sLensOpticalCenter.wLensVPosition,
@@ -2372,7 +2376,7 @@ int utilOPD_EventSet(UINT8 ucEvent, uOPD_DATA *puData)
 
         case eOPD_LIGHT_SENSOR_ERROR_LOG:
             {
-                snprintf(str, 1023, "%d,%d,%d,%d",
+                snprintf(str, sizeof(str), "%d,%d,%d,%d",
                 puData->sSnapshotLog.wLightSenosr[0],
 				puData->sSnapshotLog.wLightSenosr[1],
 				puData->sSnapshotLog.wLightSenosr[2],
@@ -2384,7 +2388,7 @@ int utilOPD_EventSet(UINT8 ucEvent, uOPD_DATA *puData)
 
         case eOPD_HDBT_STATUS_LOG:
             {
-                snprintf(str, 1023, "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d",
+                snprintf(str, sizeof(str), "%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d",
                 puData->sSnapshotLog.ulHDBT_Status[0],puData->sSnapshotLog.ulHDBT_Status[1],puData->sSnapshotLog.ulHDBT_Status[2],puData->sSnapshotLog.ulHDBT_Status[3]
                 ,puData->sSnapshotLog.ulHDBT_Status[4],puData->sSnapshotLog.ulHDBT_Status[5],puData->sSnapshotLog.ulHDBT_Status[6],puData->sSnapshotLog.ulHDBT_Status[7]
                 ,puData->sSnapshotLog.ulHDBT_Status[8],puData->sSnapshotLog.ulHDBT_Status[9],puData->sSnapshotLog.ulHDBT_Status[10]);
@@ -2395,7 +2399,7 @@ int utilOPD_EventSet(UINT8 ucEvent, uOPD_DATA *puData)
 
         case eOPD_INFOFRAME_CHANGE_LOG:
             {
-                snprintf(str, 1023, "%d",
+                snprintf(str, sizeof(str), "%d",
                 puData->sSnapshotLog.ulINFO_Frame_Change);
 
                 utilOPD_Write2Buffer(ucEvent, str);
@@ -2404,7 +2408,7 @@ int utilOPD_EventSet(UINT8 ucEvent, uOPD_DATA *puData)
 
         case eOPD_SOURCE_LOST_LOG:
             {
-                snprintf(str, 1023, "%d",
+                snprintf(str, sizeof(str), "%d",
                 puData->sSnapshotLog.ulSource_Lost);
 
                 utilOPD_Write2Buffer(ucEvent, str);
@@ -2413,7 +2417,7 @@ int utilOPD_EventSet(UINT8 ucEvent, uOPD_DATA *puData)
 
         case eOPD_DEBUG_LOG:
             {
-                snprintf(str, 1023, "%d",
+                snprintf(str, sizeof(str), "%d",
                 puData->sSnapshotLog.ulDebug);
 
                 utilOPD_Write2Buffer(ucEvent, str);
@@ -2422,7 +2426,7 @@ int utilOPD_EventSet(UINT8 ucEvent, uOPD_DATA *puData)
 
         case eOPD_MCU_SYSTEM_STATE_LOG:
             {
-                snprintf(str, 1023, "%d,", puData->ulMCU_SYSTEM_STATE);
+                snprintf(str, sizeof(str), "%d,", puData->ulMCU_SYSTEM_STATE);
                 utilOPD_Write2Buffer(ucEvent, str);
             }
             break;
@@ -2616,9 +2620,9 @@ int utilOPD_CopyToUsb(void)
 
         printf("usb is ready\r\n");
 
-        sprintf(filename, "OPD_%s_%s_%s_%d%d%d", m_sOPDDataInfo.sRegulatoryInfo.cModelName, m_sOPDDataInfo.sRegulatoryInfo.cSN, m_sOPDDataInfo.sRegulatoryInfo.cLanMacAdd, wtyear, wtmon, wtday);
+        snprintf(filename, sizeof(filename), "OPD_%s_%s_%s_%d%d%d", m_sOPDDataInfo.sRegulatoryInfo.cModelName, m_sOPDDataInfo.sRegulatoryInfo.cSN, m_sOPDDataInfo.sRegulatoryInfo.cLanMacAdd, wtyear, wtmon, wtday);
 
-        sprintf(temp, "%s/%s", USB_DEV_PATH, filename);
+        snprintf(temp, sizeof(temp), "%s/%s", USB_DEV_PATH, filename);
 
         if(access(temp, 0) == -1)
         {
@@ -2861,12 +2865,20 @@ void utilOPD_PackageTarPadFile(void)
     if(access(OPD_PAD_SWAP_PATH, F_OK) == 0)
     {
         snprintf(TarSwapCmd, sizeof(TarSwapCmd), "tar -cvf %s/%s %s > /dev/null 2>&1;", IMXAP_LOG_PATH, OPD_PAD_SWAP_FILE_NAME, OPD_PAD_SWAP_PATH);
-        (void)system(TarSwapCmd);
+        int ret = system(TarSwapCmd);
+        if(ret == -1)
+        {
+            perror("system");
+        }
     }
     if(access(OPD_PAD_GEOMETRY_PATH, F_OK) == 0)
     {
         snprintf(TarGeometryCmd, sizeof(TarGeometryCmd), "tar -czvf %s/%s %s > /dev/null 2>&1;", IMXAP_LOG_PATH, OPD_PAD_GEOMETRY_FILE_NAME, OPD_PAD_GEOMETRY_PATH);
-        (void)system(TarGeometryCmd);
+        int ret = system(TarGeometryCmd);
+        if(ret == -1)
+        {
+            perror("system");
+        }
     }
 }
 
