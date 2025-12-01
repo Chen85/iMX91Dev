@@ -238,7 +238,10 @@ INT8 InitOSDDafaultValueCmdCfg(void)
 
     while (!feof(fp)) //計算有幾個參數
     {
-        fgets(cStrTemp,1023,fp);
+        if(fgets(cStrTemp,1023,fp) == NULL)
+        {
+            break;//return 1;
+        }
 
         if(feof(fp))
         {

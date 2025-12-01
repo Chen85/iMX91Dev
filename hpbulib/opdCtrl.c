@@ -318,8 +318,8 @@ void utilOPD_RegulatoryInfo_Set(eDATA_CODE eDataCode, char *pStr, UINT8 cValue)
 {
 	switch(eDataCode)
 	{
-		case edcMODEL_NAME:
-			sprintf((char*)m_sOPDDataInfo.sRegulatoryInfo.cModelName, "");
+            case edcMODEL_NAME:
+                    m_sOPDDataInfo.sRegulatoryInfo.cModelName[0] = '\0';
 			if(pStr == NULL)
 			{
 				snprintf(m_sOPDDataInfo.sRegulatoryInfo.cModelName, 31, "None");
@@ -330,8 +330,8 @@ void utilOPD_RegulatoryInfo_Set(eDATA_CODE eDataCode, char *pStr, UINT8 cValue)
 			}
 			break;
 
-		case edcSERIAL_NUMBER:
-			sprintf((char*)m_sOPDDataInfo.sRegulatoryInfo.cSN, "");
+            case edcSERIAL_NUMBER:
+                    m_sOPDDataInfo.sRegulatoryInfo.cSN[0] = '\0';
 			if(pStr == NULL)
 			{
 				snprintf(m_sOPDDataInfo.sRegulatoryInfo.cSN, 31, "None");
@@ -342,8 +342,8 @@ void utilOPD_RegulatoryInfo_Set(eDATA_CODE eDataCode, char *pStr, UINT8 cValue)
 			}
 			break;
 
-		case edcLAN_MAC_ADDRESS:
-			sprintf((char*)m_sOPDDataInfo.sRegulatoryInfo.cLanMacAdd, "");
+            case edcLAN_MAC_ADDRESS:
+                    m_sOPDDataInfo.sRegulatoryInfo.cLanMacAdd[0] = '\0';
 			if(pStr == NULL)
 			{
 				snprintf(m_sOPDDataInfo.sRegulatoryInfo.cLanMacAdd, 31, "None");
@@ -433,13 +433,15 @@ int utilOPD_Write2Buffer(UINT8 ucEvent, char *pcStr)
     {
 	    snprintf(cStrTemp, 1023 ,"%s,%04d/%02d/%02d-%02d:%02d:%03d,%04d:%02d:%02d:%02d,%s\n", m_pcOPD_LOG[ucEvent], wtyear, wtmon, wtday, wthour, wtmin, wtsec, wDay, wHour, wMin, wSec, pcStr);
 
-        if(strlen(m_cOPD_Buffer) + strlen(cStrTemp) > OPD_LOG_BUFFER)
+        size_t remaining = OPD_LOG_BUFFER - strlen(m_cOPD_Buffer) - 1;
+
+        if(strlen(cStrTemp) > remaining)
         {
             utilOPD_MutexGive();
             return 0;
         }
 
-        strncat(m_cOPD_Buffer, cStrTemp, strlen(cStrTemp));
+        strncat(m_cOPD_Buffer, cStrTemp, remaining);
 
         utilOPD_MutexGive();
     }
@@ -459,13 +461,15 @@ int utilOPD_Write2TestBuffer(char *pcOPDType, char *pcStr) //device self test re
     {
 	    snprintf(cStrTemp, 1023 ,"%s,%04d/%02d/%02d-%02d:%02d:%03d,%04d:%02d:%02d:%02d,%s\n", pcOPDType, wtyear, wtmon, wtday, wthour, wtmin, wtsec, wDay, wHour, wMin, wSec, pcStr);
 
-        if(strlen(m_cOPD_Test_Buffer) + strlen(cStrTemp) > OPD_LOG_BUFFER)
+        size_t remaining = OPD_LOG_BUFFER - strlen(m_cOPD_Test_Buffer) - 1;
+
+        if(strlen(cStrTemp) > remaining)
         {
             utilOPD_MutexGive();
             return 0;
         }
 
-        strncat(m_cOPD_Test_Buffer, cStrTemp, strlen(cStrTemp));
+        strncat(m_cOPD_Test_Buffer, cStrTemp, remaining);
 
         utilOPD_MutexGive();
     }
@@ -485,13 +489,15 @@ int utilOPD_Write2RunTimeBuffer(char *cInterfaceType, char *pcStr)
     {
 	    snprintf(cStrTemp, 1023 ,"%s,%04d/%02d/%02d-%02d:%02d:%03d,%04d:%02d:%02d:%02d,%s\n", cInterfaceType, wtyear, wtmon, wtday, wthour, wtmin, wtsec, wDay, wHour, wMin, wSec, pcStr);
 
-        if(strlen(m_cOPD_RunTime_Buffer) + strlen(cStrTemp) > OPD_LOG_BUFFER)
+        size_t remaining = OPD_LOG_BUFFER - strlen(m_cOPD_RunTime_Buffer) - 1;
+
+        if(strlen(cStrTemp) > remaining)
         {
             utilOPD_MutexGive();
             return 0;
         }
 
-        strncat(m_cOPD_RunTime_Buffer, cStrTemp, strlen(cStrTemp));
+        strncat(m_cOPD_RunTime_Buffer, cStrTemp, remaining);
 
         utilOPD_MutexGive();
     }
@@ -1759,7 +1765,7 @@ int utilOPD_EventSet(UINT8 ucEvent, uOPD_DATA *puData)
             {
                 snprintf(str, 1023, "%ld,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%s,%s,%s,%s,%s,%d,%d,%d,%d,%d,%d,%d,%s,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%ld,%d,%d",
 
-                puData->sSnapshotLog.ulLDMinute,
+                (long)puData->sSnapshotLog.ulLDMinute,
                 puData->sSnapshotLog.wFanSpeed[0],
                 puData->sSnapshotLog.wFanSpeed[1],
                 puData->sSnapshotLog.wFanSpeed[2],
@@ -1947,19 +1953,19 @@ int utilOPD_EventSet(UINT8 ucEvent, uOPD_DATA *puData)
 		        puData->sSnapshotLog.ucDimPowerLevel,
 		        puData->sSnapshotLog.wBurnInCycle,
 
-                puData->sSnapshotLog.lLVPS_InputVoltage,
-                puData->sSnapshotLog.lLVPS_PFC_OutputVoltage,
-                puData->sSnapshotLog.lLVPS_5V_Voltage,
-                puData->sSnapshotLog.lLVPS_12V_Voltage,
-                puData->sSnapshotLog.lLVPS_52V_Voltage,
-                puData->sSnapshotLog.lLVPS_5V_Current,
-                puData->sSnapshotLog.lLVPS_12V_Current,
-                puData->sSnapshotLog.lLVPS_52V_Current,
-                puData->sSnapshotLog.lLVPS_PFC_MOS_Temperature,
-                puData->sSnapshotLog.lLVPS_Bridge_Temperature,
-                puData->sSnapshotLog.lLVPS_Ambient_Temperature,
-                puData->sSnapshotLog.lLVPS_12V_SR_MOSFET_Temperature,
-                puData->sSnapshotLog.lLVPS_52V_SR_MOSFET_Temperature,
+                (long)puData->sSnapshotLog.lLVPS_InputVoltage,
+                (long)puData->sSnapshotLog.lLVPS_PFC_OutputVoltage,
+                (long)puData->sSnapshotLog.lLVPS_5V_Voltage,
+                (long)puData->sSnapshotLog.lLVPS_12V_Voltage,
+                (long)puData->sSnapshotLog.lLVPS_52V_Voltage,
+                (long)puData->sSnapshotLog.lLVPS_5V_Current,
+                (long)puData->sSnapshotLog.lLVPS_12V_Current,
+                (long)puData->sSnapshotLog.lLVPS_52V_Current,
+                (long)puData->sSnapshotLog.lLVPS_PFC_MOS_Temperature,
+                (long)puData->sSnapshotLog.lLVPS_Bridge_Temperature,
+                (long)puData->sSnapshotLog.lLVPS_Ambient_Temperature,
+                (long)puData->sSnapshotLog.lLVPS_12V_SR_MOSFET_Temperature,
+                (long)puData->sSnapshotLog.lLVPS_52V_SR_MOSFET_Temperature,
                 puData->sSnapshotLog.uiLVPS_PRIMARY_PROTECTION_STATUS,
                 puData->sSnapshotLog.uiLVPS_SECONDARY_PROTECTION_STATUS
 
@@ -2833,7 +2839,7 @@ int utilOPD_TarProgress_WriteProgress(UINT8 ucPartStatus, UINT8 ucPartIndex)
 		    fprintf(pDownloadFp, "\"ErrMsg\": \"\",\n");
 		    fprintf(pDownloadFp, "\"Stage\": \"%d\",\n", ucPartStatus);
 		    fprintf(pDownloadFp, "\"PartIndex\": \"%d\",\n", ucPartIndex);
-		    fprintf(pDownloadFp, "\"TotalProgress\": \"%llu\"\n", ullCalProgress);
+                fprintf(pDownloadFp, "\"TotalProgress\": \"%lu\"\n", ullCalProgress);
 		    fprintf(pDownloadFp, "}\n");
 
 	    	fclose(pDownloadFp);

@@ -393,7 +393,7 @@ INT32 FindItemIndex_ByDatacode(UINT32 DataCode, UINT8 SortedData)
         for(search = 0; search < ItemCount ; search++)
         {
             SharedMem_ReadData_New(eSB_UI_ITEM_INFO, &sItemInfo, search);
-            if(DataCode == (UINT32)sItemInfo.DataCode)
+            if(DataCode == sItemInfo.DataCodeIndex)
                 return search;
         }
 
@@ -697,21 +697,21 @@ INT32 ItemConfig_SaveToCSVfile_FromShm(void)
         sUI_ITEM_CFG sItemInfo;
         SharedMem_ReadData_New(eSB_UI_ITEM_INFO, &sItemInfo, i);
 
-        snprintf(LineData, 1024, "%s,%d,%d,%d,%d,%d,%s,%d,%d,%d,%d,%d,%d,%d\r\n"
-                               , sItemInfo.ItemName
-                               , sItemInfo.ItemID
-                               , sItemInfo.ParentMenuID
-                               , sItemInfo.NextMenuID
-                               , sItemInfo.Style
-                               , sItemInfo.OperationType
-                               , sItemInfo.DataCode
-							   , sItemInfo.DataCodeIndex
-                               , sItemInfo.Hide
-                               , sItemInfo.Max
-                               , sItemInfo.Min
-                               , sItemInfo.Offset
-                               , sItemInfo.Step
-                               , sItemInfo.Value);
+    snprintf(LineData, 1024, "%s,%llu,%d,%d,%d,%d,%s,%u,%u,%d,%d,%u,%u,%u\r\n"
+                           , sItemInfo.ItemName
+                           , sItemInfo.ItemID
+                           , sItemInfo.ParentMenuID
+                           , sItemInfo.NextMenuID
+                           , sItemInfo.Style
+                           , sItemInfo.OperationType
+                           , sItemInfo.DataCode
+                                                , sItemInfo.DataCodeIndex
+                           , sItemInfo.Hide
+                           , sItemInfo.Max
+                           , sItemInfo.Min
+                           , sItemInfo.Offset
+                           , sItemInfo.Step
+                           , sItemInfo.Value);
 
         fputs(LineData, fp);
     }
