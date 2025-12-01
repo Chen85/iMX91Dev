@@ -27,7 +27,7 @@ void DbMsg(const char *Msg, ...)
 
         char String[256] = {'\0'};
         vsnprintf(String, sizeof(String), Msg, args);
-        printf(String);
+        printf("%s", String);
         va_end(args);
     }
 }
@@ -642,21 +642,21 @@ INT32 ItemConfig_ReadCSVfile(char *cDatacode, INT32 *iMaxValue, INT32 *iMinValue
 			return false;
 		}
 
-        sscanf(cStrTemp, "%80[^,],%d,%d,%d,%d,%d,%80[^,],%8[^,],%d,%d,%d,%d,%d,%d"
-								, sItemInfo.ItemName
-								, &sItemInfo.ItemID
-								, &sItemInfo.ParentMenuID
-								, &sItemInfo.NextMenuID
-								, &sItemInfo.Style
-								, &sItemInfo.OperationType
-								, sItemInfo.DataCode
-								, &sItemInfo.DataCodeIndex
-								, &sItemInfo.Hide
-								, &sItemInfo.Max
-								, &sItemInfo.Min
-								, &sItemInfo.Offset
-								, &sItemInfo.Step
-								, &sItemInfo.Value);
+        sscanf(cStrTemp, "%80[^,],%llu,%d,%d,%d,%d,%80[^,],%u,%hhu,%d,%d,%u,%u,%u"
+                                                                , sItemInfo.ItemName
+                                                                , &sItemInfo.ItemID
+                                                                , &sItemInfo.ParentMenuID
+                                                                , &sItemInfo.NextMenuID
+                                                                , &sItemInfo.Style
+                                                                , &sItemInfo.OperationType
+                                                                , sItemInfo.DataCode
+                                                                , &sItemInfo.DataCodeIndex
+                                                                , &sItemInfo.Hide
+                                                                , &sItemInfo.Max
+                                                                , &sItemInfo.Min
+                                                                , &sItemInfo.Offset
+                                                                , &sItemInfo.Step
+                                                                , &sItemInfo.Value);
 
 		if(strncmp(sItemInfo.DataCode, cDatacode, sizeof(cDatacode)) == 0)
 		{

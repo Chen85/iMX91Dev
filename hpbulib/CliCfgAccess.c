@@ -28,7 +28,10 @@ INT8 InitCliFormatCfg(void)
 
     while (!feof(fp))
     {
-        fgets(cStrTemp,1023,fp);
+        if (fgets(cStrTemp,1023,fp) == NULL)
+        {
+            break;
+        }
 
         if(feof(fp))
         {
@@ -69,7 +72,10 @@ INT8 InitRs232CmdCfg(void)
 
     while (!feof(fp))
     {
-        fgets(cStrTemp,1023,fp);
+        if (fgets(cStrTemp,1023,fp) == NULL)
+        {
+            break;
+        }
 
         if(feof(fp))
         {
@@ -254,7 +260,10 @@ INT8 InitOSDDafaultValueCmdCfg(void)
     fp = fopen( OSD_DEFAULTVALUE_FILE_PATH ,"rb");
     while (!feof(fp)) //將變數放入記憶體
     {
-        fgets(cStrTemp,1023,fp);
+        if (fgets(cStrTemp,1023,fp) == NULL)
+        {
+            break;
+        }
 
         if(feof(fp))
         {
@@ -265,7 +274,7 @@ INT8 InitOSDDafaultValueCmdCfg(void)
 
         if(strncmp(ItemName, "DEF", 3) == 0)
         {
-            snprintf(sOSDCfg.psOSDDDef[uiCount].cString, 64, "%s\0", cStrTemp2);
+            snprintf(sOSDCfg.psOSDDDef[uiCount].cString, 64, "%s", cStrTemp2);
             sOSDCfg.psOSDDDef[uiCount].cIndex = iValue;
             uiCount++;
         }
@@ -286,7 +295,7 @@ INT8 InitOSDDafaultValueGet(UINT16 uiCount, char *cString, INT32 *pcValue)
         return 0;
     }
 
-    snprintf(cString, 64, "%s\0", sOSDCfg.psOSDDDef[uiCount].cString);
+    snprintf(cString, 64, "%s", sOSDCfg.psOSDDDef[uiCount].cString);
     *pcValue = sOSDCfg.psOSDDDef[uiCount].cIndex;
 
     return 1;

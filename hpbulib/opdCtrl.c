@@ -69,7 +69,7 @@ void utilOPD_System_Call(const char *pfmtstring, ...)
         va_start(args, pfmtstring);
         vsnprintf(cMsg, 1024, pfmtstring, args);
 
-        system(cMsg);
+    (void)system(cMsg);
 
         va_end(args);
 
@@ -261,7 +261,7 @@ const char *m_sToggle_String[] =
 
 const sOPD_PASSWORD_LUT_TABLE m_sOPD_Password_Table[] =
 {
-/*BARCORE*/	{"23456789\0",  "23456789\0",  "23456789\0",  "23456789\0",  "23456789\0",  "23456789\0",  "23456789\0",  "23456789\0",  "23456789\0"},
+/*BARCORE*/	{"23456789",  "23456789",  "23456789",  "23456789",  "23456789",  "23456789",  "23456789",  "23456789",  "23456789"},
 };
 
 VERIFY_SIZE_OF(m_sOPD_Password_Table, sizeof(m_sOPD_Password_Table[0])*eCUSTOMER_SPLASH_INVALID);
@@ -319,38 +319,38 @@ void utilOPD_RegulatoryInfo_Set(eDATA_CODE eDataCode, char *pStr, UINT8 cValue)
 	switch(eDataCode)
 	{
 		case edcMODEL_NAME:
-			sprintf((char*)m_sOPDDataInfo.sRegulatoryInfo.cModelName, "\0");
+			sprintf((char*)m_sOPDDataInfo.sRegulatoryInfo.cModelName, "");
 			if(pStr == NULL)
 			{
 				snprintf(m_sOPDDataInfo.sRegulatoryInfo.cModelName, 31, "None");
 			}
 			else
 			{
-				snprintf(m_sOPDDataInfo.sRegulatoryInfo.cModelName, 31, "%s\0", pStr);
+				snprintf(m_sOPDDataInfo.sRegulatoryInfo.cModelName, 31, "%s", pStr);
 			}
 			break;
 
 		case edcSERIAL_NUMBER:
-			sprintf((char*)m_sOPDDataInfo.sRegulatoryInfo.cSN, "\0");
+			sprintf((char*)m_sOPDDataInfo.sRegulatoryInfo.cSN, "");
 			if(pStr == NULL)
 			{
 				snprintf(m_sOPDDataInfo.sRegulatoryInfo.cSN, 31, "None");
 			}
 			else
 			{
-				snprintf(m_sOPDDataInfo.sRegulatoryInfo.cSN, 31, "%s\0", pStr);
+				snprintf(m_sOPDDataInfo.sRegulatoryInfo.cSN, 31, "%s", pStr);
 			}
 			break;
 
 		case edcLAN_MAC_ADDRESS:
-			sprintf((char*)m_sOPDDataInfo.sRegulatoryInfo.cLanMacAdd, "\0");
+			sprintf((char*)m_sOPDDataInfo.sRegulatoryInfo.cLanMacAdd, "");
 			if(pStr == NULL)
 			{
 				snprintf(m_sOPDDataInfo.sRegulatoryInfo.cLanMacAdd, 31, "None");
 			}
 			else
 			{
-				snprintf(m_sOPDDataInfo.sRegulatoryInfo.cLanMacAdd, 31, "%s\0", pStr);
+				snprintf(m_sOPDDataInfo.sRegulatoryInfo.cLanMacAdd, 31, "%s", pStr);
 			}
 			break;
 
@@ -511,7 +511,7 @@ int utilOPD_Read_TestFile(void)
     {
 
 	    uOPD_DATA sDev = {0};
-		sprintf(cTemp, "%s/opd_self_test_%04d.bin\0", OPD_LOG_PATH, 0);
+		sprintf(cTemp, "%s/opd_self_test_%04d.bin", OPD_LOG_PATH, 0);
 
 	    size = file_size(cTemp);
 
@@ -534,14 +534,17 @@ int utilOPD_Read_TestFile(void)
 	        return 1;
 	    }
 
-	    while (!feof(pFile))
-	    {
-	        fgets(cStrTemp,OPD_LOG_BUFFER,pFile);
+            while (!feof(pFile))
+            {
+                if (fgets(cStrTemp,OPD_LOG_BUFFER,pFile) == NULL)
+                {
+                    break;
+                }
 
-			if(feof(pFile))
-			{
-				break;//return 1;
-			}
+                        if(feof(pFile))
+                        {
+                                break;//return 1;
+                        }
 
 	        sscanf(cStrTemp, "%63[^,],%1023[^\n]", cType, cString); //G100_Simon_0060
 
@@ -605,7 +608,7 @@ int utilOPD_Write2File(void)
             return 0;
         }
 
-	    sprintf(cTemp, "%s/opd_log_%04d.bin\0", OPD_LOG_PATH, 0);
+	    sprintf(cTemp, "%s/opd_log_%04d.bin", OPD_LOG_PATH, 0);
 
     	size = file_size(cTemp);
 
@@ -613,7 +616,7 @@ int utilOPD_Write2File(void)
     	{
             int cFile = OPD_LOG_FILE_NUMBER - 1;
 
-            sprintf(cTemp, "%s/opd_log_%04d.bin\0", OPD_LOG_PATH, cFile);
+            sprintf(cTemp, "%s/opd_log_%04d.bin", OPD_LOG_PATH, cFile);
 
             if(access(cTemp, 0) == 0)
             {
@@ -625,8 +628,8 @@ int utilOPD_Write2File(void)
 
             for(cFile; cFile > 0; cFile--)
             {
-                sprintf(cTemp, "%s/opd_log_%04d.bin\0", OPD_LOG_PATH, cFile);
-		        sprintf(cTemp2, "%s/opd_log_%04d.bin\0", OPD_LOG_PATH, cFile-1);
+                sprintf(cTemp, "%s/opd_log_%04d.bin", OPD_LOG_PATH, cFile);
+		        sprintf(cTemp2, "%s/opd_log_%04d.bin", OPD_LOG_PATH, cFile-1);
 
                 if(access(cTemp2,0) == 0)
         		{
@@ -647,7 +650,7 @@ int utilOPD_Write2File(void)
             }
     	}
 
-	    sprintf(cTemp, "%s/opd_log_%04d.bin\0", OPD_LOG_PATH, 0);
+	    sprintf(cTemp, "%s/opd_log_%04d.bin", OPD_LOG_PATH, 0);
 
     	if(access(cTemp,0) == -1)
     	{
@@ -708,14 +711,14 @@ int utilOPD_Write2TestFile(void)
             return 0;
         }
 
-		sprintf(cTemp, "%s/opd_self_test_%04d.bin\0", OPD_LOG_PATH, 0);
+		sprintf(cTemp, "%s/opd_self_test_%04d.bin", OPD_LOG_PATH, 0);
     	size = file_size(cTemp);
 
 		if(size > 0)
 		{
 			int cFile = OPD_SELF_TEST_FILE_NUMBER - 1;
 
-			sprintf(cTemp, "%s/opd_self_test_%04d.bin\0", OPD_LOG_PATH, cFile);
+			sprintf(cTemp, "%s/opd_self_test_%04d.bin", OPD_LOG_PATH, cFile);
 
 			if(access(cTemp, 0) == 0)
 			{
@@ -727,8 +730,8 @@ int utilOPD_Write2TestFile(void)
 
             for(cFile; cFile > 0; cFile--)
             {
-			    sprintf(cTemp, "%s/opd_self_test_%04d.bin\0", OPD_LOG_PATH, cFile);
-				sprintf(cTemp2, "%s/opd_self_test_%04d.bin\0", OPD_LOG_PATH, cFile-1);
+			    sprintf(cTemp, "%s/opd_self_test_%04d.bin", OPD_LOG_PATH, cFile);
+				sprintf(cTemp2, "%s/opd_self_test_%04d.bin", OPD_LOG_PATH, cFile-1);
 
 				if(access(cTemp2,0) == 0)
 				{
@@ -749,7 +752,7 @@ int utilOPD_Write2TestFile(void)
             }
     	}
 
-		sprintf(cTemp, "%s/opd_self_test_%04d.bin\0", OPD_LOG_PATH, 0);
+		sprintf(cTemp, "%s/opd_self_test_%04d.bin", OPD_LOG_PATH, 0);
 
 		if(access(cTemp,0) == -1)
     	{
@@ -836,7 +839,7 @@ int utilOPD_Write2EngineFile(UINT8 ucEvent, char *pcStr)
 	        return 0;
 	    }
 
-	    sprintf(cTemp, "%s/opd_engine_%04d.bin\0", OPD_LOG_PATH, 0);
+	    sprintf(cTemp, "%s/opd_engine_%04d.bin", OPD_LOG_PATH, 0);
 
 		size = file_size(cTemp);
 
@@ -844,7 +847,7 @@ int utilOPD_Write2EngineFile(UINT8 ucEvent, char *pcStr)
 		{
 	        int cFile = OPD_ENGINE_FILE_NUMBER - 1;
 
-	        sprintf(cTemp, "%s/opd_engine_%04d.bin\0", OPD_LOG_PATH, cFile);
+	        sprintf(cTemp, "%s/opd_engine_%04d.bin", OPD_LOG_PATH, cFile);
 
 	        if(access(cTemp, 0) == 0)
 	        {
@@ -856,8 +859,8 @@ int utilOPD_Write2EngineFile(UINT8 ucEvent, char *pcStr)
 
 	        for(cFile; cFile > 0; cFile--)
 	        {
-	            sprintf(cTemp, "%s/opd_engine_%04d.bin\0", OPD_LOG_PATH, cFile);
-		        sprintf(cTemp2, "%s/opd_engine_%04d.bin\0", OPD_LOG_PATH, cFile-1);
+	            sprintf(cTemp, "%s/opd_engine_%04d.bin", OPD_LOG_PATH, cFile);
+		        sprintf(cTemp2, "%s/opd_engine_%04d.bin", OPD_LOG_PATH, cFile-1);
 
 	            if(access(cTemp2,0) == 0)
 	    		{
@@ -878,7 +881,7 @@ int utilOPD_Write2EngineFile(UINT8 ucEvent, char *pcStr)
 	        }
 		}
 
-	    sprintf(cTemp, "%s/opd_engine_%04d.bin\0", OPD_LOG_PATH, 0);
+	    sprintf(cTemp, "%s/opd_engine_%04d.bin", OPD_LOG_PATH, 0);
 
 		if(access(cTemp,0) == -1)
 		{
@@ -982,7 +985,7 @@ int utilOPD_Write2ProjectorFile(UINT8 ucEvent, char *pcStr) //G100_Julie_0016
 	        return 0;
 	    }
 
-	    sprintf(cTemp, "%s/opd_projector_%04d.bin\0", OPD_LOG_PATH, 0);
+	    sprintf(cTemp, "%s/opd_projector_%04d.bin", OPD_LOG_PATH, 0);
 
 		size = file_size(cTemp);
 
@@ -990,7 +993,7 @@ int utilOPD_Write2ProjectorFile(UINT8 ucEvent, char *pcStr) //G100_Julie_0016
 		{
 	        int cFile = OPD_PROJECTOR_FILE_NUMBER - 1;
 
-	        sprintf(cTemp, "%s/opd_projector_%04d.bin\0", OPD_LOG_PATH, cFile);
+	        sprintf(cTemp, "%s/opd_projector_%04d.bin", OPD_LOG_PATH, cFile);
 
 	        if(access(cTemp, 0) == 0)
 	        {
@@ -1002,8 +1005,8 @@ int utilOPD_Write2ProjectorFile(UINT8 ucEvent, char *pcStr) //G100_Julie_0016
 
 	        for(cFile; cFile > 0; cFile--)
 	        {
-	            sprintf(cTemp, "%s/opd_projector_%04d.bin\0", OPD_LOG_PATH, cFile);
-		        sprintf(cTemp2, "%s/opd_projector_%04d.bin\0", OPD_LOG_PATH, cFile-1);
+	            sprintf(cTemp, "%s/opd_projector_%04d.bin", OPD_LOG_PATH, cFile);
+		        sprintf(cTemp2, "%s/opd_projector_%04d.bin", OPD_LOG_PATH, cFile-1);
 
 	            if(access(cTemp2,0) == 0)
 	    		{
@@ -1024,7 +1027,7 @@ int utilOPD_Write2ProjectorFile(UINT8 ucEvent, char *pcStr) //G100_Julie_0016
 	        }
 		}
 
-	    sprintf(cTemp, "%s/opd_projector_%04d.bin\0", OPD_LOG_PATH, 0);
+	    sprintf(cTemp, "%s/opd_projector_%04d.bin", OPD_LOG_PATH, 0);
 
 		if(access(cTemp,0) == -1)
 		{
@@ -1117,14 +1120,14 @@ int utilOPD_Write2RunTimeFile(void)
             return 0;
         }
 
-		sprintf(cTemp, "%s/opd_run_time_%04d.bin\0", OPD_LOG_PATH, 0);
+		sprintf(cTemp, "%s/opd_run_time_%04d.bin", OPD_LOG_PATH, 0);
     	size = file_size(cTemp);
 
 		if(size > OPD_LOG_SIZE_MAX)
 		{
 			int cFile = OPD_RUNTIME_TEST_FILE_NUMBER - 1;
 
-			sprintf(cTemp, "%s/opd_run_time_%04d.bin\0", OPD_LOG_PATH, cFile);
+			sprintf(cTemp, "%s/opd_run_time_%04d.bin", OPD_LOG_PATH, cFile);
 
 			if(access(cTemp, 0) == 0)
 			{
@@ -1136,8 +1139,8 @@ int utilOPD_Write2RunTimeFile(void)
 
             for(cFile; cFile > 0; cFile--)
             {
-			    sprintf(cTemp, "%s/opd_run_time_%04d.bin\0", OPD_LOG_PATH, cFile);
-				sprintf(cTemp2, "%s/opd_run_time_%04d.bin\0", OPD_LOG_PATH, cFile-1);
+			    sprintf(cTemp, "%s/opd_run_time_%04d.bin", OPD_LOG_PATH, cFile);
+				sprintf(cTemp2, "%s/opd_run_time_%04d.bin", OPD_LOG_PATH, cFile-1);
 
 				if(access(cTemp2,0) == 0)
 				{
@@ -1158,7 +1161,7 @@ int utilOPD_Write2RunTimeFile(void)
             }
     	}
 
-		sprintf(cTemp, "%s/opd_run_time_%04d.bin\0", OPD_LOG_PATH, 0);
+		sprintf(cTemp, "%s/opd_run_time_%04d.bin", OPD_LOG_PATH, 0);
 
 		if(access(cTemp,0) == -1)
     	{
@@ -1226,7 +1229,7 @@ int utilOPD_Write2SourceFile(UINT8 ucEvent, char *pcStr) //G100_Julie_0046
 	        return 0;
 	    }
 
-	    sprintf(cTemp, "%s/opd_source_%04d.bin\0", OPD_LOG_PATH, 0);
+	    sprintf(cTemp, "%s/opd_source_%04d.bin", OPD_LOG_PATH, 0);
 
 		size = file_size(cTemp);
 
@@ -1234,7 +1237,7 @@ int utilOPD_Write2SourceFile(UINT8 ucEvent, char *pcStr) //G100_Julie_0046
 		{
 	        int cFile = OPD_SOURCE_FILE_NUMBER - 1;
 
-	        sprintf(cTemp, "%s/opd_source_%04d.bin\0", OPD_LOG_PATH, cFile);
+	        sprintf(cTemp, "%s/opd_source_%04d.bin", OPD_LOG_PATH, cFile);
 
 	        if(access(cTemp, 0) == 0)
 	        {
@@ -1246,8 +1249,8 @@ int utilOPD_Write2SourceFile(UINT8 ucEvent, char *pcStr) //G100_Julie_0046
 
 	        for(cFile; cFile > 0; cFile--)
 	        {
-	            sprintf(cTemp, "%s/opd_source_%04d.bin\0", OPD_LOG_PATH, cFile);
-		        sprintf(cTemp2, "%s/opd_source_%04d.bin\0", OPD_LOG_PATH, cFile-1);
+	            sprintf(cTemp, "%s/opd_source_%04d.bin", OPD_LOG_PATH, cFile);
+		        sprintf(cTemp2, "%s/opd_source_%04d.bin", OPD_LOG_PATH, cFile-1);
 
 	            if(access(cTemp2,0) == 0)
 	    		{
@@ -1268,7 +1271,7 @@ int utilOPD_Write2SourceFile(UINT8 ucEvent, char *pcStr) //G100_Julie_0046
 	        }
 		}
 
-	    sprintf(cTemp, "%s/opd_source_%04d.bin\0", OPD_LOG_PATH, 0);
+	    sprintf(cTemp, "%s/opd_source_%04d.bin", OPD_LOG_PATH, 0);
 
 		if(access(cTemp,0) == -1)
 		{
@@ -1344,7 +1347,7 @@ int utilOPD_Write2InterfaceLogFile(char *pcOPDType, char *pcStr) //G100_Julie_00
 	        return 0;
 	    }
 
-	    sprintf(cTemp, "%s/opd_interface_log_%04d.bin\0", OPD_LOG_PATH, 0);
+	    sprintf(cTemp, "%s/opd_interface_log_%04d.bin", OPD_LOG_PATH, 0);
 
 		size = file_size(cTemp);
 
@@ -1352,7 +1355,7 @@ int utilOPD_Write2InterfaceLogFile(char *pcOPDType, char *pcStr) //G100_Julie_00
 		{
 	        int cFile = OPD_INTERFACE_LOG_NUMBER - 1;
 
-	        sprintf(cTemp, "%s/opd_interface_log_%04d.bin\0", OPD_LOG_PATH, cFile);
+	        sprintf(cTemp, "%s/opd_interface_log_%04d.bin", OPD_LOG_PATH, cFile);
 
 	        if(access(cTemp, 0) == 0)
 	        {
@@ -1364,8 +1367,8 @@ int utilOPD_Write2InterfaceLogFile(char *pcOPDType, char *pcStr) //G100_Julie_00
 
 	        for(cFile; cFile > 0; cFile--)
 	        {
-	            sprintf(cTemp, "%s/opd_interface_log_%04d.bin\0", OPD_LOG_PATH, cFile);
-		        sprintf(cTemp2, "%s/opd_interface_log_%04d.bin\0", OPD_LOG_PATH, cFile-1);
+	            sprintf(cTemp, "%s/opd_interface_log_%04d.bin", OPD_LOG_PATH, cFile);
+		        sprintf(cTemp2, "%s/opd_interface_log_%04d.bin", OPD_LOG_PATH, cFile-1);
 
 	            if(access(cTemp2,0) == 0)
 	    		{
@@ -1386,7 +1389,7 @@ int utilOPD_Write2InterfaceLogFile(char *pcOPDType, char *pcStr) //G100_Julie_00
 	        }
 		}
 
-	    sprintf(cTemp, "%s/opd_interface_log_%04d.bin\0", OPD_LOG_PATH, 0);
+	    sprintf(cTemp, "%s/opd_interface_log_%04d.bin", OPD_LOG_PATH, 0);
 
 		if(access(cTemp,0) == -1)
 		{
@@ -1449,8 +1452,8 @@ int utilOPD_Write_ModelChangeLog(const char *pcString, const char *pcString2) //
 	        return 0;
 	    }
 
-	    sprintf(cTemp, "%s\0", MODEL_CHANGE_LOG_TXT);
-		sprintf(cTemp2, "%s\0", MODEL_CHANGE_LOG_TXT_RESERVE);
+	    sprintf(cTemp, "%s", MODEL_CHANGE_LOG_TXT);
+		sprintf(cTemp2, "%s", MODEL_CHANGE_LOG_TXT_RESERVE);
 
 		size = file_size(cTemp);
 
@@ -1482,7 +1485,7 @@ int utilOPD_Write_ModelChangeLog(const char *pcString, const char *pcString2) //
 			}
 		}
 
-	    sprintf(cTemp, "%s\0", MODEL_CHANGE_LOG_TXT);
+	    sprintf(cTemp, "%s", MODEL_CHANGE_LOG_TXT);
 
 		pFile = fopen(cTemp, "a+");
 
@@ -1521,8 +1524,8 @@ int utilOPD_Write_LensTypeLog(int value1, int value2, int value3)
 	        return 0;
 	    }
 
-	    sprintf(cTemp, "%s\0", LENS_TYPE_LOG_TXT);
-		sprintf(cTemp2, "%s\0", LENS_TYPE_LOG_TXT_RESERVE);
+	    sprintf(cTemp, "%s", LENS_TYPE_LOG_TXT);
+		sprintf(cTemp2, "%s", LENS_TYPE_LOG_TXT_RESERVE);
 
 		size = file_size(cTemp);
 
@@ -1554,7 +1557,7 @@ int utilOPD_Write_LensTypeLog(int value1, int value2, int value3)
 			}
 		}
 
-	    sprintf(cTemp, "%s\0", LENS_TYPE_LOG_TXT);
+	    sprintf(cTemp, "%s", LENS_TYPE_LOG_TXT);
 
 		pFile = fopen(cTemp, "a+");
 
@@ -1673,7 +1676,7 @@ int utilOPD_Download_File(UINT32 dSelect) //G100_Julie_0015
 	for(cFile; cFile >= 0; cFile--)
     {
         uOPD_DATA sDev = {0};
-		sprintf(cTemp, "%s/opd_log_%04d.bin\0", OPD_LOG_PATH, cFile);
+		sprintf(cTemp, "%s/opd_log_%04d.bin", OPD_LOG_PATH, cFile);
 
         size = file_size(cTemp);
 
@@ -1688,11 +1691,14 @@ int utilOPD_Download_File(UINT32 dSelect) //G100_Julie_0015
         {
             while (!feof(pFile))
             {
-                fgets(cStrTemp, OPD_LOG_BUFFER, pFile);
+                if (fgets(cStrTemp, OPD_LOG_BUFFER, pFile) == NULL)
+                {
+                    break;
+                }
 
-    			if(feof(pFile))
-    			{
-    				break;//return 1;
+                        if(feof(pFile))
+                        {
+                                break;//return 1;
     			}
 
                 sscanf(cStrTemp, "%63[^,],%1023[^\n]", cType, cString);
@@ -2468,7 +2474,7 @@ void utilOPD_Initialization(void)
 
 	    memset(m_cOPDTemperatureName[cCount], '\0', sizeof(m_cOPDTemperatureName[cCount]));
         Syscfg_Value_Get((eSYSTEM_CFG_ITEM)(eOPD_Temperature_0 + cCount), (void*)cString);
-    	snprintf(m_cOPDTemperatureName[cCount], 36, "%s\0", cString);
+    	snprintf(m_cOPDTemperatureName[cCount], 36, "%s", cString);
 	}
 
 	//printf("(%s, %d)\n", __FUNCTION__, __LINE__);
@@ -2849,12 +2855,12 @@ void utilOPD_PackageTarPadFile(void)
     if(access(OPD_PAD_SWAP_PATH, F_OK) == 0)
     {
         snprintf(TarSwapCmd, sizeof(TarSwapCmd), "tar -cvf %s/%s %s > /dev/null 2>&1;", IMXAP_LOG_PATH, OPD_PAD_SWAP_FILE_NAME, OPD_PAD_SWAP_PATH);
-        system(TarSwapCmd);
+        (void)system(TarSwapCmd);
     }
     if(access(OPD_PAD_GEOMETRY_PATH, F_OK) == 0)
     {
         snprintf(TarGeometryCmd, sizeof(TarGeometryCmd), "tar -czvf %s/%s %s > /dev/null 2>&1;", IMXAP_LOG_PATH, OPD_PAD_GEOMETRY_FILE_NAME, OPD_PAD_GEOMETRY_PATH);
-        system(TarGeometryCmd);
+        (void)system(TarGeometryCmd);
     }
 }
 
@@ -2978,7 +2984,7 @@ void utilOPD_PackageTarFile(UINT8 ucSplash, UINT8 ucData) //G100_Julie_0027 //G1
 				break;
 		}
 
-		sprintf(filename, "%s_%04d%02d%02d\0", String, wtyear, wtmon, wtday);
+		sprintf(filename, "%s_%04d%02d%02d", String, wtyear, wtmon, wtday);
 
 		sprintf(temp, "%s/%s", OPD_LOG_PATH, filename);
 
@@ -2994,7 +3000,7 @@ void utilOPD_PackageTarFile(UINT8 ucSplash, UINT8 ucData) //G100_Julie_0027 //G1
 
 		for(cFile; cFile >= 0; cFile--)
 		{
-			sprintf(cTemp, "%s/%s_%04d.bin\0", OPD_LOG_PATH, String, cFile);
+			sprintf(cTemp, "%s/%s_%04d.bin", OPD_LOG_PATH, String, cFile);
 
 			size = file_size(cTemp);
 
@@ -3026,7 +3032,7 @@ void utilOPD_PackageTarFile(UINT8 ucSplash, UINT8 ucData) //G100_Julie_0027 //G1
 	memcpy(String,"Upgrade",strlen("Upgrade")+1);
 	memcpy(cPassword, m_sOPD_Password_Table[ucSplash].cUpgrade, strlen(m_sOPD_Password_Table[ucSplash].cUpgrade)+1);
 
-	sprintf(filename, "%s_%04d%02d%02d\0", String, wtyear, wtmon, wtday);
+	sprintf(filename, "%s_%04d%02d%02d", String, wtyear, wtmon, wtday);
 	OPD_SYSTEM_CALL("zip -rjP[%s] %s.zip %s;sync", cPassword, filename, UPGRADE_LOG_PATH); //zip folder
 	OPD_SYSTEM_CALL("mv -f %s.zip %s;sync", filename, OPD_TAR_PATH); //move zip file to tar file
 	utilOPD_TarProgress_WriteProgress(eOPD_PACKET_STATUS_PROGRESS, eOPD_PACKET_PROGRESS_UPGRADE);
@@ -3035,7 +3041,7 @@ void utilOPD_PackageTarFile(UINT8 ucSplash, UINT8 ucData) //G100_Julie_0027 //G1
     //imxap file copy  //G100_Julie_0042
 	memcpy(String,"imxAP",strlen("imxAP")+1);
 
-	sprintf(filename, "%s_%04d%02d%02d\0", String, wtyear, wtmon, wtday);
+	sprintf(filename, "%s_%04d%02d%02d", String, wtyear, wtmon, wtday);
 	OPD_SYSTEM_CALL("zip -rjP[%s] %s.zip %s;sync", cPassword, filename, IMXAP_LOG_PATH); //zip folder
 	OPD_SYSTEM_CALL("mv -f %s.zip %s;sync", filename, OPD_TAR_PATH); //move zip file to tar file
 	utilOPD_TarProgress_WriteProgress(eOPD_PACKET_STATUS_PROGRESS, eOPD_PACKET_PROGRESS_IMXAP);
@@ -3045,7 +3051,7 @@ void utilOPD_PackageTarFile(UINT8 ucSplash, UINT8 ucData) //G100_Julie_0027 //G1
 	//SystemCal file copy  //A65_OPTOMA_Doulas_0105
 	memcpy(String,"SystemCal",strlen("SystemCal")+1);
 
-	sprintf(filename, "%s_%d%d%d\0", String, wtyear, wtmon, wtday);
+	sprintf(filename, "%s_%d%d%d", String, wtyear, wtmon, wtday);
 	OPD_SYSTEM_CALL("zip -rjP[%s] %s.zip %s;sync", cPassword, filename, "/mnt/configs/scaler/system/SystemCal.conf"); //zip folder
 	OPD_SYSTEM_CALL("mv -f %s.zip %s;sync", filename, OPD_TAR_PATH); //move zip file to tar file
 	//SystemCal file end
@@ -3054,7 +3060,7 @@ void utilOPD_PackageTarFile(UINT8 ucSplash, UINT8 ucData) //G100_Julie_0027 //G1
 	//SystemInfo file copy  //A65_OPTOMA_Doulas_0105
 	memcpy(String,"SystemInfo",strlen("SystemInfo")+1);
 
-	sprintf(filename, "%s_%04d%02d%02d\0", String, wtyear, wtmon, wtday);
+	sprintf(filename, "%s_%04d%02d%02d", String, wtyear, wtmon, wtday);
 	OPD_SYSTEM_CALL("zip -rjP[%s] %s.zip %s;sync", cPassword, filename, SYSTEM_STORE_PATH); //zip folder
 	OPD_SYSTEM_CALL("mv -f %s.zip %s;sync", filename, OPD_TAR_PATH); //move zip file to tar file
 	utilOPD_TarProgress_WriteProgress(eOPD_PACKET_STATUS_PROGRESS, eOPD_PACKET_PROGRESS_SYSTEMINFO);
@@ -3063,7 +3069,7 @@ void utilOPD_PackageTarFile(UINT8 ucSplash, UINT8 ucData) //G100_Julie_0027 //G1
 	//GUIStore file copy
 	memcpy(String,"GUIStore",strlen("GUIStore")+1);
 
-	sprintf(filename, "%s_%04d%02d%02d\0", String, wtyear, wtmon, wtday);
+	sprintf(filename, "%s_%04d%02d%02d", String, wtyear, wtmon, wtday);
 	OPD_SYSTEM_CALL("zip -rjP[%s] %s.zip %s;sync", cPassword, filename, GUI_STORE_PATH); //zip folder
 	OPD_SYSTEM_CALL("mv -f %s.zip %s;sync", filename, OPD_TAR_PATH); //move zip file to tar file
 	utilOPD_TarProgress_WriteProgress(eOPD_PACKET_STATUS_PROGRESS, eOPD_PACKET_PROGRESS_GUISTORE);
@@ -3072,7 +3078,7 @@ void utilOPD_PackageTarFile(UINT8 ucSplash, UINT8 ucData) //G100_Julie_0027 //G1
 	//SourceStore file copy
 	memcpy(String,"SourceStore",strlen("SourceStore")+1);
 
-	sprintf(filename, "%s_%04d%02d%02d\0", String, wtyear, wtmon, wtday);
+	sprintf(filename, "%s_%04d%02d%02d", String, wtyear, wtmon, wtday);
 	OPD_SYSTEM_CALL("zip -rjP[%s] %s.zip %s;sync", cPassword, filename, SOURCE_STORE_PATH); //zip folder
 	OPD_SYSTEM_CALL("mv -f %s.zip %s;sync", filename, OPD_TAR_PATH); //move zip file to tar file
 	utilOPD_TarProgress_WriteProgress(eOPD_PACKET_STATUS_PROGRESS, eOPD_PACKET_PROGRESS_SOURCESTORE);
@@ -3081,7 +3087,7 @@ void utilOPD_PackageTarFile(UINT8 ucSplash, UINT8 ucData) //G100_Julie_0027 //G1
 	//WAPStore file copy  //A65_OPTOMA_Doulas_0105
 	memcpy(String,"WAPStore",strlen("WAPStore")+1);
 
-	sprintf(filename, "%s_%04d%02d%02d\0", String, wtyear, wtmon, wtday);
+	sprintf(filename, "%s_%04d%02d%02d", String, wtyear, wtmon, wtday);
 	OPD_SYSTEM_CALL("zip -rjP[%s] %s.zip %s;sync", cPassword, filename, WAP_STORE_PATH); //zip folder
 	OPD_SYSTEM_CALL("mv -f %s.zip %s;sync", filename, OPD_TAR_PATH); //move zip file to tar file
 	utilOPD_TarProgress_WriteProgress(eOPD_PACKET_STATUS_PROGRESS, eOPD_PACKET_PROGRESS_WAP_STORE);
@@ -3091,7 +3097,7 @@ void utilOPD_PackageTarFile(UINT8 ucSplash, UINT8 ucData) //G100_Julie_0027 //G1
 	memcpy(String,"BIST",strlen("BIST")+1);
 	memcpy(cPassword, m_sOPD_Password_Table[ucSplash].cBIST, strlen(m_sOPD_Password_Table[ucSplash].cBIST)+1);
 
-	sprintf(filename, "%s_%04d%02d%02d\0", String, wtyear, wtmon, wtday);
+	sprintf(filename, "%s_%04d%02d%02d", String, wtyear, wtmon, wtday);
 	OPD_SYSTEM_CALL("zip -rjP[%s] %s.zip %s;sync", cPassword, filename, BIST_FILE_PATH); //zip folder
 	OPD_SYSTEM_CALL("mv -f %s.zip %s;sync", filename, OPD_TAR_PATH); //move zip file to tar file
 	utilOPD_TarProgress_WriteProgress(eOPD_PACKET_STATUS_PROGRESS, eOPD_PACKET_PROGRESS_BIST);
@@ -3102,7 +3108,7 @@ void utilOPD_PackageTarFile(UINT8 ucSplash, UINT8 ucData) //G100_Julie_0027 //G1
     {
     	memcpy(String,"ColorTable",strlen("ColorTable")+1);
 
-    	sprintf(filename, "%s_%04d%02d%02d\0", String, wtyear, wtmon, wtday);
+    	sprintf(filename, "%s_%04d%02d%02d", String, wtyear, wtmon, wtday);
     	OPD_SYSTEM_CALL("zip -rjP[%s] %s.zip %s;sync", cPassword, filename, COLOR_TABLE_PATH); //zip folder
     	OPD_SYSTEM_CALL("mv -f %s.zip %s;sync", filename, OPD_TAR_PATH); //move zip file to tar file
     	utilOPD_TarProgress_WriteProgress(eOPD_PACKET_STATUS_PROGRESS, eOPD_PACKET_PROGRESS_COLORTABLE);
@@ -3114,7 +3120,7 @@ void utilOPD_PackageTarFile(UINT8 ucSplash, UINT8 ucData) //G100_Julie_0027 //G1
     {
     	memcpy(String,"ColorTableFactory",strlen("ColorTableFactory")+1);
 
-    	sprintf(filename, "%s_%04d%02d%02d\0", String, wtyear, wtmon, wtday);
+    	sprintf(filename, "%s_%04d%02d%02d", String, wtyear, wtmon, wtday);
     	OPD_SYSTEM_CALL("zip -rjP[%s] %s.zip %s;sync", cPassword, filename, COLOR_TABLE_FACTORY_PATH); //zip folder
     	OPD_SYSTEM_CALL("mv -f %s.zip %s;sync", filename, OPD_TAR_PATH); //move zip file to tar file
     	utilOPD_TarProgress_WriteProgress(eOPD_PACKET_STATUS_PROGRESS, eOPD_PACKET_PROGRESS_COLORTABLE);
@@ -3159,7 +3165,7 @@ void utilOPD_PackageTarFile(UINT8 ucSplash, UINT8 ucData) //G100_Julie_0027 //G1
 	{
     	memcpy(String,"AdvWarpStore",strlen("AdvWarpStore")+1);
 
-    	sprintf(filename, "%s_%04d%02d%02d\0", String, wtyear, wtmon, wtday);
+    	sprintf(filename, "%s_%04d%02d%02d", String, wtyear, wtmon, wtday);
     	OPD_SYSTEM_CALL("zip -rjP[%s] %s.zip %s;sync", cPassword, filename, ADV_WAPR_PATH); //zip folder
     	OPD_SYSTEM_CALL("mv -f %s.zip %s;sync", filename, OPD_TAR_PATH); //move zip file to tar file
     	utilOPD_TarProgress_WriteProgress(eOPD_PACKET_STATUS_PROGRESS, eOPD_PACKET_PROGRESS_ADV_WARP_LOG);
@@ -3171,7 +3177,7 @@ void utilOPD_PackageTarFile(UINT8 ucSplash, UINT8 ucData) //G100_Julie_0027 //G1
 	{
     	memcpy(String,"ProjectSettings",strlen("ProjectSettings")+1);
 
-    	sprintf(filename, "%s_%04d%02d%02d\0", String, wtyear, wtmon, wtday);
+    	sprintf(filename, "%s_%04d%02d%02d", String, wtyear, wtmon, wtday);
     	OPD_SYSTEM_CALL("zip -rjP[%s] %s.zip %s;sync", cPassword, filename, PROJECT_SETTINGS_PATH); //zip folder
     	OPD_SYSTEM_CALL("mv -f %s.zip %s;sync", filename, OPD_TAR_PATH); //move zip file to tar file
     	utilOPD_TarProgress_WriteProgress(eOPD_PACKET_STATUS_PROGRESS, eOPD_PACKET_PROGRESS_PROJECT_SETTING);
@@ -3183,7 +3189,7 @@ void utilOPD_PackageTarFile(UINT8 ucSplash, UINT8 ucData) //G100_Julie_0027 //G1
 	OPD_SYSTEM_CALL("cp -f %s %s;sync", MODEL_CHANGE_LOG_TXT, OPD_TAR_PATH);
 
 	//sprintf(temp, "%s_%s_%s_%d%d%d", m_sOPDDataInfo.sRegulatoryInfo.cModelName, m_sOPDDataInfo.sRegulatoryInfo.cSN, m_sOPDDataInfo.sRegulatoryInfo.cLanMacAdd, wtyear, wtmon, wtday);
-	sprintf(temp, "%s_%s_%04d%02d%02d%02d%02d%02d\0", m_sOPDDataInfo.sRegulatoryInfo.cModelName, m_sOPDDataInfo.sRegulatoryInfo.cSN, wtyear, wtmon, wtday, wthour, wtmin, wtsec);//YYYYMMDDHHmmSS
+	sprintf(temp, "%s_%s_%04d%02d%02d%02d%02d%02d", m_sOPDDataInfo.sRegulatoryInfo.cModelName, m_sOPDDataInfo.sRegulatoryInfo.cSN, wtyear, wtmon, wtday, wthour, wtmin, wtsec);//YYYYMMDDHHmmSS
 
 	OPD_SYSTEM_CALL("tar -cvPf '%s'.tar -C%s/ tar; sync", temp, OPD_LOG_PATH); //.tar
 	utilOPD_TarProgress_WriteProgress(eOPD_PACKET_STATUS_TAR, 0);
@@ -3224,31 +3230,31 @@ void utilOPD_SetSourceName(UINT8 cMain, UINT8 cSub) //A65_OPTOMA_Julie_0081 //G1
 	if(cMain < eCM_SOURCE_NUMBER)
 	{
 		m_sOPDDataInfo.sRegulatoryInfo.cInputSource[0] = cMain;
-		snprintf(m_sOPDDataInfo.sRegulatoryInfo.cSourceName[0], 31, "%s\0", m_sSource_String[cMain]);
+		snprintf(m_sOPDDataInfo.sRegulatoryInfo.cSourceName[0], 31, "%s", m_sSource_String[cMain]);
 	}
 	else
 	{
 		m_sOPDDataInfo.sRegulatoryInfo.cInputSource[0] = eCM_SOURCE_RESERVED;
-		sprintf((char *)m_sOPDDataInfo.sRegulatoryInfo.cSourceName[0], "NA\0");
+		sprintf((char *)m_sOPDDataInfo.sRegulatoryInfo.cSourceName[0], "NA");
 	}
 
 	if(cSub < eCM_SOURCE_NUMBER)
 	{
 		m_sOPDDataInfo.sRegulatoryInfo.cInputSource[1] = cSub;
-		snprintf(m_sOPDDataInfo.sRegulatoryInfo.cSourceName[1], 31, "%s\0", m_sSource_String[cSub]);
+		snprintf(m_sOPDDataInfo.sRegulatoryInfo.cSourceName[1], 31, "%s", m_sSource_String[cSub]);
 	}
 	else
 	{
 		m_sOPDDataInfo.sRegulatoryInfo.cInputSource[1] = eCM_SOURCE_RESERVED;
-		sprintf((char *)m_sOPDDataInfo.sRegulatoryInfo.cSourceName[1], "NA\0");
+		sprintf((char *)m_sOPDDataInfo.sRegulatoryInfo.cSourceName[1], "NA");
 	}
 
 }//G100_Steven_0059
 
 int utilOPD_OPDFile_ReplaceSN(char *pcString)
 {
-	char cStrTemp[64] = {'\0'};
-	snprintf(cStrTemp, 63, pcString);
+        char cStrTemp[64] = {'\0'};
+        snprintf(cStrTemp, sizeof(cStrTemp), "%s", pcString);
 
 	FILE *pFile, *pFile2;
 	unsigned long size = 0;
@@ -3266,7 +3272,7 @@ int utilOPD_OPDFile_ReplaceSN(char *pcString)
 
 	if(utilOPD_MutexTake())
 	{
-		char cTempFile[64] = {"/mnt/syslog/opd/temp.bin\0"};
+		char cTempFile[64] = {"/mnt/syslog/opd/temp.bin"};
 
 		for(UINT8 cFileType = 0; cFileType < OPD_FILE_TYPE; cFileType++)
 		{
@@ -3279,18 +3285,18 @@ int utilOPD_OPDFile_ReplaceSN(char *pcString)
 									OPD_INTERFACE_LOG_NUMBER,
 									0};
 
-			char cFileTextName[8][64] = {"/mnt/syslog/opd/opd_log\0",
-										 "/mnt/syslog/opd/opd_self_test\0",
-										 "/mnt/syslog/opd/opd_engine\0",
-										 "/mnt/syslog/opd/opd_projector\0",
-										 "/mnt/syslog/opd/opd_run_time\0",
-										 "/mnt/syslog/opd/opd_source\0",
-										 "/mnt/syslog/opd/opd_interface_log\0",
-										 "\0"};
+			char cFileTextName[8][64] = {"/mnt/syslog/opd/opd_log",
+										 "/mnt/syslog/opd/opd_self_test",
+										 "/mnt/syslog/opd/opd_engine",
+										 "/mnt/syslog/opd/opd_projector",
+										 "/mnt/syslog/opd/opd_run_time",
+										 "/mnt/syslog/opd/opd_source",
+										 "/mnt/syslog/opd/opd_interface_log",
+										 ""};
 
 			for(UINT16 cFileNum = 0; cFileNum < cFileEndNum[cFileType]; cFileNum++)
 			{
-				sprintf(cTemp, "%s_%04d.bin\0", cFileTextName[cFileType], cFileNum);
+				sprintf(cTemp, "%s_%04d.bin", cFileTextName[cFileType], cFileNum);
 
 				if(access(cTemp,0) == 0)
 				{
@@ -3299,18 +3305,22 @@ int utilOPD_OPDFile_ReplaceSN(char *pcString)
 
 					if(pFile != NULL)
 					{
-						fseek(pFile, 0, SEEK_END);
-						size = ftell(pFile);
-						fseek(pFile, 0, SEEK_SET);
-						buffer = malloc(size + 1);
-						fread(buffer, size, 1, pFile);
-						fseek(pFile, 0, SEEK_SET);
+                                                fseek(pFile, 0, SEEK_END);
+                                                size = ftell(pFile);
+                                                fseek(pFile, 0, SEEK_SET);
+                                                buffer = malloc(size + 1);
+                                                size_t readCount = fread(buffer, size, 1, pFile);
+                                                (void)readCount;
+                                                fseek(pFile, 0, SEEK_SET);
 
 						offset = 0;
 						for(char count = 0; count < 2; count++)
 						{
-							fgets(text, 1023, pFile);
-							offset += strlen(text);
+                                                        if (fgets(text, 1023, pFile) == NULL)
+                                                        {
+                                                            break;
+                                                        }
+                                                        offset += strlen(text);
 
 							if(count == 1)
 							{
@@ -3365,13 +3375,13 @@ int utilOPD_OPDFile_ReplaceSN(char *pcString)
 	while (fgets(but, 255, fp) != NULL)
 	{
 		printf("%s", but);
-		char file1[64] = {"/mnt/syslog/opd/opd_log_0000.bin\0"};
-		char file2[64] = {"/mnt/syslog/opd/opd_self_test_0000.bin\0"};
-		char file3[64] = {"/mnt/syslog/opd/opd_engine_0000.bin\0"};
-		char file4[64] = {"/mnt/syslog/opd/opd_projector_0000.bin\0"};
-		char file5[64] = {"/mnt/syslog/opd/opd_run_time_0000.bin\0"};
-		char file6[64] = {"/mnt/syslog/opd/opd_source_0000.bin\0"};
-		char file7[64] = {"/mnt/syslog/opd/opd_interface_log_0000.bin\0"};
+		char file1[64] = {"/mnt/syslog/opd/opd_log_0000.bin"};
+		char file2[64] = {"/mnt/syslog/opd/opd_self_test_0000.bin"};
+		char file3[64] = {"/mnt/syslog/opd/opd_engine_0000.bin"};
+		char file4[64] = {"/mnt/syslog/opd/opd_projector_0000.bin"};
+		char file5[64] = {"/mnt/syslog/opd/opd_run_time_0000.bin"};
+		char file6[64] = {"/mnt/syslog/opd/opd_source_0000.bin"};
+		char file7[64] = {"/mnt/syslog/opd/opd_interface_log_0000.bin"};
 
 		if ((strcmp(but, file1) == 0) || (strcmp(but, file2) == 0) || (strcmp(but, file3) == 0) || (strcmp(but, file4) == 0) || (strcmp(but, file5) == 0) || (strcmp(but, file6) == 0) || (strcmp(but, file7) == 0))
 		{
