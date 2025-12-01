@@ -23,8 +23,8 @@ static void PMDLog(const char *FuncName, int LineNum, char *str,  ...)
     char String[256] = {0};
     strOffset = snprintf(String, sizeof(String), "(%s@%d)", FuncName, LineNum);
     vsnprintf(String+strOffset, sizeof(String)-strOffset, str, args);
-    printf(String);
-    syslog(LOG_INFO, String);
+    printf("%s", String);
+    syslog(LOG_INFO, "%s", String);
     va_end(args);
 }
 

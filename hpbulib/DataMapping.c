@@ -5,6 +5,8 @@ sDATA_MAPPING_LUT_FORMAT *sDataMapLutTmp = NULL;    //for realloc
 INT32 lDataMapLutSize = 0 ;
 eDEBUGMODE_TYPE ucDebugMode = eDEBUG_FATAL_ERROR ;
 
+#include <stdint.h>
+
 //shared memory config
 #define SHM_NAME (const char *)"SHM_DataMappingLut\0"
 INT32 lShmSize = 2*1024*1024;
@@ -148,7 +150,8 @@ INT32 DataMapping_ImportSharedMemory(void)
     flock(ShmFd, LOCK_EX);
     for(int index=0 ; index<lDataMapLutSize ; index++)
     {
-        int *Current_MPT_Start_Addr = (INT32 *)*((INT32 *)((INT8 *)(sDataMapLut + index) + offsetof(sDATA_MAPPING_LUT_FORMAT, psMPT))) ;
+        uintptr_t mpt_addr = *((uintptr_t *)((INT8 *)(sDataMapLut + index) + offsetof(sDATA_MAPPING_LUT_FORMAT, psMPT)));
+        int *Current_MPT_Start_Addr = (INT32 *)mpt_addr;
         int Current_MPT_Total_Bytes = (*(INT32 *)((INT8 *)(sDataMapLut + index) + offsetof(sDATA_MAPPING_LUT_FORMAT, lMPT_Size))) * eMPT_TYPE_NUMBER * sizeof(INT32);
         memcpy((INT8 *)pShmPtr+SHM_MPT_DATA_OFFSET_START+(index*SHM_ONE_MPT_SIZE), Current_MPT_Start_Addr, Current_MPT_Total_Bytes);
 
