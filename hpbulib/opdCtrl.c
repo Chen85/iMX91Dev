@@ -2610,7 +2610,7 @@ int utilOPD_CopyToUsb(void)
     else
     {
         char temp[128] = {'\0'};
-        char filename[64] = {'\0'};
+        char filename[128] = {'\0'};
 		UINT8 ucString[20] = {0}, ucString_model[20] = {0};
 		char cMAC[20] = {'\0'}, str[3], *endptr;
 		UINT8 acMAC[6] = {0}, ucIndex = 0 ;
@@ -2620,7 +2620,11 @@ int utilOPD_CopyToUsb(void)
 
         printf("usb is ready\r\n");
 
-        snprintf(filename, sizeof(filename), "OPD_%s_%s_%s_%d%d%d", m_sOPDDataInfo.sRegulatoryInfo.cModelName, m_sOPDDataInfo.sRegulatoryInfo.cSN, m_sOPDDataInfo.sRegulatoryInfo.cLanMacAdd, wtyear, wtmon, wtday);
+        snprintf(filename, sizeof(filename), "OPD_%.*s_%.*s_%.*s_%04d%02d%02d",
+                 (int)sizeof(m_sOPDDataInfo.sRegulatoryInfo.cModelName) - 1, m_sOPDDataInfo.sRegulatoryInfo.cModelName,
+                 (int)sizeof(m_sOPDDataInfo.sRegulatoryInfo.cSN) - 1, m_sOPDDataInfo.sRegulatoryInfo.cSN,
+                 (int)sizeof(m_sOPDDataInfo.sRegulatoryInfo.cLanMacAdd) - 1, m_sOPDDataInfo.sRegulatoryInfo.cLanMacAdd,
+                 wtyear, wtmon, wtday);
 
         snprintf(temp, sizeof(temp), "%s/%s", USB_DEV_PATH, filename);
 
