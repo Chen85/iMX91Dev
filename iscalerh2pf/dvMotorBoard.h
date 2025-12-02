@@ -1,0 +1,239 @@
+// ===============================================================================
+// FILE NAME: dvA70LV_LDDriver.h
+// DESCRIPTION:
+//
+//
+// Modification History
+// --------------------
+// 2017/10/19, Larry Create
+// --------------------
+// ===============================================================================
+
+
+#ifndef DVMOTOR_DRIVER_H
+#define DVMOTOR_DRIVER_H
+//#include "CommonDef.h"
+#include "Common.h"
+
+
+typedef enum
+{
+/*00*/  eCLI_GEC_HELP = 0,
+/*01*/  eCLI_GEC_TESTER,
+/*02*/  eCLI_GEC_POWER,
+/*03*/  eCLI_GEC_RESET_ALL,
+/*04*/  eCLI_GEC_DBMK,
+/*05*/  eCLI_GEC_ELOG,
+/*06*/  eCLI_GEC_IIC_STATUS,
+/*07*/  eCLI_GEC_TIME,
+/*08*/  eCLI_GEC_DEV_TEST,
+/*09*/  eCLI_GEC_OPFU,
+/*10*/  eCLI_GEC_LPF_AC,
+/*11*/  eCLI_GEC_TEST_PWM,
+/*12*/  eCLI_GEC_TEST_ADC,
+/*13*/  eCLI_GEC_MODEL_NAME_R,
+/*14*/  eCLI_GEC_VERSION_R,
+/*15*/  eCLI_GEC_SERIAL_NUMER_R,
+/*16*/  eCLI_GEC_PID,
+/*17*/  eCLI_GEC_SINE,
+/*18*/  eCLI_LSM_PROFILE_TEST,
+/*19*/  eCLI_LSM_CFG,
+/*20*/  eCLI_LSM_STATUS,
+/*21*/  eCLI_LSM_CALIBATION,
+/*22*/  eCLI_LSM_CALIBATION_SET,
+/*23*/  eCLI_LSM_CENTER,
+/*24*/  eCLI_LSM_POSITION,
+/*25*/  eCLI_LSM_MEMORY,
+/*26*/  eCLI_LSM_H,
+/*27*/  eCLI_LSM_V,
+/*28*/  eCLI_LSM_ZOOM,
+/*29*/  eCLI_LSM_FOCUS,
+/*30*/  eCLI_LSM_FOCUS2,
+/*31*/  eCLI_LSM_FACTORY_MENU, //HICC2_AC_0018
+/*32*/  eCLI_LSM_LENS_DETECTION, //HICC2_AC_0021
+/*33*/  eCLI_LSM_MUTE, //HICC2_AC_0046
+
+    eCLI_GEC_END,
+}eMOTOR_GEC_CMD;
+
+typedef enum
+{
+    eMFC_STOP = 0,
+    eMFC_RELAY_RESET = 1,
+    eMFC_FAR_SINGLE = 11,
+    eMFC_NEAR_SINGLE = -11,
+    eMFC_FAR_RUN = 12,
+    eMFC_NEAR_RUN = -12,
+    eMFC_FAR_TO_LIMT = 13,
+    eMFC_NEAR_TO_LIMT = -13,
+    eMFC_FAR_MS = 14,
+    eMFC_NEAR_MS = -14,
+
+}eMOTOR_GEC_FOCUS_SUB1_CMD;
+
+
+typedef enum
+{
+    eMZC_STOP = 0,
+    eMZC_RELAY_RESET = 1,
+    eMZC_ZOOM_IN_SINGLE = 11,
+    eMZC_ZOOM_OUT_SINGLE = -11,
+    eMZC_ZOOM_IN_RUN = 12,
+    eMZC_ZOOM_OUT_RUN = -12,
+    eMZC_ZOOM_IN_LIMT = 13,
+    eMZC_ZOOM_OUT_LIMT = -13,
+    eMZC_ZOOM_IN_MS = 14,
+    eMZC_ZOOM_OUT_MS = -14,
+
+}eMOTOR_GEC_ZOOM_SUB1_CMD;
+
+typedef enum
+{
+    eMSH_STOP = 0,
+    eMSH_H_CALIBRATION = 1,
+    eMSH_RIGHT_SINGLE_STEP = 11,
+    eMSH_LEFT_SINGLE_STEP = -11,
+    eMSH_RIGHT_RUN = 12,
+    eMSH_LEFT_RUN = -12,
+    eMSH_GO_RIGHT_LIMIT = 13,
+    eMSH_GO_LEFT_LIMIT = -13,
+    eMSH_RIGHT_PIXEL = 14,
+    eMSH_LEFT_PIXEL = -14,
+    eMSH_RIGHT_STEP = 15,
+    eMSH_LEFT_STEP = -15,
+
+}eMOTOR_GEC_LENS_SHIFT_H_SUB1_CMD;
+
+typedef enum
+{
+    eMSV_STOP = 0,
+    eMSV_V_CALIBRATION = 1,
+    eMSV_UP_SINGLE_STEP = 11,
+    eMSV_DOWN_SINGLE_STEP = -11,
+    eMSV_UP_RUN = 12,
+    eMSV_DOWN_RUN = -12,
+    eMSV_GO_UP_LIMIT = 13,
+    eMSV_GO_DOWN_LIMIT = -13,
+    eMSV_UP_PIXEL = 14,
+    eMSV_DOWN_PIXEL = -14,
+    eMSV_UP_STEP = 15,
+    eMSV_DOWN_STEP = -15,
+
+}eMOTOR_GEC_LENS_SHIFT_V_SUB1_CMD;
+
+typedef enum
+{
+    eMLC_CALIBRATION = 0,
+    eMLC_LSM_CALIBRATION = 1,
+    eMLC_ZOOMLENS_CALIBRATION = 2,
+    eMLC_CALIBRATION_RECTANGLE = 3, //HICC2_AC_0007
+    eMLC_LSM_CALIBRATION_DONE_ASK = 99,
+
+}eMOTOR_GEC_LSM_CAL;
+
+typedef enum
+{
+    eMLC_LSM_STATUS_QUERY = 0,
+    eMLC_LSM_STATUS_STOP = 1,
+
+}eMOTOR_GEC_LSM_STATUS;
+
+typedef enum
+{
+    eMLC_LSM_POSITION_GET = 0,
+    eMLC_LSM_POSITION_MOVE_TO_CENTER = 1,
+
+}eMOTOR_GEC_LSM_POSITION;
+
+typedef enum
+{
+    eMLC_LSM_MEMORY_GET = 0,
+    eMLC_LSM_MEMORY_SAVE = 1,
+    eMLC_LSM_MEMORY_APPLY = 2,
+    eMLC_LSM_MEMORY_CLEAR = 3,
+
+}eMOTOR_GEC_LSM_MEMORY;
+
+typedef enum
+{
+    eMFC_FW_VERIOSN_LD_DRV = 1,
+    eMFC_FW_VERIOSN_LVPS = 2,
+    eMFC_FW_VERIOSN_TPLS = 3,
+    eMFC_FW_VERIOSN_CFCB = 4,
+    eMFC_FW_VERIOSN_LSM = 5,
+
+}eMOTOR_GEC_FW_VERIOSN_TYPE;
+
+typedef enum
+{
+    eMLC_LSM_CONFIG_SUBID_LENSSHIFT = 1,
+    eMLC_LSM_CONFIG_SUBID_ZOOMLENS = 2,
+    eMLC_LSM_CONFIG_SUBID_LENS_ID = 3,
+    eMLC_LSM_CONFIG_SUBID_LENS_NAME = 4,
+    eMLC_LSM_CONFIG_SUBID_HEADER = 5,
+
+    eMLC_LSM_CONFIG_ZOOM_DURATION = 6,
+    eMLC_LSM_CONFIG_FOCUS_DURATION = 7,
+    eMLC_LSM_CONFIG_FOCUS2_DURATION = 8,
+
+	eMLC_LSM_CONFIG_LENS_DETECTION = 9,
+
+    eMLC_LSM_CONFIG_BOUNDARY_CAL_DONE   = 20, //HICC2_AC_0046
+    eMLC_LSM_CONFIG_V_UP_BOUNDARY       = 21,
+    eMLC_LSM_CONFIG_V_DOWN_BOUNDARY     = 22,
+    eMLC_LSM_CONFIG_H_LEFT_BOUNDARY     = 23,
+    eMLC_LSM_CONFIG_H_RIGHT_BOUNDARY    = 24,
+	
+	eMLC_LSM_CONFIG_LENS_DETECTION_BYPASS = 30,
+}eMOTOR_GEC_LSM_CONFIG;
+
+typedef enum
+{
+    eMLC_LSM_CENTER_GET = 1,
+    eMLC_LSM_CENTER_SET = 2,
+    eMLC_LSM_CENTER_CLEAR = 3,
+
+}eMOTOR_GEC_LSM_CENTER;
+
+typedef enum
+{
+    eMLC_LSM_FACTORY_MENU_LENS = 1,
+    eMLC_LSM_FACTORY_MENU_ZOOMFOCUS = 2,
+
+}eMOTOR_GEC_LSM_FACTORY_MENU; //HICC2_AC_0018
+
+typedef enum
+{
+    eMLC_LSM_SENSOR_MUTE_H      = 1,
+    eMLC_LSM_SENSOR_ACTIVE_H    = 2,
+    eMLC_LSM_SENSOR_MUTE_V      = 3,
+    eMLC_LSM_SENSOR_ACTIVE_V    = 4,
+    eMLC_LSM_BOUNDARY_MUTE_H    = 5,
+    eMLC_LSM_BOUNDARY_ACTIVE_H  = 6,
+    eMLC_LSM_BOUNDARY_MUTE_V    = 7,
+    eMLC_LSM_BOUNDARY_ACTIVE_V  = 8,
+
+}eMOTOR_GEC_LSM_SENSOR_BOUNDARY; //HICC2_AC_0046
+
+typedef enum
+{
+    eMLC_LSM_DETECTION_UNPLUGED      = 0,
+	eMLC_LSM_DETECTION_PLUGED,
+    eMLC_LSM_DETECTION_DETECT_ID,
+    eMLC_LSM_DETECTION_NVRAM,
+    eMLC_LSM_DETECTION_CONFIG,
+
+    eMLC_LSM_DETECTION_MONITOR      = 10,	//detetion done
+
+}eMOTOR_GEC_LSM_DETECTION_STATE;
+
+
+eRESULT dvMotorRegWrite(UINT8 reg, UINT16 size, UINT8 *data);
+eRESULT dvMotorRegRead(UINT8 reg, UINT16 size, UINT8 *data);
+eRESULT dvMotor2RegWrite(UINT8 main, UINT8 reg, UINT16 size, UINT8 *data);
+eRESULT dvMotor2RegRead(UINT8 main, UINT8 reg, UINT16 size, UINT8 *data);
+INT32 dvMotorGecCmd(eMOTOR_GEC_CMD eCMD, UINT32 eSUB1, UINT32 eSUB2);
+
+#endif /* DVMOTOR_DRIVER_H */
+
+

@@ -1,0 +1,11 @@
+#ifndef DV_PROAV_REG_UTIL32_CONFIG_H
+#define DV_PROAV_REG_UTIL32_CONFIG_H
+
+typedef enum{
+    eReg32DrvArria10,
+    eReg32DrvNumber
+}REG32DRV_ENUM;
+
+#define MAX_CONTINUE_REG32_NUMS 8
+
+#endif //DV_PROAV_REG_UTIL32_CONFIG_H
