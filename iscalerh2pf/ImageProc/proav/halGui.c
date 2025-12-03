@@ -3129,7 +3129,7 @@ void halGui_ShowTest(void)
     BLOCK_SIZE_INFO sSize = {960, 500};
     char ucString[127] = {'\0'};
 
-    UINT8 *pucString = {"ABCDEFGHIJKLMN\0"};
+    UINT8 *pucString = {"ABCDEFGHIJKLMN"};
     //INT16 iColor_Index,
     //INT16 iColor_Background,
     //INT16 iBoarder_Index
@@ -3156,7 +3156,7 @@ void halGui_ShowTest(void)
     sStart_Position.iY = sStart_Position.iY + 32;
 
     test++;
-    sprintf(ucString, "%d%d%d%d%d%d\0",test, test, test, test, test, test);
+    sprintf(ucString, "%d%d%d%d%d%d",test, test, test, test, test, test);
     //sSize = strlen(ucString) + 1;
     halGui_Paint_ASCIIString((UINT8 *)ucString, sStart_Position, sSize, GUI_C_YELLOW, eoaCENTERED);
 
@@ -3164,21 +3164,21 @@ void halGui_ShowTest(void)
     sStart_Position.iY = sStart_Position.iY + 32;
 
     test++;
-    sprintf(ucString, "%d%d%d%d%d%d\0",test, test, test, test, test, test);
+    sprintf(ucString, "%d%d%d%d%d%d",test, test, test, test, test, test);
     //sSize = strlen(ucString) + 1;
     halGui_Paint_ASCIIString((UINT8 *)ucString, sStart_Position, sSize, GUI_C_YELLOW, eoaCENTERED);
 
     sStart_Position.iY = sStart_Position.iY + 32;
 
     test++;
-    sprintf(ucString, "%d%d%d%d%d%d\0",test, test, test, test, test, test);
+    sprintf(ucString, "%d%d%d%d%d%d",test, test, test, test, test, test);
     //sSize = strlen(ucString) + 1;
     halGui_Paint_ASCIIString((UINT8 *)ucString, sStart_Position, sSize, GUI_C_YELLOW, eoaCENTERED);
 
     sStart_Position.iY = sStart_Position.iY + 32;
 
     test++;
-    sprintf(ucString, "%d%d%d%d%d%d\0",test, test, test, test, test, test);
+    sprintf(ucString, "%d%d%d%d%d%d",test, test, test, test, test, test);
     //sSize = strlen(ucString) + 1;
     halGui_Paint_ASCIIString((UINT8 *)ucString, sStart_Position, sSize, GUI_C_YELLOW, eoaCENTERED);
 
@@ -3227,8 +3227,8 @@ void halGui_ShowTest(void)
 {
     COORDINATE sStart_Position = {100, 100};
     BLOCK_SIZE sSize = {500, 500};
-    UINT8 *pucString = {"ABCDEFGHIJKLMN\0"};
-	UINT8 *pucString2 = {"OPQRSDGGKLAOEMV\0"};
+    UINT8 *pucString = {"ABCDEFGHIJKLMN"};
+	UINT8 *pucString2 = {"OPQRSDGGKLAOEMV"};
     //INT16 iColor_Index,
     //INT16 iColor_Background,
     //INT16 iBoarder_Index

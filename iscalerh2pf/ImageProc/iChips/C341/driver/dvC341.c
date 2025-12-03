@@ -1529,7 +1529,7 @@ BOOL dvC341_SemaphoreTake(BOOL cEnable, const char *pcSemaphore)
     {
         bResult = Board_SSP_SemaphoreGive(eBOARD_SSP_CS_C341);
 
-        sprintf(cLastTakeC341Semaphore, "\0");
+        sprintf(cLastTakeC341Semaphore, "");
     }
 
     return bResult;
@@ -14178,11 +14178,11 @@ void dvC341_InputPixelClock_Get(const eC341_CH_V ch_v,UINT8 *ucValue)   //A70LV_
     {
         case eINPUT_3D_TYPE_FRAME_SEQUENTIAL:
             dbVal = dbVal; //H30K_Doulas_0051 120hz error
-            sprintf(aucString, "%d.%03dMHz\0",(UINT32)dbVal/1000,(UINT32)dbVal%1000);
+            sprintf(aucString, "%d.%03dMHz",(UINT32)dbVal/1000,(UINT32)dbVal%1000);
             break;
 
         default:
-            sprintf(aucString, "%d.%03dMHz\0",(UINT32)dbVal/1000,(UINT32)dbVal%1000);
+            sprintf(aucString, "%d.%03dMHz",(UINT32)dbVal/1000,(UINT32)dbVal%1000);
             break;
     }
     memcpy(ucValue, aucString, strlen(aucString)+1);
@@ -14230,7 +14230,7 @@ void dvC341_InputResolution_Get(const eC341_CH_V ch_v,UINT8 *ucValue)
     }
     uiH_Active *= g_vboinfo[g_vbo_recno[m_sChannelInfo[ch_v].ucInputPort]].CH;
 
-    sprintf(aucString, "%d x %d\0",uiH_Active ,uiV_Active);
+    sprintf(aucString, "%d x %d",uiH_Active ,uiV_Active);
     memcpy(ucValue, aucString, strlen(aucString)+1);
 }
 
@@ -14241,7 +14241,7 @@ void dvC341_InputHorzRefresh_Get(const eC341_CH_V ch_v,UINT8 *ucValue)
 
     dbVal = m_sChannelInfo[ch_v].sInputTimingInfo.dFrameRate * (DOUBLE)m_sChannelInfo[ch_v].sInputTimingInfo.uiVTotal;
 
-    sprintf(aucString, "%d.%03dkHz\0",(UINT32)dbVal/1000,(UINT32)dbVal%1000);
+    sprintf(aucString, "%d.%03dkHz",(UINT32)dbVal/1000,(UINT32)dbVal%1000);
     memcpy(ucValue, aucString, strlen(aucString)+1);
 }
 
@@ -14260,7 +14260,7 @@ void dvC341_InputVertRefresh_Get(const eC341_CH_V ch_v,UINT8 *ucValue)
     {
         uiFraneRate = (UINT16)(m_sChannelInfo[ch_v].sInputTimingInfo.dFrameRate * 100.0);
     }
-    sprintf(aucString, "%d.%02dHz\0",uiFraneRate/100,uiFraneRate%100);
+    sprintf(aucString, "%d.%02dHz",uiFraneRate/100,uiFraneRate%100);
     memcpy(ucValue, aucString, strlen(aucString)+1);
 }
 
@@ -14292,34 +14292,34 @@ void dvC341_InputSignalFormat_Get(const eC341_CH_V ch_v,UINT8 *ucValue)
         if((m_sChannelInfo[ch_v].sInputTimingInfo.uiHActive == 1920) &&
            (m_sChannelInfo[ch_v].sInputTimingInfo.uiVActive == 540))
         {
-            sprintf(aucString, "1080i\0");
+            sprintf(aucString, "1080i");
         }
         else if((m_sChannelInfo[ch_v].sInputTimingInfo.uiHActive == 1440) &&
            (m_sChannelInfo[ch_v].sInputTimingInfo.uiVActive == 288))
         {
-            sprintf(aucString, "576i\0");
+            sprintf(aucString, "576i");
         }
         else if((m_sChannelInfo[ch_v].sInputTimingInfo.uiHActive == 720) &&
            (m_sChannelInfo[ch_v].sInputTimingInfo.uiVActive == 288))
         {
-            sprintf(aucString, "576i\0");
+            sprintf(aucString, "576i");
         }
         else if((m_sChannelInfo[ch_v].sInputTimingInfo.uiHActive == 1440) &&
            (m_sChannelInfo[ch_v].sInputTimingInfo.uiVActive == 240))
         {
-            sprintf(aucString, "480i\0");
+            sprintf(aucString, "480i");
         }
         else if((m_sChannelInfo[ch_v].sInputTimingInfo.uiHActive == 720) &&
            (m_sChannelInfo[ch_v].sInputTimingInfo.uiVActive == 240))
         {
-            sprintf(aucString, "480i\0");
+            sprintf(aucString, "480i");
         }
         else
         {
             if(m_sChannelSetting[ch_v].eInputSource == eCM_SOURCE_VGA)
-                sprintf(aucString, "Analog\0");
+                sprintf(aucString, "Analog");
             else
-                sprintf(aucString, "Digital\0");
+                sprintf(aucString, "Digital");
         }
     }
     else
@@ -14327,48 +14327,48 @@ void dvC341_InputSignalFormat_Get(const eC341_CH_V ch_v,UINT8 *ucValue)
         if((m_sChannelInfo[ch_v].sInputTimingInfo.uiHActive == 1920) &&
            (m_sChannelInfo[ch_v].sInputTimingInfo.uiVActive == 1080))
         {
-            sprintf(aucString, "1080P\0");
+            sprintf(aucString, "1080P");
         }
         else if((m_sChannelInfo[ch_v].sInputTimingInfo.uiHActive == 1280) &&
            (m_sChannelInfo[ch_v].sInputTimingInfo.uiVActive == 720))
         {
-            sprintf(aucString, "720P\0");
+            sprintf(aucString, "720P");
         }
         else if((m_sChannelInfo[ch_v].sInputTimingInfo.uiHActive == 720) &&
            (m_sChannelInfo[ch_v].sInputTimingInfo.uiVActive == 576))
         {
-            sprintf(aucString, "576P\0");
+            sprintf(aucString, "576P");
         }
         else if((m_sChannelInfo[ch_v].sInputTimingInfo.uiHActive == 720) &&
            (m_sChannelInfo[ch_v].sInputTimingInfo.uiVActive == 480))
         {
-            sprintf(aucString, "480P\0");
+            sprintf(aucString, "480P");
         }
         else if((dvC341_Input_3D_Format_Get() == eINPUT_3D_TYPE_FRAME_SEQUENTIAL) &&
                 (m_sChannelInfo[ch_v].sInputTimingInfo.uiHActive == 960) &&
                 (m_sChannelInfo[ch_v].sInputTimingInfo.uiVActive == 1080))   //A70LV_Doulas_0162
         {
-            sprintf(aucString, "1080P\0");
+            sprintf(aucString, "1080P");
         }
         else if((dvC341_Input_3D_Format_Get() == eINPUT_3D_TYPE_FRAME_SEQUENTIAL) &&
                 (m_sChannelInfo[ch_v].sInputTimingInfo.uiHActive == 640) &&
                 (m_sChannelInfo[ch_v].sInputTimingInfo.uiVActive == 720))    //A70LV_Doulas_0162
         {
-            sprintf(aucString, "720P\0");
+            sprintf(aucString, "720P");
         }
         else if(dvC341_Input_3D_Format_Get() == eINPUT_3D_TYPE_FRAMEPACKING)    //A70LV_Doulas_0162
         {
                 if(m_sChannelInfo[ch_v].sInputTimingInfo.uiVActive > 2150)
-                    sprintf(aucString, "1080P\0");
+                    sprintf(aucString, "1080P");
                 else
-                    sprintf(aucString, "720P\0");
+                    sprintf(aucString, "720P");
         }
         else
         {
             if(m_sChannelSetting[ch_v].eInputSource == eCM_SOURCE_VGA)
-                sprintf(aucString, "Analog\0");
+                sprintf(aucString, "Analog");
             else
-                sprintf(aucString, "Digital\0");
+                sprintf(aucString, "Digital");
         }
     }
     memcpy(ucValue, aucString, strlen(aucString)+1);
@@ -14384,70 +14384,70 @@ void dvC341_InputAspectRatio_Get(const eC341_CH_V ch_v,UINT8 *ucValue)
         if((m_sChannelInfo[ch_v].sInputTimingInfo.uiHActive == 1920) &&
            (m_sChannelInfo[ch_v].sInputTimingInfo.uiVActive == 540))
         {
-            sprintf(aucString, "16:9\0");
+            sprintf(aucString, "16:9");
         }
         else if((m_sChannelInfo[ch_v].sInputTimingInfo.uiHActive == 1440) &&
            (m_sChannelInfo[ch_v].sInputTimingInfo.uiVActive == 288))
         {
-            sprintf(aucString, "5:4\0");
+            sprintf(aucString, "5:4");
         }
         else if((m_sChannelInfo[ch_v].sInputTimingInfo.uiHActive == 720) &&
            (m_sChannelInfo[ch_v].sInputTimingInfo.uiVActive == 288))
         {
-            sprintf(aucString, "5:4\0");
+            sprintf(aucString, "5:4");
         }
         else if((m_sChannelInfo[ch_v].sInputTimingInfo.uiHActive == 1440) &&
            (m_sChannelInfo[ch_v].sInputTimingInfo.uiVActive == 240))
         {
-            sprintf(aucString, "3:2\0");
+            sprintf(aucString, "3:2");
         }
         else if((m_sChannelInfo[ch_v].sInputTimingInfo.uiHActive == 720) &&
            (m_sChannelInfo[ch_v].sInputTimingInfo.uiVActive == 240))
         {
-            sprintf(aucString, "3:2\0");
+            sprintf(aucString, "3:2");
         }
         else
         {
-            sprintf(aucString, "16:9\0");
+            sprintf(aucString, "16:9");
         }
     }
     else
     {
         if((m_sChannelInfo[ch_v].sInputTimingInfo.uiHActive * 2 / 3) == m_sChannelInfo[ch_v].sInputTimingInfo.uiVActive)
         {
-            sprintf(aucString, "3:2\0");
+            sprintf(aucString, "3:2");
         }
         else if((m_sChannelInfo[ch_v].sInputTimingInfo.uiHActive * 3 / 4) == m_sChannelInfo[ch_v].sInputTimingInfo.uiVActive)
         {
-            sprintf(aucString, "4:3\0");
+            sprintf(aucString, "4:3");
         }
         else if((m_sChannelInfo[ch_v].sInputTimingInfo.uiHActive * 4 / 5) == m_sChannelInfo[ch_v].sInputTimingInfo.uiVActive)
         {
-            sprintf(aucString, "5:4\0");
+            sprintf(aucString, "5:4");
         }
         else if((m_sChannelInfo[ch_v].sInputTimingInfo.uiHActive * 9 / 16) == m_sChannelInfo[ch_v].sInputTimingInfo.uiVActive)
         {
-            sprintf(aucString, "16:9\0");
+            sprintf(aucString, "16:9");
         }
         else if((m_sChannelInfo[ch_v].sInputTimingInfo.uiHActive * 10 / 16) == m_sChannelInfo[ch_v].sInputTimingInfo.uiVActive)
         {
-            sprintf(aucString, "16:10\0");
+            sprintf(aucString, "16:10");
         }
         else if((m_sChannelInfo[ch_v].sInputTimingInfo.uiHActive * 9 / 15) == m_sChannelInfo[ch_v].sInputTimingInfo.uiVActive)
         {
-            sprintf(aucString, "15:9\0");
+            sprintf(aucString, "15:9");
         }
         else if((m_sChannelInfo[ch_v].sInputTimingInfo.uiHActive * 3 / 5) == m_sChannelInfo[ch_v].sInputTimingInfo.uiVActive)
         {
-            sprintf(aucString, "5:3\0");
+            sprintf(aucString, "5:3");
         }
         else if((m_sChannelInfo[ch_v].sInputTimingInfo.uiHActive * 5 / 6) == m_sChannelInfo[ch_v].sInputTimingInfo.uiVActive)
         {
-            sprintf(aucString, "6:5\0");
+            sprintf(aucString, "6:5");
         }
         else
         {
-            sprintf(aucString, "16:9\0");
+            sprintf(aucString, "16:9");
         }
     }
     memcpy(ucValue, aucString, strlen(aucString)+1);
@@ -16243,7 +16243,7 @@ void dvC341_ModeAdjusmenttDisableSetting(void)   //A70LV_Doulas_0195
 void dvC341_Init_Mode_Adjustment_EEPROM_Setting(sTIMING_TABLE sTiming_Table)  //A70LV_Doulas_0195
 {
     memcpy(&m_sModeAdjustmentTimingTable, &sTiming_Table, sizeof(sTIMING_TABLE));
-    /*LOG_MSG(db_ALWAYS, "##(%d,%d)(%d,%d)(%d)(%d,%d)(%d,%d)(%d,%d)\0", m_sModeAdjustmentTimingTable.ucNewMA_Mode_Flag[0]
+    /*LOG_MSG(db_ALWAYS, "##(%d,%d)(%d,%d)(%d)(%d,%d)(%d,%d)(%d,%d)", m_sModeAdjustmentTimingTable.ucNewMA_Mode_Flag[0]
                                                                   , m_sModeAdjustmentTimingTable.ucNewMA_Source_ID[0]
                                                                   , m_sModeAdjustmentTimingTable.ucNewMA_Table_ID[0]
                                                                   , m_sModeAdjustmentTimingTable.uiNewMA_Mode_ID[0]

@@ -1069,7 +1069,7 @@ unsigned char cTester_VEGG(HPBU_TEST_COM_DATA *data)
 //
 // --------------------
 // ==============================================================================
-unsigned char cTester_LSMV(HPBU_TEST_COM_DATA *data) 
+unsigned char cTester_LSMV(HPBU_TEST_COM_DATA *data)
 {
 #ifdef _FIRMWARE_SYSTME
     return 0;
@@ -2371,7 +2371,7 @@ unsigned char cTester_LDBV(HPBU_TEST_COM_DATA *data)
     UINT16 *auiVoltage = (UINT16 *)malloc(LD_Info_Num*sizeof(UINT16));
     memset(auiVoltage, 0, LD_Info_Num*sizeof(UINT16));
     UINT8 ucCount = 0;
-    char cStringTmp[MAX_ITEMNAME_LENGTH] = "\0"; //HICC2_Doulas_0016
+    char cStringTmp[MAX_ITEMNAME_LENGTH] = ""; //HICC2_Doulas_0016
 
     for(ucCount=0; ucCount<LD_Info_Num; ucCount++)
     {
@@ -2433,7 +2433,7 @@ unsigned char cTester_LDBC(HPBU_TEST_COM_DATA *data)
     UINT16 *auiCurrent = (UINT16 *)malloc(LD_Info_Num*sizeof(UINT16));
     memset(auiCurrent, 0, LD_Info_Num*sizeof(UINT16));
     UINT8 ucCount = 0;
-	char cStringTmp[MAX_ITEMNAME_LENGTH] = "\0"; //HICC2_Doulas_0016
+	char cStringTmp[MAX_ITEMNAME_LENGTH] = ""; //HICC2_Doulas_0016
 
     for(ucCount=0; ucCount<LD_Info_Num; ucCount++)
     {
@@ -2500,7 +2500,7 @@ unsigned char cTester_LDBT(HPBU_TEST_COM_DATA *data)
     INT16 *aiTemperature = (INT16 *)malloc(sizeof(INT16)*LD_Info_Num);
     memset(aiTemperature, 0, (sizeof(INT16)*LD_Info_Num));
     UINT8 ucCount = 0;
-    char cStringTmp[MAX_ITEMNAME_LENGTH] = "\0"; //HICC2_Doulas_0016
+    char cStringTmp[MAX_ITEMNAME_LENGTH] = ""; //HICC2_Doulas_0016
 
     for(ucCount=0; ucCount<LD_Info_Num; ucCount++)
     {
@@ -3359,12 +3359,12 @@ unsigned char cTester_TEPG(HPBU_TEST_COM_DATA *data)
 	INT16 aiSensor[4]={0};
 	UINT8 ucCount = 0;
 
-#if defined(PLATFORM_H30_4K)	
+#if defined(PLATFORM_H30_4K)
 	for(ucCount=0; ucCount<2; ucCount++)
 	{
 		aiSensor[ucCount] = sUtilHPBUTester_Callback.fpDataMgr_Access_Get_Thermal_SensorCb(ucCount);
 	}
-	
+
 	sprintf((char *)data->pcData,"%d,%d\r\n",
 			aiSensor[0],aiSensor[1]);
 
@@ -3377,7 +3377,7 @@ unsigned char cTester_TEPG(HPBU_TEST_COM_DATA *data)
 
 	sprintf((char *)data->pcData,"%d,%d,%d,%d\r\n",
 			aiSensor[0],aiSensor[1], aiSensor[2], aiSensor[3]); //HICC2_Doulas_0064
-#endif		
+#endif
 
 	return 0;//PASS.
 #endif

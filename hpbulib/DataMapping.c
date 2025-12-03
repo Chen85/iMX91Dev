@@ -8,7 +8,7 @@ eDEBUGMODE_TYPE ucDebugMode = eDEBUG_FATAL_ERROR ;
 #include <stdint.h>
 
 //shared memory config
-#define SHM_NAME (const char *)"SHM_DataMappingLut\0"
+#define SHM_NAME (const char *)"SHM_DataMappingLut"
 INT32 lShmSize = 2*1024*1024;
 
 INT32 ShmFd = -1;   //shared memory file descriptor

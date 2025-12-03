@@ -11176,7 +11176,7 @@ UINT8 utilWarp_ADVCurrentWarpReloadFile(void *stRead)		//G100_Doulas_0027
         return FLASH_ACCESS__FAIL;
     }
 
-    snprintf(cFileName, 128, "%s/%s\0", ADV_WAPR_PATH, m_cWarpFileName[WARPFILE_NUMBER - 1]);
+    snprintf(cFileName, 128, "%s/%s", ADV_WAPR_PATH, m_cWarpFileName[WARPFILE_NUMBER - 1]);
 
     if(utilWarp_GetFileData(cFileName, pucData, ulSize) == UTILMISC_NO_FILE)
     {
@@ -11203,7 +11203,7 @@ UINT8 utilWarp_ADVCurrentWarpSaveFile(void *stWrite,UINT16 uisize)		//G100_Doula
         mkdir(ADV_WAPR_PATH, 0777);
     }
 
-    snprintf(cFileName, 128, "%s/%s\0", ADV_WAPR_PATH, m_cWarpFileName[WARPFILE_NUMBER - 1]);
+    snprintf(cFileName, 128, "%s/%s", ADV_WAPR_PATH, m_cWarpFileName[WARPFILE_NUMBER - 1]);
 
 	//if (NULL == (lb = fopen("/mnt/ADVWarpCurrent.bin", "w+")))   //open file
 	if (NULL == (lb = fopen(cFileName, "w+")))   //open file
@@ -11232,7 +11232,7 @@ UINT8 utilWarp_ADVMemoryWarpReloadFile(void *stRead, UINT8 ucIndex)		//G100_Doul
         return FLASH_ACCESS__FAIL;
     }
 
-    snprintf((char *)cFileName, 128, "%s/%s\0", ADV_WAPR_PATH, m_cWarpFileName[ucIndex]);
+    snprintf((char *)cFileName, 128, "%s/%s", ADV_WAPR_PATH, m_cWarpFileName[ucIndex]);
 
     if(utilWarp_GetFileData(cFileName, pucData, ulSize) == UTILMISC_NO_FILE)		//G100_Doulas_0027
     {
@@ -11260,7 +11260,7 @@ UINT8 utilWarp_ADVMemoryWarpSaveFile(void *stWrite,UINT16 uisize,UINT8 ucIndex)	
         return FLASH_ACCESS__FAIL;
     }
 
-    snprintf((char *)cFileName, 128, "%s/%s\0", ADV_WAPR_PATH, m_cWarpFileName[ucIndex]);
+    snprintf((char *)cFileName, 128, "%s/%s", ADV_WAPR_PATH, m_cWarpFileName[ucIndex]);
 
 	if (NULL == (lb = fopen(cFileName, "w+")))   //open file
 	{
@@ -11281,7 +11281,7 @@ UINT8 utilWarp_ADVMemoryWarpClearFile(UINT8 ucIndex)			//G100_Doulas_0027
 #ifndef SIMULATOR_ISCALER
 	char cFileName[128] = {'\0'};
 
-    snprintf((char *)cFileName, 128, "%s/%s\0", ADV_WAPR_PATH, m_cWarpFileName[ucIndex]);
+    snprintf((char *)cFileName, 128, "%s/%s", ADV_WAPR_PATH, m_cWarpFileName[ucIndex]);
 
 	if(access(cFileName, 0) == 0)	//have file
 	{
@@ -11299,7 +11299,7 @@ UINT8 utilWarp_ADVWarpClearAllFile(void)		//G100_Doulas_0027
 #ifndef SIMULATOR_ISCALER
 	char cFileName[128] = {'\0'};
 
-    snprintf(cFileName, 128, "%s/%s\0", ADV_WAPR_PATH, m_cWarpFileName[WARPFILE_NUMBER - 1]);
+    snprintf(cFileName, 128, "%s/%s", ADV_WAPR_PATH, m_cWarpFileName[WARPFILE_NUMBER - 1]);
 
     if(access(cFileName, 0) == 0)	//have file
 	{

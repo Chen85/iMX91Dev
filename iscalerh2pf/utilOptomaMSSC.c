@@ -585,42 +585,42 @@ eCLI_ERROR_CODE utilOptoma_SIN_Name(eCLI_MODE eAccessMode, sCLI_OPTOMA_FORMAT* s
 
             case eCM_SOURCE_VGA:
                 sCmdFormat->ucDataType = eCLI_DATA_TYPE_OUTPUT_STRING;
-                sprintf(sCmdFormat->cTextString, "VGA\0");
+                sprintf(sCmdFormat->cTextString, "VGA");
                 break;
 
             case eCM_SOURCE_HDMI1:
                 sCmdFormat->ucDataType = eCLI_DATA_TYPE_OUTPUT_STRING;
-                sprintf(sCmdFormat->cTextString, "HDMI1\0");
+                sprintf(sCmdFormat->cTextString, "HDMI1");
                 break;
 
             case eCM_SOURCE_HDMI2:
                 sCmdFormat->ucDataType = eCLI_DATA_TYPE_OUTPUT_STRING;
-                sprintf(sCmdFormat->cTextString, "HDMI2\0");
+                sprintf(sCmdFormat->cTextString, "HDMI2");
                 break;
 
             case eCM_SOURCE_DVI:
                 sCmdFormat->ucDataType = eCLI_DATA_TYPE_OUTPUT_STRING;
-                sprintf(sCmdFormat->cTextString, "DVI\0");
+                sprintf(sCmdFormat->cTextString, "DVI");
                 break;
 
             case eCM_SOURCE_DISPLAYPORT:
                 sCmdFormat->ucDataType = eCLI_DATA_TYPE_OUTPUT_STRING;
-                sprintf(sCmdFormat->cTextString, "DISPLAY PORT\0");
+                sprintf(sCmdFormat->cTextString, "DISPLAY PORT");
                 break;
 
             case eCM_SOURCE_3GSDI:
                 sCmdFormat->ucDataType = eCLI_DATA_TYPE_OUTPUT_STRING;
-                sprintf(sCmdFormat->cTextString, "3G-SDI\0");
+                sprintf(sCmdFormat->cTextString, "3G-SDI");
                 break;
 
             case eCM_SOURCE_HDBASET:
                 sCmdFormat->ucDataType = eCLI_DATA_TYPE_OUTPUT_STRING;
-                sprintf(sCmdFormat->cTextString, "HDBaseT\0");
+                sprintf(sCmdFormat->cTextString, "HDBaseT");
                 break;
 
             case eCM_SOURCE_12GSDI:
                 sCmdFormat->ucDataType = eCLI_DATA_TYPE_OUTPUT_STRING;
-                sprintf(sCmdFormat->cTextString, "12G-SDI\0");
+                sprintf(sCmdFormat->cTextString, "12G-SDI");
                 break;
         }
     }
@@ -760,42 +760,42 @@ eCLI_ERROR_CODE utilOptoma_SIN_PIIP_Name(eCLI_MODE eAccessMode, sCLI_OPTOMA_FORM
 
             case eCM_SOURCE_VGA:
                 sCmdFormat->ucDataType = eCLI_DATA_TYPE_OUTPUT_STRING;
-                sprintf(sCmdFormat->cTextString, "VGA\0");
+                sprintf(sCmdFormat->cTextString, "VGA");
                 break;
 
             case eCM_SOURCE_HDMI1:
                 sCmdFormat->ucDataType = eCLI_DATA_TYPE_OUTPUT_STRING;
-                sprintf(sCmdFormat->cTextString, "HDMI1\0");
+                sprintf(sCmdFormat->cTextString, "HDMI1");
                 break;
 
             case eCM_SOURCE_HDMI2:
                 sCmdFormat->ucDataType = eCLI_DATA_TYPE_OUTPUT_STRING;
-                sprintf(sCmdFormat->cTextString, "HDMI2\0");
+                sprintf(sCmdFormat->cTextString, "HDMI2");
                 break;
 
             case eCM_SOURCE_DVI:
                 sCmdFormat->ucDataType = eCLI_DATA_TYPE_OUTPUT_STRING;
-                sprintf(sCmdFormat->cTextString, "DVI\0");
+                sprintf(sCmdFormat->cTextString, "DVI");
                 break;
 
             case eCM_SOURCE_DISPLAYPORT:
                 sCmdFormat->ucDataType = eCLI_DATA_TYPE_OUTPUT_STRING;
-                sprintf(sCmdFormat->cTextString, "DISPLAY PORT\0");
+                sprintf(sCmdFormat->cTextString, "DISPLAY PORT");
                 break;
 
             case eCM_SOURCE_3GSDI:
                 sCmdFormat->ucDataType = eCLI_DATA_TYPE_OUTPUT_STRING;
-                sprintf(sCmdFormat->cTextString, "3G-SDI\0");
+                sprintf(sCmdFormat->cTextString, "3G-SDI");
                 break;
 
             case eCM_SOURCE_HDBASET:
                 sCmdFormat->ucDataType = eCLI_DATA_TYPE_OUTPUT_STRING;
-                sprintf(sCmdFormat->cTextString, "HDBaseT\0");
+                sprintf(sCmdFormat->cTextString, "HDBaseT");
                 break;
 
             case eCM_SOURCE_12GSDI:
                 sCmdFormat->ucDataType = eCLI_DATA_TYPE_OUTPUT_STRING;
-                sprintf(sCmdFormat->cTextString, "12G-SDI\0");
+                sprintf(sCmdFormat->cTextString, "12G-SDI");
                 break;
         }
     }
@@ -3507,12 +3507,12 @@ eCLI_ERROR_CODE utilOptoma_Security_Password_Reset(eCLI_MODE eAccessMode, sCLI_O
 eCLI_ERROR_CODE utilOptoma_AllVersion(eCLI_MODE eAccessMode, sCLI_OPTOMA_FORMAT* sCmdFormat)    //A65_OPTOMA_Julie_0088 //A65_OPTOMA_Julie_0036 //ZU860_Doulas_0043 //HICC2_Julie_0001
 {
     UINT8 ucString[64] = {0};
-    char  ucOutputString[128] = {"\0"};
+    char  ucOutputString[128] = {""};
 
     if(eAccessMode == ecmRead)
     {
         palDataMgr_Data_Access(edcRELEASE_VERSION, edaREAD, ucString);
-        sprintf(sCmdFormat->cTextString, "%s\0",ucString);
+        sprintf(sCmdFormat->cTextString, "%s",ucString);
         sCmdFormat->ucDataType = eCLI_DATA_TYPE_OUTPUT_STRING;
 
         #if 0
@@ -4425,7 +4425,7 @@ eCLI_ERROR_CODE utilOptoma_LAN_FW_Version(eCLI_MODE eAccessMode, sCLI_OPTOMA_FOR
     {
         sCmdFormat->ucDataType = eCLI_DATA_TYPE_OUTPUT_STRING;
         palDataMgr_Data_Access(edcLAN_VERSION, edaREAD, ucString);
-        sprintf(sCmdFormat->cTextString, "%s\0",ucString);
+        sprintf(sCmdFormat->cTextString, "%s",ucString);
     }
     else if(eAccessMode == ecmWrite)
     {
@@ -4520,7 +4520,7 @@ eCLI_ERROR_CODE utilOptoma_Info_String(eCLI_MODE eAccessMode, sCLI_OPTOMA_FORMAT
             }
         }
 
-        sprintf(sCmdFormat->cTextString, "%d%05d%02d%02d%02d%02d\0", ucPowerStatus, udwLD_Hours/60, InputSource, VER_MAJOR, VER_MINOR, DisplayMode); //A35G2_Coda_0128
+        sprintf(sCmdFormat->cTextString, "%d%05d%02d%02d%02d%02d", ucPowerStatus, udwLD_Hours/60, InputSource, VER_MAJOR, VER_MINOR, DisplayMode); //A35G2_Coda_0128
     }
     else if(eAccessMode == ecmWrite)
     {
@@ -8565,15 +8565,15 @@ eCLI_ERROR_CODE utilOptoma_ColorGamut(eCLI_MODE eAccessMode, sCLI_OPTOMA_FORMAT*
             sCmdFormat->ucDataType = eCLI_DATA_TYPE_OUTPUT_STRING;
             if(IsHDR)
             {
-                sprintf(sCmdFormat->cTextString, "BT.2020\0");
+                sprintf(sCmdFormat->cTextString, "BT.2020");
             }
             else
             {
-                sprintf(sCmdFormat->cTextString, "REC709\0");
+                sprintf(sCmdFormat->cTextString, "REC709");
             }
         }
     #endif
-        sprintf(sCmdFormat->cTextString, "TBD\0");
+        sprintf(sCmdFormat->cTextString, "TBD");
 	}
 	else if(eAccessMode == ecmWrite)
 	{
@@ -8701,7 +8701,7 @@ eCLI_ERROR_CODE utilOptoma_ART_NET_Channel(eCLI_MODE eAccessMode, sCLI_OPTOMA_FO
             if(eEXEC_CODE_PASS == utilCommonCLI_DataConversionGet(DataCode, &Value))
             {
                 sCmdFormat->ucDataType = eCLI_DATA_TYPE_OUTPUT_STRING;
-                sprintf(sCmdFormat->cTextString, "%d%02d%02d\0", (ucUser+1), (ulSubCmd-10), Value);
+                sprintf(sCmdFormat->cTextString, "%d%02d%02d", (ucUser+1), (ulSubCmd-10), Value);
             }
             else
             {
@@ -8864,7 +8864,7 @@ eCLI_ERROR_CODE utilOptoma_Native_Resolution(eCLI_MODE eAccessMode, sCLI_OPTOMA_
 			};
 
 			sCmdFormat->ucDataType = eCLI_DATA_TYPE_OUTPUT_STRING;
-			sprintf(sCmdFormat->cTextString, "%s\0", cNativeResolution[Value]);
+			sprintf(sCmdFormat->cTextString, "%s", cNativeResolution[Value]);
         }
         else
         {
@@ -10309,7 +10309,7 @@ void utilOptoma_CMD_Reply(UINT8 ucChannel, UINT8 ucErrorCode, sCLI_OPTOMA_FORMAT
         {
             char ucCLITemp[32] = {'\0'};
 
-            sprintf(ucCLITemp, "Ok\0");
+            sprintf(ucCLITemp, "Ok");
             if(sCmdFormat->ucDataType == eCLI_DATA_TYPE_OUTPUT_STRING)
             {
                 ucDataType = DATATYPE_STRING;
@@ -10864,7 +10864,7 @@ void palSystem_Optoma_Error_Message(UINT32 ulErrorIndex)
 			}
 			else
 			{
-				sprintf(cString, "\0");
+				sprintf(cString, "");
 			}
 			utilOptoma_OutputInfoMsg(cString);
 

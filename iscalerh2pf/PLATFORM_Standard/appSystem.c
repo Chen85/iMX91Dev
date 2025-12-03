@@ -1845,7 +1845,7 @@ BOOL appSysInitAfterAsicReady(void)
                     (UINT8)(dwVerDDPSq>>8),
                     (UINT8)(dwVerDDPSq));
 
-                sprintf((char*)aucVerString, "F%02d.%02d(%c%c%c%d)\0" , //HICC2_Doulas_0022
+                sprintf((char*)aucVerString, "F%02d.%02d(%c%c%c%d)" , //HICC2_Doulas_0022
                     (UINT8)(wVerDDPApp>>8),      //DDP442x       Fxx.xx(HDRxx)
                     (UINT8)(wVerDDPApp),
                     (UINT8)(dwVerDDPSq>>24),
@@ -1948,7 +1948,7 @@ eRESULT palSystem_VersionCheck(BOOL bAutoUpgrade)
         {
             LOG_MSG(db_APP_SYSTEM, "FMT   L%02d.%02d\n", aucVersion[1], aucVersion[0]);
 
-            sprintf((char*)aucVerString, "L%02d.%02d\0", aucVersion[1], aucVersion[0]);
+            sprintf((char*)aucVerString, "L%02d.%02d", aucVersion[1], aucVersion[0]);
             palDataMgr_Data_Access(edcLD_DRIVER_VERSION, edaWRITE_RAM_ONLY_NO_ACTION, aucVerString);
 
             if(strcmp(aucVerString, "L00.00") == 0 ||   //G100_Simon_0077
@@ -1972,7 +1972,7 @@ eRESULT palSystem_VersionCheck(BOOL bAutoUpgrade)
     {
         LOG_MSG(db_APP_SYSTEM, "FMT convert D%02d.%02d\n", aucVersion[1], aucVersion[0]);
 
-        sprintf((char*)aucVerString, "D%02d.%02d\0", aucVersion[1], aucVersion[0]); //A70Gen2_Julie_0024
+        sprintf((char*)aucVerString, "D%02d.%02d", aucVersion[1], aucVersion[0]); //A70Gen2_Julie_0024
         palDataMgr_Data_Access(edcSMCU_VERSION, edaWRITE_RAM_ONLY_NO_ACTION, aucVerString);
 
         if(strcmp(aucVerString, "D00.00") == 0 ||   //G100_Simon_0077
@@ -1996,7 +1996,7 @@ eRESULT palSystem_VersionCheck(BOOL bAutoUpgrade)
         {
             LOG_MSG(db_APP_SYSTEM, "MCU A%02d.%02d\n", aucVersion[1], aucVersion[0] );
 
-            sprintf((char*)aucVerString, "A%02d.%02d\0", aucVersion[1], aucVersion[0]);
+            sprintf((char*)aucVerString, "A%02d.%02d", aucVersion[1], aucVersion[0]);
             palDataMgr_Data_Access(edcFMCU_VERSION, edaWRITE_RAM_ONLY_NO_ACTION, aucVerString);
 
             if(strcmp(aucVerString, "A00.00") == 0 ||   //G100_Simon_0077
@@ -2020,7 +2020,7 @@ eRESULT palSystem_VersionCheck(BOOL bAutoUpgrade)
 		{
 			LOG_MSG(db_APP_SYSTEM, "FrontEnd E%02d.%02d\n", aucVersion[1], aucVersion[0] );
 
-			sprintf((char*)aucVerString, "E%02d.%02d\0", aucVersion[1], aucVersion[0]);
+			sprintf((char*)aucVerString, "E%02d.%02d", aucVersion[1], aucVersion[0]);
 			palDataMgr_Data_Access(edcFRONTEND_VERSION, edaWRITE_RAM_ONLY_NO_ACTION, aucVerString);
 
 	        if(strcmp(aucVerString, "E00.00") == 0 ||
@@ -2040,7 +2040,7 @@ eRESULT palSystem_VersionCheck(BOOL bAutoUpgrade)
     {
         LOG_MSG(db_APP_SYSTEM, "Keypad   K%02d.%02d\n", aucVersion[1], aucVersion[0] );
 
-        sprintf((char*)aucVerString, "K%02d.%02d\0", aucVersion[1], aucVersion[0]);
+        sprintf((char*)aucVerString, "K%02d.%02d", aucVersion[1], aucVersion[0]);
         palDataMgr_Data_Access(edcKEYPAD_VERSION, edaWRITE_RAM_ONLY_NO_ACTION, aucVerString);
 
         if(strcmp(aucVerString, "K00.00") == 0 ||   //G100_Simon_0077
@@ -2063,7 +2063,7 @@ eRESULT palSystem_VersionCheck(BOOL bAutoUpgrade)
         {
             LOG_MSG(db_APP_SYSTEM, "FPGA1   X%02d.%02d\n", aucVersion[1], aucVersion[0]);
 
-            sprintf((char*)aucVerString, "X%02d.%02d\0", aucVersion[1], aucVersion[0]);
+            sprintf((char*)aucVerString, "X%02d.%02d", aucVersion[1], aucVersion[0]);
 
             if(aucVersion[2] == 'A')
             {
@@ -2097,7 +2097,7 @@ eRESULT palSystem_VersionCheck(BOOL bAutoUpgrade)
         {
             LOG_MSG(db_APP_SYSTEM, "FPGA3   Z%02d.%02d\n", aucVersion[1], aucVersion[0]);
 
-            sprintf((char*)aucVerString, "Z%02d.%02d\0", aucVersion[1], aucVersion[0]);
+            sprintf((char*)aucVerString, "Z%02d.%02d", aucVersion[1], aucVersion[0]);
             palDataMgr_Data_Access(edcFPGA3_VERSION, edaWRITE_RAM_ONLY_NO_ACTION, aucVerString);
 
             if(strcmp(aucVerString, "Z00.00") == 0 ||   //G100_Simon_0077
@@ -2138,7 +2138,7 @@ eRESULT palSystem_VersionCheck(BOOL bAutoUpgrade)
         if(eResult == rcSUCCESS)
         {
             LOG_MSG(db_APP_SYSTEM, "XFPGA  Q%02d.%02d\n", aucVersion[1], aucVersion[0]);
-            sprintf((char*)aucVerString, "Q%02d.%02d\0", aucVersion[1], aucVersion[0]);
+            sprintf((char*)aucVerString, "Q%02d.%02d", aucVersion[1], aucVersion[0]);
             palDataMgr_Data_Access(edcXFPGA_VERSION, edaWRITE_RAM_ONLY_NO_ACTION, aucVerString);
 
             if(strcmp(aucVerString, "Q00.00") == 0 ||   //G100_Simon_0077
@@ -2160,7 +2160,7 @@ eRESULT palSystem_VersionCheck(BOOL bAutoUpgrade)
     {
         LOG_MSG(db_APP_SYSTEM, "HDBaseT   H%02X.%02X.%02X.%02X\n", aucVersion[0], aucVersion[1] ,aucVersion[2], aucVersion[3]);  //G100_Wilsonj_0070
 
-        sprintf((char*)aucVerString, "H%02X.%02X.%02X.%02X\0", aucVersion[0], aucVersion[1], aucVersion[2], aucVersion[3]);  //G100_Wilsonj_0070
+        sprintf((char*)aucVerString, "H%02X.%02X.%02X.%02X", aucVersion[0], aucVersion[1], aucVersion[2], aucVersion[3]);  //G100_Wilsonj_0070
         palDataMgr_Data_Access(edcHDBASET_VERSION, edaWRITE_RAM_ONLY_NO_ACTION, aucVerString);
 
         if(strcmp(aucVerString, "H00.00.00.00") == 0 ||   //G100_Simon_0077
@@ -2202,7 +2202,7 @@ eRESULT palSystem_VersionCheck(BOOL bAutoUpgrade)
             //palEnvironment_LensModelCheck_Set(FALSE);	//G100_Clare_0059, add
 
             LOG_MSG(db_APP_SYSTEM, "Motor Board M%02d.%02d\n", aucVersion[1], aucVersion[0]);
-            sprintf((char*)aucVerString, "M%02d.%02d\0", aucVersion[1], aucVersion[0]);
+            sprintf((char*)aucVerString, "M%02d.%02d", aucVersion[1], aucVersion[0]);
             palDataMgr_Data_Access(edcMOTOR_VERSION, edaWRITE_RAM_ONLY_NO_ACTION, aucVerString);
 
             if(strcmp(aucVerString, "M00.00") == 0 ||   //G100_Simon_0077
@@ -2270,7 +2270,7 @@ eRESULT palSystem_VersionCheck(BOOL bAutoUpgrade)
                     (UINT8)(dwVerDDPSq>>8),
                     (UINT8)(dwVerDDPSq));
 
-                sprintf((char*)aucVerString, "F%02d.%02d(%c%c%c%d)\0" ,
+                sprintf((char*)aucVerString, "F%02d.%02d(%c%c%c%d)" ,
                     (UINT8)(wVerDDPApp>>8),      //DDP442x       Fxx.xx(HDRxx)
                     (UINT8)(wVerDDPApp),
                     (UINT8)(dwVerDDPSq>>24),
@@ -2374,7 +2374,7 @@ eRESULT palSystem_VersionCheck(BOOL bAutoUpgrade)   //A35G2
 
         LOG_MSG(db_APP_SYSTEM, "MCU E%02d.%02d , FMT mcu Platform = 0x%02X, FMT mcu Customer = %d\n", aucVersion[1], aucVersion[0], aucVersion[2], aucVersion[3]);
 
-        sprintf((char*)aucVerString, "E%02d.%02d\0", aucVersion[1], aucVersion[0]);
+        sprintf((char*)aucVerString, "E%02d.%02d", aucVersion[1], aucVersion[0]);
         palDataMgr_Data_Access(edcFRONTEND_VERSION, edaWRITE_RAM_ONLY_NO_ACTION, aucVerString);
 
         //palDataMgr_Data_Access(edcCUSTOMER_CODE, edaWRITE_THROUGH_WITH_ACTION, &aucVersion[2]); //set custom code
@@ -2425,7 +2425,7 @@ eRESULT palSystem_VersionCheck(BOOL bAutoUpgrade)   //A35G2
     {
         LOG_MSG(db_APP_SYSTEM, "MCU A%02d.%02d\n", aucVersion[1], aucVersion[0] );
 
-        sprintf((char*)aucVerString, "A%02d.%02d\0", aucVersion[1], aucVersion[0]);
+        sprintf((char*)aucVerString, "A%02d.%02d", aucVersion[1], aucVersion[0]);
         palDataMgr_Data_Access(edcFMCU_VERSION, edaWRITE_RAM_ONLY_NO_ACTION, aucVerString);
 
         if(strcmp(aucVerString, "A00.00") == 0 ||   //G100_Simon_0077
@@ -2443,7 +2443,7 @@ eRESULT palSystem_VersionCheck(BOOL bAutoUpgrade)   //A35G2
     {
         LOG_MSG(db_APP_SYSTEM, "Keypad   K%02d.%02d\n", aucVersion[1], aucVersion[0] );
 
-        sprintf((char*)aucVerString, "K%02d.%02d\0", aucVersion[1], aucVersion[0]);
+        sprintf((char*)aucVerString, "K%02d.%02d", aucVersion[1], aucVersion[0]);
         palDataMgr_Data_Access(edcKEYPAD_VERSION, edaWRITE_RAM_ONLY_NO_ACTION, aucVerString);
 
         if(strcmp(aucVerString, "K00.00") == 0 ||   //G100_Simon_0077
@@ -2463,7 +2463,7 @@ eRESULT palSystem_VersionCheck(BOOL bAutoUpgrade)   //A35G2
     {
         LOG_MSG(db_APP_SYSTEM, "FPGA1   X%02d.%02d\n", aucVersion[1], aucVersion[0]);
 
-        sprintf((char*)aucVerString, "X%02d.%02d\0", aucVersion[1], aucVersion[0]);
+        sprintf((char*)aucVerString, "X%02d.%02d", aucVersion[1], aucVersion[0]);
 
         if(aucVersion[2] == 'A')
         {
@@ -2492,7 +2492,7 @@ eRESULT palSystem_VersionCheck(BOOL bAutoUpgrade)   //A35G2
     {
         LOG_MSG(db_APP_SYSTEM, "FPGA2   Y%02d.%02d\n", aucVersion[1], aucVersion[0]);
 
-        sprintf((char*)aucVerString, "Y%02d.%02d\0", aucVersion[1], aucVersion[0]);
+        sprintf((char*)aucVerString, "Y%02d.%02d", aucVersion[1], aucVersion[0]);
         palDataMgr_Data_Access(edcFPGA2_VERSION, edaWRITE_RAM_ONLY_NO_ACTION, aucVerString);
 
         if(strcmp(aucVerString, "Y00.00") == 0 ||   //G100_Simon_0077
@@ -2528,7 +2528,7 @@ eRESULT palSystem_VersionCheck(BOOL bAutoUpgrade)   //A35G2
     if(eResult == rcSUCCESS)
     {
         LOG_MSG(db_APP_SYSTEM, "XFPGA  Q%02d.%02d\n", aucVersion[1], aucVersion[0]);
-        sprintf((char*)aucVerString, "Q%02d.%02d\0", aucVersion[1], aucVersion[0]);
+        sprintf((char*)aucVerString, "Q%02d.%02d", aucVersion[1], aucVersion[0]);
         palDataMgr_Data_Access(edcXFPGA_VERSION, edaWRITE_RAM_ONLY_NO_ACTION, aucVerString);
 
         if(strcmp(aucVerString, "Q00.00") == 0 ||   //G100_Simon_0077
@@ -2548,7 +2548,7 @@ eRESULT palSystem_VersionCheck(BOOL bAutoUpgrade)   //A35G2
     {
         LOG_MSG(db_APP_SYSTEM, "HDBaseT   H%02X.%02X.%02X.%02X\n", aucVersion[0], aucVersion[1] ,aucVersion[2], aucVersion[3]);  //G100_Wilsonj_0070
 
-        sprintf((char*)aucVerString, "H%02X.%02X.%02X.%02X\0", aucVersion[0], aucVersion[1], aucVersion[2], aucVersion[3]);  //G100_Wilsonj_0070
+        sprintf((char*)aucVerString, "H%02X.%02X.%02X.%02X", aucVersion[0], aucVersion[1], aucVersion[2], aucVersion[3]);  //G100_Wilsonj_0070
         palDataMgr_Data_Access(edcHDBASET_VERSION, edaWRITE_RAM_ONLY_NO_ACTION, aucVerString);
 
         if(strcmp(aucVerString, "H00.00.00.00") == 0 ||   //G100_Simon_0077
@@ -2583,7 +2583,7 @@ eRESULT palSystem_VersionCheck(BOOL bAutoUpgrade)   //A35G2
         //palEnvironment_LensModelCheck_Set(FALSE);	//G100_Clare_0059, add
 
         LOG_MSG(db_APP_SYSTEM, "Motor Board M%02d.%02d\n", aucVersion[1], aucVersion[0]);
-        sprintf((char*)aucVerString, "M%02d.%02d\0", aucVersion[1], aucVersion[0]);
+        sprintf((char*)aucVerString, "M%02d.%02d", aucVersion[1], aucVersion[0]);
         palDataMgr_Data_Access(edcMOTOR_VERSION, edaWRITE_RAM_ONLY_NO_ACTION, aucVerString);
 
         if(strcmp(aucVerString, "M00.00") == 0 ||   //G100_Simon_0077
@@ -2648,7 +2648,7 @@ eRESULT palSystem_VersionCheck(BOOL bAutoUpgrade)   //A35G2
                 (UINT8)(dwVerDDPSq>>8),
                 (UINT8)(dwVerDDPSq));
 
-            sprintf((char*)aucVerString, "F%02d.%02d(%c%c%c%d)\0" ,   //HICC2_Doulas_0022
+            sprintf((char*)aucVerString, "F%02d.%02d(%c%c%c%d)" ,   //HICC2_Doulas_0022
                 (UINT8)(wVerDDPApp>>8),      //DDP442x       Fxx.xx(HDRxx)
                 (UINT8)(wVerDDPApp),
                 (UINT8)(dwVerDDPSq>>24),
@@ -3470,11 +3470,11 @@ eRESULT palSystem_AC_Voltage_Check(void) //AC voltage detect from LVPS. //A65_OP
 	{
 		if(ucAC_Data == 1)
 		{
-			sprintf(aucVerString, "110V\0");
+			sprintf(aucVerString, "110V");
 		}
 		else
 		{
-			sprintf(aucVerString, "220V\0");
+			sprintf(aucVerString, "220V");
 		}
 	}
 	else

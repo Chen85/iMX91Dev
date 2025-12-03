@@ -701,8 +701,8 @@ int utilBIST_Handle(char led_en) // 0: no file 1: USB 2: mnt //HICC2_Steven_0062
 	char tBIST_mnt_Path[128] =  {'\0'};       //  "/mnt/syslog/H60_4K_4K1600_4K2100_BIST"
 	char tBIST_USB_Path[128] =  {'\0'};       //  "/run/media/sda1/H60_4K_4K1600_4K2100_BIST"
 	char tBIST_USB_Fail_Path[128] =  {'\0'};
-	char tMntImportFile[128]  = {"\0"};
-	char tUSBImportFile[128]  = {"\0"};
+	char tMntImportFile[128]  = {""};
+	char tUSBImportFile[128]  = {""};
 	UINT8 ucValue;
 
 	utilBIST_ReportNameGet(tReportFileName);
@@ -721,7 +721,7 @@ int utilBIST_Handle(char led_en) // 0: no file 1: USB 2: mnt //HICC2_Steven_0062
 
 	LOG_MSG(db_ALWAYS, "utilBIST_Handle !!! \r\n");
 
-#if defined(PLATFORM_H30_4K)	
+#if defined(PLATFORM_H30_4K)
     palDataMgr_Access_USB_Power(edaREAD,&ucValue);
 	if(ucValue == FALSE)
 	{
@@ -975,7 +975,7 @@ eRESULT utilMotor_BIST_Get(void) //A70LK_Steven_0003
 	memset(aucVerString, 0, sizeof(aucVerString));
 	eResult = halMotor_Version_Get(aucVersion);
 
-	sprintf((char*)aucVerString, "M%02d.%02d\0", aucVersion[1], aucVersion[0]);
+	sprintf((char*)aucVerString, "M%02d.%02d", aucVersion[1], aucVersion[0]);
 
 	if(rcSUCCESS == eResult)
 	{

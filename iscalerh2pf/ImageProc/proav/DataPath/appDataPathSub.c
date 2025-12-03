@@ -2082,7 +2082,7 @@ eEXEC_CODE palDataPath_InputPixelClockSub_Get(UINT8 *ucValue)   //A70LV_Doulas_0
             char aucString[VERSION_STRING_MAX_LENGTH];
             DOUBLE dbVal;
             dbVal = (DOUBLE)m_FrontEndVideoTimingSub.u32VideoPCLK;
-            sprintf(aucString, "%d.%03dMHz\0",(UINT32)dbVal/1000,(UINT32)dbVal%1000);
+            sprintf(aucString, "%d.%03dMHz",(UINT32)dbVal/1000,(UINT32)dbVal%1000);
             memcpy(ucValue, aucString, strlen(aucString)+1);
         }
         else
@@ -2114,9 +2114,9 @@ eEXEC_CODE palDataPath_InputSignalFormatSub_Get(UINT8 *ucValue)
         {
             char aucString[VERSION_STRING_MAX_LENGTH];
             //if(m_sSourceDescSub.eConnector == eINPUT_SOURCE_VGA)
-                //sprintf(aucString, "Analog\0");
+                //sprintf(aucString, "Analog");
             //else
-            sprintf(aucString, "Digital\0");
+            sprintf(aucString, "Digital");
             memcpy(ucValue, aucString, strlen(aucString)+1);
         }
         else
@@ -2147,7 +2147,7 @@ eEXEC_CODE palDataPath_InputResoultionSub_Get(UINT8 *ucValue)
         else if(m_FrontEndVideoFormatSub.u8VideoDownScaling)        //A70LV_Doulas_0187 modify
         {
             char aucString[VERSION_STRING_MAX_LENGTH];
-            sprintf(aucString, "%d x %d\0",m_FrontEndVideoTimingSub.u16VideoHActive ,m_FrontEndVideoTimingSub.u16VideoVActive);
+            sprintf(aucString, "%d x %d",m_FrontEndVideoTimingSub.u16VideoHActive ,m_FrontEndVideoTimingSub.u16VideoVActive);
             memcpy(ucValue, aucString, strlen(aucString)+1);
         }
         else
@@ -2180,7 +2180,7 @@ eEXEC_CODE palDataPath_InputHorzRefreshSub_Get(UINT8 *ucValue)
             char aucString[VERSION_STRING_MAX_LENGTH];
             DOUBLE dbVal;
             dbVal = (DOUBLE)m_FrontEndVideoTimingSub.u32VideoPCLK *1000 / (DOUBLE)m_FrontEndVideoTimingSub.u16VideoHTotal;
-            sprintf(aucString, "%d.%03dkHz\0",(UINT32)dbVal/1000,(UINT32)dbVal%1000);
+            sprintf(aucString, "%d.%03dkHz",(UINT32)dbVal/1000,(UINT32)dbVal%1000);
             memcpy(ucValue, aucString, strlen(aucString)+1);
         }
         else
@@ -2213,7 +2213,7 @@ eEXEC_CODE palDataPath_InputVertRefreshSub_Get(UINT8 *ucValue)
             char aucString[VERSION_STRING_MAX_LENGTH];
             DOUBLE dbVal;
             dbVal = (DOUBLE)m_FrontEndVideoTimingSub.u32VideoPCLK *1000 / (DOUBLE)m_FrontEndVideoTimingSub.u16VideoHTotal / (DOUBLE)m_FrontEndVideoTimingSub.u16VideoVTotal * 100;
-            sprintf(aucString, "%d.%02dHz\0",(UINT32)dbVal/100,(UINT32)dbVal%100);
+            sprintf(aucString, "%d.%02dHz",(UINT32)dbVal/100,(UINT32)dbVal%100);
             memcpy(ucValue, aucString, strlen(aucString)+1);
         }
         else
@@ -2248,19 +2248,19 @@ eEXEC_CODE palDataPath_InputSyncTypeSub_Get(UINT8 *ucValue)
             //check sync "Sync on Green" or "Separate"
             if(m_FrontEndVideoFormatSub.u8VideoVGASyncType == eVGA_SYNC_TYPE_SOG)  //A70LV_Doulas_0109 modify
             {
-                sprintf(aucString, "Sync on Green\0");
+                sprintf(aucString, "Sync on Green");
                 memcpy(ucValue, aucString, strlen(aucString)+1);
             }
             else
             {
-                sprintf(aucString, "Separate\0");
+                sprintf(aucString, "Separate");
                 memcpy(ucValue, aucString, strlen(aucString)+1);
             }
         }
 #endif /* 0 */
         else
         {
-            sprintf(aucString, "Separate\0");
+            sprintf(aucString, "Separate");
             memcpy(ucValue, aucString, strlen(aucString)+1);
         }
     }

@@ -201,7 +201,7 @@ static eRESULT utilCLI_XFPGA_Ready(sPAYLOAD *psInData,  sPAYLOAD *psOutData, UIN
         if(eResut == rcSUCCESS)
         {
             LOG_MSG(db_APP_SYSTEM, "XFPGA  Q%02d.%02d\n", aucVersion[1], aucVersion[0]);
-            sprintf((char*)aucVerString, "Q%02d.%02d\0", aucVersion[1], aucVersion[0]);
+            sprintf((char*)aucVerString, "Q%02d.%02d", aucVersion[1], aucVersion[0]);
             sUtilCLICmd_Callback.fpDataMgr_Data_AccessCb(edcXFPGA_VERSION, edaWRITE_RAM_ONLY_NO_ACTION, aucVerString);
         }
         else

@@ -688,8 +688,8 @@ void SaveToCfgFile(sCFG_SETTINGS sCfgSettings[], UINT16 TotalItem, char *FilePat
 void Drivercfg_Value_Set(UINT8 ucModelID,eDRIVER_CFG_ITEM Item,UINT8 ucIndex,UINT8 ucValue)
 {
 	UINT8 ucModeID_Number = ucModelID -1; //MODEL_ID_0
-	char cStringTmp[MAX_ITEMVALUE_LENGTH] = "\0";
-	char cStringBuf[MAX_ITEMVALUE_LENGTH] = "\0";
+	char cStringTmp[MAX_ITEMVALUE_LENGTH] = "";
+	char cStringBuf[MAX_ITEMVALUE_LENGTH] = "";
 	UINT8 ucCount = 0;
 	INT32 wModeID_Max = 0;
 	Syscfg_Value_Get(eModelID_Max,&wModeID_Max);

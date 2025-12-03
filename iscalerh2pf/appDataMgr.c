@@ -164,7 +164,7 @@ static UINT8 m_ucLastInputSource = eCM_SOURCE_HDMI1;//1; //HICC2_Doulas_0101//A3
 static BOOL  m_bSystem_ResetFlag = FALSE; //G100_Steven_0111 //A35G2_BRC_Casper_0048
 static BOOL  m_bVCXO_Log = TRUE;
 
-char* pcDataCodeStringNull = "DataCode Null\0";
+char* pcDataCodeStringNull = "DataCode Null";
 
 static BOOL m_ucWAP_Enable             = FALSE; //A70LK_Casper_0007 //G50_Casper_0006
 
@@ -263,7 +263,7 @@ const sEVENT_LIST_TRANSLATION_TEXT_ID_LUT sSchedueleEventIndexTranslateOsdTextId
     //OFF
     {
         {   eSCHEDULE_EVENT_CONTENT_OFF,   "Off",                           226,        0,                              0},
-        {   99,                              "\0",                             0,        0,                              0},
+        {   99,                              "",                             0,        0,                              0},
     },
     //Power Setting
     {
@@ -271,7 +271,7 @@ const sEVENT_LIST_TRANSLATION_TEXT_ID_LUT sSchedueleEventIndexTranslateOsdTextId
         {   eSCHEDULE_EVENT_CONTENT_1,      "Power On",                     846,         eSCH_EVENT_POWER_ON,           11},
         {   eSCHEDULE_EVENT_CONTENT_2,      "ECO Mode",                    1035,         eSCH_EVENT_POWER_OFF_STBY,     12},
         {   eSCHEDULE_EVENT_CONTENT_3,      "Communication Mode",            81,         eSCH_EVENT_POWER_OFF_CSTBY,    13},
-        {   99,                                       "\0",                    0,         0,                             0},
+        {   99,                                       "",                    0,         0,                             0},
     },
     //Input source
     {
@@ -285,7 +285,7 @@ const sEVENT_LIST_TRANSLATION_TEXT_ID_LUT sSchedueleEventIndexTranslateOsdTextId
         {   eSCHEDULE_EVENT_CONTENT_4,      "3G-SDI",                       509,        eSCH_EVENT_INPUT_3GSDI,         27},
 #endif /* SCALER_FPGA_F34 */
         {   eSCHEDULE_EVENT_CONTENT_5,      "HDBaseT",                      436,        eSCH_EVENT_INPUT_HDBT,          28},
-        {   99,                              "\0",                             0,        0,                              0},
+        {   99,                              "",                             0,        0,                              0},
     },
     //Light Source Mode
     {
@@ -294,14 +294,14 @@ const sEVENT_LIST_TRANSLATION_TEXT_ID_LUT sSchedueleEventIndexTranslateOsdTextId
         {   eSCHEDULE_EVENT_CONTENT_2,      "Constant Intensity",            86,        eSCH_EVENT_LIGHT_CONSTANT_INTENSITY,    32},
         {   eSCHEDULE_EVENT_CONTENT_3,      "ECO 1",                        275,        eSCH_EVENT_LIGHT_ECO,           33},
         {   eSCHEDULE_EVENT_CONTENT_4,      "ECO 2",                        276,        eSCH_EVENT_LIGHT_ECO_2,         34},
-        {   99,                                      "\0",                     0,        0},
+        {   99,                                      "",                     0,        0},
     },
     //Shutter Setting
     {
         {   eSCHEDULE_EVENT_CONTENT_OFF,    "Off",                          226,        0,                              0},
         {   eSCHEDULE_EVENT_CONTENT_1,      "Shutter On",                   855,        eSCH_EVENT_SHUTTER_ON,          41},
         {   eSCHEDULE_EVENT_CONTENT_2,      "Shutter Off",                  856,        eSCH_EVENT_SHUTTER_OFF,         42},
-        {   99,                              "\0",                             0,        0,                              0},
+        {   99,                              "",                             0,        0,                              0},
     },
 
 
@@ -321,7 +321,7 @@ const sEVENT_LIST_TRANSLATION_TEXT_ID_LUT sSchedueleEventIndexTranslateOsdTextId
     //OFF
     {
         {   eSCHEDULE_EVENT_CONTENT_OFF,    "Off",                          328,        0,                              0},
-        {   99,                             "\0",                             0,        0,                              0},
+        {   99,                             "",                             0,        0,                              0},
     },
     //Power Setting
     {
@@ -335,7 +335,7 @@ const sEVENT_LIST_TRANSLATION_TEXT_ID_LUT sSchedueleEventIndexTranslateOsdTextId
         {   eSCHEDULE_EVENT_CONTENT_3,      "Active",                       681,        eSCH_EVENT_POWER_OFF_NSTBY,     3},
         {   eSCHEDULE_EVENT_CONTENT_4,      "Communication",                540,        eSCH_EVENT_POWER_OFF_CSTBY,     4},
 	#endif
-		{   99,                             "\0",                             0,        0,                              0},
+		{   99,                             "",                             0,        0,                              0},
     },
     //Input source
     {
@@ -346,7 +346,7 @@ const sEVENT_LIST_TRANSLATION_TEXT_ID_LUT sSchedueleEventIndexTranslateOsdTextId
         {   eSCHEDULE_EVENT_CONTENT_4,      "3G-SDI",                       926,        eSCH_EVENT_INPUT_3GSDI,         22},
         {   eSCHEDULE_EVENT_CONTENT_5,      "12G-SDI",                      508,        eSCH_EVENT_INPUT_12GSDI,        27},
         {   eSCHEDULE_EVENT_CONTENT_6,      "HDBaseT",                      509,        eSCH_EVENT_INPUT_HDBT,          21},
-		{   99,                             "\0",                             0,        0,                              0},
+		{   99,                             "",                             0,        0,                              0},
     },
     //Light Source Mode
     {
@@ -354,14 +354,14 @@ const sEVENT_LIST_TRANSLATION_TEXT_ID_LUT sSchedueleEventIndexTranslateOsdTextId
         {   eSCHEDULE_EVENT_CONTENT_1,      "Normal",                       414,        eSCH_EVENT_LIGHT_NORMAL,        1},	//A35G2_BRC_Coda_0020
         {   eSCHEDULE_EVENT_CONTENT_2,      "ECO Mode",                     415,        eSCH_EVENT_LIGHT_ECO,           2}, //A35G2_BRC_Casper_0029
         {   eSCHEDULE_EVENT_CONTENT_3,      "Custom Brightness",            416,        eSCH_EVENT_LIGHT_CUSTOM,        3},
-        {   99,                             "\0",                             0,        0,								0},
+        {   99,                             "",                             0,        0,								0},
     },
     //Shutter Setting
     {
         {   eSCHEDULE_EVENT_CONTENT_OFF,    "Off",                          328,        0,                              0},
         {   eSCHEDULE_EVENT_CONTENT_1,      "Shutter On",                   688,        eSCH_EVENT_SHUTTER_ON,          1},
         {   eSCHEDULE_EVENT_CONTENT_2,      "Shutter Off",                  689,        eSCH_EVENT_SHUTTER_OFF,         2},
-        {   99,                             "\0",                             0,        0,                              0},
+        {   99,                             "",                             0,        0,                              0},
     },
 
 
@@ -381,7 +381,7 @@ const sEVENT_LIST_TRANSLATION_TEXT_ID_LUT sSchedueleEventIndexTranslateOsdTextId
     //OFF
     {
         {   eSCHEDULE_EVENT_CONTENT_OFF,   "Off",                           226,        0,                              0},
-        {   99,                              "\0",                            0,        0,                              0},
+        {   99,                              "",                            0,        0,                              0},
     },
     //Power Setting
     {
@@ -390,7 +390,7 @@ const sEVENT_LIST_TRANSLATION_TEXT_ID_LUT sSchedueleEventIndexTranslateOsdTextId
         {   eSCHEDULE_EVENT_CONTENT_2,      "Standby",                      1476,         eSCH_EVENT_POWER_OFF_STBY,     12},
         {   eSCHEDULE_EVENT_CONTENT_3,      "Standby (Network Standby)",    1480,         eSCH_EVENT_POWER_OFF_NSTBY,    13},
         {   eSCHEDULE_EVENT_CONTENT_4,      "Standby (Communication)",      1481,         eSCH_EVENT_POWER_OFF_CSTBY,    14},
-        {   99,                                       "\0",                    0,         0,                             0},
+        {   99,                                       "",                    0,         0,                             0},
     },
     //Input source
     {
@@ -400,7 +400,7 @@ const sEVENT_LIST_TRANSLATION_TEXT_ID_LUT sSchedueleEventIndexTranslateOsdTextId
         {   eSCHEDULE_EVENT_CONTENT_3,      "DVI-D",                        508,        eSCH_EVENT_INPUT_DVI,           23},
         {   eSCHEDULE_EVENT_CONTENT_4,      "3G-SDI",                       509,        eSCH_EVENT_INPUT_3GSDI,         24},
         {   eSCHEDULE_EVENT_CONTENT_5,      "HDBaseT",                      436,        eSCH_EVENT_INPUT_HDBT,          25},
-        {   99,                              "\0",                             0,        0,                              0},
+        {   99,                              "",                             0,        0,                              0},
     },
     //Light Source Mode
     {
@@ -408,14 +408,14 @@ const sEVENT_LIST_TRANSLATION_TEXT_ID_LUT sSchedueleEventIndexTranslateOsdTextId
         {   eSCHEDULE_EVENT_CONTENT_1,      "Normal Mode",                 1477,        eSCH_EVENT_LIGHT_NORMAL,        31},	//A35G2_BRC_Coda_0020
         {   eSCHEDULE_EVENT_CONTENT_2,      "ECO Mode",                    1035,        eSCH_EVENT_LIGHT_ECO,                   32}, //A35G2_BRC_Casper_0029
         {   eSCHEDULE_EVENT_CONTENT_3,      "Custom Brightness",           1121,        eSCH_EVENT_LIGHT_CUSTOM,                33},
-        {   99,                                      "\0",                    0,        0},
+        {   99,                                      "",                    0,        0},
     },
     //Shutter Setting
     {
         {   eSCHEDULE_EVENT_CONTENT_OFF,    "Off",                          226,        0,                               0},
         {   eSCHEDULE_EVENT_CONTENT_1,      "Shutter On",                  1128,        eSCH_EVENT_SHUTTER_ON,          41},
         {   eSCHEDULE_EVENT_CONTENT_2,      "Shutter Off",                 1129,        eSCH_EVENT_SHUTTER_OFF,         42},
-        {   99,                              "\0",                             0,        0,                              0},
+        {   99,                              "",                             0,        0,                              0},
     },
 
 
@@ -1795,7 +1795,7 @@ eEXEC_CODE palDataMgr_Access_TotalProjectorHours_Info(eDATA_ACCESS_MODE eAccessM
         char aucVerString[VERSION_STRING_MAX_LENGTH];
         //need to add read device version function at here
 
-        sprintf(aucVerString, "%d\0", m_sAppDataMgrInfo.sEepSettings.sSystemDefault.ulTotalProjectorMinute / 60);
+        sprintf(aucVerString, "%d", m_sAppDataMgrInfo.sEepSettings.sSystemDefault.ulTotalProjectorMinute / 60);
 
         memcpy((UINT8 *)pValue, aucVerString, strlen(aucVerString)+1);
     }
@@ -3201,19 +3201,19 @@ eEXEC_CODE palDataMgr_Access_OSD_Reset(eDATA_ACCESS_MODE eAccessMode, void *pVal
             //G100_Tim_0069, mark, start
             //for SYSTEM -> Reset All Settings, not clear the saved data
             /*
-            sprintf((char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM_CUR_IDX].ucWarpingName, "Record 1\0");
-            sprintf((char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM1_IDX].ucWarpingName, "Record 2\0");
-            sprintf((char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM2_IDX].ucWarpingName, "Record 3\0");
-            sprintf((char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM3_IDX].ucWarpingName, "Record 4\0");
-            sprintf((char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM4_IDX].ucWarpingName, "Record 5\0");
+            sprintf((char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM_CUR_IDX].ucWarpingName, "Record 1");
+            sprintf((char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM1_IDX].ucWarpingName, "Record 2");
+            sprintf((char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM2_IDX].ucWarpingName, "Record 3");
+            sprintf((char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM3_IDX].ucWarpingName, "Record 4");
+            sprintf((char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM4_IDX].ucWarpingName, "Record 5");
             */
             //G100_Tim_0069, mark, end
 
-            sprintf((char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM_CUR_IDX].ucBlendingName, "Record 1\0");
-            sprintf((char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM1_IDX].ucBlendingName, "Record 2\0");
-            sprintf((char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM2_IDX].ucBlendingName, "Record 3\0");
-            sprintf((char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM3_IDX].ucBlendingName, "Record 4\0");
-            sprintf((char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM4_IDX].ucBlendingName, "Record 5\0");
+            sprintf((char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM_CUR_IDX].ucBlendingName, "Record 1");
+            sprintf((char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM1_IDX].ucBlendingName, "Record 2");
+            sprintf((char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM2_IDX].ucBlendingName, "Record 3");
+            sprintf((char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM3_IDX].ucBlendingName, "Record 4");
+            sprintf((char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM4_IDX].ucBlendingName, "Record 5");
 
             //G100_Tim_0069, mark, start
             //for SYSTEM -> Reset All Settings, not clear the saved data
@@ -3591,7 +3591,7 @@ eEXEC_CODE palDataMgr_Access_ABC_W(eDATA_ACCESS_MODE eAccessMode, void *pValue)
     {
         char 	ucFanString[127];
 
-	    sprintf(ucFanString, "%03d.%02d\0",
+	    sprintf(ucFanString, "%03d.%02d",
 	    m_sAppDataMgrInfo.sSystemValues.sLIGHT_SENSOR_INFO.uiLightSenosr[0]/100,
 	    m_sAppDataMgrInfo.sSystemValues.sLIGHT_SENSOR_INFO.uiLightSenosr[0]%100);
 
@@ -3612,7 +3612,7 @@ eEXEC_CODE palDataMgr_Access_ABC_R(eDATA_ACCESS_MODE eAccessMode, void *pValue)
     {
         char 	ucFanString[127];
 
-	    sprintf(ucFanString, "%03d.%02d\0",
+	    sprintf(ucFanString, "%03d.%02d",
 	    m_sAppDataMgrInfo.sSystemValues.sLIGHT_SENSOR_INFO.uiLightSenosr[1]/100,
 	    m_sAppDataMgrInfo.sSystemValues.sLIGHT_SENSOR_INFO.uiLightSenosr[1]%100);
 
@@ -3633,7 +3633,7 @@ eEXEC_CODE palDataMgr_Access_ABC_G(eDATA_ACCESS_MODE eAccessMode, void *pValue)
     {
         char 	ucFanString[127];
 
-	    sprintf(ucFanString, "%03d.%02d\0",
+	    sprintf(ucFanString, "%03d.%02d",
 	    m_sAppDataMgrInfo.sSystemValues.sLIGHT_SENSOR_INFO.uiLightSenosr[2]/100,
 	    m_sAppDataMgrInfo.sSystemValues.sLIGHT_SENSOR_INFO.uiLightSenosr[2]%100);
 
@@ -3654,7 +3654,7 @@ eEXEC_CODE palDataMgr_Access_ABC_B(eDATA_ACCESS_MODE eAccessMode, void *pValue)
     {
         char 	ucFanString[127];
 
-	    sprintf(ucFanString, "%03d.%02d\0",
+	    sprintf(ucFanString, "%03d.%02d",
 	    m_sAppDataMgrInfo.sSystemValues.sLIGHT_SENSOR_INFO.uiLightSenosr[3]/100,
 	    m_sAppDataMgrInfo.sSystemValues.sLIGHT_SENSOR_INFO.uiLightSenosr[3]%100);
 
@@ -3665,7 +3665,7 @@ eEXEC_CODE palDataMgr_Access_ABC_B(eDATA_ACCESS_MODE eAccessMode, void *pValue)
         UINT8 *pcData = (UINT8*)pValue;
 
         m_sAppDataMgrInfo.sSystemValues.sLIGHT_SENSOR_INFO.uiLightSenosr[3] = (UINT16)pcData[1]<<8 | (UINT16)pcData[0];
-    }
+	}
 
     return eEXEC_CODE_PASS;
 }
@@ -3675,7 +3675,7 @@ eEXEC_CODE palDataMgr_Access_ABC_Y(eDATA_ACCESS_MODE eAccessMode, void *pValue)
     {
         char 	ucFanString[127];
 
-	    sprintf(ucFanString, "%03d.%02d\0",
+	    sprintf(ucFanString, "%03d.%02d",
 	    m_sAppDataMgrInfo.sSystemValues.sLIGHT_SENSOR_INFO.uiLightSenosr[4]/100,
 	    m_sAppDataMgrInfo.sSystemValues.sLIGHT_SENSOR_INFO.uiLightSenosr[4]%100);
 
@@ -3698,7 +3698,7 @@ eEXEC_CODE palDataMgr_Access_ABC_WithRLD_R(eDATA_ACCESS_MODE eAccessMode, void *
     {
         char ucADCString[127];
 
-        sprintf(ucADCString, "%4d\0", m_sAppDataMgrInfo.sSystemValues.sLIGHT_SENSOR_INFO.uiLightSenosr[1]);
+        sprintf(ucADCString, "%4d", m_sAppDataMgrInfo.sSystemValues.sLIGHT_SENSOR_INFO.uiLightSenosr[1]);
 
         memcpy((UINT8 *)pValue, ucADCString, strlen(ucADCString)+1);
     }
@@ -3715,7 +3715,7 @@ eEXEC_CODE palDataMgr_Access_ABC_WithRLD_G(eDATA_ACCESS_MODE eAccessMode, void *
     {
         char ucADCString[127];
 
-        sprintf(ucADCString, "%4d\0", m_sAppDataMgrInfo.sSystemValues.sLIGHT_SENSOR_INFO.uiLightSenosr[2]);
+        sprintf(ucADCString, "%4d", m_sAppDataMgrInfo.sSystemValues.sLIGHT_SENSOR_INFO.uiLightSenosr[2]);
 
         memcpy((UINT8 *)pValue, ucADCString, strlen(ucADCString)+1);
     }
@@ -3732,7 +3732,7 @@ eEXEC_CODE palDataMgr_Access_ABC_WithRLD_B(eDATA_ACCESS_MODE eAccessMode, void *
     {
         char ucADCString[127];
 
-        sprintf(ucADCString, "%4d\0", m_sAppDataMgrInfo.sSystemValues.sLIGHT_SENSOR_INFO.uiLightSenosr[3]);
+        sprintf(ucADCString, "%4d", m_sAppDataMgrInfo.sSystemValues.sLIGHT_SENSOR_INFO.uiLightSenosr[3]);
 
         memcpy((UINT8 *)pValue, ucADCString, strlen(ucADCString)+1);
     }
@@ -3749,7 +3749,7 @@ eEXEC_CODE palDataMgr_Access_ABC_WithRLD_Y(eDATA_ACCESS_MODE eAccessMode, void *
     {
         char ucADCString[127];
 
-        sprintf(ucADCString, "%4d\0", m_sAppDataMgrInfo.sSystemValues.sLIGHT_SENSOR_INFO.uiLightSenosr[4]);
+        sprintf(ucADCString, "%4d", m_sAppDataMgrInfo.sSystemValues.sLIGHT_SENSOR_INFO.uiLightSenosr[4]);
 
         memcpy((UINT8 *)pValue, ucADCString, strlen(ucADCString)+1);
     }
@@ -3766,7 +3766,7 @@ eEXEC_CODE palDataMgr_Access_ABC_WithRLD_RR(eDATA_ACCESS_MODE eAccessMode, void 
     {
         char ucADCString[127];
 
-        sprintf(ucADCString, "%4d\0", m_sAppDataMgrInfo.sSystemValues.sLIGHT_SENSOR_INFO.uiLightSenosr[5]);
+        sprintf(ucADCString, "%4d", m_sAppDataMgrInfo.sSystemValues.sLIGHT_SENSOR_INFO.uiLightSenosr[5]);
 
         memcpy((UINT8 *)pValue, ucADCString, strlen(ucADCString)+1);
     }
@@ -3809,8 +3809,8 @@ eEXEC_CODE palDataMgr_Access_Model_Replace_Select(eDATA_ACCESS_MODE eAccessMode,
 			char cStrTemp[64] = {'\0'}, cStrTemp2[16] = {'\0'};
 			const char *m_sModelReplaceString[eMODEL_REPLACE_UNKNOW] = {"W19","W17"};
 
-			sprintf(cStrTemp, "%s\0", palDataMgr_DataCodeStringGet(edcMODEL_REPLACE_SELECT));
-			sprintf(cStrTemp2, "%s\0", m_sModelReplaceString[ucValue]);
+			sprintf(cStrTemp, "%s", palDataMgr_DataCodeStringGet(edcMODEL_REPLACE_SELECT));
+			sprintf(cStrTemp2, "%s", m_sModelReplaceString[ucValue]);
 
 			//ilDataMgr_Write_ModelChangeLog(cStrTemp, cStrTemp2); //A65_OPTOMA_Julie_0065
 			utilOPD_Write_ModelChangeLog(cStrTemp, cStrTemp2); //A65_OPTOMA_Julie_0066
@@ -4039,7 +4039,7 @@ eEXEC_CODE palDataMgr_ModelNameGet_Depend_Neutral(char *ModelName)
 
 eEXEC_CODE palDataMgr_ModelNameGet_Neutral(char *ModelName)
 {
-    UINT8 ProjectorID[9] = {"\0"};
+    UINT8 ProjectorID[9] = {""};
     UINT32 Index = 0;
     palDataMgr_Data_Access(edcCUSTOMER_CODE, edaREAD, ProjectorID);
     Index = CommonData_ModelNameTable_IndexGet(ProjectorID);
@@ -4056,7 +4056,7 @@ eEXEC_CODE palDataMgr_ModelNameGet_Neutral(char *ModelName)
 
 eEXEC_CODE palDataMgr_ModelNameGet_Normal(char *ModelName)
 {
-    UINT8 ProjectorID[9] = {"\0"};
+    UINT8 ProjectorID[9] = {""};
     UINT32 Index = 0;
     palDataMgr_Data_Access(edcCUSTOMER_CODE, edaREAD, ProjectorID);
     Index = CommonData_ModelNameTable_IndexGet(ProjectorID);
@@ -4073,7 +4073,7 @@ eEXEC_CODE palDataMgr_ModelNameGet_Normal(char *ModelName)
 
 eEXEC_CODE palDataMgr_ModelNameGet_FotaName(char *ModelName)
 {
-    UINT8 ProjectorID[9] = {"\0"};
+    UINT8 ProjectorID[9] = {""};
     UINT32 Index = 0;
     palDataMgr_Data_Access(edcCUSTOMER_CODE, edaREAD, ProjectorID);
     Index = CommonData_ModelNameTable_IndexGet(ProjectorID);
@@ -4095,18 +4095,18 @@ eEXEC_CODE palDataMgr_Access_MODEL_NAME(eDATA_ACCESS_MODE eAccessMode, void *pVa
     {
 #ifdef DEMO_SNDS   //HICC2_Doulas_0021
         char aucString[16];
-        sprintf(aucString, "Generic\0");
+        sprintf(aucString, "Generic");
         memcpy((UINT8 *)pValue, aucString, strlen(aucString)+1);
 #elif  defined(OE_JIG)  //HICC2_Doulas_0034
         char aucString[16];
         #if defined(PLATFORM_H60_4K)      //HICC2_Doulas_0096
-        sprintf(aucString, "H60K(OE_JIG)\0");
+        sprintf(aucString, "H60K(OE_JIG)");
         #elif defined(PLATFORM_H30_4K) //HICC2_AC_0001
-        sprintf(aucString, "H30K(OE_JIG)\0");
+        sprintf(aucString, "H30K(OE_JIG)");
         #elif defined(PLATFORM_R70K)                        //HICC2_Tim_0001, add
-        sprintf(aucString, "R70K(OE_JIG)\0");               //HICC2_Tim_0001, add
+        sprintf(aucString, "R70K(OE_JIG)");               //HICC2_Tim_0001, add
         #else
-        sprintf(aucString, "H60U(OE_JIG)\0");
+        sprintf(aucString, "H60U(OE_JIG)");
         #endif
         memcpy((UINT8 *)pValue, aucString, strlen(aucString)+1);
 #else
@@ -4450,7 +4450,7 @@ eEXEC_CODE palDataMgr_Access_PJLink_Security_Password(eDATA_ACCESS_MODE eAccessM
 		else
 		{
 			char cPasswordString[64] = {0};
-			sprintf(cPasswordString, "%s\0", m_sLAN_info.ucPJLink_SecurityPasssword_Show);
+			sprintf(cPasswordString, "%s", m_sLAN_info.ucPJLink_SecurityPasssword_Show);
 			memcpy((UINT8 *)pValue, cPasswordString, strlen(cPasswordString)+1);
 
 		}
@@ -4487,7 +4487,7 @@ eEXEC_CODE palDataMgr_Access_HW_PROJECTOR_ID(eDATA_ACCESS_MODE eAccessMode, void
     {
         char aucHWVer[VERSION_STRING_MAX_LENGTH];
 
-        sprintf(aucHWVer, "%s\0", pcPCBA_VER_Str[m_sAppDataMgrInfo.sSystemValues.ucHW_ID]);
+        sprintf(aucHWVer, "%s", pcPCBA_VER_Str[m_sAppDataMgrInfo.sSystemValues.ucHW_ID]);
         memcpy((UINT8 *)pValue, aucHWVer, strlen(aucHWVer)+1);
     }
     else
@@ -4601,11 +4601,11 @@ eEXEC_CODE palDataMgr_Access_SMCU_VERSION(eDATA_ACCESS_MODE eAccessMode, void *p
         {
             if(Board_Stage_Get() <= EVT_STAGE)
             {
-                sprintf(aucVerString, "V%02d.%02d.beta\0", VER_MAJOR, VER_MINOR);
+                sprintf(aucVerString, "V%02d.%02d.beta", VER_MAJOR, VER_MINOR);
             }
             else
             {
-                sprintf(aucVerString, "V%02d.%02d\0", VER_MAJOR, VER_MINOR);
+                sprintf(aucVerString, "V%02d.%02d", VER_MAJOR, VER_MINOR);
             }
             memcpy((UINT8 *)pValue, aucVerString, strlen(aucVerString)+1);
         }
@@ -4770,7 +4770,7 @@ void palDataMgr_Access_Get_FAN_Info(UINT8 FAN_Index,  void *pValue)
 
 	if(Drivercfg_Value_Get(palSystem_ModelIDGet(),eFan_Exist,FAN_Index) != DEVICE_IS_EXIST)//(FAN_Index >=pFanRange ) //HICC2_Doulas_0002 Modify
 	{
-		sprintf(ucFanString, "NA\0");
+		sprintf(ucFanString, "NA");
 	}
 	else
 	{
@@ -4780,7 +4780,7 @@ void palDataMgr_Access_Get_FAN_Info(UINT8 FAN_Index,  void *pValue)
 
 		//LOG_MSG(db_APP_DATA_MGR, "(func:%s, line:%d) FAN_Index = %d uTempRPM = %d uTempDuty = %d ucTempLock = %d\r\n", __FUNCTION__, __LINE__,FAN_Index, uTempDuty, uTempRPM, ucTempLock);
 		//sprintf(ucFanString, "RMP:%d, Duty:%d, FanLock:%d" , uTempRPM, uTempDuty, ucTempLock);
-		sprintf(ucFanString, "RPM:%04d, Duty:%03d\0", uTempRPM, uTempDuty); //A70LV_Larry_0028
+		sprintf(ucFanString, "RPM:%04d, Duty:%03d", uTempRPM, uTempDuty); //A70LV_Larry_0028
 	} //G100_Steven_0049 end
 	memcpy((UINT8 *)pValue, ucFanString, strlen(ucFanString)+1);
 	//LOG_MSG(db_ALWAYS,"Fan%d (%s)\r\n",FAN_Index,ucFanString);	//HICC2_Doulas_0012
@@ -5145,7 +5145,7 @@ eEXEC_CODE palDataMgr_Access_Thermal_Sensor_Info(eDATA_ACCESS_MODE eAccessMode, 
 {
     if (edaREAD == eAccessMode)  //Read Function
     {
-        sprintf(((char *)pValue), "%d C\0" , m_sAppDataMgrInfo.sSystemValues.sTHERMAL_SENSOR_INFO.iThermalSensorTemperature[0]);
+        sprintf(((char *)pValue), "%d C" , m_sAppDataMgrInfo.sSystemValues.sTHERMAL_SENSOR_INFO.iThermalSensorTemperature[0]);
     }
     else  //Write Function
     {
@@ -5175,14 +5175,14 @@ void palDataMgr_Access_Get_Thermal_Sensor_Info(UINT8 ucIndex, void *pValue)
 
     if( Syscfg_Value_Get_Typeint(eDC_ThermalSensorWithFloat) == 1 )
     {
-        sprintf(ucTemperatureString, "%d.%02d C\0",
+        sprintf(ucTemperatureString, "%d.%02d C",
                 m_sAppDataMgrInfo.sSystemValues.sTHERMAL_SENSOR_INFO.iThermalSensorTemperature[ucIndex]/100,
                 m_sAppDataMgrInfo.sSystemValues.sTHERMAL_SENSOR_INFO.iThermalSensorTemperature[ucIndex]%100);
         memcpy((UINT8 *)pValue, ucTemperatureString, strlen(ucTemperatureString)+1);
     }
     else
     {
-    	sprintf(ucTemperatureString, "%d C\0",
+    	sprintf(ucTemperatureString, "%d C",
     	        m_sAppDataMgrInfo.sSystemValues.sTHERMAL_SENSOR_INFO.iThermalSensorTemperature[ucIndex]);
     	memcpy((UINT8 *)pValue, ucTemperatureString, strlen(ucTemperatureString)+1);
     }
@@ -5374,7 +5374,7 @@ void palDataMgr_Access_Get_LD_Info(UINT8 ucIndex,  void *pValue) //A70LV_Larry_0
 
 	if(Drivercfg_Value_Get(palSystem_ModelIDGet(),eLD_Exist,ucIndex) != DEVICE_IS_EXIST)//(ucIndex >=8 ) //HICC2_Doulas_0002 Modify
 	{
-		sprintf(ucLDString, "NA\0");
+		sprintf(ucLDString, "NA");
 	}
 	else
 	{
@@ -5382,7 +5382,7 @@ void palDataMgr_Access_Get_LD_Info(UINT8 ucIndex,  void *pValue) //A70LV_Larry_0
 		uiTemp[1] = m_sAppDataMgrInfo.sSystemValues.sLD_INFO.uiLD_Current[ucIndex];
 		iTemp = m_sAppDataMgrInfo.sSystemValues.sLD_INFO.uiLDTemperature[ucIndex]; //HICC2_Doulas_0042 Modify
 
-		sprintf(ucLDString, "%02d.%02dV, %01d.%03dA, %02d.%02dT\0" ,
+		sprintf(ucLDString, "%02d.%02dV, %01d.%03dA, %02d.%02dT" ,
 				uiTemp[0]/100,
 				uiTemp[0]%100,
 				uiTemp[1]/1000,
@@ -5484,7 +5484,7 @@ eEXEC_CODE palDataMgr_Access_LD04_Info(eDATA_ACCESS_MODE eAccessMode, void *pVal
         else //LS
         {
             char aucString[5] = {0};
-            sprintf((char *)aucString, "-\0");
+            sprintf((char *)aucString, "-");
             memcpy((INT8 *)pValue, aucString, strlen((char *)aucString)+1);
         }
 #endif /* 0 */
@@ -5516,7 +5516,7 @@ eEXEC_CODE palDataMgr_Access_LD05_Info(eDATA_ACCESS_MODE eAccessMode, void *pVal
         else //LS
         {
             char aucString[5] = {0};
-            sprintf((char *)aucString, "-\0");
+            sprintf((char *)aucString, "-");
             memcpy((INT8 *)pValue, aucString, strlen((char *)aucString)+1);
         }
 #endif /* 0 */
@@ -11192,16 +11192,16 @@ eEXEC_CODE palDataMgr_Access_HDR_Nit_Display(eDATA_ACCESS_MODE eAccessMode, void
         UINT16 uiHDRNitDisplay[1] = {0};
         char NitString[127];
 
-        //sprintf(NitString, "%d\0", m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sImageSetting.uiHDR_Nit_Display);
+        //sprintf(NitString, "%d", m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sImageSetting.uiHDR_Nit_Display);
         //memcpy((UINT16 *)pValue, NitString, strlen(NitString)+1);
         if(m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sImageSetting.uiHDR_Nit_Display)
         {
-            sprintf(NitString, "%d\0", m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sImageSetting.uiHDR_Nit_Display);
+            sprintf(NitString, "%d", m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sImageSetting.uiHDR_Nit_Display);
             memcpy((UINT16 *)pValue, NitString, strlen(NitString)+1);
         }
         else
         {
-            sprintf(NitString, "-\0", m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sImageSetting.uiHDR_Nit_Display);
+            sprintf(NitString, "-");
             memcpy((UINT16 *)pValue, NitString, strlen(NitString)+1);
         }
 
@@ -11610,11 +11610,11 @@ eEXEC_CODE palDataMgr_Access_LensType_LensName(eDATA_ACCESS_MODE eAccessMode, vo
 		}
 		if((ret1 > 0) && (ret2 > 0))
 		{
-			snprintf((char *)pValue, 32, "%s\0", sLensType.cLensName);
+			snprintf((char *)pValue, 32, "%s", sLensType.cLensName);
 		}
 		else
 		{
-			snprintf((char *)pValue, 32, "Unknown\0");
+			snprintf((char *)pValue, 32, "Unknown");
 		}
 
 		free(sFileParse.GetBuffer);
@@ -11656,24 +11656,24 @@ eEXEC_CODE palDataMgr_Access_LensType_ThrowRatio(eDATA_ACCESS_MODE eAccessMode, 
 		{
 			if((sLensType.lDefined == 0) && (sLensType.lSupported == 0))
 			{
-				snprintf((char *)pValue, 32, "Unknown\0");
+				snprintf((char *)pValue, 32, "Unknown");
 			}
 			else if(sLensType.lDefined == 0)
 			{
-				snprintf((char *)pValue, 32, "Undefined\0");
+				snprintf((char *)pValue, 32, "Undefined");
 			}
 			else if(sLensType.lSupported == 0)
 			{
-				snprintf((char *)pValue, 32, "Not supported\0");
+				snprintf((char *)pValue, 32, "Not supported");
 			}
 			else
 			{
-				snprintf((char *)pValue, 32, "%s\0", sLensType.cThrowRatio);
+				snprintf((char *)pValue, 32, "%s", sLensType.cThrowRatio);
 			}
 		}
 		else
 		{
-			snprintf((char *)pValue, 32, "Unknown\0");
+			snprintf((char *)pValue, 32, "Unknown");
 		}
 
 		free(sFileParse.GetBuffer);
@@ -13313,7 +13313,7 @@ eEXEC_CODE palDataMgr_Access_LanIPAddress(eDATA_ACCESS_MODE eAccessMode, void *p
     if (edaREAD == eAccessMode)  //Read Function
     {
         char AddressString[20] = {0};
-        snprintf(AddressString, 20, "%d.%d.%d.%d\0" , m_sLAN_info.ucLAN_IP_Show[0], m_sLAN_info.ucLAN_IP_Show[1], m_sLAN_info.ucLAN_IP_Show[2], m_sLAN_info.ucLAN_IP_Show[3]);
+        snprintf(AddressString, 20, "%d.%d.%d.%d" , m_sLAN_info.ucLAN_IP_Show[0], m_sLAN_info.ucLAN_IP_Show[1], m_sLAN_info.ucLAN_IP_Show[2], m_sLAN_info.ucLAN_IP_Show[3]);
         memcpy((UINT8 *)pValue, AddressString, strlen(AddressString)+1);
     }
     else  //Write Function
@@ -13389,7 +13389,7 @@ eEXEC_CODE palDataMgr_Access_LanSubnetMask(eDATA_ACCESS_MODE eAccessMode, void *
     if (edaREAD == eAccessMode)  //Read Function
     {
         char AddressString[20] = {0};
-        snprintf(AddressString, 20, "%d.%d.%d.%d\0" , m_sLAN_info.ucLAN_MASK_Show[0], m_sLAN_info.ucLAN_MASK_Show[1], m_sLAN_info.ucLAN_MASK_Show[2], m_sLAN_info.ucLAN_MASK_Show[3]);
+        snprintf(AddressString, 20, "%d.%d.%d.%d" , m_sLAN_info.ucLAN_MASK_Show[0], m_sLAN_info.ucLAN_MASK_Show[1], m_sLAN_info.ucLAN_MASK_Show[2], m_sLAN_info.ucLAN_MASK_Show[3]);
         memcpy((UINT8 *)pValue, AddressString, strlen(AddressString)+1);
     }
     else  //Write Function
@@ -13450,7 +13450,7 @@ eEXEC_CODE palDataMgr_Access_LanDefaultGateway(eDATA_ACCESS_MODE eAccessMode, vo
     if (edaREAD == eAccessMode)  //Read Function
     {
         char AddressString[20] = {0};
-        snprintf(AddressString, 20, "%d.%d.%d.%d\0" , m_sLAN_info.ucLAN_GATEWAY_Show[0], m_sLAN_info.ucLAN_GATEWAY_Show[1], m_sLAN_info.ucLAN_GATEWAY_Show[2], m_sLAN_info.ucLAN_GATEWAY_Show[3] );
+        snprintf(AddressString, 20, "%d.%d.%d.%d" , m_sLAN_info.ucLAN_GATEWAY_Show[0], m_sLAN_info.ucLAN_GATEWAY_Show[1], m_sLAN_info.ucLAN_GATEWAY_Show[2], m_sLAN_info.ucLAN_GATEWAY_Show[3] );
         memcpy((UINT8 *)pValue, AddressString, strlen(AddressString)+1);
     }
     else  //Write Function
@@ -13576,7 +13576,7 @@ eEXEC_CODE palDataMgr_Access_WLanStartIP(eDATA_ACCESS_MODE eAccessMode, void *pV
     if (edaREAD == eAccessMode)  //Read Function
     {
         char AddressString[16] = {0};
-        sprintf(AddressString, "%d.%d.%d.%d\0" , m_sLAN_info.ucWLAN_Start_IP_Show[0], m_sLAN_info.ucWLAN_Start_IP_Show[1], m_sLAN_info.ucWLAN_Start_IP_Show[2], m_sLAN_info.ucWLAN_Start_IP_Show[3] );
+        sprintf(AddressString, "%d.%d.%d.%d" , m_sLAN_info.ucWLAN_Start_IP_Show[0], m_sLAN_info.ucWLAN_Start_IP_Show[1], m_sLAN_info.ucWLAN_Start_IP_Show[2], m_sLAN_info.ucWLAN_Start_IP_Show[3] );
         memcpy((UINT8 *)pValue, AddressString, strlen(AddressString)+1);
     }
     else  //Write Function
@@ -13624,7 +13624,7 @@ eEXEC_CODE palDataMgr_Access_WLanEndIP(eDATA_ACCESS_MODE eAccessMode, void *pVal
     if (edaREAD == eAccessMode)  //Read Function
     {
         char AddressString[16] = {0};
-        sprintf(AddressString, "%d.%d.%d.%d\0" , m_sLAN_info.ucWLAN_End_IP_Show[0], m_sLAN_info.ucWLAN_End_IP_Show[1], m_sLAN_info.ucWLAN_End_IP_Show[2], m_sLAN_info.ucWLAN_End_IP_Show[3] );
+        sprintf(AddressString, "%d.%d.%d.%d" , m_sLAN_info.ucWLAN_End_IP_Show[0], m_sLAN_info.ucWLAN_End_IP_Show[1], m_sLAN_info.ucWLAN_End_IP_Show[2], m_sLAN_info.ucWLAN_End_IP_Show[3] );
         memcpy((UINT8 *)pValue, AddressString, strlen(AddressString)+1);
     }
     else  //Write Function
@@ -13672,7 +13672,7 @@ eEXEC_CODE palDataMgr_Access_WLanSubnetMask(eDATA_ACCESS_MODE eAccessMode, void 
     if (edaREAD == eAccessMode)  //Read Function
     {
         char AddressString[16] = {0};
-        sprintf(AddressString, "%d.%d.%d.%d\0" , m_sLAN_info.ucWLAN_MASK_Show[0], m_sLAN_info.ucWLAN_MASK_Show[1], m_sLAN_info.ucWLAN_MASK_Show[2], m_sLAN_info.ucWLAN_MASK_Show[3] );
+        sprintf(AddressString, "%d.%d.%d.%d" , m_sLAN_info.ucWLAN_MASK_Show[0], m_sLAN_info.ucWLAN_MASK_Show[1], m_sLAN_info.ucWLAN_MASK_Show[2], m_sLAN_info.ucWLAN_MASK_Show[3] );
         memcpy((UINT8 *)pValue, AddressString, strlen(AddressString)+1);
     }
     else  //Write Function
@@ -13719,7 +13719,7 @@ eEXEC_CODE palDataMgr_Access_WLanDefaultGateway(eDATA_ACCESS_MODE eAccessMode, v
     if (edaREAD == eAccessMode)  //Read Function
     {
         char AddressString[16] = {0};
-        sprintf(AddressString, "%d.%d.%d.%d\0" , m_sLAN_info.ucWLAN_GATEWAY_Show[0], m_sLAN_info.ucWLAN_GATEWAY_Show[1], m_sLAN_info.ucWLAN_GATEWAY_Show[2], m_sLAN_info.ucWLAN_GATEWAY_Show[3] );
+        sprintf(AddressString, "%d.%d.%d.%d" , m_sLAN_info.ucWLAN_GATEWAY_Show[0], m_sLAN_info.ucWLAN_GATEWAY_Show[1], m_sLAN_info.ucWLAN_GATEWAY_Show[2], m_sLAN_info.ucWLAN_GATEWAY_Show[3] );
         memcpy((UINT8 *)pValue, AddressString, strlen(AddressString)+1);
     }
     else  //Write Function
@@ -13811,7 +13811,7 @@ eEXEC_CODE palDataMgr_Access_WLanSSID(eDATA_ACCESS_MODE eAccessMode, void *pValu
             }
         }
 #else
-        snprintf((char*)m_sLAN_info.ucWLAN_SSID, 31, "%s\0", pValue);
+        snprintf((char*)m_sLAN_info.ucWLAN_SSID, 31, "%s", (char *)pValue);
 #endif /* 0 */
 
         //Storage : EEPROM
@@ -13852,7 +13852,7 @@ eEXEC_CODE palDataMgr_Access_ProjectorName(eDATA_ACCESS_MODE eAccessMode, void *
 			}
 		}
 #else
-        snprintf((char*)m_sLAN_info.ucWLAN_SSID, 31, "%s\0", pValue);
+        snprintf((char*)m_sLAN_info.ucWLAN_SSID, 31, "%s", (char *)pValue);
 #endif /* 0 */
 
         //Storage : EEPROM
@@ -16548,7 +16548,7 @@ eEXEC_CODE palDataMgr_Access_ProjectorInfoWheelIndexGet(eDATA_ACCESS_MODE eAcces
 
         palDataMgr_Access_PhosphorWheel_Index(edaREAD,&ucPW_Index);
         palDataMgr_Access_FilterWheel_Index(edaREAD,&ucFW_Index);
-        sprintf(aucVerString, "(%d,%d)\0", ucPW_Index,ucFW_Index);
+        sprintf(aucVerString, "(%d,%d)", ucPW_Index,ucFW_Index);
         memcpy((UINT8 *)pValue, aucVerString, strlen(aucVerString)+1);
     }
     else  //Write Function
@@ -16659,7 +16659,7 @@ eEXEC_CODE palDataMgr_Access_LightSourceHours_Info(eDATA_ACCESS_MODE eAccessMode
         char aucVerString[VERSION_STRING_MAX_LENGTH];
         //need to add read device version function at here
 
-        sprintf(aucVerString, "%d\0", m_sAppDataMgrInfo.sEepSettings.sSystemDefault.ulLightSourceMinute[eTIMER_RECORD_BLD] / 60); //A70LV_Doulas_0061 modify
+        sprintf(aucVerString, "%d", m_sAppDataMgrInfo.sEepSettings.sSystemDefault.ulLightSourceMinute[eTIMER_RECORD_BLD] / 60); //A70LV_Doulas_0061 modify
 
         memcpy((UINT8 *)pValue, aucVerString, strlen(aucVerString)+1);
     }
@@ -16694,7 +16694,7 @@ eEXEC_CODE palDataMgr_Access_LightSourceHoursNormal_Info(eDATA_ACCESS_MODE eAcce
         char aucVerString[VERSION_STRING_MAX_LENGTH];
         //need to add read device version function at here
 
-        sprintf(aucVerString, "%d\0", m_sAppDataMgrInfo.sEepSettings.sSystemDefault.ulLightSourceMinuteNormal / 60);
+        sprintf(aucVerString, "%d", m_sAppDataMgrInfo.sEepSettings.sSystemDefault.ulLightSourceMinuteNormal / 60);
 
         memcpy((UINT8 *)pValue, aucVerString, strlen(aucVerString)+1);
     }
@@ -16742,7 +16742,7 @@ eEXEC_CODE palDataMgr_Access_LightSourceHoursEco_Info(eDATA_ACCESS_MODE eAccessM
         char aucVerString[VERSION_STRING_MAX_LENGTH];
         //need to add read device version function at here
 
-        sprintf(aucVerString, "%d\0", m_sAppDataMgrInfo.sEepSettings.sSystemDefault.ulLightSourceMinuteEco / 60);
+        sprintf(aucVerString, "%d", m_sAppDataMgrInfo.sEepSettings.sSystemDefault.ulLightSourceMinuteEco / 60);
 
         memcpy((UINT8 *)pValue, aucVerString, strlen(aucVerString)+1);
     }
@@ -16790,7 +16790,7 @@ eEXEC_CODE palDataMgr_Access_LightSourceHoursQuiet_Info(eDATA_ACCESS_MODE eAcces
         char aucVerString[VERSION_STRING_MAX_LENGTH];
         //need to add read device version function at here
 
-        sprintf(aucVerString, "%d\0", m_sAppDataMgrInfo.sEepSettings.sSystemDefault.ulLightSourceMinuteQuiet / 60);
+        sprintf(aucVerString, "%d", m_sAppDataMgrInfo.sEepSettings.sSystemDefault.ulLightSourceMinuteQuiet / 60);
 
         memcpy((UINT8 *)pValue, aucVerString, strlen(aucVerString)+1);
     }
@@ -16838,7 +16838,7 @@ eEXEC_CODE palDataMgr_Access_LightSourceHoursCustom_Info(eDATA_ACCESS_MODE eAcce
         char aucVerString[VERSION_STRING_MAX_LENGTH];
         //need to add read device version function at here
 
-        sprintf(aucVerString, "%d\0", m_sAppDataMgrInfo.sEepSettings.sSystemDefault.ulLightSourceMinuteCustom / 60);
+        sprintf(aucVerString, "%d", m_sAppDataMgrInfo.sEepSettings.sSystemDefault.ulLightSourceMinuteCustom / 60);
 
         memcpy((UINT8 *)pValue, aucVerString, strlen(aucVerString)+1);
     }
@@ -17129,7 +17129,7 @@ eEXEC_CODE palDataMgr_Access_LD_Hours_Info(eDATA_ACCESS_MODE eAccessMode, void *
         char aucVerString[VERSION_STRING_MAX_LENGTH];
         //need to add read device version function at here
 
-        sprintf(aucVerString, "%d\0", m_sAppDataMgrInfo.sEepSettings.sSystemDefault.ulLightSourceMinute[eTIMER_RECORD_BLD] / 60);
+        sprintf(aucVerString, "%d", m_sAppDataMgrInfo.sEepSettings.sSystemDefault.ulLightSourceMinute[eTIMER_RECORD_BLD] / 60);
 
         memcpy((UINT8 *)pValue, aucVerString, strlen(aucVerString)+1);
     }
@@ -17681,7 +17681,7 @@ eEXEC_CODE palDataMgr_Access_MainAspectRatioGet(eDATA_ACCESS_MODE eAccessMode, v
         }
         else
         {
-            //sprintf((char *)aucString, "-\0");
+            //sprintf((char *)aucString, "-");
             //memcpy((INT8 *)pValue, aucString, strlen((char *)aucString)+1);
 
             *((UINT8*)pValue) = eCM_SCALING_MODE_NUMBER;
@@ -17738,7 +17738,7 @@ eEXEC_CODE palDataMgr_Access_SubAspectRatioGet(eDATA_ACCESS_MODE eAccessMode, vo
         if((palSystem_PanelID_Get() == PANEL_3D_OUTPUT) ||
            (palSystem_PanelID_Get() == PANEL_2D_HIGHSPEED))		//G100_Doulas_0064 Modify
         {
-            //sprintf((char *)aucString, "-\0");
+            //sprintf((char *)aucString, "-");
             //memcpy((INT8 *)pValue, aucString, strlen((char *)aucString)+1);
 
             *((UINT8*)pValue) = eCM_SCALING_MODE_NUMBER;
@@ -17749,7 +17749,7 @@ eEXEC_CODE palDataMgr_Access_SubAspectRatioGet(eDATA_ACCESS_MODE eAccessMode, vo
         }
         else
         {
-            //sprintf((char *)aucString, "-\0");
+            //sprintf((char *)aucString, "-");
             //memcpy((INT8 *)pValue, aucString, strlen((char *)aucString)+1);
 
             *((UINT8*)pValue) = eCM_SCALING_MODE_NUMBER;
@@ -18511,9 +18511,9 @@ eEXEC_CODE palDataMgr_Access_LanIPApply(eDATA_ACCESS_MODE eAccessMode, void *pVa
 
         if(m_sLAN_info.ucLAN_DHCP_Show == FALSE)
         {
-            sprintf(cIPString , "%d.%d.%d.%d\0", m_sLAN_info.ucLAN_IP_Show[0],m_sLAN_info.ucLAN_IP_Show[1],m_sLAN_info.ucLAN_IP_Show[2],m_sLAN_info.ucLAN_IP_Show[3]);
-            sprintf(cMASKString , "%d.%d.%d.%d\0", m_sLAN_info.ucLAN_MASK_Show[0],m_sLAN_info.ucLAN_MASK_Show[1],m_sLAN_info.ucLAN_MASK_Show[2],m_sLAN_info.ucLAN_MASK_Show[3]);
-            sprintf(cGATEWAYString , "%d.%d.%d.%d\0", m_sLAN_info.ucLAN_GATEWAY_Show[0],m_sLAN_info.ucLAN_GATEWAY_Show[1],m_sLAN_info.ucLAN_GATEWAY_Show[2],m_sLAN_info.ucLAN_GATEWAY_Show[3]);
+            sprintf(cIPString , "%d.%d.%d.%d", m_sLAN_info.ucLAN_IP_Show[0],m_sLAN_info.ucLAN_IP_Show[1],m_sLAN_info.ucLAN_IP_Show[2],m_sLAN_info.ucLAN_IP_Show[3]);
+            sprintf(cMASKString , "%d.%d.%d.%d", m_sLAN_info.ucLAN_MASK_Show[0],m_sLAN_info.ucLAN_MASK_Show[1],m_sLAN_info.ucLAN_MASK_Show[2],m_sLAN_info.ucLAN_MASK_Show[3]);
+            sprintf(cGATEWAYString , "%d.%d.%d.%d", m_sLAN_info.ucLAN_GATEWAY_Show[0],m_sLAN_info.ucLAN_GATEWAY_Show[1],m_sLAN_info.ucLAN_GATEWAY_Show[2],m_sLAN_info.ucLAN_GATEWAY_Show[3]);
 		#ifdef CUSTOM_OPTOMA
 			cResult = CmdAp_checkIpInfoOptoma(cIPString,cMASKString,cGATEWAYString);
 		#else
@@ -18889,7 +18889,7 @@ eEXEC_CODE palDataMgr_Access_LAN_Primary_DNS(eDATA_ACCESS_MODE eAccessMode, void
     if (edaREAD == eAccessMode)  //Read Function
     {
         char DNS_Info_String[16] = {0};
-        sprintf(DNS_Info_String, "%d.%d.%d.%d\0" , m_sLAN_info.ucLAN_Primary_DNS_Show[0], m_sLAN_info.ucLAN_Primary_DNS_Show[1], m_sLAN_info.ucLAN_Primary_DNS_Show[2], m_sLAN_info.ucLAN_Primary_DNS_Show[3]);
+        sprintf(DNS_Info_String, "%d.%d.%d.%d" , m_sLAN_info.ucLAN_Primary_DNS_Show[0], m_sLAN_info.ucLAN_Primary_DNS_Show[1], m_sLAN_info.ucLAN_Primary_DNS_Show[2], m_sLAN_info.ucLAN_Primary_DNS_Show[3]);
         memcpy((UINT8 *)pValue, DNS_Info_String, strlen(DNS_Info_String)+1);
     }
     else  //Write Function
@@ -18939,7 +18939,7 @@ eEXEC_CODE palDataMgr_Access_LAN_Secondary_DNS(eDATA_ACCESS_MODE eAccessMode, vo
     if (edaREAD == eAccessMode)  //Read Function
     {
         char DNS_Info_String[16] = {0};
-        sprintf(DNS_Info_String, "%d.%d.%d.%d\0" , m_sLAN_info.ucLAN_Secondary_DNS_Show[0], m_sLAN_info.ucLAN_Secondary_DNS_Show[1], m_sLAN_info.ucLAN_Secondary_DNS_Show[2], m_sLAN_info.ucLAN_Secondary_DNS_Show[3]);
+        sprintf(DNS_Info_String, "%d.%d.%d.%d" , m_sLAN_info.ucLAN_Secondary_DNS_Show[0], m_sLAN_info.ucLAN_Secondary_DNS_Show[1], m_sLAN_info.ucLAN_Secondary_DNS_Show[2], m_sLAN_info.ucLAN_Secondary_DNS_Show[3]);
         memcpy((UINT8 *)pValue, DNS_Info_String, strlen(DNS_Info_String)+1);
     }
     else  //Write Function
@@ -19338,7 +19338,7 @@ eEXEC_CODE palDataMgr_Access_CrestronIPAddress(eDATA_ACCESS_MODE eAccessMode, vo
     if (edaREAD == eAccessMode)  //Read Function
     {
         char AddressString[16] = {0};
-        sprintf(AddressString, "%d.%d.%d.%d\0" , m_sLAN_info.ucCrestron_IP_Show[0], m_sLAN_info.ucCrestron_IP_Show[1], m_sLAN_info.ucCrestron_IP_Show[2], m_sLAN_info.ucCrestron_IP_Show[3] );
+        sprintf(AddressString, "%d.%d.%d.%d" , m_sLAN_info.ucCrestron_IP_Show[0], m_sLAN_info.ucCrestron_IP_Show[1], m_sLAN_info.ucCrestron_IP_Show[2], m_sLAN_info.ucCrestron_IP_Show[3] );
         memcpy((UINT8 *)pValue, AddressString, strlen(AddressString)+1);
     }
     else  //Write Function
@@ -19620,7 +19620,7 @@ eEXEC_CODE palDataMgr_Access_PJLinkIPAddress(eDATA_ACCESS_MODE eAccessMode, void
         snprintf(pValue, 64, "%s", m_sLAN_info.ucPJLink_IPv6);
 	#else
         char AddressString[16] = {0};
-        sprintf(AddressString, "%d.%d.%d.%d\0" , m_sLAN_info.ucPJLink_IP_Show[0], m_sLAN_info.ucPJLink_IP_Show[1], m_sLAN_info.ucPJLink_IP_Show[2], m_sLAN_info.ucPJLink_IP_Show[3] );
+        sprintf(AddressString, "%d.%d.%d.%d" , m_sLAN_info.ucPJLink_IP_Show[0], m_sLAN_info.ucPJLink_IP_Show[1], m_sLAN_info.ucPJLink_IP_Show[2], m_sLAN_info.ucPJLink_IP_Show[3] );
         memcpy((UINT8 *)pValue, AddressString, strlen(AddressString)+1);
 	#endif
     }
@@ -20100,7 +20100,7 @@ eEXEC_CODE palDataMgr_Access_ErrorLogCurrentTimer(eDATA_ACCESS_MODE eAccessMode,
 
         ulMin = m_sAppDataMgrInfo.sEepSettings.sSystemDefault.ulTotalProjectorMinute;
 
-        snprintf(sString, sizeof(sString), "Current Projector Time %04d:%02d:%02d\0", ulMin / 1440
+        snprintf(sString, sizeof(sString), "Current Projector Time %04d:%02d:%02d", ulMin / 1440
                                                                                     , (ulMin / 60) % 24
                                                                                     , ulMin % 60);
 
@@ -20122,7 +20122,7 @@ eEXEC_CODE palDataMgr_Access_InfoIPAddressGet(eDATA_ACCESS_MODE eAccessMode, voi
     if(edaREAD == eAccessMode)  //Read Function
     {
         char IP_Info_String[16] = {0};
-        sprintf(IP_Info_String, "%d.%d.%d.%d\0" , m_sLAN_info.ucLAN_IP_Show[0],m_sLAN_info.ucLAN_IP_Show[1],m_sLAN_info.ucLAN_IP_Show[2],m_sLAN_info.ucLAN_IP_Show[3]);
+        sprintf(IP_Info_String, "%d.%d.%d.%d" , m_sLAN_info.ucLAN_IP_Show[0],m_sLAN_info.ucLAN_IP_Show[1],m_sLAN_info.ucLAN_IP_Show[2],m_sLAN_info.ucLAN_IP_Show[3]);
         memcpy((UINT8 *)pValue, IP_Info_String, strlen(IP_Info_String)+1);
     }
     else  //Write Function
@@ -20146,12 +20146,12 @@ eEXEC_CODE palDataMgr_Access_InfoLightSourcePowerGet(eDATA_ACCESS_MODE eAccessMo
         palDataMgr_Access_ConstantPower(edaREAD,&ucPowerModeNumber);
         if(ucPowerMode == eCM_POWER_MODE_CONSTANT_POWER)
         {
-            sprintf(aucString, "%d\0", ucPowerModeNumber);
+            sprintf(aucString, "%d", ucPowerModeNumber);
             memcpy((UINT8 *)pValue, aucString, strlen(aucString)+1);
         }
         else
         {
-            sprintf(aucString, "-\0");
+            sprintf(aucString, "-");
             memcpy((UINT8 *)pValue, aucString, strlen(aucString)+1);
         }
     }
@@ -20307,7 +20307,7 @@ eEXEC_CODE palDataMgr_Access_ShowMainSourceMessageInfoGet(eDATA_ACCESS_MODE eAcc
         palDataPath_InputResoultion_Get(ucResolution);
         palDataPath_InputVertRefresh_Get(ucVertFreq);
 
-        sprintf((char *)pValue, "%s @%s\0" , ucResolution , ucVertFreq); //G100_Coda_0082
+        sprintf((char *)pValue, "%s @%s" , ucResolution , ucVertFreq); //G100_Coda_0082
     }
     else if(edaWRITE_RAM_ONLY_NO_ACTION == eAccessMode) //Write Function
     {
@@ -20339,7 +20339,7 @@ eEXEC_CODE palDataMgr_Access_ShowSubSourceMessageInfoGet(eDATA_ACCESS_MODE eAcce
         palDataPath_InputResoultionSub_Get(ucResolution);
         palDataPath_InputVertRefreshSub_Get(ucVertFreq);
 
-        sprintf((char *)pValue, "%s @%s\0" , ucResolution , ucVertFreq);//G100_Coda_0082
+        sprintf((char *)pValue, "%s @%s" , ucResolution , ucVertFreq);//G100_Coda_0082
     }
     else if(edaWRITE_RAM_ONLY_NO_ACTION == eAccessMode) //Write Function
     {
@@ -21573,7 +21573,7 @@ eEXEC_CODE palDataMgr_Access_CommunicationsInfoConnection(eDATA_ACCESS_MODE eAcc
     if (edaREAD == eAccessMode)  //Read Function
     {
         char aucString[32];
-        sprintf(aucString, "-\0");
+        sprintf(aucString, "-");
         memcpy((UINT8 *)pValue, aucString, strlen(aucString)+1);
     }
     else  //Write Function
@@ -21589,7 +21589,7 @@ eEXEC_CODE palDataMgr_Access_CommunicationsInfoDNS(eDATA_ACCESS_MODE eAccessMode
     if (edaREAD == eAccessMode)  //Read Function
     {
         char aucString[32];
-        sprintf(aucString, "-\0");
+        sprintf(aucString, "-");
         memcpy((UINT8 *)pValue, aucString, strlen(aucString)+1);
     }
     else  //Write Function
@@ -22087,8 +22087,8 @@ eEXEC_CODE palDataMgr_Access_GroupingMenuSearchList(eDATA_ACCESS_MODE eAccessMod
                         m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSearch.sItem[ulCount].ucGroupStatus = (UINT8)m_sAppDataMgrInfo.sSystemValues.sGroupingSearch.Info[ulCount].GroupStatus;
                         m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSearch.sItem[ulCount].uiFd = (UINT16)m_sAppDataMgrInfo.sSystemValues.sGroupingSearch.Info[ulCount].Fd;
                         m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSearch.sItem[ulCount].uiGroupId = (UINT16)m_sAppDataMgrInfo.sSystemValues.sGroupingSearch.Info[ulCount].GroupId;
-                        snprintf(m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSearch.sItem[ulCount].cName, 32, "%s\0", m_sAppDataMgrInfo.sSystemValues.sGroupingSearch.Info[ulCount].ModeName);
-                        snprintf(m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSearch.sItem[ulCount].cIP, 20, "%s\0", m_sAppDataMgrInfo.sSystemValues.sGroupingSearch.Info[ulCount].Ip);
+                        snprintf(m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSearch.sItem[ulCount].cName, 32, "%s", m_sAppDataMgrInfo.sSystemValues.sGroupingSearch.Info[ulCount].ModeName);
+                        snprintf(m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSearch.sItem[ulCount].cIP, 20, "%s", m_sAppDataMgrInfo.sSystemValues.sGroupingSearch.Info[ulCount].Ip);
                     }
 
                     palLANProcSendToLAN(edcPROJECTOR_GROUP_SEARCH_SAVE_DONE);
@@ -22112,8 +22112,8 @@ eEXEC_CODE palDataMgr_Access_GroupingMenuSearchList(eDATA_ACCESS_MODE eAccessMod
                         m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSearch.sItem[ulCount].ucGroupStatus = (UINT8)m_sAppDataMgrInfo.sSystemValues.sGroupingSearch.Info[ulCount].GroupStatus;
                         m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSearch.sItem[ulCount].uiFd = (UINT16)m_sAppDataMgrInfo.sSystemValues.sGroupingSearch.Info[ulCount].Fd;
                         m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSearch.sItem[ulCount].uiGroupId = (UINT16)m_sAppDataMgrInfo.sSystemValues.sGroupingSearch.Info[ulCount].GroupId;
-                        snprintf(m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSearch.sItem[ulCount].cName, 32, "%s\0", m_sAppDataMgrInfo.sSystemValues.sGroupingSearch.Info[ulCount].ModeName);
-                        snprintf(m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSearch.sItem[ulCount].cIP, 20, "%s\0", m_sAppDataMgrInfo.sSystemValues.sGroupingSearch.Info[ulCount].Ip);
+                        snprintf(m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSearch.sItem[ulCount].cName, 32, "%s", m_sAppDataMgrInfo.sSystemValues.sGroupingSearch.Info[ulCount].ModeName);
+                        snprintf(m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSearch.sItem[ulCount].cIP, 20, "%s", m_sAppDataMgrInfo.sSystemValues.sGroupingSearch.Info[ulCount].Ip);
                     }
 
                     palLANProcSendToLAN(edcPROJECTOR_GROUP_SEARCH_SAVE_DONE);
@@ -22156,8 +22156,8 @@ eEXEC_CODE palDataMgr_Access_GroupingMenuSearchList(eDATA_ACCESS_MODE eAccessMod
                         m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSearch.sItem[ulCount].ucGroupStatus = (UINT8)m_sAppDataMgrInfo.sSystemValues.sGroupingSearch.Info[ulCount].GroupStatus;
                         m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSearch.sItem[ulCount].uiFd = (UINT16)m_sAppDataMgrInfo.sSystemValues.sGroupingSearch.Info[ulCount].Fd;
                         m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSearch.sItem[ulCount].uiGroupId = (UINT16)m_sAppDataMgrInfo.sSystemValues.sGroupingSearch.Info[ulCount].GroupId;
-                        snprintf(m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSearch.sItem[ulCount].cName, 32, "%s\0", m_sAppDataMgrInfo.sSystemValues.sGroupingSearch.Info[ulCount].ModeName);
-                        snprintf(m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSearch.sItem[ulCount].cIP, 20, "%s\0", m_sAppDataMgrInfo.sSystemValues.sGroupingSearch.Info[ulCount].Ip);
+                        snprintf(m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSearch.sItem[ulCount].cName, 32, "%s", m_sAppDataMgrInfo.sSystemValues.sGroupingSearch.Info[ulCount].ModeName);
+                        snprintf(m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSearch.sItem[ulCount].cIP, 20, "%s", m_sAppDataMgrInfo.sSystemValues.sGroupingSearch.Info[ulCount].Ip);
                     }
 
                     palLANProcSendToLAN(edcPROJECTOR_GROUP_SEARCH_SAVE_DONE);
@@ -22258,8 +22258,8 @@ eEXEC_CODE palDataMgr_Access_GroupingMenuSelectList(eDATA_ACCESS_MODE eAccessMod
                     m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSelect.sItem[ulCount].ucGroupStatus = (UINT8)m_sAppDataMgrInfo.sSystemValues.sGroupingSelect.Info[ulCount].ProjectorStatus;
                     m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSelect.sItem[ulCount].uiFd = (UINT16)m_sAppDataMgrInfo.sSystemValues.sGroupingSelect.Info[ulCount].Fd;
                     m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSelect.sItem[ulCount].uiGroupId = (UINT16)m_sAppDataMgrInfo.sSystemValues.sGroupingSelect.Info[ulCount].GroupId;
-                    snprintf(m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSelect.sItem[ulCount].cName, 32, "%s\0", m_sAppDataMgrInfo.sSystemValues.sGroupingSelect.Info[ulCount].ModeName);
-                    snprintf(m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSelect.sItem[ulCount].cIP, 20, "%s\0", m_sAppDataMgrInfo.sSystemValues.sGroupingSelect.Info[ulCount].Ip);
+                    snprintf(m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSelect.sItem[ulCount].cName, 32, "%s", m_sAppDataMgrInfo.sSystemValues.sGroupingSelect.Info[ulCount].ModeName);
+                    snprintf(m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSelect.sItem[ulCount].cIP, 20, "%s", m_sAppDataMgrInfo.sSystemValues.sGroupingSelect.Info[ulCount].Ip);
                 }
             }
         }
@@ -22810,16 +22810,16 @@ eEXEC_CODE palDataMgr_Access_Warp_Name_1(eDATA_ACCESS_MODE eAccessMode, void *pV
 	{
 		if(m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM1_IDX].ucWarpingApply != WARPING_TYPE_AP_MYSTIQUE)
 		{
-			snprintf((char *)pValue, 21, "Record 1\0");
+			snprintf((char *)pValue, 24, "Record 1");
 		}
 		else
 		{
-			snprintf((char *)pValue, 21, "%s\0", (char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM1_IDX].ucWarpingName);
+			snprintf((char *)pValue, 24, "%s", (char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM1_IDX].ucWarpingName);
 		}
 	}
 	else  //Write Function
 	{
-		snprintf((char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM1_IDX].ucWarpingName, 21, "%s\0" , (char *)pValue);
+		snprintf((char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM1_IDX].ucWarpingName, 21, "%s" , (char *)pValue);
 
 	    LOG_MSG(db_HAL_WARPING, "Save Name1 to %s\n", (char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM1_IDX].ucWarpingName);
 
@@ -22845,16 +22845,16 @@ eEXEC_CODE palDataMgr_Access_Warp_Name_2(eDATA_ACCESS_MODE eAccessMode, void *pV
 	{
 		if(m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM2_IDX].ucWarpingApply != WARPING_TYPE_AP_MYSTIQUE)
 		{
-			snprintf((char *)pValue, 21, "Record 2\0");
+			snprintf((char *)pValue, 24, "Record 2");
 		}
 		else
 		{
-			snprintf((char *)pValue, 21, "%s\0", (char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM2_IDX].ucWarpingName);
+			snprintf((char *)pValue, 24, "%s", (char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM2_IDX].ucWarpingName);
 		}
 	}
 	else  //Write Function
 	{
-		snprintf((char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM2_IDX].ucWarpingName, 21, "%s\0" , (char *)pValue);
+		snprintf((char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM2_IDX].ucWarpingName, 21, "%s" , (char *)pValue);
 
 	    LOG_MSG(db_HAL_WARPING, "Save Name2 to %s\n", (char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM2_IDX].ucWarpingName);
 
@@ -22880,16 +22880,16 @@ eEXEC_CODE palDataMgr_Access_Warp_Name_3(eDATA_ACCESS_MODE eAccessMode, void *pV
 	{
 		if(m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM3_IDX].ucWarpingApply != WARPING_TYPE_AP_MYSTIQUE)
 		{
-			snprintf((char *)pValue, 21, "Record 3\0");
+			snprintf((char *)pValue, 24, "Record 3");
 		}
 		else
 		{
-			snprintf((char *)pValue, 21, "%s\0", (char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM3_IDX].ucWarpingName);
+			snprintf((char *)pValue, 24, "%s", (char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM3_IDX].ucWarpingName);
 		}
 	}
 	else  //Write Function
 	{
-		snprintf((char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM3_IDX].ucWarpingName, 21, "%s\0" , (char *)pValue);
+		snprintf((char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM3_IDX].ucWarpingName, 21, "%s" , (char *)pValue);
 
 	    LOG_MSG(db_HAL_WARPING, "Save Name3 to %s\n", (char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM3_IDX].ucWarpingName);
 
@@ -22915,16 +22915,16 @@ eEXEC_CODE palDataMgr_Access_Warp_Name_4(eDATA_ACCESS_MODE eAccessMode, void *pV
 	{
 		if(m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM4_IDX].ucWarpingApply != WARPING_TYPE_AP_MYSTIQUE)
 		{
-			snprintf((char *)pValue, 21, "Record 4\0");
+			snprintf((char *)pValue, 24, "Record 4");
 		}
 		else
 		{
-			snprintf((char *)pValue, 21, "%s\0", (char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM4_IDX].ucWarpingName);
+			snprintf((char *)pValue, 24, "%s", (char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM4_IDX].ucWarpingName);
 		}
 	}
 	else  //Write Function
 	{
-		snprintf((char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM4_IDX].ucWarpingName, 21, "%s\0" , (char *)pValue);
+		snprintf((char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM4_IDX].ucWarpingName, 21, "%s" , (char *)pValue);
 
 	    LOG_MSG(db_HAL_WARPING, "Save Name4 to %s\n", (char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM4_IDX].ucWarpingName);
 
@@ -22950,16 +22950,16 @@ eEXEC_CODE palDataMgr_Access_Blend_Name_1(eDATA_ACCESS_MODE eAccessMode, void *p
 	{
 		if(m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM1_IDX].ucBlendApply != WARPING_TYPE_AP_MYSTIQUE)
 		{
-			snprintf((char *)pValue, 21, "Record 1\0");
+			snprintf((char *)pValue, 24, "Record 1");
 		}
 		else
 		{
-			snprintf((char *)pValue, 21, "%s\0", (char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM1_IDX].ucBlendingName);
+			snprintf((char *)pValue, 24, "%s", (char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM1_IDX].ucBlendingName);
 		}
 	}
 	else  //Write Function
 	{
-		snprintf((char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM1_IDX].ucBlendingName, 21, "%s\0" , (char *)pValue);
+		snprintf((char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM1_IDX].ucBlendingName, 21, "%s" , (char *)pValue);
 
 	    LOG_MSG(db_HAL_WARPING, "Save BName1 to %s\n", (char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM1_IDX].ucWarpingName);
 
@@ -22985,16 +22985,16 @@ eEXEC_CODE palDataMgr_Access_Blend_Name_2(eDATA_ACCESS_MODE eAccessMode, void *p
 	{
 		if(m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM2_IDX].ucBlendApply != WARPING_TYPE_AP_MYSTIQUE)
 		{
-			snprintf((char *)pValue, 21, "Record 2\0");
+			snprintf((char *)pValue, 24, "Record 2");
 		}
 		else
 		{
-			snprintf((char *)pValue, 21, "%s\0", (char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM2_IDX].ucBlendingName);
+			snprintf((char *)pValue, 24, "%s", (char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM2_IDX].ucBlendingName);
 		}
 	}
 	else  //Write Function
 	{
-		snprintf((char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM2_IDX].ucBlendingName, 21, "%s\0" , (char *)pValue);
+		snprintf((char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM2_IDX].ucBlendingName, 21, "%s" , (char *)pValue);
 
 	    LOG_MSG(db_HAL_WARPING, "Save BName2 to %s\n", (char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM2_IDX].ucWarpingName);
 
@@ -23020,16 +23020,16 @@ eEXEC_CODE palDataMgr_Access_Blend_Name_3(eDATA_ACCESS_MODE eAccessMode, void *p
 	{
 		if(m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM3_IDX].ucBlendApply != WARPING_TYPE_AP_MYSTIQUE)
 		{
-			snprintf((char *)pValue, 21, "Record 3\0");
+			snprintf((char *)pValue, 24, "Record 3");
 		}
 		else
 		{
-			snprintf((char *)pValue, 21, "%s\0", (char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM3_IDX].ucBlendingName);
+			snprintf((char *)pValue, 24, "%s", (char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM3_IDX].ucBlendingName);
 		}
 	}
 	else  //Write Function
 	{
-		snprintf((char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM3_IDX].ucBlendingName, 21, "%s\0" , (char *)pValue);
+		snprintf((char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM3_IDX].ucBlendingName, 21, "%s" , (char *)pValue);
 
 	    LOG_MSG(db_HAL_WARPING, "Save BName3 to %s\n", (char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM3_IDX].ucWarpingName);
 
@@ -23055,16 +23055,16 @@ eEXEC_CODE palDataMgr_Access_Blend_Name_4(eDATA_ACCESS_MODE eAccessMode, void *p
 	{
 		if(m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM4_IDX].ucBlendApply != WARPING_TYPE_AP_MYSTIQUE)
 		{
-			snprintf((char *)pValue, 21, "Record 4\0");
+			snprintf((char *)pValue, 24, "Record 4");
 		}
 		else
 		{
-			snprintf((char *)pValue, 21, "%s\0", (char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM4_IDX].ucBlendingName);
+			snprintf((char *)pValue, 24, "%s", (char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM4_IDX].ucBlendingName);
 		}
 	}
 	else  //Write Function
 	{
-		snprintf((char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM4_IDX].ucBlendingName, 21, "%s\0" , (char *)pValue);
+		snprintf((char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM4_IDX].ucBlendingName, 21, "%s" , (char *)pValue);
 
 	    LOG_MSG(db_HAL_WARPING, "Save BName4 to %s\n", (char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM4_IDX].ucWarpingName);
 
@@ -23284,7 +23284,7 @@ eEXEC_CODE palDataMgr_Access_LAN_ConnectionStatus(eDATA_ACCESS_MODE eAccessMode,
         //A70LV_Doulas_0151 Modify
         char aucString[10];
 
-        sprintf(aucString, "-\0");
+        sprintf(aucString, "-");
         memcpy((UINT8 *)pValue, aucString, strlen(aucString)+1);
     }
     else  //Write Function
@@ -23299,7 +23299,7 @@ eEXEC_CODE palDataMgr_Access_LAN_DNS(eDATA_ACCESS_MODE eAccessMode, void *pValue
     if (edaREAD == eAccessMode)  //Read Function
     {
         char DNS_Info_String[16] = {0};
-        sprintf(DNS_Info_String, "%d.%d.%d.%d\0" , m_sLAN_info.ucLAN_DNS_Show[0], m_sLAN_info.ucLAN_DNS_Show[1], m_sLAN_info.ucLAN_DNS_Show[2], m_sLAN_info.ucLAN_DNS_Show[3]);
+        sprintf(DNS_Info_String, "%d.%d.%d.%d" , m_sLAN_info.ucLAN_DNS_Show[0], m_sLAN_info.ucLAN_DNS_Show[1], m_sLAN_info.ucLAN_DNS_Show[2], m_sLAN_info.ucLAN_DNS_Show[3]);
         memcpy((UINT8 *)pValue, DNS_Info_String, strlen(DNS_Info_String)+1);
     }
     else  //Write Function
@@ -23863,12 +23863,12 @@ eEXEC_CODE palDataMgr_Access_Press(eDATA_ACCESS_MODE eAccessMode, void *pValue)	
         #ifdef PLATFORM_A35G2
         if(palSystem_ModelIDGet() == MODULE_TYPE_ID0_PLATFORM) //A35G2_BRC_Casper_0099
         {
-            sprintf(aucString, "not support\0");
+            sprintf(aucString, "not support");
         }
         else
         #endif
         {
-            sprintf(aucString, "%d hPa\0", m_sAppDataMgrInfo.sSystemValues.wPress[0]); //HICC2_Steven_0014
+            sprintf(aucString, "%d hPa", m_sAppDataMgrInfo.sSystemValues.wPress[0]); //HICC2_Steven_0014
         }
         memcpy((UINT8 *)pValue, aucString, strlen(aucString)+1);
     }
@@ -23897,12 +23897,12 @@ eEXEC_CODE palDataMgr_Access_Press2(eDATA_ACCESS_MODE eAccessMode, void *pValue)
         #ifdef PLATFORM_A35G2
         if(palSystem_ModelIDGet() == MODULE_TYPE_ID0_PLATFORM) //A35G2_BRC_Casper_0099
         {
-            sprintf(aucString, "not support\0");
+            sprintf(aucString, "not support");
         }
         else
         #endif
         {
-            sprintf(aucString, "%d hPa\0", m_sAppDataMgrInfo.sSystemValues.wPress[1]);
+            sprintf(aucString, "%d hPa", m_sAppDataMgrInfo.sSystemValues.wPress[1]);
         }
         memcpy((UINT8 *)pValue, aucString, strlen(aucString)+1);
     }
@@ -23931,12 +23931,12 @@ eEXEC_CODE palDataMgr_Access_Press3(eDATA_ACCESS_MODE eAccessMode, void *pValue)
         #ifdef PLATFORM_A35G2
         if(palSystem_ModelIDGet() == MODULE_TYPE_ID0_PLATFORM) //A35G2_BRC_Casper_0099
         {
-            sprintf(aucString, "not support\0");
+            sprintf(aucString, "not support");
         }
         else
         #endif
         {
-            sprintf(aucString, "%d hPa\0", m_sAppDataMgrInfo.sSystemValues.wPress[2]); //HICC2_Steven_0014
+            sprintf(aucString, "%d hPa", m_sAppDataMgrInfo.sSystemValues.wPress[2]); //HICC2_Steven_0014
         }
         memcpy((UINT8 *)pValue, aucString, strlen(aucString)+1);
     }
@@ -23961,7 +23961,7 @@ eEXEC_CODE palDataMgr_Access_Humidity(eDATA_ACCESS_MODE eAccessMode, void *pValu
     if(edaREAD == eAccessMode)  //Read Function
     {
         char aucString[32] = {0};
-        sprintf(aucString, "%d %%RH\0", m_sAppDataMgrInfo.sSystemValues.wHumidity[0]); //G100_Simon_0058  //HICC2_Steven_0014
+        sprintf(aucString, "%d %%RH", m_sAppDataMgrInfo.sSystemValues.wHumidity[0]); //G100_Simon_0058  //HICC2_Steven_0014
         memcpy((UINT8 *)pValue, aucString, strlen(aucString)+1);
     }
     else  //Write Function
@@ -23983,7 +23983,7 @@ eEXEC_CODE palDataMgr_Access_Humidity2(eDATA_ACCESS_MODE eAccessMode, void *pVal
     if(edaREAD == eAccessMode)  //Read Function
     {
         char aucString[32] = {0};
-        sprintf(aucString, "%d %%RH\0", m_sAppDataMgrInfo.sSystemValues.wHumidity[1]); //G100_Simon_0058
+        sprintf(aucString, "%d %%RH", m_sAppDataMgrInfo.sSystemValues.wHumidity[1]); //G100_Simon_0058
         memcpy((UINT8 *)pValue, aucString, strlen(aucString)+1);
     }
     else  //Write Function
@@ -24004,7 +24004,7 @@ eEXEC_CODE palDataMgr_Access_Humidity3(eDATA_ACCESS_MODE eAccessMode, void *pVal
     if(edaREAD == eAccessMode)  //Read Function
     {
         char aucString[32] = {0};
-        sprintf(aucString, "%d %%RH\0", m_sAppDataMgrInfo.sSystemValues.wHumidity[2]);
+        sprintf(aucString, "%d %%RH", m_sAppDataMgrInfo.sSystemValues.wHumidity[2]);
         memcpy((UINT8 *)pValue, aucString, strlen(aucString)+1);
     }
     else  //Write Function
@@ -24024,7 +24024,7 @@ eEXEC_CODE palDataMgr_Access_AbsoluteHumidity1(eDATA_ACCESS_MODE eAccessMode, vo
     if(edaREAD == eAccessMode)  //Read Function
     {
         char aucString[32] = {0};
-        sprintf(aucString, "%d *0.01g/m^3\0", m_sAppDataMgrInfo.sSystemValues.wAbsoluteHumidity[0]);
+        sprintf(aucString, "%d *0.01g/m^3", m_sAppDataMgrInfo.sSystemValues.wAbsoluteHumidity[0]);
         memcpy((UINT8 *)pValue, aucString, strlen(aucString)+1);
     }
     else  //Write Function
@@ -24044,7 +24044,7 @@ eEXEC_CODE palDataMgr_Access_AbsoluteHumidity2(eDATA_ACCESS_MODE eAccessMode, vo
     if(edaREAD == eAccessMode)  //Read Function
     {
         char aucString[32] = {0};
-        sprintf(aucString, "%d *0.01g/m^3\0", m_sAppDataMgrInfo.sSystemValues.wAbsoluteHumidity[1]);
+        sprintf(aucString, "%d *0.01g/m^3", m_sAppDataMgrInfo.sSystemValues.wAbsoluteHumidity[1]);
         memcpy((UINT8 *)pValue, aucString, strlen(aucString)+1);
     }
     else  //Write Function
@@ -24064,7 +24064,7 @@ eEXEC_CODE palDataMgr_Access_AbsoluteHumidity3(eDATA_ACCESS_MODE eAccessMode, vo
     if(edaREAD == eAccessMode)  //Read Function
     {
         char aucString[32] = {0};
-        sprintf(aucString, "%d *0.01g/m^3\0", m_sAppDataMgrInfo.sSystemValues.wAbsoluteHumidity[2]);
+        sprintf(aucString, "%d *0.01g/m^3", m_sAppDataMgrInfo.sSystemValues.wAbsoluteHumidity[2]);
         memcpy((UINT8 *)pValue, aucString, strlen(aucString)+1);
     }
     else  //Write Function
@@ -24104,7 +24104,7 @@ eEXEC_CODE palDataMgr_Access_GSensorXYZ(eDATA_ACCESS_MODE eAccessMode, void *pVa
     if(edaREAD == eAccessMode)  //Read Function
     {
         char aucString[32];
-        sprintf(aucString, "XYZ: %d,  %d,  %d\0",
+        sprintf(aucString, "XYZ: %d,  %d,  %d",
         m_sAppDataMgrInfo.sSystemValues.iGsensor[0],
         m_sAppDataMgrInfo.sSystemValues.iGsensor[1],
         m_sAppDataMgrInfo.sSystemValues.iGsensor[2]);
@@ -24133,7 +24133,7 @@ eEXEC_CODE palDataMgr_Access_PumpInfo(eDATA_ACCESS_MODE eAccessMode, void *pValu
     {
         char aucString[32];
         //need to add read device version function at here
-        sprintf(aucString, "RPM:%04d\0", m_sAppDataMgrInfo.sSystemValues.sFAN_INFO.uiPump);
+        sprintf(aucString, "RPM:%04d", m_sAppDataMgrInfo.sSystemValues.sFAN_INFO.uiPump);
         memcpy((UINT8 *)pValue, aucString, strlen(aucString)+1);
     }
     else  //Write Function
@@ -24756,15 +24756,15 @@ eEXEC_CODE palDataMgr_Access_ServiceModeFlag(eDATA_ACCESS_MODE eAccessMode, void
     {
         char aucString[16];
         if(palDataMgr_ServiceModeGet())
-            sprintf(aucString, "1\0");
+            sprintf(aucString, "1");
         else
-            sprintf(aucString, "0\0");
+            sprintf(aucString, "0");
         memcpy((UINT8 *)pValue, aucString, strlen(aucString)+1);
     }
     else  //Write Function
     {
-        char aucString[32] = "service,service\0";
-        char aucCapital_String[32] = "SERVICE,SERVICE\0";
+        char aucString[32] = "service,service";
+        char aucCapital_String[32] = "SERVICE,SERVICE";
         UINT16 uiLens1;
         UINT16 uiLens2;
 
@@ -25016,7 +25016,7 @@ eEXEC_CODE palDataMgr_Access_Source_Name(UINT8 ucCmSource, eDATA_ACCESS_MODE eAc
 {
     if(edaREAD == eAccessMode)  //Read Function
     {
-        sprintf((char *)pValue, "%s\0", (char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sSourceSetting.cSourceName[ucCmSource]);
+        sprintf((char *)pValue, "%s", (char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sSourceSetting.cSourceName[ucCmSource]);
     }
     else  //Write Function
     {
@@ -25027,7 +25027,7 @@ eEXEC_CODE palDataMgr_Access_Source_Name(UINT8 ucCmSource, eDATA_ACCESS_MODE eAc
             return eEXEC_CODE_FAIL;
         }
 
-        sprintf((char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sSourceSetting.cSourceName[ucCmSource], "%s\0", (char *)pValue);
+        sprintf((char *)m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sSourceSetting.cSourceName[ucCmSource], "%s", (char *)pValue);
 
 		if (edaWRITE_THROUGH_WITH_ACTION == eAccessMode || edaWRITE_THROUGH_NO_ACTION == eAccessMode)	//A70LK_Doulas_0009
         {
@@ -25932,7 +25932,7 @@ eEXEC_CODE palDataMgr_Mode_Adjustment_TableNumber(eDATA_ACCESS_MODE eAccessMode,
     {
         UINT8 ucModeTable = 0;
         palImgMgr_VGA_ModeTable_Get(eSOURCE_WINDOW_MAIN,&ucModeTable);
-        sprintf((char *)pValue, "%d\0",ucModeTable);
+        sprintf((char *)pValue, "%d",ucModeTable);
         /*if(palDataPath_IsSourceLock() == TRUE)          //A70LV_Doulas_0209 remove
         {
             palImgMgr_ModeAdjusmenttEnableSetting();
@@ -25967,7 +25967,7 @@ eEXEC_CODE palDataMgr_Mode_Adjustment_BestID(eDATA_ACCESS_MODE eAccessMode, void
     {
         UINT16 uiModeTableID = 0;
         palImgMgr_VGA_ModeTableNumber_Get(eSOURCE_WINDOW_MAIN,&uiModeTableID);
-        sprintf((char *)pValue, "%d\0",uiModeTableID);
+        sprintf((char *)pValue, "%d",uiModeTableID);
     }
     else  //Write Function
     {
@@ -25994,7 +25994,7 @@ eEXEC_CODE palDataMgr_Mode_Adjustment_H_Period(eDATA_ACCESS_MODE eAccessMode, vo
     {
         UINT32 udH_Period = 0;
         palImgMgr_InputHorzPeriod_Get(eSOURCE_WINDOW_MAIN,&udH_Period);      //A70LV_Doulas_0195
-        sprintf((char *)pValue, "%d\0",udH_Period);
+        sprintf((char *)pValue, "%d",udH_Period);
     }
     else  //Write Function
     {
@@ -26021,7 +26021,7 @@ eEXEC_CODE palDataMgr_Mode_Adjustment_H_Total(eDATA_ACCESS_MODE eAccessMode, voi
     {
         UINT16 uiH_Total = 0;
         palImgMgr_VGA_H_Total_Get(eSOURCE_WINDOW_MAIN,&uiH_Total);      //A70LV_Doulas_0195
-        sprintf((char *)pValue, "%d\0",uiH_Total);
+        sprintf((char *)pValue, "%d",uiH_Total);
     }
     else  //Write Function
     {
@@ -26048,7 +26048,7 @@ eEXEC_CODE palDataMgr_Mode_Adjustment_V_Total(eDATA_ACCESS_MODE eAccessMode, voi
     {
         UINT16 uiV_Total = 0;
         palImgMgr_VGA_V_Total_Get(eSOURCE_WINDOW_MAIN,&uiV_Total);      //A70LV_Doulas_0195
-        sprintf((char *)pValue, "%d\0",uiV_Total);
+        sprintf((char *)pValue, "%d",uiV_Total);
     }
     else  //Write Function
     {
@@ -26074,7 +26074,7 @@ eEXEC_CODE palDataMgr_Mode_Adjustment_H_Active(eDATA_ACCESS_MODE eAccessMode, vo
     if(edaREAD == eAccessMode)  //Read Function
     {
         UINT16 uiH_Active = palImgMgr_Input_H_Active_Get(eSOURCE_WINDOW_MAIN);      //A70LV_Doulas_0195s
-        sprintf((char *)pValue, "%d\0",uiH_Active);
+        sprintf((char *)pValue, "%d",uiH_Active);
     }
     else  //Write Function
     {
@@ -26100,7 +26100,7 @@ eEXEC_CODE palDataMgr_Mode_Adjustment_V_Active(eDATA_ACCESS_MODE eAccessMode, vo
     if(edaREAD == eAccessMode)  //Read Function
     {
         UINT16 uiV_Active = palImgMgr_Input_V_Active_Get(eSOURCE_WINDOW_MAIN);
-        sprintf((char *)pValue, "%d\0",uiV_Active);
+        sprintf((char *)pValue, "%d",uiV_Active);
     }
     else  //Write Function
     {
@@ -26334,7 +26334,7 @@ eEXEC_CODE palDataMgr_Mode_Adjustment_Info(eDATA_ACCESS_MODE eAccessMode, void *
     if(edaREAD == eAccessMode)  //Read Function
     {
         sMODE_ADJUSTMENT_TABLE sModeAdjustmentTable;
-        /*LOG_MSG(db_ALWAYS, "@@(%d,%d)(%d,%d)(%d)(%d,%d)(%d,%d)(%d,%d)\0", m_sAppDataMgrInfo.sEepSettings.sTiming_Table.ucNewMA_Mode_Flag[ucMA_Item]
+        /*LOG_MSG(db_ALWAYS, "@@(%d,%d)(%d,%d)(%d)(%d,%d)(%d,%d)(%d,%d)", m_sAppDataMgrInfo.sEepSettings.sTiming_Table.ucNewMA_Mode_Flag[ucMA_Item]
                                                                   , m_sAppDataMgrInfo.sEepSettings.sTiming_Table.ucNewMA_Source_ID[ucMA_Item]
                                                                   , m_sAppDataMgrInfo.sEepSettings.sTiming_Table.ucNewMA_Table_ID[ucMA_Item]
                                                                   , m_sAppDataMgrInfo.sEepSettings.sTiming_Table.uiNewMA_Mode_ID[ucMA_Item]
@@ -26802,19 +26802,19 @@ eEXEC_CODE palDataMgr_FanFilter(eDATA_ACCESS_MODE eAccessMode, void *pValue) //A
 
         if(m_sAppDataMgrInfo.sSystemValues.sFAN_INFO.ucFanFilter == eFILTER_TYPE_FOG)
         {
-            sprintf((char *)aucString, "Fog Filter\0");
+            sprintf((char *)aucString, "Fog Filter");
         }
         else if(m_sAppDataMgrInfo.sSystemValues.sFAN_INFO.ucFanFilter == eFILTER_TYPE_NOFILTER_R)
         {
-            sprintf((char *)aucString, "Unknown Filter");//Unknow Type R\0"); //HICC2_Doulas_0060
+            sprintf((char *)aucString, "Unknown Filter");//Unknow Type R"); //HICC2_Doulas_0060
         }
         else if(m_sAppDataMgrInfo.sSystemValues.sFAN_INFO.ucFanFilter == eFILTER_TYPE_NOFILTER_L)
         {
-            sprintf((char *)aucString, "Unknown Filter");//"Unknow Type L\0"); //HICC2_Doulas_0060
+            sprintf((char *)aucString, "Unknown Filter");//"Unknow Type L"); //HICC2_Doulas_0060
         }
         else
         {
-            sprintf((char *)aucString, "No Filter\0");
+            sprintf((char *)aucString, "No Filter");
         }
 
         memcpy((INT8 *)pValue, aucString, strlen((char *)aucString)+1);
@@ -32482,7 +32482,7 @@ eEXEC_CODE palDataMgr_Access_VGA_ResolutionGet(eDATA_ACCESS_MODE eAccessMode, vo
 {
     if (edaREAD == eAccessMode)  //Read Function
     {
-        char aucString[VERSION_STRING_MAX_LENGTH] = {"-\0"};
+        char aucString[VERSION_STRING_MAX_LENGTH] = {"-"};
         UINT8 ucMainInputSource = m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sSourceSetting.ucInputSourceMain;
         UINT8 ucSubInputSource = m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sSourceSetting.ucInputSourceSub;
 
@@ -34382,8 +34382,8 @@ eEXEC_CODE palDataMgr_Access_Model_Switch_Adjust(eDATA_ACCESS_MODE eAccessMode, 
 			char cStrTemp[64] = {'\0'}, cStrTemp2[16] = {'\0'};
 			const char *m_sModelReplaceString[eMODEL_SWITCH_UNKNOW] = {"DEFAULT","NEUTRAL"};
 
-			sprintf(cStrTemp, "edcMODEL_SWITCH_NEUTRAL\0");
-			sprintf(cStrTemp2, "%s\0", m_sModelReplaceString[ucSwitch]);
+			sprintf(cStrTemp, "edcMODEL_SWITCH_NEUTRAL");
+			sprintf(cStrTemp2, "%s", m_sModelReplaceString[ucSwitch]);
 
 			//ilDataMgr_Write_ModelChangeLog(cStrTemp, cStrTemp2); //A65_OPTOMA_Julie_0065
 			utilOPD_Write_ModelChangeLog(cStrTemp, cStrTemp2); //A65_OPTOMA_Julie_0066
@@ -37973,6 +37973,7 @@ eEXEC_CODE palDataMgr_Geo_convertTPtoDTDT(eDATA_ACCESS_MODE eAccessMode, void *p
     {
         sTP_DATA *TpData = (sTP_DATA *)pValue;
         UINT16 uiSize = TpData->Width * TpData->Height ;
+        size_t ret;
 
         //memset(&TpData, psInData->aucData ,*pwByteCount);
         //float *tpx = (float *)malloc(TpData->width * TpData->height * sizeof(float));
@@ -38027,8 +38028,29 @@ eEXEC_CODE palDataMgr_Geo_convertTPtoDTDT(eDATA_ACCESS_MODE eAccessMode, void *p
         }
         memset(pucData_TPx, 0xFF, (uiSize * sizeof(FLOAT)));
         memset(pucData_TPy, 0xFF, (uiSize * sizeof(FLOAT)));
-        fread(pucData_TPx, sizeof(FLOAT), uiSize, pFile_TPx);
-        fread(pucData_TPy, sizeof(FLOAT), uiSize, pFile_TPy);
+        ret = fread(pucData_TPx, sizeof(FLOAT), uiSize, pFile_TPx);
+        if(ret != uiSize)
+        {
+            LOG_MSG(db_HAL_WARPING, "TPx file read error, ret=%zu, expected=%u\n", ret, uiSize);
+            free(pucData_TPx);
+            free(pucData_TPy);
+            fclose(pFile_TPx);
+            fclose(pFile_TPy);
+            ASSERT_ALWAYS();
+            return eEXEC_CODE_FAIL;
+        }
+
+        ret = fread(pucData_TPy, sizeof(FLOAT), uiSize, pFile_TPy);
+        if(ret != uiSize)
+        {
+            LOG_MSG(db_HAL_WARPING, "TPy file read error, ret=%zu, expected=%u\n", ret, uiSize);
+            free(pucData_TPx);
+            free(pucData_TPy);
+            fclose(pFile_TPx);
+            fclose(pFile_TPy);
+            ASSERT_ALWAYS();
+            return eEXEC_CODE_FAIL;
+        }
 
         //printf("\npucData_TPx[0]=%d , pucData_TPx[1]=%d , pucData_TPx[2]=%d\n", pucData_TPx[0], pucData_TPx[1], pucData_TPx[2] ) ;
         //printf("pucData_TPy[0]=%d , pucData_TPy[1]=%d , pucData_TPy[2]=%d\n", pucData_TPy[0], pucData_TPy[1], pucData_TPy[2] ) ;
@@ -38857,7 +38879,7 @@ eEXEC_CODE palDataMgr_Geo_DrawPNG(eDATA_ACCESS_MODE eAccessMode, void *pValue)
 #if 1
 void DrawPNG_Test(void)
 {
-    sWARPOSD_PNG_DRAW_INFO sPNG = {0,0,0,1920,1200,"./Test.png\0"};
+    sWARPOSD_PNG_DRAW_INFO sPNG = {0,0,0,1920,1200,"./Test.png"};
     sWARPOSD_PNG_DRAW_INFO *sWarpOSD_PNG_DrawInfo = &sPNG;
 
 #if 0
@@ -40015,7 +40037,7 @@ eEXEC_CODE palDataMgr_Access_CH0_EepromTargetADC_Read(eDATA_ACCESS_MODE eAccessM
     {
         char DataString[127];
 
-        sprintf(DataString, "%d\0", m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.uiEepromTargetADC_AWC0);
+        sprintf(DataString, "%d", m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.uiEepromTargetADC_AWC0);
         memcpy((UINT32 *)pValue, DataString, strlen(DataString)+1);
     }
     else  //Write Function
@@ -40158,7 +40180,7 @@ eEXEC_CODE palDataMgr_Access_CH1_EepromTargetADC_Read(eDATA_ACCESS_MODE eAccessM
     {
         char DataString[127];
 
-        sprintf(DataString, "%d\0", m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.uiEepromTargetADC_AWC1);
+        sprintf(DataString, "%d", m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.uiEepromTargetADC_AWC1);
         memcpy((UINT32 *)pValue, DataString, strlen(DataString)+1);
     }
     else  //Write Function
@@ -40233,7 +40255,7 @@ eEXEC_CODE palDataMgr_Access_Z_Data0(eDATA_ACCESS_MODE eAccessMode, void *pValue
     {
         char ZDataString[127];
 
-        sprintf(ZDataString, "%d\0", m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.uiEepromZData0);
+        sprintf(ZDataString, "%d", m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.uiEepromZData0);
         memcpy((UINT32 *)pValue, ZDataString, strlen(ZDataString)+1);
     }
     else  //Write Function
@@ -40250,7 +40272,7 @@ eEXEC_CODE palDataMgr_Access_Z_Data1(eDATA_ACCESS_MODE eAccessMode, void *pValue
     {
         char ZDataString[127];
 
-        sprintf(ZDataString, "%d\0", m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.uiEepromZData1);
+        sprintf(ZDataString, "%d", m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.uiEepromZData1);
         memcpy((UINT32 *)pValue, ZDataString, strlen(ZDataString)+1);
     }
     else  //Write Function
@@ -40267,7 +40289,7 @@ eEXEC_CODE palDataMgr_Access_Z_Data1(eDATA_ACCESS_MODE eAccessMode, void *pValue
      {
          char XDataString[127];
 
-         sprintf(XDataString, "%d\0", m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.uiEepromXData0);
+         sprintf(XDataString, "%d", m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.uiEepromXData0);
          memcpy((UINT32 *)pValue, XDataString, strlen(XDataString)+1);
      }
      else  //Write Function
@@ -40284,7 +40306,7 @@ eEXEC_CODE palDataMgr_Access_Z_Data1(eDATA_ACCESS_MODE eAccessMode, void *pValue
      {
          char XDataString[127];
 
-         sprintf(XDataString, "%d\0", m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.uiEepromXData1);
+         sprintf(XDataString, "%d", m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.uiEepromXData1);
          memcpy((UINT32 *)pValue, XDataString, strlen(XDataString)+1);
      }
      else  //Write Function
@@ -40301,7 +40323,7 @@ eEXEC_CODE palDataMgr_Access_Z_Data1(eDATA_ACCESS_MODE eAccessMode, void *pValue
       {
           char YDataString[127];
 
-          sprintf(YDataString, "%d\0", m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.uiEepromYData0);
+          sprintf(YDataString, "%d", m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.uiEepromYData0);
           memcpy((UINT32 *)pValue, YDataString, strlen(YDataString)+1);
       }
       else  //Write Function
@@ -40318,7 +40340,7 @@ eEXEC_CODE palDataMgr_Access_Z_Data1(eDATA_ACCESS_MODE eAccessMode, void *pValue
       {
           char YDataString[127];
 
-          sprintf(YDataString, "%d\0", m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.uiEepromYData1);
+          sprintf(YDataString, "%d", m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.uiEepromYData1);
           memcpy((UINT32 *)pValue, YDataString, strlen(YDataString)+1);
       }
       else  //Write Function
@@ -40585,7 +40607,7 @@ eEXEC_CODE palDataMgr_Access_Close_Loop_Axis0_Gain(eDATA_ACCESS_MODE eAccessMode
     {
         char GainString[127];
 
-        sprintf(GainString, "%d (%d)\0", m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.ucCloseLoopGain_Axis0, m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.ucCloseLoopGain_Axis0 - m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.ucDAC_AWC0);
+        sprintf(GainString, "%d (%d)", m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.ucCloseLoopGain_Axis0, m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.ucCloseLoopGain_Axis0 - m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.ucDAC_AWC0);
         memcpy((UINT32 *)pValue, GainString, strlen(GainString)+1);
     }
     else  //Write Function
@@ -40601,7 +40623,7 @@ eEXEC_CODE palDataMgr_Access_Close_Loop_Axis1_Gain(eDATA_ACCESS_MODE eAccessMode
     {
         char GainString[127];
 
-        sprintf(GainString, "%d (%d)\0", m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.ucCloseLoopGain_Axis1, m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.ucCloseLoopGain_Axis1 - m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.ucDAC_AWC1);
+        sprintf(GainString, "%d (%d)", m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.ucCloseLoopGain_Axis1, m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.ucCloseLoopGain_Axis1 - m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.ucDAC_AWC1);
         memcpy((UINT32 *)pValue, GainString, strlen(GainString)+1);
     }
     else  //Write Function
@@ -40617,7 +40639,7 @@ eEXEC_CODE palDataMgr_Access_Close_Loop_Axis0_Segment_Length(eDATA_ACCESS_MODE e
     {
         char SLString[127];
 
-        sprintf(SLString, "%d \0", m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.ucCloseLoopSegmentLength_Axis0);
+        sprintf(SLString, "%d ", m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.ucCloseLoopSegmentLength_Axis0);
         memcpy((UINT32 *)pValue, SLString, strlen(SLString)+1);
     }
     else  //Write Function
@@ -40633,7 +40655,7 @@ eEXEC_CODE palDataMgr_Access_Close_Loop_Axis1_Segment_Length(eDATA_ACCESS_MODE e
     {
         char SLString[127];
 
-        sprintf(SLString, "%d \0", m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.ucCloseLoopSegmentLength_Axis1);
+        sprintf(SLString, "%d ", m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.ucCloseLoopSegmentLength_Axis1);
         memcpy((UINT32 *)pValue, SLString, strlen(SLString)+1);
     }
     else  //Write Function
@@ -40672,17 +40694,17 @@ eEXEC_CODE palDataMgr_Access_Close_Loop_Error_Code0(eDATA_ACCESS_MODE eAccessMod
 
         if(m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.ucXPRCloseLoopErrCode0 && m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.ucCloseLoopEn_Axis0)
         {
-            sprintf(ERRString, "FAIL--0x%x\0", m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.ucXPRCloseLoopErrCode0);
+            sprintf(ERRString, "FAIL--0x%x", m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.ucXPRCloseLoopErrCode0);
             memcpy((UINT32 *)pValue, ERRString, strlen(ERRString)+1);
         }
         else if(m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.ucXPRCloseLoopErrCode0 == 0 && m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.ucCloseLoopEn_Axis0)
         {
-            sprintf(ERRString, "PASS--0x%x\0", m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.ucXPRCloseLoopErrCode0);
+            sprintf(ERRString, "PASS--0x%x", m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.ucXPRCloseLoopErrCode0);
             memcpy((UINT32 *)pValue, ERRString, strlen(ERRString)+1);
         }
         else
         {
-            sprintf(ERRString, "DISABLE--%d\0", ucError);
+            sprintf(ERRString, "DISABLE--%d", ucError);
             memcpy((UINT32 *)pValue, ERRString, strlen(ERRString)+1);
         }
 
@@ -40706,17 +40728,17 @@ eEXEC_CODE palDataMgr_Access_Close_Loop_Error_Code1(eDATA_ACCESS_MODE eAccessMod
 
         if(m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.ucXPRCloseLoopErrCode1 && m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.ucCloseLoopEn_Axis1)
         {
-            sprintf(ERRString, "FAIL--0x%x\0", m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.ucXPRCloseLoopErrCode1);
+            sprintf(ERRString, "FAIL--0x%x", m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.ucXPRCloseLoopErrCode1);
             memcpy((UINT32 *)pValue, ERRString, strlen(ERRString)+1);
         }
         else if(m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.ucXPRCloseLoopErrCode1 == 0 && m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.ucCloseLoopEn_Axis1)
         {
-            sprintf(ERRString, "PASS--0x%x\0", m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.ucXPRCloseLoopErrCode1);
+            sprintf(ERRString, "PASS--0x%x", m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.ucXPRCloseLoopErrCode1);
             memcpy((UINT32 *)pValue, ERRString, strlen(ERRString)+1);
         }
         else
         {
-            sprintf(ERRString, "DISABLE--%d\0", ucError);
+            sprintf(ERRString, "DISABLE--%d", ucError);
             memcpy((UINT32 *)pValue, ERRString, strlen(ERRString)+1);
         }
     }
@@ -40780,15 +40802,15 @@ eEXEC_CODE palDataMgr_Access_Close_Loop_SN(eDATA_ACCESS_MODE eAccessMode, void *
     if (edaREAD == eAccessMode)  //Read Function
     {
         if(m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.ucCloseLoopSN[0] != 0)
-	        snprintf((char *)pValue, SN_Max_Size, "%s\0", (char *)m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.ucCloseLoopSN);
+	        snprintf((char *)pValue, SN_Max_Size, "%s", (char *)m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.ucCloseLoopSN);
 	    else
-	        snprintf((char *)pValue, SN_Max_Size, "-%s\0", (char *)m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.ucCloseLoopSN);
+	        snprintf((char *)pValue, SN_Max_Size, "-%s", (char *)m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.ucCloseLoopSN);
 	}
 	else  //Write Function
 	{
         UINT8 count = 0;
 		//Update RAM
-		snprintf((char *)m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.ucCloseLoopSN, SN_Max_Size, "%s\0" , (char *)pValue);
+		snprintf((char *)m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.ucCloseLoopSN, SN_Max_Size, "%s" , (char *)pValue);
 		for(count = 0 ; count < SN_Max_Size ; count++)
 		{
 		    if((m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.ucCloseLoopSN[count] >= 1 && m_sAppDataMgrInfo.sEepSettings.sActuatorSetting.ucCloseLoopSN[count] <= 31 )
@@ -41816,12 +41838,12 @@ eEXEC_CODE palDataMgr_Access_Schedule_Event01_Info(eDATA_ACCESS_MODE eAccessMode
 {
     if (edaREAD == eAccessMode)  //Read Function
     {
-        char aucVerString[64] = {"\0"};
+        char aucVerString[64] = {""};
         UINT8 ucViewWeekDay = m_sAppDataMgrInfo.sSystemValues.ucCurrentWeekday;
         UINT8 ucViewEventType = m_sAppDataMgrInfo.sSystemValues.sScheduleInfo.sWeekday_Info[ucViewWeekDay].sWeekDayEvent[0].ucFunctionType;
         UINT8 ucViewEventIndex = m_sAppDataMgrInfo.sSystemValues.sScheduleInfo.sWeekday_Info[ucViewWeekDay].sWeekDayEvent[0].ucEventIndex;
 
-        sprintf(aucVerString, "%s\0", sSchedueleEventIndexTranslateOsdTextIdLUT[ucViewEventType][ucViewEventIndex].ucEventIndexStr);//G100_Coda_0019
+        sprintf(aucVerString, "%s", sSchedueleEventIndexTranslateOsdTextIdLUT[ucViewEventType][ucViewEventIndex].ucEventIndexStr);//G100_Coda_0019
         LOG_MSG(db_APP_SCHEDULE, "get event 01 info = %s\r\n", aucVerString);
 
         memcpy((UINT8 *)pValue, aucVerString, strlen(aucVerString)+1);
@@ -41838,12 +41860,12 @@ eEXEC_CODE palDataMgr_Access_Schedule_Event02_Info(eDATA_ACCESS_MODE eAccessMode
 {
     if (edaREAD == eAccessMode)  //Read Function
     {
-        char aucVerString[64] = {"\0"};
+        char aucVerString[64] = {""};
         UINT8 ucViewWeekDay = m_sAppDataMgrInfo.sSystemValues.ucCurrentWeekday;
         UINT8 ucViewEventType = m_sAppDataMgrInfo.sSystemValues.sScheduleInfo.sWeekday_Info[ucViewWeekDay].sWeekDayEvent[1].ucFunctionType;
         UINT8 ucViewEventIndex = m_sAppDataMgrInfo.sSystemValues.sScheduleInfo.sWeekday_Info[ucViewWeekDay].sWeekDayEvent[1].ucEventIndex;
 
-        sprintf(aucVerString, "%s\0", sSchedueleEventIndexTranslateOsdTextIdLUT[ucViewEventType][ucViewEventIndex].ucEventIndexStr);//G100_Coda_0019
+        sprintf(aucVerString, "%s", sSchedueleEventIndexTranslateOsdTextIdLUT[ucViewEventType][ucViewEventIndex].ucEventIndexStr);//G100_Coda_0019
         LOG_MSG(db_APP_SCHEDULE, "get event 02 info = %s\r\n", aucVerString);
 
         memcpy((UINT8 *)pValue, aucVerString, strlen(aucVerString)+1);
@@ -41860,12 +41882,12 @@ eEXEC_CODE palDataMgr_Access_Schedule_Event03_Info(eDATA_ACCESS_MODE eAccessMode
 {
     if (edaREAD == eAccessMode)  //Read Function
     {
-        char aucVerString[64] = {"\0"};
+        char aucVerString[64] = {""};
         UINT8 ucViewWeekDay = m_sAppDataMgrInfo.sSystemValues.ucCurrentWeekday;
         UINT8 ucViewEventType = m_sAppDataMgrInfo.sSystemValues.sScheduleInfo.sWeekday_Info[ucViewWeekDay].sWeekDayEvent[2].ucFunctionType;
         UINT8 ucViewEventIndex = m_sAppDataMgrInfo.sSystemValues.sScheduleInfo.sWeekday_Info[ucViewWeekDay].sWeekDayEvent[2].ucEventIndex;
 
-        sprintf(aucVerString, "%s\0", sSchedueleEventIndexTranslateOsdTextIdLUT[ucViewEventType][ucViewEventIndex].ucEventIndexStr);//G100_Coda_0019
+        sprintf(aucVerString, "%s", sSchedueleEventIndexTranslateOsdTextIdLUT[ucViewEventType][ucViewEventIndex].ucEventIndexStr);//G100_Coda_0019
         LOG_MSG(db_APP_SCHEDULE, "get event 03 info = %s\r\n", aucVerString);
 
         memcpy((UINT8 *)pValue, aucVerString, strlen(aucVerString)+1);
@@ -41882,12 +41904,12 @@ eEXEC_CODE palDataMgr_Access_Schedule_Event04_Info(eDATA_ACCESS_MODE eAccessMode
 {
     if (edaREAD == eAccessMode)  //Read Function
     {
-        char aucVerString[64] = {"\0"};
+        char aucVerString[64] = {""};
         UINT8 ucViewWeekDay = m_sAppDataMgrInfo.sSystemValues.ucCurrentWeekday;
         UINT8 ucViewEventType = m_sAppDataMgrInfo.sSystemValues.sScheduleInfo.sWeekday_Info[ucViewWeekDay].sWeekDayEvent[3].ucFunctionType;
         UINT8 ucViewEventIndex = m_sAppDataMgrInfo.sSystemValues.sScheduleInfo.sWeekday_Info[ucViewWeekDay].sWeekDayEvent[3].ucEventIndex;
 
-        sprintf(aucVerString, "%s\0", sSchedueleEventIndexTranslateOsdTextIdLUT[ucViewEventType][ucViewEventIndex].ucEventIndexStr);//G100_Coda_0019
+        sprintf(aucVerString, "%s", sSchedueleEventIndexTranslateOsdTextIdLUT[ucViewEventType][ucViewEventIndex].ucEventIndexStr);//G100_Coda_0019
         LOG_MSG(db_APP_SCHEDULE, "get event 04 info = %s\r\n", aucVerString);
 
         memcpy((UINT8 *)pValue, aucVerString, strlen(aucVerString)+1);
@@ -41904,12 +41926,12 @@ eEXEC_CODE palDataMgr_Access_Schedule_Event05_Info(eDATA_ACCESS_MODE eAccessMode
 {
     if (edaREAD == eAccessMode)  //Read Function
     {
-        char aucVerString[64] = {"\0"};
+        char aucVerString[64] = {""};
         UINT8 ucViewWeekDay = m_sAppDataMgrInfo.sSystemValues.ucCurrentWeekday;
         UINT8 ucViewEventType = m_sAppDataMgrInfo.sSystemValues.sScheduleInfo.sWeekday_Info[ucViewWeekDay].sWeekDayEvent[4].ucFunctionType;
         UINT8 ucViewEventIndex = m_sAppDataMgrInfo.sSystemValues.sScheduleInfo.sWeekday_Info[ucViewWeekDay].sWeekDayEvent[4].ucEventIndex;
 
-        sprintf(aucVerString, "%s\0", sSchedueleEventIndexTranslateOsdTextIdLUT[ucViewEventType][ucViewEventIndex].ucEventIndexStr);//G100_Coda_0019
+        sprintf(aucVerString, "%s", sSchedueleEventIndexTranslateOsdTextIdLUT[ucViewEventType][ucViewEventIndex].ucEventIndexStr);//G100_Coda_0019
         LOG_MSG(db_APP_SCHEDULE, "get event 05 info = %s\r\n", aucVerString);
 
         memcpy((UINT8 *)pValue, aucVerString, strlen(aucVerString)+1);
@@ -41926,12 +41948,12 @@ eEXEC_CODE palDataMgr_Access_Schedule_Event06_Info(eDATA_ACCESS_MODE eAccessMode
 {
     if (edaREAD == eAccessMode)  //Read Function
     {
-        char aucVerString[64] = {"\0"};
+        char aucVerString[64] = {""};
         UINT8 ucViewWeekDay = m_sAppDataMgrInfo.sSystemValues.ucCurrentWeekday;
         UINT8 ucViewEventType = m_sAppDataMgrInfo.sSystemValues.sScheduleInfo.sWeekday_Info[ucViewWeekDay].sWeekDayEvent[5].ucFunctionType;
         UINT8 ucViewEventIndex = m_sAppDataMgrInfo.sSystemValues.sScheduleInfo.sWeekday_Info[ucViewWeekDay].sWeekDayEvent[5].ucEventIndex;
 
-        sprintf(aucVerString, "%s\0", sSchedueleEventIndexTranslateOsdTextIdLUT[ucViewEventType][ucViewEventIndex].ucEventIndexStr);//G100_Coda_0019
+        sprintf(aucVerString, "%s", sSchedueleEventIndexTranslateOsdTextIdLUT[ucViewEventType][ucViewEventIndex].ucEventIndexStr);//G100_Coda_0019
         LOG_MSG(db_APP_SCHEDULE, "get event 06 info = %s\r\n", aucVerString);
 
         memcpy((UINT8 *)pValue, aucVerString, strlen(aucVerString)+1);
@@ -41948,12 +41970,12 @@ eEXEC_CODE palDataMgr_Access_Schedule_Event07_Info(eDATA_ACCESS_MODE eAccessMode
 {
     if (edaREAD == eAccessMode)  //Read Function
     {
-        char aucVerString[64] = {"\0"};
+        char aucVerString[64] = {""};
         UINT8 ucViewWeekDay = m_sAppDataMgrInfo.sSystemValues.ucCurrentWeekday;
         UINT8 ucViewEventType = m_sAppDataMgrInfo.sSystemValues.sScheduleInfo.sWeekday_Info[ucViewWeekDay].sWeekDayEvent[6].ucFunctionType;
         UINT8 ucViewEventIndex = m_sAppDataMgrInfo.sSystemValues.sScheduleInfo.sWeekday_Info[ucViewWeekDay].sWeekDayEvent[6].ucEventIndex;
 
-        sprintf(aucVerString, "%s\0", sSchedueleEventIndexTranslateOsdTextIdLUT[ucViewEventType][ucViewEventIndex].ucEventIndexStr);//G100_Coda_0019
+        sprintf(aucVerString, "%s", sSchedueleEventIndexTranslateOsdTextIdLUT[ucViewEventType][ucViewEventIndex].ucEventIndexStr);//G100_Coda_0019
         LOG_MSG(db_APP_SCHEDULE, "get event 07 info = %s\r\n", aucVerString);
 
         memcpy((UINT8 *)pValue, aucVerString, strlen(aucVerString)+1);
@@ -41970,12 +41992,12 @@ eEXEC_CODE palDataMgr_Access_Schedule_Event08_Info(eDATA_ACCESS_MODE eAccessMode
 {
     if (edaREAD == eAccessMode)  //Read Function
     {
-        char aucVerString[64] = {"\0"};
+        char aucVerString[64] = {""};
         UINT8 ucViewWeekDay = m_sAppDataMgrInfo.sSystemValues.ucCurrentWeekday;
         UINT8 ucViewEventType = m_sAppDataMgrInfo.sSystemValues.sScheduleInfo.sWeekday_Info[ucViewWeekDay].sWeekDayEvent[7].ucFunctionType;
         UINT8 ucViewEventIndex = m_sAppDataMgrInfo.sSystemValues.sScheduleInfo.sWeekday_Info[ucViewWeekDay].sWeekDayEvent[7].ucEventIndex;
 
-        sprintf(aucVerString, "%s\0", sSchedueleEventIndexTranslateOsdTextIdLUT[ucViewEventType][ucViewEventIndex].ucEventIndexStr);//G100_Coda_0019
+        sprintf(aucVerString, "%s", sSchedueleEventIndexTranslateOsdTextIdLUT[ucViewEventType][ucViewEventIndex].ucEventIndexStr);//G100_Coda_0019
         LOG_MSG(db_APP_SCHEDULE, "get event 08 info = %s\r\n", aucVerString);
 
         memcpy((UINT8 *)pValue, aucVerString, strlen(aucVerString)+1);
@@ -41992,12 +42014,12 @@ eEXEC_CODE palDataMgr_Access_Schedule_Event09_Info(eDATA_ACCESS_MODE eAccessMode
 {
     if (edaREAD == eAccessMode)  //Read Function
     {
-        char aucVerString[64] = {"\0"};
+        char aucVerString[64] = {""};
         UINT8 ucViewWeekDay = m_sAppDataMgrInfo.sSystemValues.ucCurrentWeekday;
         UINT8 ucViewEventType = m_sAppDataMgrInfo.sSystemValues.sScheduleInfo.sWeekday_Info[ucViewWeekDay].sWeekDayEvent[8].ucFunctionType;
         UINT8 ucViewEventIndex = m_sAppDataMgrInfo.sSystemValues.sScheduleInfo.sWeekday_Info[ucViewWeekDay].sWeekDayEvent[8].ucEventIndex;
 
-        sprintf(aucVerString, "%s\0", sSchedueleEventIndexTranslateOsdTextIdLUT[ucViewEventType][ucViewEventIndex].ucEventIndexStr);//G100_Coda_0019
+        sprintf(aucVerString, "%s", sSchedueleEventIndexTranslateOsdTextIdLUT[ucViewEventType][ucViewEventIndex].ucEventIndexStr);//G100_Coda_0019
         LOG_MSG(db_APP_SCHEDULE, "get event 09 info = %s\r\n", aucVerString);
 
         memcpy((UINT8 *)pValue, aucVerString, strlen(aucVerString)+1);
@@ -42014,12 +42036,12 @@ eEXEC_CODE palDataMgr_Access_Schedule_Event10_Info(eDATA_ACCESS_MODE eAccessMode
 {
     if (edaREAD == eAccessMode)  //Read Function
     {
-        char aucVerString[64] = {"\0"};
+        char aucVerString[64] = {""};
         UINT8 ucViewWeekDay = m_sAppDataMgrInfo.sSystemValues.ucCurrentWeekday;
         UINT8 ucViewEventType = m_sAppDataMgrInfo.sSystemValues.sScheduleInfo.sWeekday_Info[ucViewWeekDay].sWeekDayEvent[9].ucFunctionType;
         UINT8 ucViewEventIndex = m_sAppDataMgrInfo.sSystemValues.sScheduleInfo.sWeekday_Info[ucViewWeekDay].sWeekDayEvent[9].ucEventIndex;
 
-        sprintf(aucVerString, "%s\0", sSchedueleEventIndexTranslateOsdTextIdLUT[ucViewEventType][ucViewEventIndex].ucEventIndexStr);//G100_Coda_0019
+        sprintf(aucVerString, "%s", sSchedueleEventIndexTranslateOsdTextIdLUT[ucViewEventType][ucViewEventIndex].ucEventIndexStr);//G100_Coda_0019
         LOG_MSG(db_APP_SCHEDULE, "get event 10 info = %s\r\n", aucVerString);
 
         memcpy((UINT8 *)pValue, aucVerString, strlen(aucVerString)+1);
@@ -42036,12 +42058,12 @@ eEXEC_CODE palDataMgr_Access_Schedule_Event11_Info(eDATA_ACCESS_MODE eAccessMode
 {
     if (edaREAD == eAccessMode)  //Read Function
     {
-        char aucVerString[64] = {"\0"};
+        char aucVerString[64] = {""};
         UINT8 ucViewWeekDay = m_sAppDataMgrInfo.sSystemValues.ucCurrentWeekday;
         UINT8 ucViewEventType = m_sAppDataMgrInfo.sSystemValues.sScheduleInfo.sWeekday_Info[ucViewWeekDay].sWeekDayEvent[10].ucFunctionType;
         UINT8 ucViewEventIndex = m_sAppDataMgrInfo.sSystemValues.sScheduleInfo.sWeekday_Info[ucViewWeekDay].sWeekDayEvent[10].ucEventIndex;
 
-        sprintf(aucVerString, "%s\0", sSchedueleEventIndexTranslateOsdTextIdLUT[ucViewEventType][ucViewEventIndex].ucEventIndexStr);//G100_Coda_0019
+        sprintf(aucVerString, "%s", sSchedueleEventIndexTranslateOsdTextIdLUT[ucViewEventType][ucViewEventIndex].ucEventIndexStr);//G100_Coda_0019
         LOG_MSG(db_APP_SCHEDULE, "get event 11 info = %s\r\n", aucVerString);
 
         memcpy((UINT8 *)pValue, aucVerString, strlen(aucVerString)+1);
@@ -42058,12 +42080,12 @@ eEXEC_CODE palDataMgr_Access_Schedule_Event12_Info(eDATA_ACCESS_MODE eAccessMode
 {
     if (edaREAD == eAccessMode)  //Read Function
     {
-        char aucVerString[64] = {"\0"};
+        char aucVerString[64] = {""};
         UINT8 ucViewWeekDay = m_sAppDataMgrInfo.sSystemValues.ucCurrentWeekday;
         UINT8 ucViewEventType = m_sAppDataMgrInfo.sSystemValues.sScheduleInfo.sWeekday_Info[ucViewWeekDay].sWeekDayEvent[11].ucFunctionType;
         UINT8 ucViewEventIndex = m_sAppDataMgrInfo.sSystemValues.sScheduleInfo.sWeekday_Info[ucViewWeekDay].sWeekDayEvent[11].ucEventIndex;
 
-        sprintf(aucVerString, "%s\0", sSchedueleEventIndexTranslateOsdTextIdLUT[ucViewEventType][ucViewEventIndex].ucEventIndexStr);//G100_Coda_0019
+        sprintf(aucVerString, "%s", sSchedueleEventIndexTranslateOsdTextIdLUT[ucViewEventType][ucViewEventIndex].ucEventIndexStr);//G100_Coda_0019
         LOG_MSG(db_APP_SCHEDULE, "get event 12 info = %s\r\n", aucVerString);
 
         memcpy((UINT8 *)pValue, aucVerString, strlen(aucVerString)+1);
@@ -42080,12 +42102,12 @@ eEXEC_CODE palDataMgr_Access_Schedule_Event13_Info(eDATA_ACCESS_MODE eAccessMode
 {
     if (edaREAD == eAccessMode)  //Read Function
     {
-        char aucVerString[64] = {"\0"};
+        char aucVerString[64] = {""};
         UINT8 ucViewWeekDay = m_sAppDataMgrInfo.sSystemValues.ucCurrentWeekday;
         UINT8 ucViewEventType = m_sAppDataMgrInfo.sSystemValues.sScheduleInfo.sWeekday_Info[ucViewWeekDay].sWeekDayEvent[12].ucFunctionType;
         UINT8 ucViewEventIndex = m_sAppDataMgrInfo.sSystemValues.sScheduleInfo.sWeekday_Info[ucViewWeekDay].sWeekDayEvent[12].ucEventIndex;
 
-        sprintf(aucVerString, "%s\0", sSchedueleEventIndexTranslateOsdTextIdLUT[ucViewEventType][ucViewEventIndex].ucEventIndexStr);//G100_Coda_0019
+        sprintf(aucVerString, "%s", sSchedueleEventIndexTranslateOsdTextIdLUT[ucViewEventType][ucViewEventIndex].ucEventIndexStr);//G100_Coda_0019
         LOG_MSG(db_APP_SCHEDULE, "get event 13 info = %s\r\n", aucVerString);
 
         memcpy((UINT8 *)pValue, aucVerString, strlen(aucVerString)+1);
@@ -42102,12 +42124,12 @@ eEXEC_CODE palDataMgr_Access_Schedule_Event14_Info(eDATA_ACCESS_MODE eAccessMode
 {
     if (edaREAD == eAccessMode)  //Read Function
     {
-        char aucVerString[64] = {"\0"};
+        char aucVerString[64] = {""};
         UINT8 ucViewWeekDay = m_sAppDataMgrInfo.sSystemValues.ucCurrentWeekday;
         UINT8 ucViewEventType = m_sAppDataMgrInfo.sSystemValues.sScheduleInfo.sWeekday_Info[ucViewWeekDay].sWeekDayEvent[13].ucFunctionType;
         UINT8 ucViewEventIndex = m_sAppDataMgrInfo.sSystemValues.sScheduleInfo.sWeekday_Info[ucViewWeekDay].sWeekDayEvent[13].ucEventIndex;
 
-        sprintf(aucVerString, "%s\0", sSchedueleEventIndexTranslateOsdTextIdLUT[ucViewEventType][ucViewEventIndex].ucEventIndexStr);//G100_Coda_0019
+        sprintf(aucVerString, "%s", sSchedueleEventIndexTranslateOsdTextIdLUT[ucViewEventType][ucViewEventIndex].ucEventIndexStr);//G100_Coda_0019
         LOG_MSG(db_APP_SCHEDULE, "get event 14 info = %s\r\n", aucVerString);
 
         memcpy((UINT8 *)pValue, aucVerString, strlen(aucVerString)+1);
@@ -42124,12 +42146,12 @@ eEXEC_CODE palDataMgr_Access_Schedule_Event15_Info(eDATA_ACCESS_MODE eAccessMode
 {
     if (edaREAD == eAccessMode)  //Read Function
     {
-        char aucVerString[64] = {"\0"};
+        char aucVerString[64] = {""};
         UINT8 ucViewWeekDay = m_sAppDataMgrInfo.sSystemValues.ucCurrentWeekday;
         UINT8 ucViewEventType = m_sAppDataMgrInfo.sSystemValues.sScheduleInfo.sWeekday_Info[ucViewWeekDay].sWeekDayEvent[14].ucFunctionType;
         UINT8 ucViewEventIndex = m_sAppDataMgrInfo.sSystemValues.sScheduleInfo.sWeekday_Info[ucViewWeekDay].sWeekDayEvent[14].ucEventIndex;
 
-        sprintf(aucVerString, "%s\0", sSchedueleEventIndexTranslateOsdTextIdLUT[ucViewEventType][ucViewEventIndex].ucEventIndexStr);//G100_Coda_0019
+        sprintf(aucVerString, "%s", sSchedueleEventIndexTranslateOsdTextIdLUT[ucViewEventType][ucViewEventIndex].ucEventIndexStr);//G100_Coda_0019
         LOG_MSG(db_APP_SCHEDULE, "get event 15 info = %s\r\n", aucVerString);
 
         memcpy((UINT8 *)pValue, aucVerString, strlen(aucVerString)+1);
@@ -42146,12 +42168,12 @@ eEXEC_CODE palDataMgr_Access_Schedule_Event16_Info(eDATA_ACCESS_MODE eAccessMode
 {
     if (edaREAD == eAccessMode)  //Read Function
     {
-        char aucVerString[64] = {"\0"};
+        char aucVerString[64] = {""};
         UINT8 ucViewWeekDay = m_sAppDataMgrInfo.sSystemValues.ucCurrentWeekday;
         UINT8 ucViewEventType = m_sAppDataMgrInfo.sSystemValues.sScheduleInfo.sWeekday_Info[ucViewWeekDay].sWeekDayEvent[15].ucFunctionType;
         UINT8 ucViewEventIndex = m_sAppDataMgrInfo.sSystemValues.sScheduleInfo.sWeekday_Info[ucViewWeekDay].sWeekDayEvent[15].ucEventIndex;
 
-        sprintf(aucVerString, "%s\0", sSchedueleEventIndexTranslateOsdTextIdLUT[ucViewEventType][ucViewEventIndex].ucEventIndexStr);//G100_Coda_0019
+        sprintf(aucVerString, "%s", sSchedueleEventIndexTranslateOsdTextIdLUT[ucViewEventType][ucViewEventIndex].ucEventIndexStr);//G100_Coda_0019
         LOG_MSG(db_APP_SCHEDULE, "get event 16 info = %s\r\n", aucVerString);
 
         memcpy((UINT8 *)pValue, aucVerString, strlen(aucVerString)+1);
@@ -42648,8 +42670,8 @@ eEXEC_CODE palDataMgr_Updata_Group_Search_List_To_OSD(void)
             m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSearch.sItem[ulCount].ucGroupStatus = (UINT8)m_sAppDataMgrInfo.sSystemValues.sGroupingSearch.Info[ulCount].ProjectorStatus;
             m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSearch.sItem[ulCount].uiFd = (UINT16)m_sAppDataMgrInfo.sSystemValues.sGroupingSearch.Info[ulCount].Fd;
             m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSearch.sItem[ulCount].uiGroupId = (UINT16)m_sAppDataMgrInfo.sSystemValues.sGroupingSearch.Info[ulCount].GroupId;
-            snprintf(m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSearch.sItem[ulCount].cName, 32, "%s\0", m_sAppDataMgrInfo.sSystemValues.sGroupingSearch.Info[ulCount].ModeName);
-            snprintf(m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSearch.sItem[ulCount].cIP, 20, "%s\0", m_sAppDataMgrInfo.sSystemValues.sGroupingSearch.Info[ulCount].Ip);
+            snprintf(m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSearch.sItem[ulCount].cName, 32, "%s", m_sAppDataMgrInfo.sSystemValues.sGroupingSearch.Info[ulCount].ModeName);
+            snprintf(m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSearch.sItem[ulCount].cIP, 20, "%s", m_sAppDataMgrInfo.sSystemValues.sGroupingSearch.Info[ulCount].Ip);
         }
 
         //palLANProcSendToLAN(edcGROUPINGMENU_SEARCH_LIST);
@@ -42678,8 +42700,8 @@ eEXEC_CODE palDataMgr_Updata_Group_Select_List_To_OSD(void)
                 m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSelect.sItem[ulCount].ucGroupStatus = (UINT8)m_sAppDataMgrInfo.sSystemValues.sGroupingSelect.Info[ulCount].ProjectorStatus;
                 m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSelect.sItem[ulCount].uiFd = (UINT16)m_sAppDataMgrInfo.sSystemValues.sGroupingSelect.Info[ulCount].Fd;
                 m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSelect.sItem[ulCount].uiGroupId = (UINT16)m_sAppDataMgrInfo.sSystemValues.sGroupingSelect.Info[ulCount].GroupId;
-                snprintf(m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSelect.sItem[ulCount].cName, 32, "%s\0", m_sAppDataMgrInfo.sSystemValues.sGroupingSelect.Info[ulCount].ModeName);
-                snprintf(m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSelect.sItem[ulCount].cIP, 20, "%s\0", m_sAppDataMgrInfo.sSystemValues.sGroupingSelect.Info[ulCount].Ip);
+                snprintf(m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSelect.sItem[ulCount].cName, 32, "%s", m_sAppDataMgrInfo.sSystemValues.sGroupingSelect.Info[ulCount].ModeName);
+                snprintf(m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSelect.sItem[ulCount].cIP, 20, "%s", m_sAppDataMgrInfo.sSystemValues.sGroupingSelect.Info[ulCount].Ip);
             }
         }
 
@@ -43773,7 +43795,7 @@ eEXEC_CODE palDataMgr_Access_Power_On_Off_Counter(eDATA_ACCESS_MODE eAccessMode,
     if (edaREAD == eAccessMode)  //Read Function
     {// HICC2_Bruce_0007
         char acString[20] = {0};
-        snprintf(acString, 20, "%4d / %4d\0",
+        snprintf(acString, 20, "%4d / %4d",
             m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sCommonSetting.uiPowerOnCounter,
             m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sCommonSetting.uiPowerOffCounter);
         memcpy((UINT8 *)pValue, acString, strlen(acString)+1);
@@ -43810,16 +43832,16 @@ eEXEC_CODE palDataMgr_Access_Main_ColorGamut(eDATA_ACCESS_MODE eAccessMode, void
 		{
 	        if(ucColorGamut)
 	        {
-	            snprintf((char *)aucString, 20, "BT.2020\0");
+	            snprintf((char *)aucString, 20, "BT.2020");
 	        }
 	        else
 	        {
-	            snprintf((char *)aucString, 20, "REC709\0");
+	            snprintf((char *)aucString, 20, "REC709");
 	        }
 		}
 		else
 		{
-			snprintf((char *)aucString, 20, "-\0");
+			snprintf((char *)aucString, 20, "-");
 		}
         memcpy((UINT8 *)pValue, aucString, strlen(aucString)+1);
     }
@@ -43856,16 +43878,16 @@ eEXEC_CODE palDataMgr_Access_Sub_ColorGamut(eDATA_ACCESS_MODE eAccessMode, void 
 		{
 	        if(ucColorGamut)
 	        {
-	            snprintf((char *)aucString, 20, "BT.2020\0");
+	            snprintf((char *)aucString, 20, "BT.2020");
 	        }
 	        else
 	        {
-	            snprintf((char *)aucString, 20, "REC709\0");
+	            snprintf((char *)aucString, 20, "REC709");
 	        }
 		}
 		else
 		{
-			snprintf((char *)aucString, 20, "-\0");
+			snprintf((char *)aucString, 20, "-");
 		}
         memcpy((UINT8 *)pValue, aucString, strlen(aucString)+1);
     }
@@ -44554,7 +44576,7 @@ eEXEC_CODE palDataMgr_Access_TotalProjectorHours_Info_Factory(eDATA_ACCESS_MODE 
         char aucVerString[VERSION_STRING_MAX_LENGTH];
         //need to add read device version function at here
 
-        sprintf(aucVerString, "%d\0", m_sAppDataMgrInfo.sEepSettings.sSystemDefault.ulTotalProjectorMinute_Factory / 60);
+        sprintf(aucVerString, "%d", m_sAppDataMgrInfo.sEepSettings.sSystemDefault.ulTotalProjectorMinute_Factory / 60);
 
         memcpy((UINT8 *)pValue, aucVerString, strlen(aucVerString)+1);
     }
@@ -44601,7 +44623,7 @@ eEXEC_CODE palDataMgr_Access_LD_Hours_Info_Factory(eDATA_ACCESS_MODE eAccessMode
         char aucVerString[VERSION_STRING_MAX_LENGTH];
         //need to add read device version function at here
 
-        sprintf(aucVerString, "%d\0", m_sAppDataMgrInfo.sEepSettings.sSystemDefault.ulLightSourceMinute_Factory[eTIMER_RECORD_BLD] / 60);
+        sprintf(aucVerString, "%d", m_sAppDataMgrInfo.sEepSettings.sSystemDefault.ulLightSourceMinute_Factory[eTIMER_RECORD_BLD] / 60);
 
         memcpy((UINT8 *)pValue, aucVerString, strlen(aucVerString)+1);
     }
@@ -44705,7 +44727,7 @@ eEXEC_CODE palDataMgr_Access_IPV6_LAN_IP_Address(eDATA_ACCESS_MODE eAccessMode, 
     {
         char AddressString[64] = {0};
 
-        snprintf(AddressString, 64, "%04x:%04x:%04x:%04x:%04x:%04x:%04x:%04x\0",
+        snprintf(AddressString, 64, "%04x:%04x:%04x:%04x:%04x:%04x:%04x:%04x",
             m_sLAN_info.ucLAN_IPV6_IP_Show[0], m_sLAN_info.ucLAN_IPV6_IP_Show[1], m_sLAN_info.ucLAN_IPV6_IP_Show[2], m_sLAN_info.ucLAN_IPV6_IP_Show[3],
             m_sLAN_info.ucLAN_IPV6_IP_Show[4], m_sLAN_info.ucLAN_IPV6_IP_Show[5], m_sLAN_info.ucLAN_IPV6_IP_Show[6], m_sLAN_info.ucLAN_IPV6_IP_Show[7]);
 
@@ -44778,7 +44800,7 @@ eEXEC_CODE palDataMgr_Access_IPV6_LAN_Default_Gateway(eDATA_ACCESS_MODE eAccessM
     {
         char AddressString[64] = {0};
 
-        snprintf(AddressString, 64, "%04x:%04x:%04x:%04x:%04x:%04x:%04x:%04x\0",
+        snprintf(AddressString, 64, "%04x:%04x:%04x:%04x:%04x:%04x:%04x:%04x",
             m_sLAN_info.ucLAN_IPV6_GATEWAY_Show[0], m_sLAN_info.ucLAN_IPV6_GATEWAY_Show[1], m_sLAN_info.ucLAN_IPV6_GATEWAY_Show[2], m_sLAN_info.ucLAN_IPV6_GATEWAY_Show[3],
             m_sLAN_info.ucLAN_IPV6_GATEWAY_Show[4], m_sLAN_info.ucLAN_IPV6_GATEWAY_Show[5], m_sLAN_info.ucLAN_IPV6_GATEWAY_Show[6], m_sLAN_info.ucLAN_IPV6_GATEWAY_Show[7]);
 
@@ -44849,7 +44871,7 @@ eEXEC_CODE palDataMgr_Access_IPV6_LAN_DNS(eDATA_ACCESS_MODE eAccessMode, void *p
     {
         char AddressString[64] = {0};
 
-        snprintf(AddressString, 64, "%04x:%04x:%04x:%04x:%04x:%04x:%04x:%04x\0",
+        snprintf(AddressString, 64, "%04x:%04x:%04x:%04x:%04x:%04x:%04x:%04x",
             m_sLAN_info.ucLAN_IPV6_DNS_Show[0], m_sLAN_info.ucLAN_IPV6_DNS_Show[1], m_sLAN_info.ucLAN_IPV6_DNS_Show[2], m_sLAN_info.ucLAN_IPV6_DNS_Show[3],
             m_sLAN_info.ucLAN_IPV6_DNS_Show[4], m_sLAN_info.ucLAN_IPV6_DNS_Show[5], m_sLAN_info.ucLAN_IPV6_DNS_Show[6], m_sLAN_info.ucLAN_IPV6_DNS_Show[7]);
 
@@ -44930,11 +44952,11 @@ eEXEC_CODE palDataMgr_Access_IPV6_LAN_IP_Apply(eDATA_ACCESS_MODE eAccessMode, vo
 
         if(m_sLAN_info.ucLAN_IPV6_DHCP_Show == FALSE)
         {
-            sprintf(cIPString , "%04x:%04x:%04x:%04x:%04x:%04x:%04x:%04x\0",
+            sprintf(cIPString , "%04x:%04x:%04x:%04x:%04x:%04x:%04x:%04x",
                 m_sLAN_info.ucLAN_IPV6_IP_Show[0], m_sLAN_info.ucLAN_IPV6_IP_Show[1], m_sLAN_info.ucLAN_IPV6_IP_Show[2], m_sLAN_info.ucLAN_IPV6_IP_Show[3],
                 m_sLAN_info.ucLAN_IPV6_IP_Show[4], m_sLAN_info.ucLAN_IPV6_IP_Show[5], m_sLAN_info.ucLAN_IPV6_IP_Show[6], m_sLAN_info.ucLAN_IPV6_IP_Show[7]);
 
-            sprintf(cGATEWAYString , "%04x:%04x:%04x:%04x:%04x:%04x:%04x:%04x\0",
+            sprintf(cGATEWAYString , "%04x:%04x:%04x:%04x:%04x:%04x:%04x:%04x",
                 m_sLAN_info.ucLAN_IPV6_GATEWAY_Show[0], m_sLAN_info.ucLAN_IPV6_GATEWAY_Show[1], m_sLAN_info.ucLAN_IPV6_GATEWAY_Show[2], m_sLAN_info.ucLAN_IPV6_GATEWAY_Show[3],
                 m_sLAN_info.ucLAN_IPV6_GATEWAY_Show[4], m_sLAN_info.ucLAN_IPV6_GATEWAY_Show[5], m_sLAN_info.ucLAN_IPV6_GATEWAY_Show[6], m_sLAN_info.ucLAN_IPV6_GATEWAY_Show[7]);
 
@@ -46164,8 +46186,8 @@ eEXEC_CODE palDataMgr_Access_Model_Switch_PassWord(eDATA_ACCESS_MODE eAccessMode
 {
     if (edaREAD == eAccessMode)  //Read Function
     {
-        BYTE ucServiceZK1320TPasswordData[5]  = "3812\0";
-        BYTE ucServiceZK1120TSTPasswordData[5]  = "3611\0";
+        BYTE ucServiceZK1320TPasswordData[5]  = "3812";
+        BYTE ucServiceZK1120TSTPasswordData[5]  = "3611";
 
         if(palSystem_ModelIDGet() == MODEL_ID_0)
         {
@@ -48644,11 +48666,11 @@ void palDataMgr_OPDSnapshot(UINT8 ucEvent)
         //AC voltage
         if(palIllumination_LVPS_110VDetGet())//HICC2_Julie_0035
         {
-             sprintf(aucVerString, "110V\0");
+             sprintf(aucVerString, "110V");
         }
         else
         {
-             sprintf(aucVerString, "220V\0");
+             sprintf(aucVerString, "220V");
         }
         memcpy(uOPDData.sSnapshotLog.Voltage, (UINT8 *)aucVerString, 8);
 
@@ -49070,10 +49092,10 @@ int palDataMgr_IP_Conflict_Verify(void)   //G100_Julie_0035
 	char str[1024] = {'\0'};
 
 	char LAN_IP_Address[16] = {0};
-	snprintf(LAN_IP_Address, 16, "%d.%d.%d.%d\0" , m_sLAN_info.ucLAN_IP_Show[0], m_sLAN_info.ucLAN_IP_Show[1], m_sLAN_info.ucLAN_IP_Show[2], m_sLAN_info.ucLAN_IP_Show[3]);
+	snprintf(LAN_IP_Address, 16, "%d.%d.%d.%d" , m_sLAN_info.ucLAN_IP_Show[0], m_sLAN_info.ucLAN_IP_Show[1], m_sLAN_info.ucLAN_IP_Show[2], m_sLAN_info.ucLAN_IP_Show[3]);
 
 	char Crestron_IP_Address[16] = {0};
-	snprintf(Crestron_IP_Address, 16, "%d.%d.%d.%d\0" , m_sLAN_info.ucCrestron_IP_Show[0], m_sLAN_info.ucCrestron_IP_Show[1], m_sLAN_info.ucCrestron_IP_Show[2], m_sLAN_info.ucCrestron_IP_Show[3]);
+	snprintf(Crestron_IP_Address, 16, "%d.%d.%d.%d" , m_sLAN_info.ucCrestron_IP_Show[0], m_sLAN_info.ucCrestron_IP_Show[1], m_sLAN_info.ucCrestron_IP_Show[2], m_sLAN_info.ucCrestron_IP_Show[3]);
 
 	if (strcmp(LAN_IP_Address, Crestron_IP_Address) == 0)
 	{
@@ -53397,7 +53419,7 @@ void palDataMgr_SourceName_Get(UINT8 ucSource, char *cDynamicString)
             break;
 
         default:
-            sprintf((char *)cDynamicString, "-\0");
+            sprintf((char *)cDynamicString, "-");
             break;
     }
 }
@@ -56565,7 +56587,7 @@ UINT8 palDataMgr_BKInput_Trans2_CMInput(UINT8 ucBKInput)
 void palDataMgr_WriteSSTinfo(void)   //G100_Julie_0036
 {
     UINT8 ucString[64] = {0};
-    char  ucOutputString[128] = {"\0"};      //T100_Simon_0020 Start
+    char  ucOutputString[128] = {""};      //T100_Simon_0020 Start
     UINT8 ucIndex = 0;
     UINT8 ucVal = 0;
     INT32 iPIP_EN = 0;
@@ -58580,7 +58602,7 @@ int utilDataMgr_ReadFile_USBtest_periphery(BYTE *cimx, BYTE *cext, BYTE *cddp, B
     char cStrTemp[64] = {'\0'}, cType[64] = {'\0'}, cString[64] = {'\0'};
 	BYTE cData;
 
-	sprintf(cTemp, "/tmp/test_periphery.conf\0");
+	sprintf(cTemp, "/tmp/test_periphery.conf");
 
 	if(access(cTemp,0)==-1)
 	{
@@ -59928,15 +59950,15 @@ eEXEC_CODE palDataMgr_Default_LanInfo_Get(void)//HICC2_Julie_0057
             }
             sscanf(cStrTemp, "%15[^=]=%15[^\n]", cString1, cString2);
             if(strncmp(cString1, "IpAddr", 6) == 0)
-                sscanf(cString2, "%d.%d.%d.%d", &m_cLAN_default.ucLAN_IP[0], &m_cLAN_default.ucLAN_IP[1], &m_cLAN_default.ucLAN_IP[2], &m_cLAN_default.ucLAN_IP[3]);
+                sscanf(cString2, "%hhu.%hhu.%hhu.%hhu", &m_cLAN_default.ucLAN_IP[0], &m_cLAN_default.ucLAN_IP[1], &m_cLAN_default.ucLAN_IP[2], &m_cLAN_default.ucLAN_IP[3]);
             else if(strncmp(cString1, "SubMask", 7) == 0)
-                sscanf(cString2, "%d.%d.%d.%d", &m_cLAN_default.ucLAN_MASK[0], &m_cLAN_default.ucLAN_MASK[1], &m_cLAN_default.ucLAN_MASK[2], &m_cLAN_default.ucLAN_MASK[3]);
+                sscanf(cString2, "%hhu.%hhu.%hhu.%hhu", &m_cLAN_default.ucLAN_MASK[0], &m_cLAN_default.ucLAN_MASK[1], &m_cLAN_default.ucLAN_MASK[2], &m_cLAN_default.ucLAN_MASK[3]);
             else if(strncmp(cString1, "Gateway", 7) == 0)
-                sscanf(cString2, "%d.%d.%d.%d", &m_cLAN_default.ucLAN_GATEWAY[0], &m_cLAN_default.ucLAN_GATEWAY[1], &m_cLAN_default.ucLAN_GATEWAY[2], &m_cLAN_default.ucLAN_GATEWAY[3]);
+                sscanf(cString2, "%hhu.%hhu.%hhu.%hhu", &m_cLAN_default.ucLAN_GATEWAY[0], &m_cLAN_default.ucLAN_GATEWAY[1], &m_cLAN_default.ucLAN_GATEWAY[2], &m_cLAN_default.ucLAN_GATEWAY[3]);
             else if(strncmp(cString1, "PrimaryDns", 10) == 0)
-                sscanf(cString2, "%d.%d.%d.%d", &m_cLAN_default.ucLAN_Primary_DNS[0], &m_cLAN_default.ucLAN_Primary_DNS[1], &m_cLAN_default.ucLAN_Primary_DNS[2], &m_cLAN_default.ucLAN_Primary_DNS[3]);
+                sscanf(cString2, "%hhu.%hhu.%hhu.%hhu", &m_cLAN_default.ucLAN_Primary_DNS[0], &m_cLAN_default.ucLAN_Primary_DNS[1], &m_cLAN_default.ucLAN_Primary_DNS[2], &m_cLAN_default.ucLAN_Primary_DNS[3]);
             else if(strncmp(cString1, "SecondDns", 9) == 0)
-                sscanf(cString2, "%d.%d.%d.%d", &m_cLAN_default.ucLAN_Secondary_DNS[0], &m_cLAN_default.ucLAN_Secondary_DNS[1], &m_cLAN_default.ucLAN_Secondary_DNS[2], &m_cLAN_default.ucLAN_Secondary_DNS[3]);
+                sscanf(cString2, "%hhu.%hhu.%hhu.%hhu", &m_cLAN_default.ucLAN_Secondary_DNS[0], &m_cLAN_default.ucLAN_Secondary_DNS[1], &m_cLAN_default.ucLAN_Secondary_DNS[2], &m_cLAN_default.ucLAN_Secondary_DNS[3]);
         }
         fclose(pFile);
         MutexGive();
@@ -60007,25 +60029,25 @@ eEXEC_CODE palDataMgr_IPV6_Default_LanInfo_Get(void) //HICC2_AC_0078
             sscanf(cStrTemp, "%10[^=]=%50[^\n]", cString1, cString2);
             if(strncmp(cString1, "IpAddr", 6) == 0)
             {
-                sscanf(cString2, "%x:%x:%x:%x:%x:%x:%x:%x",
+                sscanf(cString2, "%hx:%hx:%hx:%hx:%hx:%hx:%hx:%hx",
                     &m_cLAN_default.ucLAN_IPV6_IP[0], &m_cLAN_default.ucLAN_IPV6_IP[1], &m_cLAN_default.ucLAN_IPV6_IP[2], &m_cLAN_default.ucLAN_IPV6_IP[3],
                     &m_cLAN_default.ucLAN_IPV6_IP[4], &m_cLAN_default.ucLAN_IPV6_IP[5], &m_cLAN_default.ucLAN_IPV6_IP[6], &m_cLAN_default.ucLAN_IPV6_IP[7]);
             }
             else if(strncmp(cString1, "PrefixLen", 9) == 0)
             {
                 UINT8 temp = 0;
-                sscanf(cString2, "%d", &temp);
+                sscanf(cString2, "%hhu", &temp);
                 m_cLAN_default.ucLAN_IPV6_Prefix_Length = temp;
             }
             else if(strncmp(cString1, "Gateway", 7) == 0)
             {
-                sscanf(cString2, "%x:%x:%x:%x:%x:%x:%x:%x",
+                sscanf(cString2, "%hx:%hx:%hx:%hx:%hx:%hx:%hx:%hx",
                     &m_cLAN_default.ucLAN_IPV6_GATEWAY[0], &m_cLAN_default.ucLAN_IPV6_GATEWAY[1], &m_cLAN_default.ucLAN_IPV6_GATEWAY[2], &m_cLAN_default.ucLAN_IPV6_GATEWAY[3],
                     &m_cLAN_default.ucLAN_IPV6_GATEWAY[4], &m_cLAN_default.ucLAN_IPV6_GATEWAY[5], &m_cLAN_default.ucLAN_IPV6_GATEWAY[6], &m_cLAN_default.ucLAN_IPV6_GATEWAY[7]);
             }
             else if(strncmp(cString1, "Dns", 3) == 0)
             {
-                sscanf(cString2, "%x:%x:%x:%x:%x:%x:%x:%x",
+                sscanf(cString2, "%hx:%hx:%hx:%hx:%hx:%hx:%hx:%hx",
                     &m_cLAN_default.ucLAN_IPV6_DNS[0], &m_cLAN_default.ucLAN_IPV6_DNS[1], &m_cLAN_default.ucLAN_IPV6_DNS[2], &m_cLAN_default.ucLAN_IPV6_DNS[3],
                     &m_cLAN_default.ucLAN_IPV6_DNS[4], &m_cLAN_default.ucLAN_IPV6_DNS[5], &m_cLAN_default.ucLAN_IPV6_DNS[6], &m_cLAN_default.ucLAN_IPV6_DNS[7]);
             }

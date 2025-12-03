@@ -1790,7 +1790,7 @@ INT16 palEnvironment_Poll(UINT16 uiTick)
             if(eResult == rcSUCCESS)
             {
                 LOG_MSG(db_APP_SYSTEM, "FrontEnd   E%02d.%02d\n", aucFEVer[1], aucFEVer[0]);
-                sprintf((char*)aucVerStr, "E%02d.%02d\0", aucFEVer[1], aucFEVer[0]);
+                sprintf((char*)aucVerStr, "E%02d.%02d", aucFEVer[1], aucFEVer[0]);
                 palDataMgr_Data_Access(edcFRONTEND_VERSION, edaWRITE_RAM_ONLY_NO_ACTION, aucVerStr);
                 palLANProcSendToLAN(edcFRONTEND_VERSION);
 				palDataMgr_Data_Access(edcCUSTOMER_CODE, edaWRITE_THROUGH_WITH_ACTION, &aucVerStr[2]); //set custom code
@@ -1811,7 +1811,7 @@ INT16 palEnvironment_Poll(UINT16 uiTick)
             if((eResut == rcSUCCESS) && (eResut2 == rcSUCCESS))
             {
                 LOG_MSG(db_ALWAYS, "XFPGA  Q%02d.%02d\n", aucVersion[1], aucVersion[0]);
-                sprintf((char*)aucVerStr, "Q%02d.%02d\0", aucVersion[1], aucVersion[0]);
+                sprintf((char*)aucVerStr, "Q%02d.%02d", aucVersion[1], aucVersion[0]);
                 palDataMgr_Data_Access(edcXFPGA_VERSION, edaWRITE_RAM_ONLY_NO_ACTION, aucVerStr);
                 palLANProcSendToLAN(edcXFPGA_VERSION);
             }
@@ -2998,7 +2998,7 @@ INT16 palEnvironment_Motor_Poll(UINT16 uiTick)  //G100_Owen_0041
                 if(eResult == rcSUCCESS)    //G100_Simon_0056
                 {
                     char acVerString[32] = {0};
-                    sprintf(acVerString, "M%02d.%02d\0", aucVersion[1], aucVersion[0]);
+                    sprintf(acVerString, "M%02d.%02d", aucVersion[1], aucVersion[0]);
                     palDataMgr_Data_Access(edcMOTOR_VERSION, edaWRITE_RAM_ONLY_NO_ACTION, acVerString);
                 }
 

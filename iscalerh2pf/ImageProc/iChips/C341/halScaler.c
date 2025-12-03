@@ -3736,24 +3736,24 @@ eHAL_SCALER_EXEC_CODE halScaler_FrontEndColorSpaceInfo_Get(UINT8 ucCH,UINT8* ucV
     switch(ucFrontEndColorSpace[ucCH])
     {
         case eCOLOR_FORMAT_RGB:
-            sprintf(aucString, "RGB\0");
+            sprintf(aucString, "RGB");
             memcpy(ucValue, aucString, strlen(aucString)+1);
             break;
 
         case eCOLOR_FORMAT_RGB_LIMIT:
-            sprintf(aucString, "RGB Video\0");
+            sprintf(aucString, "RGB Video");
             memcpy(ucValue, aucString, strlen(aucString)+1);
             break;
 
         default:
             if(ucFrontEndVideoYUV[ucCH] == eVIDEO_YUV_REC601)
             {
-                sprintf(aucString, "REC601\0");
+                sprintf(aucString, "REC601");
                 memcpy(ucValue, aucString, strlen(aucString)+1);
             }
             else if(ucFrontEndVideoYUV[ucCH] == eVIDEO_YUV_REC709)
             {
-                sprintf(aucString, "REC709\0");
+                sprintf(aucString, "REC709");
                 memcpy(ucValue, aucString, strlen(aucString)+1);
             }
             else
@@ -3762,12 +3762,12 @@ eHAL_SCALER_EXEC_CODE halScaler_FrontEndColorSpaceInfo_Get(UINT8 ucCH,UINT8* ucV
 
                 if(ucVal == eVIDEO_YUV_REC601)
                 {
-                    sprintf(aucString, "REC601\0");
+                    sprintf(aucString, "REC601");
                     memcpy(ucValue, aucString, strlen(aucString)+1);
                 }
                 else
                 {
-                    sprintf(aucString, "REC709\0");
+                    sprintf(aucString, "REC709");
                     memcpy(ucValue, aucString, strlen(aucString)+1);
                 }
             }

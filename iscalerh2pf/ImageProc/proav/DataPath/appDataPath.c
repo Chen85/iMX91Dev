@@ -1165,7 +1165,7 @@ static void palDataPath_StartDisplay(void)
     //appGui_HWInit();
 
     ulVersion = halScaler_VersionGet();
-    sprintf((char*)ucVer, "Q%02d.%02d.%02d\0", (ulVersion >> 8)&0xFF, ulVersion&0xFF,  (ulVersion >> 16)&0xFF);
+    sprintf((char*)ucVer, "Q%02d.%02d.%02d", (ulVersion >> 8)&0xFF, ulVersion&0xFF,  (ulVersion >> 16)&0xFF);
     palDataMgr_Data_Access(edcXFPGA_VERSION, edaWRITE_RAM_ONLY_NO_ACTION, &ucVer[0]);
 
     if(Board_SingleBoard_Get() == FALSE)
@@ -1252,7 +1252,7 @@ static void palDataPath_StartDisplay(void)
             (UINT8)(wRX24TVer),
             (UINT8)(wRX24TVer>>8));
 
-        sprintf((char*)aucVerString, "P%02d.%02d\0" ,
+        sprintf((char*)aucVerString, "P%02d.%02d" ,
             (UINT8)(wRX24TVer),
             (UINT8)(wRX24TVer>>8));
 
@@ -4315,7 +4315,7 @@ eEXEC_CODE palDataPath_InputPixelClock_Get(UINT8 *ucValue)   //A70LV_Doulas_0056
             //char aucString[VERSION_STRING_MAX_LENGTH];
             //DOUBLE dbVal;
             //dbVal = (DOUBLE)m_FrontEndVideoTiming.u32VideoPCLK;
-            //sprintf(aucString, "%d.%03dMHz\0",(UINT32)dbVal/1000,(UINT32)dbVal%1000);
+            //sprintf(aucString, "%d.%03dMHz",(UINT32)dbVal/1000,(UINT32)dbVal%1000);
             //memcpy(ucValue, aucString, strlen(aucString)+1);
         //}
         //else
@@ -4358,7 +4358,7 @@ eEXEC_CODE palDataPath_InputResoultion_Get(UINT8 *ucValue)
         //if(m_FrontEndVideoFormat.u8VideoDownScaling)        //A70LV_Doulas_0187 modify
         //{
             //char aucString[VERSION_STRING_MAX_LENGTH];
-            //sprintf(aucString, "%d x %d\0",m_FrontEndVideoTiming.u16VideoHActive ,m_FrontEndVideoTiming.u16VideoVActive);
+            //sprintf(aucString, "%d x %d",m_FrontEndVideoTiming.u16VideoHActive ,m_FrontEndVideoTiming.u16VideoVActive);
             //memcpy(ucValue, aucString, strlen(aucString)+1);
         //}
         //else
@@ -4386,7 +4386,7 @@ eEXEC_CODE palDataPath_InputHorzRefresh_Get(UINT8 *ucValue)
             //char aucString[VERSION_STRING_MAX_LENGTH];
             //DOUBLE dbVal;
             //dbVal = (DOUBLE)m_FrontEndVideoTiming.u32VideoPCLK *1000 / (DOUBLE)m_FrontEndVideoTiming.u16VideoHTotal;
-            //sprintf(aucString, "%d.%03dkHz\0",(UINT32)dbVal/1000,(UINT32)dbVal%1000);
+            //sprintf(aucString, "%d.%03dkHz",(UINT32)dbVal/1000,(UINT32)dbVal%1000);
             //memcpy(ucValue, aucString, strlen(aucString)+1);
         //}
         //else
@@ -4414,7 +4414,7 @@ eEXEC_CODE palDataPath_InputVertRefresh_Get(UINT8 *ucValue)
             //char aucString[VERSION_STRING_MAX_LENGTH];
             //DOUBLE dbVal;
             //dbVal = (DOUBLE)m_FrontEndVideoTiming.u32VideoPCLK *1000 / (DOUBLE)m_FrontEndVideoTiming.u16VideoHTotal / (DOUBLE)m_FrontEndVideoTiming.u16VideoVTotal * 100;
-            //sprintf(aucString, "%d.%02dHz\0",(UINT32)dbVal/100,(UINT32)dbVal%100);
+            //sprintf(aucString, "%d.%02dHz",(UINT32)dbVal/100,(UINT32)dbVal%100);
             //memcpy(ucValue, aucString, strlen(aucString)+1);
         //}
         //else
@@ -4444,22 +4444,22 @@ eEXEC_CODE palDataPath_InputSyncType_Get(UINT8 *ucValue)
             //check sync "Sync on Green" or "Separate"
             if(m_FrontEndVideoFormat.u8VideoVGASyncType == eVGA_SYNC_TYPE_SOG)  //A70LV_Doulas_0109 modify
             {
-                sprintf(aucString, "Sync on Green\0");
+                sprintf(aucString, "Sync on Green");
                 memcpy(ucValue, aucString, strlen(aucString)+1);
             }
             else
             {
-                sprintf(aucString, "Separate\0");
+                sprintf(aucString, "Separate");
                 memcpy(ucValue, aucString, strlen(aucString)+1);
             }
         }
         else
         {
-            sprintf(aucString, "Separate\0");
+            sprintf(aucString, "Separate");
             memcpy(ucValue, aucString, strlen(aucString)+1);
         }
 #else
-        sprintf(aucString, "Separate\0");
+        sprintf(aucString, "Separate");
         memcpy(ucValue, aucString, strlen(aucString)+1);
 #endif /* 0 */
 

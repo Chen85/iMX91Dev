@@ -96,7 +96,7 @@ static UINT8 TelnetReplyString[256] = {'\0'};
 BOOL palLANProc_DatacodeUpdate_Check(UINT16 uiDataCode, UINT8 ucInit)
 {
     BOOL bSendData = FALSE;
-	
+
     switch(uiDataCode)
     {
         case edcLAN_APPLY:
@@ -233,9 +233,9 @@ BOOL palLANProc_DatacodeUpdate_Check(UINT16 uiDataCode, UINT8 ucInit)
         case edcIPV6_DNS_6:
         case edcIPV6_DNS_7:
         case edcIPV6_DNS_8:
-#if defined(CUSTOM_OPTOMA)       
+#if defined(CUSTOM_OPTOMA)
         case edcNETWORK_RESET_ONLY:	//HICC2_Zonic_0013
-#endif		
+#endif
             bSendData = FALSE;
             break; //edcSTRUCT_EMAIL
 
@@ -262,7 +262,7 @@ BOOL palLANProc_DatacodeUpdate_Check(UINT16 uiDataCode, UINT8 ucInit)
             LOG_MSG(db_APP_LAN, "UpdateItem to ipc(%d)\r\n", uiDataCode);
             bSendData = TRUE;
             break;
-			
+
 		case edcART_NET:// HICC2_Bruce_0017
 		case edcARTNET_NET:
 		case edcARTNET_SUBNET:
@@ -313,7 +313,7 @@ BOOL palLANProc_DatacodeUpdate_Check(UINT16 uiDataCode, UINT8 ucInit)
 				bSendData = TRUE;
 			}
 			break;
-			
+
         default:
             LOG_MSG(db_APP_LAN, "UpdateItem to ipc(%d)\r\n", uiDataCode);
             bSendData = TRUE;
@@ -566,7 +566,7 @@ INT16 palLANProc_Poll(UINT16 uiTick)
         )
         {
             if( (palGeo_QueueDataCountGet() == 0) &&
-                #ifdef SCALER_FPGA_F34 
+                #ifdef SCALER_FPGA_F34
                 (palGeo_AdvWarpShowOsdPattern_ParaGet() == PAT_TYPE__OFF) &&
 				#endif
                 (FALSE == palGeo_ApLinkFlag_Get() || (TRUE == palGeo_ApLinkFlag_Get() && (FALSE == palGeo_IsDraw_OSD(eWDT_BEFORE_WARP))))     //H2PF_Simon_0040
@@ -627,7 +627,7 @@ INT16 palLANProc_Poll(UINT16 uiTick)
                     palDataMgr_Data_Access(edcLAN_SECOND_DNS,  edaREAD, cSecondaryDNS);
                     palDataMgr_Data_Access(edcLAN_PATH_SWITCH,  edaREAD, &ucPath);          //G100_Owen_0026
 
-                    sprintf((char *)cData ,"%d %d %s %s %s %s %s\0", ucPath, ucDHCP, cIP, cSub ,cGatway ,cPrimaryDNS ,cSecondaryDNS);   //G100_Owen_0026
+                    sprintf((char *)cData ,"%d %d %s %s %s %s %s", ucPath, ucDHCP, cIP, cSub ,cGatway ,cPrimaryDNS ,cSecondaryDNS);   //G100_Owen_0026
                     LOG_MSG(db_APP_ACK_LAN, "LAN_APPLY str %s\n", cData);
 
                     utilIpc_SendData(eIPC_SEND_DATA_LAN_APPLY, edcLAN_APPLY, cData, eEXEC_CODE_PASS, strlen((char*)cData)+1);  //G100_Simon_0053
@@ -650,7 +650,7 @@ INT16 palLANProc_Poll(UINT16 uiTick)
                     palDataMgr_Data_Access(edcWLAN_DEFAULT_GATEWAY, edaREAD, cGatway);
                     palDataMgr_Data_Access(edcWLAN_SSID, edaREAD, cSSID);
 
-                    sprintf((char *)cData ,"%d %s 12345678 %s %s %s %s\0",cWLAN_Enable, cSSID, cStart_IP, cEnd_IP, cMask, cGatway);
+                    sprintf((char *)cData ,"%d %s 12345678 %s %s %s %s",cWLAN_Enable, cSSID, cStart_IP, cEnd_IP, cMask, cGatway);
                     LOG_MSG(db_APP_ACK_LAN, "WLAN_APPLY str %s\n", cData);
 
                     utilIpc_SendData(eIPC_SEND_DATA_LAN_APPLY, edcWLAN_APPLY, cData, eEXEC_CODE_PASS, strlen((char*)cData)+1);  //G100_Simon_0053
@@ -668,7 +668,7 @@ INT16 palLANProc_Poll(UINT16 uiTick)
                     palDataMgr_Data_Access(edcCRESTRON_PID, edaREAD, &ucPID);
                     palDataMgr_Data_Access(edcCRESTRON_PORT, edaREAD, &ucPORT);
 
-                    sprintf((char *)cData ,"%s %d %d\0", cIP, ucPID, ucPORT);
+                    sprintf((char *)cData ,"%s %d %d", cIP, ucPID, ucPORT);
                     LOG_MSG(db_APP_ACK_LAN, "CRESTRON_APPLY str %s\n", cData);
 
                     utilIpc_SendData(eIPC_SEND_DATA_LAN_APPLY, edcCRESTRON_APPLY, cData, eEXEC_CODE_PASS, strlen((char*)cData)+1);
@@ -685,7 +685,7 @@ INT16 palLANProc_Poll(UINT16 uiTick)
                     palDataMgr_Data_Access(edcPJLINK_SECRET_ENABLE, edaREAD, &cSecurityEn); //A65_OPTOMA_Julie_0034//A35G2_Coda_0049
                     palDataMgr_Data_Access(edcPJLINK_SECRET_PASSWORD, edaREAD, &cPassword); //A65_OPTOMA_Julie_0035
 
-                    sprintf((char *)cData ,"%s %d %s\0", cIP, cSecurityEn, cPassword);
+                    sprintf((char *)cData ,"%s %d %s", cIP, cSecurityEn, cPassword);
                     LOG_MSG(db_APP_ACK_LAN, "PJLINK_APPLY str %s\n", cData);
 
                     utilIpc_SendData(eIPC_SEND_DATA_LAN_APPLY, edcPJLINK_APPLY, cData, eEXEC_CODE_PASS, strlen((char*)cData)+1);
@@ -722,7 +722,7 @@ INT16 palLANProc_Poll(UINT16 uiTick)
                     UINT8 cData[256] = {0};
 
                     palDataMgr_Data_Access(edcCONFIG_BACKUP_RESTART_WEB, edaREAD, &ucData);
-                    sprintf((char *)cData ,"%d\0", ucData);
+                    sprintf((char *)cData ,"%d", ucData);
                     //LOG_MSG(db_ALWAYS, "CONFIG_BACKUP_RESTART_WEB str (%d)(%s)\n", ucData, cData);
 
                     utilIpc_SendData(eIPC_SEND_DATA_LAN_APPLY, edcCONFIG_BACKUP_RESTART_WEB, cData, eEXEC_CODE_PASS, strlen((char*)cData)+1);
@@ -744,14 +744,14 @@ INT16 palLANProc_Poll(UINT16 uiTick)
 					UINT8 ucPrefix_Length = 0;
 					char cGatway[64] = {'\0'};
 					char cDNS[64] = {'\0'};
-			
+
 					palDataMgr_Data_Access(edcIPV6_DHCP, edaREAD, &ucDHCP);
 					palDataMgr_Data_Access(edcIPV6_IP_ADDRESS, edaREAD, cIP);
 					palDataMgr_Data_Access(edcIPV6_PREFIX_LENGTH, edaREAD, &ucPrefix_Length);
 					palDataMgr_Data_Access(edcIPV6_DEFAULT_GATEWAY, edaREAD, cGatway);
 					palDataMgr_Data_Access(edcIPV6_DNS, edaREAD, cDNS);
-			
-					sprintf((char *)cData ,"%d %s %d %s %s\0", ucDHCP, cIP ,ucPrefix_Length ,cGatway ,cDNS);
+
+					sprintf((char *)cData ,"%d %s %d %s %s", ucDHCP, cIP ,ucPrefix_Length ,cGatway ,cDNS);
 					LOG_MSG(db_APP_ACK_LAN, "edcIPV6_APPLY str %s\n", cData);
 					utilIpc_SendData(eIPC_SEND_DATA_LAN_APPLY, edcIPV6_APPLY, cData, eEXEC_CODE_PASS, strlen((char*)cData)+1);
 				} break;

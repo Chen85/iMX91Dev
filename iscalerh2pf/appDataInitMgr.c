@@ -125,7 +125,7 @@ eEXEC_CODE palDataMgr_Init(void)
         {
             palDataMgr_Access_MODEL_NAME(edaREAD, (void *)cModelName);
 
-            sprintf(m_sDefSysSettings.sUserSystemSetting.sCommonSetting.ucModelName, "%s\0",cModelName);
+            sprintf(m_sDefSysSettings.sUserSystemSetting.sCommonSetting.ucModelName, "%s",cModelName);
 
             m_sDefSysSettings.sLayoutVersion.ucMajor = LAYOUT_VERSION_MAJOR;
             m_sDefSysSettings.sLayoutVersion.ucMinor = LAYOUT_VERSION_MINOR;
@@ -168,7 +168,7 @@ eEXEC_CODE palDataMgr_Init(void)
             EE_GETVAR_SIZE(sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM4_IDX], 50, m_sDefSysSettings.sUserSystemSetting.sWarpSetting.sWarpMemory[BLENDING_AP_MEM4_IDX]);
 
             palDataMgr_Access_MODEL_NAME(edaREAD, (void *)cModelName);
-            sprintf(m_sDefSysSettings.sUserSystemSetting.sCommonSetting.ucModelName, "%s\0",cModelName);
+            sprintf(m_sDefSysSettings.sUserSystemSetting.sCommonSetting.ucModelName, "%s",cModelName);
 #endif /* 0 */
             m_sDefSysSettings.sLayoutVersion.ucMajor = LAYOUT_VERSION_MAJOR;
             m_sDefSysSettings.sLayoutVersion.ucMinor = LAYOUT_VERSION_MINOR;
@@ -251,11 +251,11 @@ eEXEC_CODE palDataMgr_Init(void)
     #ifdef CUSTOM_CHRISTIE
     EE_GETVAR(sUserSystemSetting.sCommonSetting.ucCustomCode, m_sDefSysSettings.sUserSystemSetting.sCommonSetting.ucCustomCode);
 
-    if(strcmp(m_sDefSysSettings.sUserSystemSetting.sCommonSetting.ucCustomCode, "08010200\0") == 0)
+    if(strcmp(m_sDefSysSettings.sUserSystemSetting.sCommonSetting.ucCustomCode, "08010200") == 0)
     {
         Board_MCU_ModelID_Set(MODULE_TYPE_ID1_PLATFORM);
     }
-    else if(strcmp(m_sDefSysSettings.sUserSystemSetting.sCommonSetting.ucCustomCode, "08010300\0") == 0)
+    else if(strcmp(m_sDefSysSettings.sUserSystemSetting.sCommonSetting.ucCustomCode, "08010300") == 0)
     {
         Board_MCU_ModelID_Set(MODULE_TYPE_ID2_PLATFORM);
     }
@@ -372,7 +372,7 @@ eEXEC_CODE palDataMgr_PowerNormal(void)
     if(MutexTake())
     {
         char    cModelName[24] = {'\0'};
-        char    cUnknow[13] = "Unknow_Model\0";
+        char    cUnknow[13] = "Unknow_Model";
         UINT8   ucValue = 0;
         UINT8   ucValue2 = 0;
 
@@ -466,11 +466,11 @@ eEXEC_CODE palDataMgr_PowerNormal(void)
         m_ucLastInputSource = m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sSourceSetting.ucInputSourceMain;
 
         //HICC2_Julie_0055
-        sprintf((char*)m_sAppDataMgrInfo.sSystemValues.sVERSION.m_FPGA1_Version, "XFF.FF\0");
-        sprintf((char*)m_sAppDataMgrInfo.sSystemValues.sVERSION.m_FPGA2_Version, "YFF.FF\0");
-        sprintf((char*)m_sAppDataMgrInfo.sSystemValues.sVERSION.m_FPGA3_Version, "ZFF.FF\0");
-        sprintf((char*)m_sAppDataMgrInfo.sSystemValues.sVERSION.m_KeyPad_Version, "KFF.FF\0");
-        sprintf((char*)m_sAppDataMgrInfo.sSystemValues.sVERSION.m_XFPGA_Version, "QFF.FF\0");
+        sprintf((char*)m_sAppDataMgrInfo.sSystemValues.sVERSION.m_FPGA1_Version, "XFF.FF");
+        sprintf((char*)m_sAppDataMgrInfo.sSystemValues.sVERSION.m_FPGA2_Version, "YFF.FF");
+        sprintf((char*)m_sAppDataMgrInfo.sSystemValues.sVERSION.m_FPGA3_Version, "ZFF.FF");
+        sprintf((char*)m_sAppDataMgrInfo.sSystemValues.sVERSION.m_KeyPad_Version, "KFF.FF");
+        sprintf((char*)m_sAppDataMgrInfo.sSystemValues.sVERSION.m_XFPGA_Version, "QFF.FF");
 
         #ifndef SCALER_FPGA_F34
         m_sAppDataMgrInfo.sEepSettings.sUserSystemSetting.sWarpSetting.ucGeometryEnable = 1;   //HICC2_Simon_0011
@@ -497,8 +497,8 @@ eEXEC_CODE palDataMgr_PowerNormal(void)
                     m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSearch.sItem[ulCount].uiFd = (UINT16)m_sAppDataMgrInfo.sSystemValues.sGroupingSearch.Info[ulCount].Fd;
                     m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSearch.sItem[ulCount].uiGroupId = (UINT16)m_sAppDataMgrInfo.sSystemValues.sGroupingSearch.Info[ulCount].GroupId;
 
-                    snprintf(m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSearch.sItem[ulCount].cName, 32, "%s\0", m_sAppDataMgrInfo.sSystemValues.sGroupingSearch.Info[ulCount].ModeName);
-                    snprintf(m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSearch.sItem[ulCount].cIP, 20, "%s\0", m_sAppDataMgrInfo.sSystemValues.sGroupingSearch.Info[ulCount].Ip);
+                    snprintf(m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSearch.sItem[ulCount].cName, 32, "%s", m_sAppDataMgrInfo.sSystemValues.sGroupingSearch.Info[ulCount].ModeName);
+                    snprintf(m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSearch.sItem[ulCount].cIP, 20, "%s", m_sAppDataMgrInfo.sSystemValues.sGroupingSearch.Info[ulCount].Ip);
                 }
             }
 
@@ -515,8 +515,8 @@ eEXEC_CODE palDataMgr_PowerNormal(void)
                     m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSelect.sItem[ulCount].ucGroupStatus = (UINT8)m_sAppDataMgrInfo.sSystemValues.sGroupingSelect.Info[ulCount].ProjectorStatus;
                     m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSelect.sItem[ulCount].uiFd = (UINT16)m_sAppDataMgrInfo.sSystemValues.sGroupingSelect.Info[ulCount].Fd;
                     m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSelect.sItem[ulCount].uiGroupId = (UINT16)m_sAppDataMgrInfo.sSystemValues.sGroupingSelect.Info[ulCount].GroupId;
-                    snprintf(m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSelect.sItem[ulCount].cName, 32, "%s\0", m_sAppDataMgrInfo.sSystemValues.sGroupingSelect.Info[ulCount].ModeName);
-                    snprintf(m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSelect.sItem[ulCount].cIP, 20, "%s\0", m_sAppDataMgrInfo.sSystemValues.sGroupingSelect.Info[ulCount].Ip);
+                    snprintf(m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSelect.sItem[ulCount].cName, 32, "%s", m_sAppDataMgrInfo.sSystemValues.sGroupingSelect.Info[ulCount].ModeName);
+                    snprintf(m_sAppDataMgrInfo.sSystemValues.sGroupingMenuSelect.sItem[ulCount].cIP, 20, "%s", m_sAppDataMgrInfo.sSystemValues.sGroupingSelect.Info[ulCount].Ip);
                 }
             }
             palLANProcSendToLAN(edcGROUPINGMENU_SEARCH_LIST);
@@ -581,7 +581,7 @@ eEXEC_CODE palDataMgr_PowerNormal(void)
 		//G100_Clare_0068, mod, >>>
         //palDataMgr_Check_ModelID();
         //palDataMgr_Access_MODEL_NAME(edaREAD, (void *)cModelName);
-        //sprintf(m_sDefSysSettings.sUserSystemSetting.sCommonSetting.ucModelName, "%s\0",cModelName);
+        //sprintf(m_sDefSysSettings.sUserSystemSetting.sCommonSetting.ucModelName, "%s",cModelName);
 		//G100_Clare_0068, mod, <<<
 	#if defined(CUSTOM_BARCO) //HICC2_Doulas_0083 Modify//A35G2_Coda_0064
         palDataMgr_sHSG_setting_Factory_Reset();
@@ -737,7 +737,7 @@ void palDataMgr_sBurin_Information_Init_Default(void)
 void palDataMgr_sSystemDefault_Init_Default(void)
 {
 	UINT8 ucData = 0;	//G100_Doulas_0077
-    sprintf((char*)m_sDefSysSettings.sSystemDefault.ucSerialNumber, "31211199\0"); //HICC2_Doulas_0079
+    sprintf((char*)m_sDefSysSettings.sSystemDefault.ucSerialNumber, "31211199"); //HICC2_Doulas_0079
 
     m_sDefSysSettings.sSystemDefault.ucFirstStartupFlag = (UINT8)ets_ON;
     m_sDefSysSettings.sSystemDefault.ucUSTFirstStartup = (UINT8)ets_OFF;
@@ -1317,21 +1317,21 @@ void palDataMgr_sSourceSetting_Init_Default(void)
 //    m_sDefSysSettings.sUserSystemSetting.sSourceSetting.ucEligibleTerminal[INPUT_SOURCE_MAX];
 //    m_sDefSysSettings.sUserSystemSetting.sSourceSetting.cSourceName[INPUT_SOURCE_MAX][SOURCE_NAME_MAX_LENGTH];
 
-   sprintf((char *)m_sDefSysSettings.sUserSystemSetting.sSourceSetting.cSourceName[0], "Undefined0\0");    //T100_Simon_0006 Start
-   sprintf((char *)m_sDefSysSettings.sUserSystemSetting.sSourceSetting.cSourceName[1], "VGA\0");
-   sprintf((char *)m_sDefSysSettings.sUserSystemSetting.sSourceSetting.cSourceName[2], "Undefined2\0");
-   sprintf((char *)m_sDefSysSettings.sUserSystemSetting.sSourceSetting.cSourceName[3], "HDMI 1\0");
-   sprintf((char *)m_sDefSysSettings.sUserSystemSetting.sSourceSetting.cSourceName[4], "HDMI 2\0");
-   sprintf((char *)m_sDefSysSettings.sUserSystemSetting.sSourceSetting.cSourceName[5], "DVI-D\0");
-   sprintf((char *)m_sDefSysSettings.sUserSystemSetting.sSourceSetting.cSourceName[6], "DisplayPort\0");  //G100_Wilsonj_0005
-   sprintf((char *)m_sDefSysSettings.sUserSystemSetting.sSourceSetting.cSourceName[7], "3G-SDI\0");
-   sprintf((char *)m_sDefSysSettings.sUserSystemSetting.sSourceSetting.cSourceName[8], "HDBaseT\0");
-   sprintf((char *)m_sDefSysSettings.sUserSystemSetting.sSourceSetting.cSourceName[9], "12G-SDI\0");
-   sprintf((char *)m_sDefSysSettings.sUserSystemSetting.sSourceSetting.cSourceName[10], "Undefined10\0");
-   sprintf((char *)m_sDefSysSettings.sUserSystemSetting.sSourceSetting.cSourceName[11], "Undefined11\0");
-   sprintf((char *)m_sDefSysSettings.sUserSystemSetting.sSourceSetting.cSourceName[12], "Undefined12\0");
-   sprintf((char *)m_sDefSysSettings.sUserSystemSetting.sSourceSetting.cSourceName[13], "Undefined13\0");
-   sprintf((char *)m_sDefSysSettings.sUserSystemSetting.sSourceSetting.cSourceName[14], "Undefined14\0");       //T100_Simon_0006 End
+   sprintf((char *)m_sDefSysSettings.sUserSystemSetting.sSourceSetting.cSourceName[0], "Undefined0");    //T100_Simon_0006 Start
+   sprintf((char *)m_sDefSysSettings.sUserSystemSetting.sSourceSetting.cSourceName[1], "VGA");
+   sprintf((char *)m_sDefSysSettings.sUserSystemSetting.sSourceSetting.cSourceName[2], "Undefined2");
+   sprintf((char *)m_sDefSysSettings.sUserSystemSetting.sSourceSetting.cSourceName[3], "HDMI 1");
+   sprintf((char *)m_sDefSysSettings.sUserSystemSetting.sSourceSetting.cSourceName[4], "HDMI 2");
+   sprintf((char *)m_sDefSysSettings.sUserSystemSetting.sSourceSetting.cSourceName[5], "DVI-D");
+   sprintf((char *)m_sDefSysSettings.sUserSystemSetting.sSourceSetting.cSourceName[6], "DisplayPort");  //G100_Wilsonj_0005
+   sprintf((char *)m_sDefSysSettings.sUserSystemSetting.sSourceSetting.cSourceName[7], "3G-SDI");
+   sprintf((char *)m_sDefSysSettings.sUserSystemSetting.sSourceSetting.cSourceName[8], "HDBaseT");
+   sprintf((char *)m_sDefSysSettings.sUserSystemSetting.sSourceSetting.cSourceName[9], "12G-SDI");
+   sprintf((char *)m_sDefSysSettings.sUserSystemSetting.sSourceSetting.cSourceName[10], "Undefined10");
+   sprintf((char *)m_sDefSysSettings.sUserSystemSetting.sSourceSetting.cSourceName[11], "Undefined11");
+   sprintf((char *)m_sDefSysSettings.sUserSystemSetting.sSourceSetting.cSourceName[12], "Undefined12");
+   sprintf((char *)m_sDefSysSettings.sUserSystemSetting.sSourceSetting.cSourceName[13], "Undefined13");
+   sprintf((char *)m_sDefSysSettings.sUserSystemSetting.sSourceSetting.cSourceName[14], "Undefined14");       //T100_Simon_0006 End
 
     #if defined(CUSTOM_CHRISTIE)
     m_sDefSysSettings.sUserSystemSetting.sSourceSetting.ucCustomKey = eCM_HOTKEY_SETTINGS_SIZE_PRESETS;
@@ -1558,17 +1558,17 @@ void palDataMgr_sHSG_setting_Init_Default(void)
     if(palSystem_ModelIDGet() == MODEL_ID_0)
     {
         memcpy(&sHSG_TABLE_SETTING,&sHSG_TABLE_SETTING_MODEL0[0], sizeof(sHSG_SETTING)*DISPLAY_MODE_MAX);//A35G2_Coda_0106
-        snprintf(cFileName, 128, "%s/hsgSettings_0.bin\0", CONF_SCALER_COLOR_PATH);
+        snprintf(cFileName, 128, "%s/hsgSettings_0.bin", CONF_SCALER_COLOR_PATH);
     }
     else if(palSystem_ModelIDGet() == MODEL_ID_1)
     {
         memcpy(&sHSG_TABLE_SETTING,&sHSG_TABLE_SETTING_MODEL1[0], sizeof(sHSG_SETTING)*DISPLAY_MODE_MAX);
-        snprintf(cFileName, 128, "%s/hsgSettings_1.bin\0", CONF_SCALER_COLOR_PATH);
+        snprintf(cFileName, 128, "%s/hsgSettings_1.bin", CONF_SCALER_COLOR_PATH);
     }
     else
     {
         memcpy(&sHSG_TABLE_SETTING,&sHSG_TABLE_SETTING_MODEL2[0], sizeof(sHSG_SETTING)*DISPLAY_MODE_MAX);
-        snprintf(cFileName, 128, "%s/hsgSettings_2.bin\0", CONF_SCALER_COLOR_PATH);
+        snprintf(cFileName, 128, "%s/hsgSettings_2.bin", CONF_SCALER_COLOR_PATH);
     }
 
     if(CFG_CUSTOMER_ID == CUSTOMER_ID_FUJIFILM)
@@ -1586,15 +1586,15 @@ void palDataMgr_sHSG_setting_Init_Default(void)
 
             if(palSystem_ModelIDGet() == MODEL_ID_0)
             {
-                snprintf(cFileName, 128, "%s/hsgSettings_0.bin\0", CONF_SCALER_COLOR_PATH_FJ);
+                snprintf(cFileName, 128, "%s/hsgSettings_0.bin", CONF_SCALER_COLOR_PATH_FJ);
             }
             else if(palSystem_ModelIDGet() == MODEL_ID_1)
             {
-                snprintf(cFileName, 128, "%s/hsgSettings_1.bin\0", CONF_SCALER_COLOR_PATH_FJ);
+                snprintf(cFileName, 128, "%s/hsgSettings_1.bin", CONF_SCALER_COLOR_PATH_FJ);
             }
             else
             {
-                snprintf(cFileName, 128, "%s/hsgSettings_2.bin\0", CONF_SCALER_COLOR_PATH_FJ);
+                snprintf(cFileName, 128, "%s/hsgSettings_2.bin", CONF_SCALER_COLOR_PATH_FJ);
             }
         }
     }
@@ -1801,19 +1801,19 @@ void palDataMgr_sPWM_setting_Init_Default(void)
 
     if(palSystem_ModelIDGet() == MODEL_ID_0)
     {
-        snprintf(cFileName, 128, "%s/pwmSettings_0.bin\0", CONF_SCALER_COLOR_PATH);
+        snprintf(cFileName, 128, "%s/pwmSettings_0.bin", CONF_SCALER_COLOR_PATH);
     }
     else if(palSystem_ModelIDGet() == MODEL_ID_1)
     {
-        snprintf(cFileName, 128, "%s/pwmSettings_1.bin\0", CONF_SCALER_COLOR_PATH);
+        snprintf(cFileName, 128, "%s/pwmSettings_1.bin", CONF_SCALER_COLOR_PATH);
     }
     else if(palSystem_ModelIDGet() == MODEL_ID_2)
     {
-        snprintf(cFileName, 128, "%s/pwmSettings_2.bin\0", CONF_SCALER_COLOR_PATH);
+        snprintf(cFileName, 128, "%s/pwmSettings_2.bin", CONF_SCALER_COLOR_PATH);
     }
     else
     {
-        snprintf(cFileName, 128, "%s/pwmSettings_0.bin\0", CONF_SCALER_COLOR_PATH);
+        snprintf(cFileName, 128, "%s/pwmSettings_0.bin", CONF_SCALER_COLOR_PATH);
     }
 
     pFile = fopen(cFileName, "rb+");
@@ -1949,22 +1949,22 @@ void palDataMgr_sColorSetting_Init_Default(void)    //A70LV_Doulas_0192 modify//
         mkdir(CONF_SCALER_COLOR_PATH, 0777);
     }
 
-    //snprintf(cFileName, 128, "%s/colorSettings_0.bin\0", CONF_SCALER_COLOR_PATH);
+    //snprintf(cFileName, 128, "%s/colorSettings_0.bin", CONF_SCALER_COLOR_PATH);
 	if(palSystem_ModelIDGet() == MODEL_ID_0)
 	{
-		snprintf(cFileName, 128, "%s/colorSettings_0.bin\0", CONF_SCALER_COLOR_PATH);
+		snprintf(cFileName, 128, "%s/colorSettings_0.bin", CONF_SCALER_COLOR_PATH);
 	}
 	else if(palSystem_ModelIDGet() == MODEL_ID_1)
 	{
-		snprintf(cFileName, 128, "%s/colorSettings_1.bin\0", CONF_SCALER_COLOR_PATH);
+		snprintf(cFileName, 128, "%s/colorSettings_1.bin", CONF_SCALER_COLOR_PATH);
 	}
 	else if(palSystem_ModelIDGet() == MODEL_ID_2)
 	{
-		snprintf(cFileName, 128, "%s/colorSettings_2.bin\0", CONF_SCALER_COLOR_PATH);
+		snprintf(cFileName, 128, "%s/colorSettings_2.bin", CONF_SCALER_COLOR_PATH);
 	}
 	else
 	{
-		snprintf(cFileName, 128, "%s/colorSettings_0.bin\0", CONF_SCALER_COLOR_PATH);
+		snprintf(cFileName, 128, "%s/colorSettings_0.bin", CONF_SCALER_COLOR_PATH);
 	}
 
     pFile = fopen(cFileName, "rb+");
@@ -2095,11 +2095,11 @@ void palDataMgr_sHSG_ColorTemperature_Init_Default(void)
         mkdir(CONF_SCALER_COLOR_PATH, 0777);
     }
 
-    snprintf(cFileName, 128, "%s/Color_temperture_setting.bin\0", CONF_SCALER_COLOR_PATH);
+    snprintf(cFileName, 128, "%s/Color_temperture_setting.bin", CONF_SCALER_COLOR_PATH);
 
     pcOECT_File = fopen(cFileName, "rb+");
 
-    snprintf(cFileName, 128, "%s/Custom_color_temperture_setting.bin\0", CONF_SCALER_COLOR_PATH);
+    snprintf(cFileName, 128, "%s/Custom_color_temperture_setting.bin", CONF_SCALER_COLOR_PATH);
 
     pcCT_File = fopen(cFileName, "rb+");
 
@@ -2239,15 +2239,15 @@ void palDataMgr_sGamma_Init_Default(void)
 
     if(palSystem_ModelIDGet() == MODEL_ID_2)
     {
-        snprintf(cFileName, 128, "%s/GammaSettings_2.bin\0", CONF_SCALER_COLOR_PATH);
+        snprintf(cFileName, 128, "%s/GammaSettings_2.bin", CONF_SCALER_COLOR_PATH);
     }
     else if(palSystem_ModelIDGet() == MODEL_ID_1)
     {
-        snprintf(cFileName, 128, "%s/GammaSettings_1.bin\0", CONF_SCALER_COLOR_PATH);
+        snprintf(cFileName, 128, "%s/GammaSettings_1.bin", CONF_SCALER_COLOR_PATH);
     }
     else
     {
-        snprintf(cFileName, 128, "%s/GammaSettings_0.bin\0", CONF_SCALER_COLOR_PATH);
+        snprintf(cFileName, 128, "%s/GammaSettings_0.bin", CONF_SCALER_COLOR_PATH);
     }
 
     pFile = fopen(cFileName, "rb+");

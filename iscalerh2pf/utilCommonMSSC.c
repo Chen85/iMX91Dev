@@ -171,7 +171,7 @@ void __CMD_Respond(UINT8 ucCh, char *pstring)
             {
                 char cTemp[1024] = {'\0'};
 
-                snprintf(cTemp, 1023, "%s\0" , pstring);
+                snprintf(cTemp, 1023, "%s" , pstring);
 
                 utilHost_SystemSet(eCMD_MODULE_SYSTEM, eSYSTEM_MSG_HDBASET, strlen(cTemp) + 1, cTemp);
             }
@@ -708,7 +708,7 @@ extern void dvC341_Write(const UINT32 ulAddr, UINT32 ulData, const UINT8 ucBankO
 eCLI_ERROR_CODE utilCommonCLI_SYSDBMK(sCLI_COMMON_FORMAT* sCmdFormat)
 {
     eCLI_ERROR_CODE eErrorCode = eCLI_ERROR_CODE_NO;
-    char  ucOutputString[128] = {"\0"};
+    char  ucOutputString[128] = {""};
 
     if(sCmdFormat->eAccessMode == ecmRead)
     {
@@ -967,7 +967,7 @@ eCLI_ERROR_CODE utilCommonCLI_ICP(sCLI_COMMON_FORMAT* sCmdFormat)
 {
 #if defined(SCALER_C821_C789) || defined(SCALER_C341)
 
-    char  ucOutputString[128] = {"\0"};
+    char  ucOutputString[128] = {""};
 
     if(sCmdFormat->ucDataType == eCLI_DATA_TYPE_STRING)
     {
@@ -980,7 +980,7 @@ eCLI_ERROR_CODE utilCommonCLI_ICP(sCLI_COMMON_FORMAT* sCmdFormat)
 
         if(sCmdFormat->cTextString[0] == 'R' && sCmdFormat->cTextString[1] == '0')//C821 Read
         {
-            sscanf(sCmdFormat->cTextString, "%*[^,],%x,%x", &ucBank, &ucReg);
+            sscanf(sCmdFormat->cTextString, "%*[^,],%hhx,%hhx", &ucBank, &ucReg);
             ulAddr = ucBank<<16 | ucReg << 8 | 0x01;
 
 #if defined(SCALER_C821_C789)
@@ -1002,7 +1002,7 @@ eCLI_ERROR_CODE utilCommonCLI_ICP(sCLI_COMMON_FORMAT* sCmdFormat)
         }
         else if(sCmdFormat->cTextString[0] == 'W' && sCmdFormat->cTextString[1] == '0') //C821 Write
         {
-            sscanf(sCmdFormat->cTextString, "%*[^,],%x,%x,%x", &ucBank, &ucReg, &ucData);
+            sscanf(sCmdFormat->cTextString, "%*[^,],%hhx,%hhx,%hhx", &ucBank, &ucReg, &ucData);
             ulAddr = ucBank<<16 | ucReg << 8 | 0x01;
 
 #if defined(SCALER_C821_C789)
@@ -1025,7 +1025,7 @@ eCLI_ERROR_CODE utilCommonCLI_ICP(sCLI_COMMON_FORMAT* sCmdFormat)
         }
         else if(sCmdFormat->cTextString[0] == 'R' && sCmdFormat->cTextString[1] == '1')//C789 Read
         {
-            sscanf(sCmdFormat->cTextString, "%*[^,],%x,%x", &ucBank, &ucReg);
+            sscanf(sCmdFormat->cTextString, "%*[^,],%hhx,%hhx", &ucBank, &ucReg);
             ulAddr = ucBank<<16 | ucReg << 8 | 0x01;
 
 #ifdef SCALER_C821_C789
@@ -1042,7 +1042,7 @@ eCLI_ERROR_CODE utilCommonCLI_ICP(sCLI_COMMON_FORMAT* sCmdFormat)
         else if(sCmdFormat->cTextString[0] == 'W' && sCmdFormat->cTextString[1] == '1') //C789 Write
         {
             //ucReg
-            sscanf(sCmdFormat->cTextString, "%*[^,],%x,%x,%x", &ucBank, &ucReg, &ucData);
+            sscanf(sCmdFormat->cTextString, "%*[^,],%hhx,%hhx,%hhx", &ucBank, &ucReg, &ucData);
             ulAddr = ucBank<<16 | ucReg << 8 | 0x01;
 
 #ifdef SCALER_C821_C789
@@ -1608,7 +1608,7 @@ eCLI_ERROR_CODE utilCommonCLI_BODPLAT(sCLI_COMMON_FORMAT* sCmdFormat)
     else if(sCmdFormat->eAccessMode == ecmWrite)
     {
         UINT8 ucString[64] = {0};
-        char  ucOutputString[128] = {"\0"};
+        char  ucOutputString[128] = {""};
         BYTE cPlatform = 0;
         BYTE cResult = 0;
 
@@ -1695,7 +1695,7 @@ eCLI_ERROR_CODE utilCommonCLI_TTT(sCLI_COMMON_FORMAT* sCmdFormat)
 eCLI_ERROR_CODE utilCommonCLI_ShowOSDBitmapRawData(sCLI_COMMON_FORMAT* sCmdFormat)  //A35G2_Simon_0116
 {
     eCLI_ERROR_CODE eErrorCode = eCLI_ERROR_CODE_NO;
-    char  ucOutputString[128] = {"\0"};
+    char  ucOutputString[128] = {""};
 
     if(sCmdFormat->eAccessMode == ecmWrite)
     {
@@ -1881,7 +1881,7 @@ char *pcSWgec_cmd[] =
 
 void utilCommonCLI_LDPWM_Get(UINT8 eCh, UINT8 cSub1, UINT8 cSub2)
 {
-    char  ucOutputString[128] = {"\0"};
+    char  ucOutputString[128] = {""};
 
     switch(cSub1)
     {
@@ -2080,7 +2080,7 @@ void utilCommonCLI_LDPWM_Set(UINT8 cSub1, UINT8 cSub2, UINT16 uiValue)
 
 void utilCommonCLI_HSG_Get(UINT8 eCh, UINT8 cSub1, UINT8 cSub2)
 {
-    char  ucOutputString[128] = {"\0"};
+    char  ucOutputString[128] = {""};
 
     switch(cSub1)
     {
@@ -2469,8 +2469,8 @@ UINT8 utilCommonCLI_SWGEC_Handle(UINT8 eCh, UINT8 *pcData)
             UINT16 value = 0;
 
             m_sLD_PWM_Info.ucCLI_DATA[m_sLD_PWM_Info.uiCLI_Poll_Position] = '\0';
-            snprintf(cDataString, 64, "%s\0", (char*)&m_sLD_PWM_Info.ucCLI_DATA[1]);
-            sscanf(cDataString, "%[^,],%d,%d,%d", cmd, &sub1, &sub2, &value);
+            snprintf(cDataString, 64, "%s", (char*)&m_sLD_PWM_Info.ucCLI_DATA[1]);
+            sscanf(cDataString, "%[^,],%hu,%hu,%hu", cmd, &sub1, &sub2, &value);
 
             for(ucCount = 0; ucCount < eSWGEC_CMD_NUMBER; ucCount++)
             {
@@ -2685,7 +2685,7 @@ UINT8 utilCommonCLI_SWGEC_Handle(UINT8 eCh, UINT8 *pcData)
                         case eSWGEC_CMD_PICTUREMODE_GET:
                             if(sub1 == 99)
                             {
-                                char  ucOutputString[128] = {"\0"};
+                                char  ucOutputString[128] = {""};
                                 UINT8 ucCurrentMode = 0;
 
                                 palDataMgr_Data_Access(edcPICTURE_SETTINGS, edaREAD, (void*)&ucCurrentMode);
@@ -2700,7 +2700,7 @@ UINT8 utilCommonCLI_SWGEC_Handle(UINT8 eCh, UINT8 *pcData)
 
                         case eSWGEC_CMD_PICTUREMODE_STATUS:
                             {
-                                char  ucOutputString[128] = {"\0"};
+                                char  ucOutputString[128] = {""};
                                 UINT8 ucPictureMode = (UINT8)sub1;
                                 UINT8 ucGuiDisplayModeID = 0, ucCount = 0;
                                 UINT32 ucPictureModeAvailable = 0;

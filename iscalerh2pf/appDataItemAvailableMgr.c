@@ -897,7 +897,7 @@ void palDataItemAvailable_Init(void)  //HICC2_Simon_0003
     {
         if(uiCount >= DATAITEM_AVAILABLE_TABLE_SIZE)
         {
-            printf("!!! Dataitem Size Error [PF %d] [LIB %d]\r\n", DATAITEM_AVAILABLE_TABLE_SIZE, sDI_INVALID);
+            printf("!!! Dataitem Size Error [PF %zu] [LIB %d]\r\n", DATAITEM_AVAILABLE_TABLE_SIZE, sDI_INVALID);
             break;
         }
 
@@ -914,7 +914,7 @@ void palDataItemAvailable_Poll(void)
     {
         if(uiCount >= DATAITEM_AVAILABLE_TABLE_SIZE)  //HICC2_Simon_0003
         {
-            printf("!!! Dataitem Size Error [PF %d] [LIB %d]\r\n", DATAITEM_AVAILABLE_TABLE_SIZE, sDI_INVALID);
+            printf("!!! Dataitem Size Error [PF %zu] [LIB %d]\r\n", DATAITEM_AVAILABLE_TABLE_SIZE, sDI_INVALID);
             break;
         }
 

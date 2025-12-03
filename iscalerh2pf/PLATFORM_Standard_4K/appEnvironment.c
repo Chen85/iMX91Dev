@@ -1022,7 +1022,7 @@ INT16 palEnvironment_Poll(UINT16 uiTick)
 
                 palDataMgr_Data_Access(edcBURNIN_ENABLE, edaWRITE_THROUGH_WITH_ACTION, &ucBurninEnable);
 
-                sprintf(cString, "FPGA over temperature 90C\0");
+                sprintf(cString, "FPGA over temperature 90C");
 	//Cassper_ProAV
                 //utilDataMgr_AddNewLog(cString);
 				utilDataMgr_WriteErrorLog(0xFFFFFFFF, cString);

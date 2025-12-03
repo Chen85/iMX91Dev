@@ -453,7 +453,7 @@ void appCLI_StringInsert(UINT8 cCh, UINT8 cStyle, UINT8 * pcBuffer, UINT16 uiSiz
     sCLI_BUFFER_FORMAT sCLI_format = {'\0'};
     sCLI_format.cCh = cCh;
     sCLI_format.cStyle = cStyle;	//A35G2_Coda_0045
-    snprintf(sCLI_format.cString, CLI_DATA_SIZE, "%s\0", pcBuffer);
+    snprintf(sCLI_format.cString, CLI_DATA_SIZE, "%s", pcBuffer);
 
     if(eResult == (eRESULT)utilQueueWrite(&m_asCLI_Ring_Buffer, (UINT8 *)&sCLI_format))
     {

@@ -5297,7 +5297,7 @@ eHAL_WARPING_EXEC_CODE halWarping_Blacklevel_SaveData(UINT8 ucIndex)  //A35G2_Si
     //save raw data to file
     char cRawDataFileName[64];
     snprintf(cRawDataFileName, 64, BLACKLEVEL_RAW_DATA_FILE, ucIndex);
-    snprintf((char *)sFile.aucRawDataFileName, 64, cRawDataFileName);
+    snprintf((char *)sFile.aucRawDataFileName, 64, "%s", cRawDataFileName);
     SYSTEM_CALL("cp %s %s", BLACKLEVEL_TMP_FILE, cRawDataFileName);
 
     //write to file
@@ -5368,7 +5368,7 @@ eHAL_WARPING_EXEC_CODE halWarping_Blacklevel_LoadData(UINT8 ucIndex)  //A35G2_Si
     }
     else
     {
-        fread(pucData, 1, ulFileSize, fp_read);
+        size_t ret = fread(pucData, 1, ulFileSize, fp_read);
         fclose(fp_read);
     }
 
@@ -9692,7 +9692,7 @@ eHAL_WARPING_EXEC_CODE halWarping_AP_LoadCurrentFileInfo(sCurrentFileInfo *psCur
         return eHAL_WARPING_EXEC_CODE_FAIL;
     }
 
-    fread(psCurrentInfo , sizeof(sCurrentFileInfo) , 1 , fp);
+    size_t ret = fread(psCurrentInfo , sizeof(sCurrentFileInfo) , 1 , fp);
     fclose(fp);
 
     return eHAL_WARPING_EXEC_CODE_PASS;

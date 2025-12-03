@@ -1991,7 +1991,7 @@ BOOL appSysInitAfterAsicReady(void)
                     (UINT8)(dwVerDDPSq>>8),
                     (UINT8)(dwVerDDPSq));
 
-                sprintf((char*)aucVerString, "F%02d.%02d(%c%c%c%02d)\0" ,
+                sprintf((char*)aucVerString, "F%02d.%02d(%c%c%c%02d)" ,
                     (UINT8)(wVerDDPApp>>8),      //DDP442x       Fxx.xx(DHDxx)
                     (UINT8)(wVerDDPApp),
                     (UINT8)(dwVerDDPSq>>24),
@@ -2096,7 +2096,7 @@ eRESULT palSystem_VersionCheck(BOOL bAutoUpgrade)
 	{
 		LOG_MSG(db_APP_SYSTEM, "FrontEnd E%02d.%02d\n", aucVersion[1], aucVersion[0] );
 
-		sprintf((char*)aucVerString, "E%02d.%02d\0", aucVersion[1], aucVersion[0]);
+		sprintf((char*)aucVerString, "E%02d.%02d", aucVersion[1], aucVersion[0]);
 		palDataMgr_Data_Access(edcFRONTEND_VERSION, edaWRITE_RAM_ONLY_NO_ACTION, aucVerString);
 
         if(strcmp(aucVerString, "E00.00") == 0 ||
@@ -2116,7 +2116,7 @@ eRESULT palSystem_VersionCheck(BOOL bAutoUpgrade)
     {
         LOG_MSG(db_APP_SYSTEM, "MCU A%02d.%02d\n", aucVersion[1], aucVersion[0] );
 
-        sprintf((char*)aucVerString, "A%02d.%02d\0", aucVersion[1], aucVersion[0]);
+        sprintf((char*)aucVerString, "A%02d.%02d", aucVersion[1], aucVersion[0]);
         palDataMgr_Data_Access(edcFMCU_VERSION, edaWRITE_RAM_ONLY_NO_ACTION, aucVerString);
 
         if(strcmp(aucVerString, "A00.00") == 0 ||   //G100_Simon_0077
@@ -2159,7 +2159,7 @@ eRESULT palSystem_VersionCheck(BOOL bAutoUpgrade)
         //palEnvironment_LensModelCheck_Set(FALSE); //G100_Clare_0059, add
 
         LOG_MSG(db_APP_SYSTEM, "Motor Board M%02d.%02d\n", aucVersion[1], aucVersion[0]);
-        sprintf((char*)aucVerString, "M%02d.%02d\0", aucVersion[1], aucVersion[0]);
+        sprintf((char*)aucVerString, "M%02d.%02d", aucVersion[1], aucVersion[0]);
         palDataMgr_Data_Access(edcMOTOR_VERSION, edaWRITE_RAM_ONLY_NO_ACTION, aucVerString);
 
         if(strcmp(aucVerString, "M00.00") == 0 ||   //G100_Simon_0077
@@ -2202,7 +2202,7 @@ eRESULT palSystem_VersionCheck(BOOL bAutoUpgrade)
     {
         LOG_MSG(db_APP_SYSTEM, "HDBaseT   H%02X.%02X.%02X.%02X\n", aucVersion[0], aucVersion[1] ,aucVersion[2], aucVersion[3]);  //G100_Wilsonj_0070
 
-        sprintf((char*)aucVerString, "H%02X.%02X.%02X.%02X\0", aucVersion[0], aucVersion[1], aucVersion[2], aucVersion[3]);  //G100_Wilsonj_0070
+        sprintf((char*)aucVerString, "H%02X.%02X.%02X.%02X", aucVersion[0], aucVersion[1], aucVersion[2], aucVersion[3]);  //G100_Wilsonj_0070
         palDataMgr_Data_Access(edcHDBASET_VERSION, edaWRITE_RAM_ONLY_NO_ACTION, aucVerString);
 
         if(strcmp(aucVerString, "H00.00.00.00") == 0 ||   //G100_Simon_0077
@@ -2223,7 +2223,7 @@ eRESULT palSystem_VersionCheck(BOOL bAutoUpgrade)
     {
         LOG_MSG(db_APP_SYSTEM, "FMT   L%02d.%02d\n", aucVersion[1], aucVersion[0]);
 
-        sprintf((char*)aucVerString, "L%02d.%02d\0", aucVersion[1], aucVersion[0]);
+        sprintf((char*)aucVerString, "L%02d.%02d", aucVersion[1], aucVersion[0]);
         palDataMgr_Data_Access(edcLD_DRIVER_VERSION, edaWRITE_RAM_ONLY_NO_ACTION, aucVerString);
 
         if(strcmp(aucVerString, "L00.00") == 0 ||   //G100_Simon_0077
@@ -2247,7 +2247,7 @@ eRESULT palSystem_VersionCheck(BOOL bAutoUpgrade)
     {
         LOG_MSG(db_APP_SYSTEM, "FMT convert D%02d.%02d\n", aucVersion[1], aucVersion[0]);
 
-        sprintf((char*)aucVerString, "D%02d.%02d\0", aucVersion[1], aucVersion[0]);
+        sprintf((char*)aucVerString, "D%02d.%02d", aucVersion[1], aucVersion[0]);
         palDataMgr_Data_Access(edcM481_VERSION, edaWRITE_RAM_ONLY_NO_ACTION, aucVerString);
 
         if(strcmp(aucVerString, "D00.00") == 0 ||   //G100_Simon_0077
@@ -2269,7 +2269,7 @@ eRESULT palSystem_VersionCheck(BOOL bAutoUpgrade)
     {
         LOG_MSG(db_APP_SYSTEM, "FPGA1   Y%02d.%02d\n", aucVersion[1], aucVersion[0]);
 
-        sprintf((char*)aucVerString, "Y%02d.%02d\0", aucVersion[1], aucVersion[0]);
+        sprintf((char*)aucVerString, "Y%02d.%02d", aucVersion[1], aucVersion[0]);
         palDataMgr_Data_Access(edcFPGA1_VERSION, edaWRITE_RAM_ONLY_NO_ACTION, aucVerString);
 
         if(strcmp(aucVerString, "Y00.00") == 0 ||
@@ -2291,7 +2291,7 @@ eRESULT palSystem_VersionCheck(BOOL bAutoUpgrade)
     {
         LOG_MSG(db_APP_SYSTEM, "FPGA3   Z%02d.%02d\n", aucVersion[1], aucVersion[0]); //HICC2_Doulas_0094
 
-        sprintf((char*)aucVerString, "Z%02d.%02d\0", aucVersion[1], aucVersion[0]);
+        sprintf((char*)aucVerString, "Z%02d.%02d", aucVersion[1], aucVersion[0]);
         palDataMgr_Data_Access(edcFPGA3_VERSION, edaWRITE_RAM_ONLY_NO_ACTION, aucVerString); //HICC2_Doulas_0093
 
         if(strcmp(aucVerString, "Z00.00") == 0 ||   //G100_Simon_0077
@@ -2326,7 +2326,7 @@ eRESULT palSystem_VersionCheck(BOOL bAutoUpgrade)
     {
         LOG_MSG(db_APP_SYSTEM, "Keypad   K%02d.%02d\n", aucVersion[1], aucVersion[0] );
 
-        sprintf((char*)aucVerString, "K%02d.%02d\0", aucVersion[1], aucVersion[0]);
+        sprintf((char*)aucVerString, "K%02d.%02d", aucVersion[1], aucVersion[0]);
         palDataMgr_Data_Access(edcKEYPAD_VERSION, edaWRITE_RAM_ONLY_NO_ACTION, aucVerString);
 
         if(strcmp(aucVerString, "K00.00") == 0 ||   //G100_Simon_0077
@@ -2391,7 +2391,7 @@ eRESULT palSystem_VersionCheck(BOOL bAutoUpgrade)
                 (UINT8)(dwVerDDPSq>>8),
                 (UINT8)(dwVerDDPSq));
 
-            sprintf((char*)aucVerString, "F%02d.%02d(%c%c%c%02d)\0" ,
+            sprintf((char*)aucVerString, "F%02d.%02d(%c%c%c%02d)" ,
                 (UINT8)(wVerDDPApp>>8),      //DDP442x       Fxx.xx(DHDxx)
                 (UINT8)(wVerDDPApp),
                 (UINT8)(dwVerDDPSq>>24),
@@ -2460,7 +2460,7 @@ eRESULT palSystem_VersionCheck(BOOL bAutoUpgrade)
 	// XPR Version //HICC2_Steven_0039
 	memset(aucVerString, 0, sizeof(aucVerString));
     halFormatter_XPR_Version_Get(ucXPRVer);
-    sprintf((char*)aucVerString, "%d.%d.%d.%d\0", ucXPRVer[0], ucXPRVer[1], ucXPRVer[2], ucXPRVer[3]);
+    sprintf((char*)aucVerString, "%d.%d.%d.%d", ucXPRVer[0], ucXPRVer[1], ucXPRVer[2], ucXPRVer[3]);
     palDataMgr_Data_Access(edcXPR_VERSION, edaWRITE_RAM_ONLY_NO_ACTION, aucVerString);
 
     //memset(aucVerString, 0, sizeof(aucVerString));
@@ -3283,11 +3283,11 @@ eRESULT palSystem_AC_Voltage_Check(void) //AC voltage detect from LVPS. //A65_OP
 	{
 		if(ucAC_Data == 1)
 		{
-			sprintf(aucVerString, "110V\0");
+			sprintf(aucVerString, "110V");
 		}
 		else
 		{
-			sprintf(aucVerString, "220V\0");
+			sprintf(aucVerString, "220V");
 		}
 	}
 	else

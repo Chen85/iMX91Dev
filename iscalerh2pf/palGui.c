@@ -2620,8 +2620,8 @@ void palGui_ShowTest(void)
 #if 0
     COORDINATE sStart_Position = {100, 100};
     BLOCK_SIZE_INFO sSize = {500, 500};
-    UINT8 *pucString = {"ABCDEFGHIJKLMN\0"};
-	UINT8 *pucString2 = {"OPQRSDGGKLAOEMV\0"};
+    UINT8 *pucString = {"ABCDEFGHIJKLMN"};
+	UINT8 *pucString2 = {"OPQRSDGGKLAOEMV"};
     //INT16 iColor_Index,
     //INT16 iColor_Background,
     //INT16 iBoarder_Index

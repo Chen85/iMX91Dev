@@ -837,7 +837,7 @@ BOOL dvC341Geo_SemaphoreTake(BOOL cEnable, const char *pcSemaphore)
     {
         bResult = Board_SSP_SemaphoreGive(eBOARD_SSP_CS_C341);
 
-        sprintf(cLastTakeC341Semaphore, "\0");
+        sprintf(cLastTakeC341Semaphore, "");
     }
 
     return bResult;

@@ -1187,7 +1187,7 @@ unsigned char cTester_VEGG(HPBU_TEST_COM_DATA *data) //HICC2_Doulas_0098
 
 	sUtilHPBUTester_Callback.fpDataMgr_Data_AccessCb(edcFORMATER_VERSION, edaREAD, aucDDPVer);
 	sUtilHPBUTester_Callback.fpDataMgr_Data_AccessCb(edcXPR_VERSION, edaREAD, aucXPRVer);
-	sscanf(aucXPRVer, "%d.%d.%d", &aucXPRVer_tmp[0], &aucXPRVer_tmp[1], &aucXPRVer_tmp[2]);
+	sscanf(aucXPRVer, "%hhu.%hhu.%hhu", &aucXPRVer_tmp[0], &aucXPRVer_tmp[1], &aucXPRVer_tmp[2]);
 	sUtilHPBUTester_Callback.fpDataMgr_Data_AccessCb(edcHDBASET_VERSION, edaREAD, aucHDBASETVer);
 	sUtilHPBUTester_Callback.fpDataMgr_Data_AccessCb(edcFMCU_VERSION, edaREAD, aucSTBVer);
 	sUtilHPBUTester_Callback.fpDataMgr_Data_AccessCb(edcPMCU_VERSION, edaREAD, aucRx24TVer);
@@ -2530,7 +2530,7 @@ unsigned char cTester_LDBV(HPBU_TEST_COM_DATA *data)
         return 0;
     memset(auiVoltage, 0, LD_Info_Num*sizeof(UINT16));
     UINT8 ucCount = 0;
-    char cStringTmp[MAX_ITEMNAME_LENGTH] = "\0"; //HICC2_Doulas_0016
+    char cStringTmp[MAX_ITEMNAME_LENGTH] = ""; //HICC2_Doulas_0016
 
 
 
@@ -2596,7 +2596,7 @@ unsigned char cTester_LDBC(HPBU_TEST_COM_DATA *data)
         return 0;
     memset(auiCurrent, 0, LD_Info_Num*sizeof(UINT16));
     UINT8 ucCount = 0;
-	char cStringTmp[MAX_ITEMNAME_LENGTH] = "\0"; //HICC2_Doulas_0016
+	char cStringTmp[MAX_ITEMNAME_LENGTH] = ""; //HICC2_Doulas_0016
 
 
 
@@ -2667,7 +2667,7 @@ unsigned char cTester_LDBT(HPBU_TEST_COM_DATA *data)
         return 0;
     memset(aiTemperature, 0, (sizeof(INT16)*LD_Info_Num));
     UINT8 ucCount = 0;
-    char cStringTmp[MAX_ITEMNAME_LENGTH] = "\0"; //HICC2_Doulas_0016
+    char cStringTmp[MAX_ITEMNAME_LENGTH] = ""; //HICC2_Doulas_0016
 
 
 

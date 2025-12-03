@@ -1116,7 +1116,7 @@ static void palDataPath_StartDisplay(void)
             (UINT8)(wRX24TVer),
             (UINT8)(wRX24TVer>>8));
 
-        sprintf((char*)aucVerString, "P%02d.%02d\0" ,
+        sprintf((char*)aucVerString, "P%02d.%02d" ,
             (UINT8)(wRX24TVer),
             (UINT8)(wRX24TVer>>8));
 
@@ -4090,7 +4090,7 @@ eEXEC_CODE palDataPath_InputPixelClock_Get(UINT8 *ucValue)   //A70LV_Doulas_0056
             char aucString[VERSION_STRING_MAX_LENGTH];
             DOUBLE dbVal;
             dbVal = (DOUBLE)m_FrontEndVideoTiming.u32VideoPCLK;
-            sprintf(aucString, "%d.%03dMHz\0",(UINT32)dbVal/1000,(UINT32)dbVal%1000);
+            sprintf(aucString, "%d.%03dMHz",(UINT32)dbVal/1000,(UINT32)dbVal%1000);
             memcpy(ucValue, aucString, strlen(aucString)+1);
             #endif
 
@@ -4103,7 +4103,7 @@ eEXEC_CODE palDataPath_InputPixelClock_Get(UINT8 *ucValue)   //A70LV_Doulas_0056
             dbPixelClock = (DOUBLE)m_FrontEndVideoTiming.u16VideoHTotal *      //A35G2_CDS_Simon_0052
                     (DOUBLE)m_FrontEndVideoTiming.u16VideoVTotal *
                     (DOUBLE)uiVFreq / 100;
-            sprintf(aucString, "%d.%03dMHz\0",(UINT32)dbPixelClock/1000000,(UINT32)dbPixelClock/1000%1000);
+            sprintf(aucString, "%d.%03dMHz",(UINT32)dbPixelClock/1000000,(UINT32)dbPixelClock/1000%1000);
             memcpy(ucValue, aucString, strlen(aucString)+1);
         }
         else
@@ -4130,9 +4130,9 @@ eEXEC_CODE palDataPath_InputSignalFormat_Get(UINT8 *ucValue)
         if(m_FrontEndVideoFormat.u8VideoDownScaling)        //A70LV_Doulas_0187 modify
         {
             if(m_sSourceDesc.eConnector == eCM_SOURCE_VGA)
-                sprintf(aucString, "Analog\0");
+                sprintf(aucString, "Analog");
             else
-                sprintf(aucString, "Digital\0");
+                sprintf(aucString, "Digital");
             memcpy(ucValue, aucString, strlen(aucString)+1);
         }
         else
@@ -4144,9 +4144,9 @@ eEXEC_CODE palDataPath_InputSignalFormat_Get(UINT8 *ucValue)
                (ucColorSpace == eCOLOR_FORMAT_RGB_LIMIT))
             {
                 if(m_sSourceDesc.eConnector == eCM_SOURCE_VGA)
-                    sprintf(aucString, "Analog\0");
+                    sprintf(aucString, "Analog");
                 else
-                    sprintf(aucString, "Digital\0");
+                    sprintf(aucString, "Digital");
                 memcpy(ucValue, aucString, strlen(aucString)+1);
             }
             else
@@ -4173,7 +4173,7 @@ eEXEC_CODE palDataPath_InputResoultion_Get(UINT8 *ucValue)
         if(m_FrontEndVideoFormat.u8VideoDownScaling)        //A70LV_Doulas_0187 modify
         {
             char aucString[VERSION_STRING_MAX_LENGTH];
-            sprintf(aucString, "%d x %d\0",m_FrontEndVideoTiming.u16VideoHActive ,m_FrontEndVideoTiming.u16VideoVActive);
+            sprintf(aucString, "%d x %d",m_FrontEndVideoTiming.u16VideoHActive ,m_FrontEndVideoTiming.u16VideoVActive);
             memcpy(ucValue, aucString, strlen(aucString)+1);
         }
         else
@@ -4202,7 +4202,7 @@ eEXEC_CODE palDataPath_InputHorzRefresh_Get(UINT8 *ucValue)
             char aucString[VERSION_STRING_MAX_LENGTH];
             DOUBLE dbVal;
             dbVal = (DOUBLE)m_FrontEndVideoTiming.u32VideoPCLK *1000 / (DOUBLE)m_FrontEndVideoTiming.u16VideoHTotal;
-            sprintf(aucString, "%d.%03dkHz\0",(UINT32)dbVal/1000,(UINT32)dbVal%1000);
+            sprintf(aucString, "%d.%03dkHz",(UINT32)dbVal/1000,(UINT32)dbVal%1000);
             memcpy(ucValue, aucString, strlen(aucString)+1);
             #endif
 
@@ -4214,7 +4214,7 @@ eEXEC_CODE palDataPath_InputHorzRefresh_Get(UINT8 *ucValue)
             dbHRefresh = (DOUBLE)m_FrontEndVideoTiming.u16VideoVTotal *       //A35G2_CDS_Simon_0052
                          (DOUBLE)uiVFreq / 100;
 
-            sprintf(aucString, "%d.%03dkHz\0",(UINT32)dbHRefresh/1000,(UINT32)dbHRefresh%1000);
+            sprintf(aucString, "%d.%03dkHz",(UINT32)dbHRefresh/1000,(UINT32)dbHRefresh%1000);
             memcpy(ucValue, aucString, strlen(aucString)+1);
         }
         else
@@ -4243,7 +4243,7 @@ eEXEC_CODE palDataPath_InputVertRefresh_Get(UINT8 *ucValue)
             char aucString[VERSION_STRING_MAX_LENGTH];
             DOUBLE dbVal;
             dbVal = (DOUBLE)m_FrontEndVideoTiming.u32VideoPCLK *1000 / (DOUBLE)m_FrontEndVideoTiming.u16VideoHTotal / (DOUBLE)m_FrontEndVideoTiming.u16VideoVTotal * 100;
-            sprintf(aucString, "%d.%02dHz\0",(UINT32)dbVal/100,(UINT32)dbVal%100);
+            sprintf(aucString, "%d.%02dHz",(UINT32)dbVal/100,(UINT32)dbVal%100);
             memcpy(ucValue, aucString, strlen(aucString)+1);
         }
         else
@@ -4273,18 +4273,18 @@ eEXEC_CODE palDataPath_InputSyncType_Get(UINT8 *ucValue)
             //check sync "Sync on Green" or "Separate"
             if(m_FrontEndVideoFormat.u8VideoVGASyncType == eVGA_SYNC_TYPE_SOG)  //A70LV_Doulas_0109 modify
             {
-                sprintf(aucString, "Sync on Green\0");
+                sprintf(aucString, "Sync on Green");
                 memcpy(ucValue, aucString, strlen(aucString)+1);
             }
             else
             {
-                sprintf(aucString, "Separate\0");
+                sprintf(aucString, "Separate");
                 memcpy(ucValue, aucString, strlen(aucString)+1);
             }
         }
         else
         {
-            sprintf(aucString, "Separate\0");
+            sprintf(aucString, "Separate");
             memcpy(ucValue, aucString, strlen(aucString)+1);
         }
     }
@@ -5125,7 +5125,7 @@ eEXEC_CODE palDataPath_ColorDepth_Get(UINT8 *ucValue)    //ZU860_Doulas_0097
                 sprintf((char *)acColorDepthString, "-");    //ZU860_Doulas_0125 modify
                 break;
         }
-        sprintf(aucString,"%s\0",  acColorDepthString);		//HICC2_Zonic_0014
+        sprintf(aucString,"%s",  acColorDepthString);		//HICC2_Zonic_0014
         memcpy(ucValue, aucString, strlen(aucString)+1);
     }
     else
@@ -5239,7 +5239,7 @@ eEXEC_CODE palDataPath_ColorFormat_Get(UINT8 *ucValue)    //ZU860_Doulas_0097
                 sprintf((char *)acColorimetryString, "-");     //ZU860_Doulas_0125 modify
                 break;
         }
-        sprintf(aucString,"%s  %s\0",  acSourceFormatString, acColorimetryString);
+        sprintf(aucString,"%s  %s",  acSourceFormatString, acColorimetryString);
         memcpy(ucValue, aucString, strlen(aucString)+1);
     }
     else
@@ -5713,7 +5713,7 @@ eEXEC_CODE palDataPath_BKInput_FirstResoultion_Get(UINT8 *ucValue)
 
     if(palDataPath_BKInput_First_Input_Ready() == TRUE)
     {
-        sprintf(aucString, "%d x %d\0",m_BKInput_FirstTiming.u16VideoHActive ,m_BKInput_FirstTiming.u16VideoVActive);
+        sprintf(aucString, "%d x %d",m_BKInput_FirstTiming.u16VideoHActive ,m_BKInput_FirstTiming.u16VideoVActive);
         memcpy(ucValue, aucString, strlen(aucString)+1);
     }
     else
@@ -5732,7 +5732,7 @@ eEXEC_CODE palDataPath_BKInput_SecondResoultion_Get(UINT8 *ucValue)
 
     if(palDataPath_BKInput_Second_Input_Ready() == TRUE)
     {
-        sprintf(aucString, "%d x %d\0",m_BKInput_SecondTiming.u16VideoHActive ,m_BKInput_SecondTiming.u16VideoVActive);
+        sprintf(aucString, "%d x %d",m_BKInput_SecondTiming.u16VideoHActive ,m_BKInput_SecondTiming.u16VideoVActive);
         memcpy(ucValue, aucString, strlen(aucString)+1);
     }
     else
@@ -5754,14 +5754,14 @@ eEXEC_CODE palDataPath_BKInput_FirstHRefresh_Get(UINT8 *ucValue)
         char aucString[VERSION_STRING_MAX_LENGTH];
         DOUBLE dbVal;
         dbVal = (DOUBLE)m_BKInput_FirstTiming.u32VideoPCLK *1000 / (DOUBLE)m_BKInput_FirstTiming.u16VideoHTotal;
-        sprintf(aucString, "%d.%03dkHz\0",(UINT32)dbVal/1000,(UINT32)dbVal%1000);
+        sprintf(aucString, "%d.%03dkHz",(UINT32)dbVal/1000,(UINT32)dbVal%1000);
         memcpy(ucValue, aucString, strlen(aucString)+1);
         #endif
 
         char aucString[VERSION_STRING_MAX_LENGTH];
         DOUBLE dbVal;
         dbVal = (DOUBLE)m_BKInput_FirstTiming.u16VideoVTotal * (DOUBLE)m_BKInput_FirstTiming.u16VideoVRate / 100 ;   //A35G2_CDS_Simon_0052
-        sprintf(aucString, "%d.%03dkHz\0",(UINT32)dbVal/1000,(UINT32)dbVal%1000);
+        sprintf(aucString, "%d.%03dkHz",(UINT32)dbVal/1000,(UINT32)dbVal%1000);
         memcpy(ucValue, aucString, strlen(aucString)+1);
     }
     else
@@ -5783,14 +5783,14 @@ eEXEC_CODE palDataPath_BKInput_SecondHRefresh_Get(UINT8 *ucValue)
         char aucString[VERSION_STRING_MAX_LENGTH];
         DOUBLE dbVal;
         dbVal = (DOUBLE)m_BKInput_SecondTiming.u32VideoPCLK *1000 / (DOUBLE)m_BKInput_SecondTiming.u16VideoHTotal;
-        sprintf(aucString, "%d.%03dkHz\0",(UINT32)dbVal/1000,(UINT32)dbVal%1000);
+        sprintf(aucString, "%d.%03dkHz",(UINT32)dbVal/1000,(UINT32)dbVal%1000);
         memcpy(ucValue, aucString, strlen(aucString)+1);
         #endif
 
         char aucString[VERSION_STRING_MAX_LENGTH];
         DOUBLE dbVal;
         dbVal = (DOUBLE)m_BKInput_SecondTiming.u16VideoVTotal * (DOUBLE)m_BKInput_SecondTiming.u16VideoVRate / 100 ;   //A35G2_CDS_Simon_0052
-        sprintf(aucString, "%d.%03dkHz\0",(UINT32)dbVal/1000,(UINT32)dbVal%1000);
+        sprintf(aucString, "%d.%03dkHz",(UINT32)dbVal/1000,(UINT32)dbVal%1000);
         memcpy(ucValue, aucString, strlen(aucString)+1);
     }
     else
@@ -5813,22 +5813,22 @@ eEXEC_CODE palDataPath_BKInput_FirstColorSpace_Get(UINT8 *ucValue)
 	    switch(m_BKInput_FirstFormat[1])
 	    {
 	        case 0:
-	            sprintf(aucString, "RGB\0");
+	            sprintf(aucString, "RGB");
 	            memcpy(ucValue, aucString, strlen(aucString)+1);
 	            break;
 
 	        case 1:
-	            sprintf(aucString, "Y422\0");
+	            sprintf(aucString, "Y422");
 	            memcpy(ucValue, aucString, strlen(aucString)+1);
 	            break;
 
 	        case 2:
-	            sprintf(aucString, "Y444\0");
+	            sprintf(aucString, "Y444");
 	            memcpy(ucValue, aucString, strlen(aucString)+1);
 	            break;
 
 	        case 3:
-	            sprintf(aucString, "Y420\0");
+	            sprintf(aucString, "Y420");
 	            memcpy(ucValue, aucString, strlen(aucString)+1);
 	            break;
 
@@ -5857,22 +5857,22 @@ eEXEC_CODE palDataPath_BKInput_SecondColorSpace_Get(UINT8 *ucValue)
 	    switch(m_BKInput_SecondFormat[1])
 	    {
 	        case 0:
-	            sprintf(aucString, "RGB\0");
+	            sprintf(aucString, "RGB");
 	            memcpy(ucValue, aucString, strlen(aucString)+1);
 	            break;
 
 	        case 1:
-	            sprintf(aucString, "Y422\0");
+	            sprintf(aucString, "Y422");
 	            memcpy(ucValue, aucString, strlen(aucString)+1);
 	            break;
 
 	        case 2:
-	            sprintf(aucString, "Y444\0");
+	            sprintf(aucString, "Y444");
 	            memcpy(ucValue, aucString, strlen(aucString)+1);
 	            break;
 
 	        case 3:
-	            sprintf(aucString, "Y420\0");
+	            sprintf(aucString, "Y420");
 	            memcpy(ucValue, aucString, strlen(aucString)+1);
 	            break;
 

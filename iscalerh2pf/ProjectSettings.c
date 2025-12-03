@@ -5669,22 +5669,22 @@ VERIFY_SIZE_OF(sColorSetting, sizeof(sColorSetting[0])*DISPLAY_MODE_MAX);
 
 const char *pcPCBA_VER_Str[eHWVER_INVALID] = //STB54605
 {
-     /* 0  eHWVER_M04_VERA = 0 */ "A\0", //0
-     /* 1  eHWVER_M04_VERB     */ "B\0", //260
-     /* 2  eHWVER_M04_VERC     */ "B\0", //372
-     /* 3  eHWVER_M04_VERD     */ "C\0", //816
-     /* 4  eHWVER_M04_VERE     */ "C\0", //1084
-     /* 5  eHWVER_M04_VERF     */ "Reserved\0", //1341
-     /* 6  eHWVER_M04_VERG     */ "Reserved\0", //1657
-     /* 7  eHWVER_M04_VERH     */ "Reserved\0", //1951
-     /* 8  eHWVER_M04_VERI     */ "Reserved\0", //2217
-     /* 9  eHWVER_M04_VERJ     */ "Reserved\0", //2483
-     /* 9  eHWVER_M04_VERK     */ "Reserved\0", //2730
-     /* 10 eHWVER_M04_VERL     */ "Reserved\0", //2988
-     /* 11 eHWVER_M04_VERM     */ "Reserved\0", //3260
-     /* 12 eHWVER_M04_VERN     */ "Reserved\0", //3513
-     /* 13 eHWVER_M04_VERO     */ "Reserved\0", //3780
-     /* 14 eHWVER_M04_VERP     */ "Reserved\0", //3885
+     /* 0  eHWVER_M04_VERA = 0 */ "A", //0
+     /* 1  eHWVER_M04_VERB     */ "B", //260
+     /* 2  eHWVER_M04_VERC     */ "B", //372
+     /* 3  eHWVER_M04_VERD     */ "C", //816
+     /* 4  eHWVER_M04_VERE     */ "C", //1084
+     /* 5  eHWVER_M04_VERF     */ "Reserved", //1341
+     /* 6  eHWVER_M04_VERG     */ "Reserved", //1657
+     /* 7  eHWVER_M04_VERH     */ "Reserved", //1951
+     /* 8  eHWVER_M04_VERI     */ "Reserved", //2217
+     /* 9  eHWVER_M04_VERJ     */ "Reserved", //2483
+     /* 9  eHWVER_M04_VERK     */ "Reserved", //2730
+     /* 10 eHWVER_M04_VERL     */ "Reserved", //2988
+     /* 11 eHWVER_M04_VERM     */ "Reserved", //3260
+     /* 12 eHWVER_M04_VERN     */ "Reserved", //3513
+     /* 13 eHWVER_M04_VERO     */ "Reserved", //3780
+     /* 14 eHWVER_M04_VERP     */ "Reserved", //3885
 };
 
 #elif defined(PLATFORM_H60_2K)
@@ -5760,35 +5760,35 @@ VERIFY_SIZE_OF(pcPCBA_VER_Str, sizeof(pcPCBA_VER_Str[0])*eHWVER_INVALID);
 
 const char *pcPCBA_VER_Str[eHWVER_INVALID] =
 {
-     /* 0  eHWVER_M04_VERA = 0 */ "G01 Ver.A(M04)\0", //0
-     /* 1  eHWVER_M04_VERB     */ "G11 Ver.A(M04)\0", //260
-     /* 2  eHWVER_M04_VERC     */ "G11 Ver.A(M04)\0", //372
-     /* 3  eHWVER_M04_VERD     */ "G03 Ver.A(M04)\0", //816
-     /* 4  eHWVER_M04_VERE     */ "G03 Ver.A(M04)\0", //1084
-     /* 5  eHWVER_M04_VERF     */ "Ver.E(M04)\0", //1341
-     /* 6  eHWVER_M04_VERG     */ "Ver.E(M04)\0", //1657
-     /* 7  eHWVER_M04_VERH     */ "Ver.F(M04)\0", //1951
-     /* 8  eHWVER_M04_VERI     */ "Ver.F(M04)\0", //2217
-     /* 9  eHWVER_M04_VERJ     */ "Ver.G(M04)\0", //2730
-     /* 10 eHWVER_M04_VERK     */ "Ver.G(M04)\0", //2988
-     /* 11 eHWVER_M04_VERL     */ "G01 Ver.B(M04)\0", //3260
-     /* 12 eHWVER_M04_VERM     */ "G01 Ver.B(M04)\0", //3513
-     /* 13 eHWVER_M04_VERN     */ "G01 Ver.B(M04)\0", //3780
+     /* 0  eHWVER_M04_VERA = 0 */ "G01 Ver.A(M04)", //0
+     /* 1  eHWVER_M04_VERB     */ "G11 Ver.A(M04)", //260
+     /* 2  eHWVER_M04_VERC     */ "G11 Ver.A(M04)", //372
+     /* 3  eHWVER_M04_VERD     */ "G03 Ver.A(M04)", //816
+     /* 4  eHWVER_M04_VERE     */ "G03 Ver.A(M04)", //1084
+     /* 5  eHWVER_M04_VERF     */ "Ver.E(M04)", //1341
+     /* 6  eHWVER_M04_VERG     */ "Ver.E(M04)", //1657
+     /* 7  eHWVER_M04_VERH     */ "Ver.F(M04)", //1951
+     /* 8  eHWVER_M04_VERI     */ "Ver.F(M04)", //2217
+     /* 9  eHWVER_M04_VERJ     */ "Ver.G(M04)", //2730
+     /* 10 eHWVER_M04_VERK     */ "Ver.G(M04)", //2988
+     /* 11 eHWVER_M04_VERL     */ "G01 Ver.B(M04)", //3260
+     /* 12 eHWVER_M04_VERM     */ "G01 Ver.B(M04)", //3513
+     /* 13 eHWVER_M04_VERN     */ "G01 Ver.B(M04)", //3780
 
-     /* 0  eHWVER_M08_VERA     */ "G01 Ver.A(M08)\0", //0
-     /* 1  eHWVER_M08_VERB     */ "G11 Ver.A(M08)\0", //260
-     /* 2  eHWVER_M08_VERC     */ "G11 Ver.A(M08)\0", //372
-     /* 3  eHWVER_M08_VERD     */ "G03 Ver.A(M08)\0", //816
-     /* 4  eHWVER_M08_VERE     */ "G03 Ver.A(M08)\0", //1084
-     /* 5  eHWVER_M08_VERF     */ "Ver.E(M08)\0", //1341
-     /* 6  eHWVER_M08_VERG     */ "Ver.E(M08)\0", //1657
-     /* 7  eHWVER_M08_VERH     */ "Ver.F(M08)\0", //1951
-     /* 8  eHWVER_M08_VERI     */ "Ver.F(M08)\0", //2217
-     /* 9  eHWVER_M08_VERJ     */ "Ver.G(M08)\0", //2730
-     /* 10 eHWVER_M08_VERK     */ "Ver.G(M08)\0", //2988
-     /* 11 eHWVER_M08_VERL     */ "G01 Ver.B(M08)\0", //3260
-     /* 12 eHWVER_M08_VERM     */ "G01 Ver.B(M08)\0", //3513
-     /* 13 eHWVER_M08_VERN     */ "G01 Ver.B(M08)\0", //3780
+     /* 0  eHWVER_M08_VERA     */ "G01 Ver.A(M08)", //0
+     /* 1  eHWVER_M08_VERB     */ "G11 Ver.A(M08)", //260
+     /* 2  eHWVER_M08_VERC     */ "G11 Ver.A(M08)", //372
+     /* 3  eHWVER_M08_VERD     */ "G03 Ver.A(M08)", //816
+     /* 4  eHWVER_M08_VERE     */ "G03 Ver.A(M08)", //1084
+     /* 5  eHWVER_M08_VERF     */ "Ver.E(M08)", //1341
+     /* 6  eHWVER_M08_VERG     */ "Ver.E(M08)", //1657
+     /* 7  eHWVER_M08_VERH     */ "Ver.F(M08)", //1951
+     /* 8  eHWVER_M08_VERI     */ "Ver.F(M08)", //2217
+     /* 9  eHWVER_M08_VERJ     */ "Ver.G(M08)", //2730
+     /* 10 eHWVER_M08_VERK     */ "Ver.G(M08)", //2988
+     /* 11 eHWVER_M08_VERL     */ "G01 Ver.B(M08)", //3260
+     /* 12 eHWVER_M08_VERM     */ "G01 Ver.B(M08)", //3513
+     /* 13 eHWVER_M08_VERN     */ "G01 Ver.B(M08)", //3780
 };
 #endif
 

@@ -3977,24 +3977,24 @@ eHAL_SCALER_EXEC_CODE halScaler_FrontEndColorSpaceInfo_Get(UINT8 ucCH,UINT8* ucV
     switch(m_sProAV_Info.ucColorSpace[ucCH])
     {
         case eCOLOR_FORMAT_RGB:
-            sprintf(aucString, "RGB\0");
+            sprintf(aucString, "RGB");
             memcpy(ucValue, aucString, strlen(aucString)+1);
             break;
 
         case eCOLOR_FORMAT_RGB_LIMIT:
-            sprintf(aucString, "RGB Video\0");
+            sprintf(aucString, "RGB Video");
             memcpy(ucValue, aucString, strlen(aucString)+1);
             break;
 
         default:
             if(m_sProAV_Info.ucVideoYUV[ucCH] == eVIDEO_YUV_REC601)
             {
-                sprintf(aucString, "REC601\0");
+                sprintf(aucString, "REC601");
                 memcpy(ucValue, aucString, strlen(aucString)+1);
             }
             else if(m_sProAV_Info.ucVideoYUV[ucCH] == eVIDEO_YUV_REC709)
             {
-                sprintf(aucString, "REC709\0");
+                sprintf(aucString, "REC709");
                 memcpy(ucValue, aucString, strlen(aucString)+1);
             }
             else
@@ -4004,12 +4004,12 @@ eHAL_SCALER_EXEC_CODE halScaler_FrontEndColorSpaceInfo_Get(UINT8 ucCH,UINT8* ucV
 #endif /* __ICHIP_CONTROL__ */
                 if(ucVal == eVIDEO_YUV_REC601)
                 {
-                    sprintf(aucString, "REC601\0");
+                    sprintf(aucString, "REC601");
                     memcpy(ucValue, aucString, strlen(aucString)+1);
                 }
                 else
                 {
-                    sprintf(aucString, "REC709\0");
+                    sprintf(aucString, "REC709");
                     memcpy(ucValue, aucString, strlen(aucString)+1);
                 }
             }
@@ -7355,17 +7355,17 @@ void halScaler_InputPortResolution(UINT8 ucCH, UINT8 ucSelect, UINT8 *pcData)
 
     if(ucRxPort > PROA_RX_4)
     {
-        sprintf(pcData, "-\0");
+        sprintf(pcData, "-");
         return;
     }
 
     if(m_sProAV_Info.ucRxPortStatus[ucRxPort] == eInpStatusStable)
     {
-        sprintf(pcData, "%d x %d\0", m_sProAV_Info.sRxPortDetTiming[ucRxPort].Hs.Size, m_sProAV_Info.sRxPortDetTiming[ucRxPort].Vs.Size);
+        sprintf(pcData, "%d x %d", m_sProAV_Info.sRxPortDetTiming[ucRxPort].Hs.Size, m_sProAV_Info.sRxPortDetTiming[ucRxPort].Vs.Size);
     }
     else
     {
-        sprintf(pcData, "-\0");
+        sprintf(pcData, "-");
     }
 }
 
@@ -7375,18 +7375,18 @@ void halScaler_InputPortHorzRate(UINT8 ucCH, UINT8 ucSelect, UINT8 *pcData)
 
     if(ucRxPort > PROA_RX_4)
     {
-        sprintf(pcData, "-\0");
+        sprintf(pcData, "-");
         return;
     }
 
     if(m_sProAV_Info.ucRxPortStatus[ucRxPort] == eInpStatusStable)
     {
         DOUBLE dbVal = m_sProAV_Info.sRxPortAVI_Info[ucRxPort].dFrameRate * m_sProAV_Info.sRxPortDetTiming[ucRxPort].Vs.Total;
-        sprintf(pcData, "%d.%03dkHz\0", (UINT32)dbVal/1000,(UINT32)dbVal%1000);
+        sprintf(pcData, "%d.%03dkHz", (UINT32)dbVal/1000,(UINT32)dbVal%1000);
     }
     else
     {
-        sprintf(pcData, "-\0");
+        sprintf(pcData, "-");
     }
 }
 
@@ -7411,7 +7411,7 @@ void halScaler_RxPortColorSpace(UINT8 ucRxPort, UINT8 *pcData)
 {
     if(ucRxPort > PROA_RX_4)
     {
-        sprintf(pcData, "-\0");
+        sprintf(pcData, "-");
         return;
     }
 
@@ -7422,28 +7422,28 @@ void halScaler_RxPortColorSpace(UINT8 ucRxPort, UINT8 *pcData)
             case RX_COLORSPACE_RGB:
                 if(m_sProAV_Info.sRxPortAVI_Info[ucRxPort].ucRGBFull)
                 {
-                    sprintf(pcData, "RGB Full\0");
+                    sprintf(pcData, "RGB Full");
                 }
                 else
                 {
-                    sprintf(pcData, "RGB Limit\0");
+                    sprintf(pcData, "RGB Limit");
                 }
                 break;
 
             case RX_COLORSPACE_REC601:
             case RX_COLORSPACE_REC709:
             case RX_COLORSPACE_REC2020:
-                sprintf(pcData, "YUV\0");
+                sprintf(pcData, "YUV");
                 break;
 
             default:
-                sprintf(pcData, "Unknow\0");
+                sprintf(pcData, "Unknow");
                 break;
         }
     }
     else
     {
-        sprintf(pcData, "-\0");
+        sprintf(pcData, "-");
     }
 }
 
@@ -7453,7 +7453,7 @@ void halScaler_InputPortColorSpace(UINT8 ucCH, UINT8 ucSelect, UINT8 *pcData)
 
     if(ucRxPort > PROA_RX_4)
     {
-        sprintf(pcData, "-\0");
+        sprintf(pcData, "-");
         return;
     }
 
@@ -7469,11 +7469,11 @@ void halScaler_InputPortColorSpace(UINT8 ucCH, UINT8 ucSelect, UINT8 *pcData)
             case RX_COLORSPACE_RGB:
                 if(m_sProAV_Info.sRxPortAVI_Info[ucRxPort].ucRGBFull)
                 {
-                    sprintf(pcData, "RGB Full\0");
+                    sprintf(pcData, "RGB Full");
                 }
                 else
                 {
-                    sprintf(pcData, "RGB Limit\0");
+                    sprintf(pcData, "RGB Limit");
                 }
                 break;
 
@@ -7482,30 +7482,30 @@ void halScaler_InputPortColorSpace(UINT8 ucCH, UINT8 ucSelect, UINT8 *pcData)
             case RX_COLORSPACE_REC2020:
                 if(m_sProAV_Info.sRxPortAVI_Info[ucRxPort].ucPixelMode == PROAV_SCALER_COLOR_PIXEL_MODE_YUV444)
                 {
-                    sprintf(pcData, "YUV444\0");
+                    sprintf(pcData, "YUV444");
                 }
                 else if(m_sProAV_Info.sRxPortAVI_Info[ucRxPort].ucPixelMode == PROAV_SCALER_COLOR_PIXEL_MODE_YUV422)
                 {
-                    sprintf(pcData, "YUV422\0");
+                    sprintf(pcData, "YUV422");
                 }
                 else if(m_sProAV_Info.sRxPortAVI_Info[ucRxPort].ucPixelMode == PROAV_SCALER_COLOR_PIXEL_MODE_YUV420)
                 {
-                    sprintf(pcData, "YUV420\0");
+                    sprintf(pcData, "YUV420");
                 }
                 else
                 {
-                    sprintf(pcData, "Unknow\0");
+                    sprintf(pcData, "Unknow");
                 }
                 break;
 
             default:
-                sprintf(pcData, "Unknow\0");
+                sprintf(pcData, "Unknow");
                 break;
         }
     }
     else
     {
-        sprintf(pcData, "-\0");
+        sprintf(pcData, "-");
     }
 }
 

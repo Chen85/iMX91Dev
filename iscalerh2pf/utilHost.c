@@ -1221,7 +1221,7 @@ eCLI_ERROR_CODE utilCommon_VersionGet(sGEC_CLI_COMMON_FORMAT* psCmdFormat)
     sscanf(psCmdFormat->acTextString, "%d,%d,%d", &alData[0], &alData[1], &alData[2]);
     LOG_MSG(db_HAL_MCU, "VersionGet %d %d %d\r\n", alData[0], alData[1], alData[2]);
 
-    sprintf((char*)aucVerString, "M%02d.%02d\0", alData[0], alData[1]);
+    sprintf((char*)aucVerString, "M%02d.%02d", alData[0], alData[1]);
     palDataMgr_Data_Access(edcMOTOR_VERSION, edaWRITE_RAM_ONLY_NO_ACTION, aucVerString);
 
     return eErrorCode;
@@ -1379,7 +1379,7 @@ eCLI_ERROR_CODE utilCommon_LensI2CStatus(sGEC_CLI_COMMON_FORMAT* psCmdFormat)
     INT32 alData[8] = {0};
 	UINT8 uDeviceName[15] = {0};
 
-    sscanf(psCmdFormat->acTextString, "%d,%d,%d,%s\0", &alData[0], &alData[1], &alData[2], uDeviceName);
+    sscanf(psCmdFormat->acTextString, "%d,%d,%d,%s", &alData[0], &alData[1], &alData[2], uDeviceName);
 
     LOG_MSG(db_HAL_MCU, "alDeviceName: %s, strlen = %d\r\n", uDeviceName, strlen(uDeviceName));
 	if(strncmp(uDeviceName, "LENS_NVRAM", strlen("LENS_NVRAM")) == 0)

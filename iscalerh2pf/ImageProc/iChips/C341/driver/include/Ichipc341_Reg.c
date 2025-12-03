@@ -5,7 +5,7 @@
 
 const sICHIP_DUMP m_sICHIPC341_DUMP[] =
 {
-    {"START \0", 0x12345678},
+    {"START ", 0x12345678},
 
     {"C341B0 MCT1   ", 0x000801},
     {"C341B0 MCT2   ", 0x000901},
@@ -6447,7 +6447,7 @@ const sICHIP_DUMP m_sICHIPC341_DUMP[] =
     {"C341BN_MEMCT   ", 0xFF0401},
     {"C341BN_RSTCT   ", 0xFF0503},
 
-    {"END    \0", 0xFFFFFFFF},
+    {"END    ", 0xFFFFFFFF},
 };
 
 #endif  //_ICHIPS341REG_H_

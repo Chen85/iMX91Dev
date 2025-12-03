@@ -172,44 +172,44 @@ const static sCLI_CONFIG m_sCli_Config[eccNumber] =
 const static sCLI_ERROR_MSG m_sErrorLut[eCLI_ERROR_NUMBER] =
 {
 
-    /*00*/{119,   "Syntax Error: Unknow Error\0"},  // CUart_NoError
-    /*01*/{10,    "Syntax Error: Invalid control\0"}, // CUart_LengthError
-    /*02*/{10,    "Syntax Error: dest address out of range:\0"}, // CUart_DestAddError
-    /*03*/{10,    "Syntax Error: src address out of range:\0"}, //CUart_SrcAddError
-    /*04*/{101,   "Control Not Found\0"}, //CUart_FuncCodeNotFound
-    /*05*/{10,    "Syntax Error: invalid dest address:\0"}, //CUart_FormatErr
-    /*06*/{10,    "Syntax Error: invalid code\0"}, //CUart_negativeErr
-    /*07*/{104,   "Invalid Value\0"}, //CUart_decimalErr
-    /*08*/{108,   "Exceeded Text Size\0"}, //CUart_StringErr
-    /*09*/{108,   "Exceeded Text Size\0"}, //CUart_StringTooBig
-    /*10*/{5,     "Too Few Parameters\0"}, //CUart_DataError
-    /*11*/{8,     "Checksum error\0"}, //CUart_CKSumNoSpace
-    /*12*/{8,     "Checksum error\0"}, //CUart_CKSumError
-    /*13*/{119,   "[fw]Message Type Error\0"}, //CUart_MessageTypeError
-    /*14*/{104,   "Invalid Value\0"}, //CUart_DataOverRange
-    /*15*/{119,   "[fw]Lookup Index Error\0"}, //CUart_LookupIndexErr
-    /*16*/{3,     "Invalid Parameter\0"}, //CUart_DataMustToBeDecimal
-    /*17*/{3,     "Invalid Parameter\0"}, //CUart_DataMustToBeString
-    /*18*/{105,   "Disabled Control\0"}, //CUart_MustDependOnSrc
-    /*19*/{119,   "[fw]Function no define\0"}, //CUart_FunctionNoDefine
-    /*20*/{119,   "[fw]Data Special check Fail\0"}, //CUart_DataSpecialCheckFail
-    /*21*/{119,   "[fw]Data Special src check Fail\0"}, //CUart_SpecialSourceDependCheckFail
-    /*22*/{105,   "Disabled Control\0"}, //CUart_SetFail
-    /*23*/{119,   "[fw]Request Fail\0"}, //CUart_RequestFail
-    /*24*/{119,   "[fw]ReplyFail Fail\0"}, //CUart_ReplyFail
-    /*25*/{102,   "Subcontrol Not Found\0"}, //CUart_SubCodeErr
-    /*26*/{7,     "Command not executed\0"}, //CUart_ComReadOnly
-    /*27*/{7,     "Command not executed\0"}, //CUart_ComWriteOnly
-    /*28*/{102,   "Subcontrol Not Found\0"}, //CUart_SubCodeNeed
-    /*29*/{110,   "Function protected\0"}, //CUart_ServiceCodeNeedWhenWrite
-    /*30*/{110,   "Function protected\0"}, //CUart_ServiceCodeNeedWhenRead
-    /*31*/{10,    "Syntax Error: N\0"}, //CUart_N_NoSpace
-    /*32*/{10,    "Syntax Error: P\0"}, //CUart_P_NoSpace
+    /*00*/{119,   "Syntax Error: Unknow Error"},  // CUart_NoError
+    /*01*/{10,    "Syntax Error: Invalid control"}, // CUart_LengthError
+    /*02*/{10,    "Syntax Error: dest address out of range:"}, // CUart_DestAddError
+    /*03*/{10,    "Syntax Error: src address out of range:"}, //CUart_SrcAddError
+    /*04*/{101,   "Control Not Found"}, //CUart_FuncCodeNotFound
+    /*05*/{10,    "Syntax Error: invalid dest address:"}, //CUart_FormatErr
+    /*06*/{10,    "Syntax Error: invalid code"}, //CUart_negativeErr
+    /*07*/{104,   "Invalid Value"}, //CUart_decimalErr
+    /*08*/{108,   "Exceeded Text Size"}, //CUart_StringErr
+    /*09*/{108,   "Exceeded Text Size"}, //CUart_StringTooBig
+    /*10*/{5,     "Too Few Parameters"}, //CUart_DataError
+    /*11*/{8,     "Checksum error"}, //CUart_CKSumNoSpace
+    /*12*/{8,     "Checksum error"}, //CUart_CKSumError
+    /*13*/{119,   "[fw]Message Type Error"}, //CUart_MessageTypeError
+    /*14*/{104,   "Invalid Value"}, //CUart_DataOverRange
+    /*15*/{119,   "[fw]Lookup Index Error"}, //CUart_LookupIndexErr
+    /*16*/{3,     "Invalid Parameter"}, //CUart_DataMustToBeDecimal
+    /*17*/{3,     "Invalid Parameter"}, //CUart_DataMustToBeString
+    /*18*/{105,   "Disabled Control"}, //CUart_MustDependOnSrc
+    /*19*/{119,   "[fw]Function no define"}, //CUart_FunctionNoDefine
+    /*20*/{119,   "[fw]Data Special check Fail"}, //CUart_DataSpecialCheckFail
+    /*21*/{119,   "[fw]Data Special src check Fail"}, //CUart_SpecialSourceDependCheckFail
+    /*22*/{105,   "Disabled Control"}, //CUart_SetFail
+    /*23*/{119,   "[fw]Request Fail"}, //CUart_RequestFail
+    /*24*/{119,   "[fw]ReplyFail Fail"}, //CUart_ReplyFail
+    /*25*/{102,   "Subcontrol Not Found"}, //CUart_SubCodeErr
+    /*26*/{7,     "Command not executed"}, //CUart_ComReadOnly
+    /*27*/{7,     "Command not executed"}, //CUart_ComWriteOnly
+    /*28*/{102,   "Subcontrol Not Found"}, //CUart_SubCodeNeed
+    /*29*/{110,   "Function protected"}, //CUart_ServiceCodeNeedWhenWrite
+    /*30*/{110,   "Function protected"}, //CUart_ServiceCodeNeedWhenRead
+    /*31*/{10,    "Syntax Error: N"}, //CUart_N_NoSpace
+    /*32*/{10,    "Syntax Error: P"}, //CUart_P_NoSpace
 
-    /*33*/{10,    "Syntax Error: U\0"}, 	                        /*eCLI_ERROR_CODE_CUart_U_NOSPACE */ //HICC2_Steven_0056start
-    /*34*/{10,    "Syntax Error: D\0"}, 	                        /*eCLI_ERROR_CODE_CUart_D_NOSPACE */
-    /*35*/{10,    "Syntax Error: R\0"}, 	                        /*eCLI_ERROR_CODE_CUart_R_NOSPACE */
-    /*36*/{10,    "Syntax Error: L\0"}, 	                        /*eCLI_ERROR_CODE_CUart_L_NOSPACE */ //HICC2_Steven_0056 end
+    /*33*/{10,    "Syntax Error: U"}, 	                        /*eCLI_ERROR_CODE_CUart_U_NOSPACE */ //HICC2_Steven_0056start
+    /*34*/{10,    "Syntax Error: D"}, 	                        /*eCLI_ERROR_CODE_CUart_D_NOSPACE */
+    /*35*/{10,    "Syntax Error: R"}, 	                        /*eCLI_ERROR_CODE_CUart_R_NOSPACE */
+    /*36*/{10,    "Syntax Error: L"}, 	                        /*eCLI_ERROR_CODE_CUart_L_NOSPACE */ //HICC2_Steven_0056 end
 
 };
 
@@ -960,14 +960,14 @@ eCLI_ERROR_CODE utilChristie_CLI_SYS_EmergencyTest(eCLI_MODE eAccessMode, sCLI_C
 
             case 1:
             {
-                char String[] = "ABCDEFGH 123456789 ABCDEFGH 123456789 ABCDEFGH 123456789 ABCDEFGH 123456789 ABCDEFGH 123456789 ABCDEFGH 123456789 ABCDEFGH 123456789 ABCDEFGH 123456789 ABCDEFGH 123456789 ABCDEFGH 123456789 ABCDEFGH 123456789 ABCDEFGH 123456789 KKKKK\0" ;
+                char String[] = "ABCDEFGH 123456789 ABCDEFGH 123456789 ABCDEFGH 123456789 ABCDEFGH 123456789 ABCDEFGH 123456789 ABCDEFGH 123456789 ABCDEFGH 123456789 ABCDEFGH 123456789 ABCDEFGH 123456789 ABCDEFGH 123456789 ABCDEFGH 123456789 ABCDEFGH 123456789 KKKKK" ;
                 palDataMgr_Data_Access(edcEMERGENCY_MESSAGE_SHOWS, edaWRITE_THROUGH_WITH_ACTION, String);
             }
             break;
 
             case 2:
             {
-                char String[] = "ABCDEFGH 123456789 \0" ;
+                char String[] = "ABCDEFGH 123456789 " ;
                 palDataMgr_Data_Access(edcEMERGENCY_MESSAGE_SHOWS, edaWRITE_THROUGH_WITH_ACTION, String);
             }
             break;
@@ -1099,7 +1099,7 @@ eCLI_ERROR_CODE utilChristie_CFU(eCLI_MODE eAccessMode, sCLI_CHRISTIE_FORMAT* sC
     /*05*///eSYSTEM_UPGRADE_SELECT_STARTUP_BASED,
     /*06*///eSYSTEM_UPGRADE_SELECT_FPGA,
     /*07*///eSYSTEM_UPGRADE_SELECT_All,
-    char  ucOutputString[128] = {"\0"};
+    char  ucOutputString[128] = {""};
 
     if(eAccessMode == ecmRead)
     {
@@ -1189,7 +1189,7 @@ eCLI_ERROR_CODE utilChristie_CFU(eCLI_MODE eAccessMode, sCLI_CHRISTIE_FORMAT* sC
 // ==============================================================================
 eCLI_ERROR_CODE utilChristie_EXFADDR(eCLI_MODE eAccessMode, sCLI_CHRISTIE_FORMAT* sCmdFormat)
 {
-    char  ucOutputString[128] = {"\0"};
+    char  ucOutputString[128] = {""};
 
     if(eAccessMode == ecmRead)
     {
@@ -2487,7 +2487,7 @@ eCLI_ERROR_CODE utilChristie_ICPC341_GET(eCLI_MODE eAccessMode, sCLI_CHRISTIE_FO
 #if 0
 eCLI_ERROR_CODE util_ICD(eCLI_MODE eAccessMode, sCLI_CHRISTIE_FORMAT* sCmdFormat)
 {
-    char  ucOutputString[128] = {"\0"};
+    char  ucOutputString[128] = {""};
 
     if(sCmdFormat->ucDataType == eCLI_DATA_TYPE_STRING)
     {
@@ -2707,7 +2707,7 @@ eCLI_ERROR_CODE util_ICD(eCLI_MODE eAccessMode, sCLI_CHRISTIE_FORMAT* sCmdFormat
 
 eCLI_ERROR_CODE util_FPGA_System(eCLI_MODE eAccessMode, sCLI_CHRISTIE_FORMAT* sCmdFormat) //A70LV_Larry_0086
 {
-    char  ucOutputString[128] = {"\0"};
+    char  ucOutputString[128] = {""};
 
     if(sCmdFormat->ucDataType == eCLI_DATA_TYPE_STRING)
     {
@@ -2759,7 +2759,7 @@ eCLI_ERROR_CODE util_FPGA_System(eCLI_MODE eAccessMode, sCLI_CHRISTIE_FORMAT* sC
 eCLI_ERROR_CODE utilChristie_MIF_APRT(eCLI_MODE eAccessMode, sCLI_CHRISTIE_FORMAT* sCmdFormat) //A70LV_Doulas_0137
 {
     UINT8   ucAspectRatio = CLI_SCALING_MODE_AUTO ;
-    char    ucOutputString[128] = {"\0"};
+    char    ucOutputString[128] = {""};
 
     if(eFUNC_CONTROL_ENABLE != palDataMgr_DataCode_Control(edcMAIN_ASPECT_RATIO))  //available check
     {
@@ -2826,7 +2826,7 @@ eCLI_ERROR_CODE utilChristie_MIF_APRT(eCLI_MODE eAccessMode, sCLI_CHRISTIE_FORMA
 eCLI_ERROR_CODE utilChristie_SIF_APRT(eCLI_MODE eAccessMode, sCLI_CHRISTIE_FORMAT* sCmdFormat) //A70LV_Doulas_0137
 {
     UINT8 ucAspectRatio = CLI_SCALING_MODE_AUTO;
-    char    ucOutputString[128] = {"\0"};
+    char    ucOutputString[128] = {""};
 
     if(eFUNC_CONTROL_ENABLE != palDataMgr_DataCode_Control(edcSUB_ASPECT_RATIO))  //available check
     {
@@ -3074,7 +3074,7 @@ eCLI_ERROR_CODE utilChristie_PIV(eCLI_MODE eAccessMode, sCLI_CHRISTIE_FORMAT* sC
 {
     eEXEC_CODE eResult = eEXEC_CODE_PASS;
     UINT8 ucPIN_PROTECT_EN;
-    //char  ucOutputString[128] = {"\0"};
+    //char  ucOutputString[128] = {""};
 
     if(palDataMgr_Data_Access(edcPIN_PROTECT, edaREAD, &ucPIN_PROTECT_EN) != eEXEC_CODE_PASS)
     {
@@ -3152,7 +3152,7 @@ eCLI_ERROR_CODE utilChristie_PIV(eCLI_MODE eAccessMode, sCLI_CHRISTIE_FORMAT* sC
 eCLI_ERROR_CODE utilChristie_PCG(eCLI_MODE eAccessMode, sCLI_CHRISTIE_FORMAT* sCmdFormat)       //A70LV_Doulas_0139
 {
     eEXEC_CODE eResult = eEXEC_CODE_PASS;
-    char  ucOutputString[128] = {"\0"};
+    char  ucOutputString[128] = {""};
 
     if(eAccessMode == ecmRead)
     {
@@ -3285,7 +3285,7 @@ eCLI_ERROR_CODE utilChristie_SIV(eCLI_MODE eAccessMode, sCLI_CHRISTIE_FORMAT* sC
 eCLI_ERROR_CODE utilChristie_SST(eCLI_MODE eAccessMode, sCLI_CHRISTIE_FORMAT* sCmdFormat)       //A70LV_Doulas_0140
 {
     UINT8 ucString[64] = {0};
-    char  ucOutputString[128] = {"\0"};
+    char  ucOutputString[128] = {""};
     UINT8 ucIndex = 0;
     UINT8 ucVal;
     UINT8 ucPIP_EN;
@@ -3629,7 +3629,7 @@ eCLI_ERROR_CODE utilChristie_SST(eCLI_MODE eAccessMode, sCLI_CHRISTIE_FORMAT* sC
 eCLI_ERROR_CODE utilChristie_ILI(eCLI_MODE eAccessMode, sCLI_CHRISTIE_FORMAT* sCmdFormat)       //A70LV_Doulas_0140
 {
     UINT8 ucString[64] = {0};
-    char  ucOutputString[128] = {"\0"};
+    char  ucOutputString[128] = {""};
     UINT8 ucIndex = 0;
 
     if(eAccessMode == ecmRead)
@@ -3654,7 +3654,7 @@ eCLI_ERROR_CODE utilChristie_ILI(eCLI_MODE eAccessMode, sCLI_CHRISTIE_FORMAT* sC
 eCLI_ERROR_CODE utilChristie_ICI(eCLI_MODE eAccessMode, sCLI_CHRISTIE_FORMAT* sCmdFormat)       //A70LV_Doulas_0231 modify//A70LV_Doulas_0151
 {
     UINT8 ucString[64] = {0};
-    char  ucOutputString[128] = {"\0"};
+    char  ucOutputString[128] = {""};
     UINT8 ucIndex = 0;
     UINT8 ucVal;
 
@@ -3834,7 +3834,7 @@ eCLI_ERROR_CODE utilChristie_CLI_SYS_FPGA(eCLI_MODE eAccessMode, sCLI_CHRISTIE_F
 #ifdef SCALER_FPGA_F34
     if(eAccessMode == ecmRead)
     {
-        char  ucOutputString[128] = {"\0"};
+        char  ucOutputString[128] = {""};
         sprintf(ucOutputString, "sys+fpgaX, X = bank, X = 99 is printf all");
         __CMD_Respond((eCLI_CHANNEL)sCmdFormat->ucCmdFrom, ucOutputString);
     }
@@ -3891,7 +3891,7 @@ eCLI_ERROR_CODE utilChristie_CLI_SYS_RVXF(eCLI_MODE eAccessMode, sCLI_CHRISTIE_F
 
 eCLI_ERROR_CODE utilChristie_LET(eCLI_MODE eAccessMode, sCLI_CHRISTIE_FORMAT* sCmdFormat) //A70Gen2_Julie_0021
 {
-    char  ucOutputString[128] = {"\0"};
+    char  ucOutputString[128] = {""};
     UINT8  ucVal;
 
     if(eAccessMode == ecmRead)
@@ -3911,14 +3911,14 @@ eCLI_ERROR_CODE utilChristie_LET(eCLI_MODE eAccessMode, sCLI_CHRISTIE_FORMAT* sC
 eCLI_ERROR_CODE utilChristie_FVI(eCLI_MODE eAccessMode, sCLI_CHRISTIE_FORMAT* sCmdFormat) //A70LV_Larry_0232
 {
     UINT8 ucString[64] = {0};
-    char  ucOutputString[128] = {"\0"};
+    char  ucOutputString[128] = {""};
     UINT8 ucIndex = 0;
 
     if(eAccessMode == ecmRead)
     {
         UINT16 cIndex = 0, cTotal = 0;
         UINT32 ulDataCode;
-        char cVerString[64] = {"\0"};
+        char cVerString[64] = {""};
 
         cTotal = CmdCfg_VersionInfo_Get(0xFF, &ulDataCode, cVerString);
 #if 1
@@ -4026,7 +4026,7 @@ eCLI_ERROR_CODE utilChristie_MDT(eCLI_MODE eAccessMode, sCLI_CHRISTIE_FORMAT* sC
 {
     char ucString[64] = {0};
     char ucString2[20] = {0};
-    char  ucOutputString[128] = {"\0"};
+    char  ucOutputString[128] = {""};
     UINT16 uiVal;
     UINT8  ucVal;
     sMODE_ADJUSTMENT_TABLE sModeAdjustmentTable;
@@ -4080,10 +4080,10 @@ eCLI_ERROR_CODE utilChristie_MDT(eCLI_MODE eAccessMode, sCLI_CHRISTIE_FORMAT* sC
         palDataMgr_Data_Access(edcMODE_ADJ_INFO,   edaREAD, (void*)&sModeAdjustmentTable);
         if(sModeAdjustmentTable.ucNewMA_Mode_Flag == 0xA5)
         {
-            sprintf(ucString2, " %d - %d \0", sModeAdjustmentTable.ucNewMA_Table_ID
+            sprintf(ucString2, " %d - %d ", sModeAdjustmentTable.ucNewMA_Table_ID
                                             , sModeAdjustmentTable.uiNewMA_Mode_ID);
 
-            sprintf(ucString, "%d0 - %d - %d - %d - %d - %d - %d \0",   sModeAdjustmentTable.uiNewMA_HPeriod
+            sprintf(ucString, "%d0 - %d - %d - %d - %d - %d - %d ",   sModeAdjustmentTable.uiNewMA_HPeriod
                                                                   , sModeAdjustmentTable.uiNewMA_HTotal
                                                                   , sModeAdjustmentTable.uiNewMA_VTotal
                                                                   , sModeAdjustmentTable.uiNewMA_HActive
@@ -4307,7 +4307,7 @@ eCLI_ERROR_CODE utilChristie_MDT_RDIX(eCLI_MODE eAccessMode, sCLI_CHRISTIE_FORMA
 
 eCLI_ERROR_CODE utilChristie_PIF_SXRJ(eCLI_MODE eAccessMode, sCLI_CHRISTIE_FORMAT* sCmdFormat)   //A70LV_Larry_0235
 {
-    char  ucOutputString[32] = {"\0"};
+    char  ucOutputString[32] = {""};
 
     if(palSystem_CustomerSplashGet() == CUSTOM_LOGO_SCREENX)
     {
@@ -4421,7 +4421,7 @@ eCLI_ERROR_CODE utilChristie_CLI_SYS_DDPR(eCLI_MODE eAccessMode, sCLI_CHRISTIE_F
 
 eCLI_ERROR_CODE utilChristie_CLI_SYS_DAPH(eCLI_MODE eAccessMode, sCLI_CHRISTIE_FORMAT* sCmdFormat)       //A70LV_Doulas_0236
 {
-    char  ucOutputString[128] = {"\0"};
+    char  ucOutputString[128] = {""};
 
     if(eAccessMode == ecmRead)
     {
@@ -4463,7 +4463,7 @@ eCLI_ERROR_CODE utilChristie_CLI_SYS_LVDS(eCLI_MODE eAccessMode, sCLI_CHRISTIE_F
 
 eCLI_ERROR_CODE utilChristie_CLI_SYS_LDON(eCLI_MODE eAccessMode, sCLI_CHRISTIE_FORMAT* sCmdFormat)      //A70LV_Doulas_0306 Add
 {
-    char  ucOutputString[128] = {"\0"};
+    char  ucOutputString[128] = {""};
     UINT8 ucData1 = 2;
     UINT8 ucData2 = 2;
     UINT8 ucData3 = 2;
@@ -6814,7 +6814,7 @@ eCLI_ERROR_CODE utilChristie_CLI_XPR_SNGT(eCLI_MODE eAccessMode, sCLI_CHRISTIE_F
     {
         palFormatterMgr_XPR_SN_Get(data);
 
-        snprintf(sCmdFormat->cTextString, CLI_DATA_SIZE, "%s\0", data);
+        snprintf(sCmdFormat->cTextString, CLI_DATA_SIZE, "%s", data);
     }
     else if(eAccessMode == ecmWrite)
     {
@@ -6988,7 +6988,7 @@ eCLI_ERROR_CODE utilChristie_CLI_FAN_LD_INFO(eCLI_MODE eAccessMode, sCLI_CHRISTI
 {
     if(eAccessMode == ecmRead)
     {
-        char cStrTemp[8] = {"\0"}, cStrFunc[8] = {"\0"};
+        char cStrTemp[8] = {""}, cStrFunc[8] = {""};
         char  ucString[64] = {0}, ucOutputString[64] = {0};
         UINT8 cData = 0;
         UINT32 uiCode = 0, uiDataCode[8] = {0};
@@ -10013,7 +10013,7 @@ void utilChristie_CMD_Reply(UINT8 ucChannel, UINT8 ucErrorCode, sCLI_CHRISTIE_FO
                                 }
                                 else
                                 {
-                                    sprintf(ucReturnString, "\0");
+                                    sprintf(ucReturnString, "");
                                 }
                             }
                             break;
@@ -10487,7 +10487,7 @@ UINT8 utilChristie_CLI_Handle(UINT8 eCh, UINT8 *pcData)
 
     if(m_sCLI_Info[eCh].ucSerialPortEcho && uiEmpty) //A70LV_Larry_0060
     {
-        LOG_MSG(db_ALWAYS, "%c\0", ucData);
+        LOG_MSG(db_ALWAYS, "%c", ucData);
     }
 
     if((ucData == m_sCli_Config[eCh].cCMD_Hander || m_sCLI_Info[eCh].uiCLI_Poll_Position != 0) && uiEmpty)

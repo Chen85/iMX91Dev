@@ -1641,9 +1641,9 @@ typedef enum
 	eLENS_ID_NVRAM_NUMBERS,
 } eLENS_ID;
 
-#define cUNKNOWN			"Unknown\0"
-#define cUNDEFINED			"Undefined\0"
-#define cNOT_SUPPORTED		"Not supported\0"
+#define cUNKNOWN			"Unknown"
+#define cUNDEFINED			"Undefined"
+#define cNOT_SUPPORTED		"Not supported"
 
 /************************************************************************************************/
 /************************************************************************************************/

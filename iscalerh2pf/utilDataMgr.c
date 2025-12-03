@@ -60,7 +60,7 @@ sPARA_FORMAT m_sProjectorInfo_Default[] =
     {ePI_UCMINOR,           "ucMinor","0"},
     {ePI_UCSUBMINOR,        "ucSubminor","0"},
     {ePI_UCMODELNAME,       "ucModelName","NA"},
-    {ePI_UCCUSTOM_CODE,     "ucCustomCode","00000000\0"},
+    {ePI_UCCUSTOM_CODE,     "ucCustomCode","00000000"},
     {ePI_UCSERIALNUMBER,    "ucSerialNumber","31211199"},
     {ePI_CUSTOM_REGION,     "ucRegion","0"},			//A65_OPTOMA_Doulas_0033
     {ePI_CUSTOM_DEFAULT_LOGO, "ucDefaultLogo","0"},		//A65_OPTOMA_Doulas_0033
@@ -721,9 +721,9 @@ sPARA_FORMAT m_sLan_Default[] =
     {eLII_GATEWAY,          "Gateway",     		"0.0.0.0"},
     {eLII_PRIMARYDNS,       "PrimaryDns",  		"0.0.0.0"},
     {eLII_SECONDDNS,        "SecondDns",   		"0.0.0.0"},
-    {eLII_MAC,              "Mac",         		"00:00:00:00:00:00\0"},
+    {eLII_MAC,              "Mac",         		"00:00:00:00:00:00"},
     {eLII_WIFI,             "Wifi",        		"1"},
-    {eLII_WIFISSID,         "WifiSSID",    		"Coretronic@123456\0"},
+    {eLII_WIFISSID,         "WifiSSID",    		"Coretronic@123456"},
     {eLII_PASSWORD,         "Password",    		"12345678"},
     {eLII_STARTIPADDR,      "StartIpAddr", 		"0.0.0.0"},
     {eLII_ENDIPADDR,        "EndIpAddr",   		"0.0.0.0"},
@@ -4846,7 +4846,7 @@ void utilDataMgr_FileToRAM(sEEPROM_SETTINGS *psEEP)
 
 
         //System Default
-        sprintf(psEEP->sSystemDefault.ucSerialNumber, "%s\0", m_sProjectorInfo[ePI_UCSERIALNUMBER].cParaValue);
+        sprintf(psEEP->sSystemDefault.ucSerialNumber, "%s", m_sProjectorInfo[ePI_UCSERIALNUMBER].cParaValue);
         psEEP->sSystemDefault.ucFirstStartupFlag    =   (UINT8)atol(m_sStartup[eSU_UCFIRSTSTARTUPFLAG].cParaValue);
         psEEP->sSystemDefault.ucUSTFirstStartup     =   (UINT8)atol(m_sStartup[eSU_UCUSTFIRSTSTARTUP].cParaValue);
         psEEP->sSystemDefault.ucPINProtect          =   (UINT8)atol(m_sStartup[eSU_UCPINPROTECT].cParaValue);
@@ -5186,7 +5186,7 @@ void utilDataMgr_FileToRAM(sEEPROM_SETTINGS *psEEP)
             {
                 psPara = utilDataMgr_ParaTableGet(uiSourceNode);
 
-                sprintf(psEEP->sUserSystemSetting.sSourceSetting.cSourceName[iCount], "%s\0", psPara[eSCM_CSOURCENAME].cParaValue);
+                sprintf(psEEP->sUserSystemSetting.sSourceSetting.cSourceName[iCount], "%s", psPara[eSCM_CSOURCENAME].cParaValue);
 
                 psEEP->sUserSystemSetting.sSourceDependSetting[iCount].ucAspectRatio        = (UINT8)GUI2CM(edcSIZE_PRESETS, (UINT8)atol(psPara[eSCM_UCASPECTRATIO].cParaValue));
                 psEEP->sUserSystemSetting.sSourceDependSetting[iCount].ucOverScan           = (UINT8)atol(psPara[eSCM_UCOVERSCAN].cParaValue);
@@ -5509,13 +5509,13 @@ void utilDataMgr_RAMToFileProjectorInfo(sEEPROM_SETTINGS *psEEP, eDATA_NODE eNod
     if((utilDataMgr_MutexTake(__FUNCTION__) == TRUE) && (eDATA_NODE_PROJECTORINFO == eNode))
     {
         //sLayoutVersion
-        //sprintf(m_sProjectorInfo[ePI_UCMODELNAME].cParaValue, "%s\0", psEEP->sUserSystemSetting.sCommonSetting.ucModelName);
-        //sprintf(m_sProjectorInfo[ePI_UCCUSTOM_CODE].cParaValue, "%s\0", psEEP->sUserSystemSetting.sCommonSetting.ucCustomCode);
-        //sprintf(m_sProjectorInfo[ePI_UCSERIALNUMBER].cParaValue, "%s\0", psEEP->sSystemDefault.ucSerialNumber);
+        //sprintf(m_sProjectorInfo[ePI_UCMODELNAME].cParaValue, "%s", psEEP->sUserSystemSetting.sCommonSetting.ucModelName);
+        //sprintf(m_sProjectorInfo[ePI_UCCUSTOM_CODE].cParaValue, "%s", psEEP->sUserSystemSetting.sCommonSetting.ucCustomCode);
+        //sprintf(m_sProjectorInfo[ePI_UCSERIALNUMBER].cParaValue, "%s", psEEP->sSystemDefault.ucSerialNumber);
         sprintf(m_sProjectorInfo[ePI_UCSUBMINOR].cParaValue, "%d", psEEP->sLayoutVersion.ucSubminor);
         sprintf(m_sProjectorInfo[ePI_UCMINOR].cParaValue,    "%d", psEEP->sLayoutVersion.ucMinor);
         sprintf(m_sProjectorInfo[ePI_UCMAJOR].cParaValue,    "%d", psEEP->sLayoutVersion.ucMajor);
-		sprintf(m_sProjectorInfo[ePI_UCMODEL_SWITCH].cParaValue, "%d\0", psEEP->sSystemDefault.ucModelSwitchAdjust);   //A65_OPTOMA_Julie_0064
+		sprintf(m_sProjectorInfo[ePI_UCMODEL_SWITCH].cParaValue, "%d", psEEP->sSystemDefault.ucModelSwitchAdjust);   //A65_OPTOMA_Julie_0064
 
         utilDataMgr_Update(eNode);
 
@@ -5584,9 +5584,9 @@ void utilDataMgr_RAMToFileStartup(sEEPROM_SETTINGS *psEEP, eDATA_NODE eNode)
     if((utilDataMgr_MutexTake(__FUNCTION__) == TRUE) && (eDATA_NODE_STARTUP == eNode))
     {
         //System Default
-        sprintf(m_sStartup[eSU_UCFIRSTSTARTUPFLAG].cParaValue, "%d\0",  psEEP->sSystemDefault.ucFirstStartupFlag);
-        sprintf(m_sStartup[eSU_UCUSTFIRSTSTARTUP].cParaValue, "%d\0",  psEEP->sSystemDefault.ucUSTFirstStartup);
-        sprintf(m_sStartup[eSU_UCPINPROTECT].cParaValue, "%d\0",  psEEP->sSystemDefault.ucPINProtect );
+        sprintf(m_sStartup[eSU_UCFIRSTSTARTUPFLAG].cParaValue, "%d",  psEEP->sSystemDefault.ucFirstStartupFlag);
+        sprintf(m_sStartup[eSU_UCUSTFIRSTSTARTUP].cParaValue, "%d",  psEEP->sSystemDefault.ucUSTFirstStartup);
+        sprintf(m_sStartup[eSU_UCPINPROTECT].cParaValue, "%d",  psEEP->sSystemDefault.ucPINProtect );
 
         strncpy(m_sStartup[eSU_UCPASSWORD_0].cParaValue, &psEEP->sSystemDefault.ucPassWord[0], 1);
         strncpy(m_sStartup[eSU_UCPASSWORD_1].cParaValue, &psEEP->sSystemDefault.ucPassWord[1], 1);
@@ -5594,7 +5594,7 @@ void utilDataMgr_RAMToFileStartup(sEEPROM_SETTINGS *psEEP, eDATA_NODE eNode)
         strncpy(m_sStartup[eSU_UCPASSWORD_3].cParaValue, &psEEP->sSystemDefault.ucPassWord[3], 1);
         strncpy(m_sStartup[eSU_UCPASSWORD_4].cParaValue, &psEEP->sSystemDefault.ucPassWord[4], 1);
 
-        sprintf(m_sStartup[eSU_OPFU_CHECK].cParaValue, "%d\0",  psEEP->sSystemDefault.ucOPFU_Check );   //G100_Simon_0064
+        sprintf(m_sStartup[eSU_OPFU_CHECK].cParaValue, "%d",  psEEP->sSystemDefault.ucOPFU_Check );   //G100_Simon_0064
 
         utilDataMgr_Update(eNode);
 
@@ -5903,7 +5903,7 @@ void utilDataMgr_RAMToFileSourceTableCommon(sEEPROM_SETTINGS *psEEP, eDATA_NODE 
         {
             if(utilDataMgr_MutexTake(__FUNCTION__) == TRUE)
             {
-                sprintf(psPara[eSCM_CSOURCENAME].cParaValue, "%s\0", psEEP->sUserSystemSetting.sSourceSetting.cSourceName[uiSrcIndex]);
+                sprintf(psPara[eSCM_CSOURCENAME].cParaValue, "%s", psEEP->sUserSystemSetting.sSourceSetting.cSourceName[uiSrcIndex]);
                 sprintf(psPara[eSCM_UCASPECTRATIO].cParaValue,  "%d", RAM2FILE(edcSIZE_PRESETS, psEEP->sUserSystemSetting.sSourceDependSetting[uiSrcIndex].ucAspectRatio));
                 sprintf(psPara[eSCM_UCOVERSCAN].cParaValue,     "%d", psEEP->sUserSystemSetting.sSourceDependSetting[uiSrcIndex].ucOverScan);
                 sprintf(psPara[eSCM_UCPHASE].cParaValue,        "%d", psEEP->sUserSystemSetting.sSourceDependSetting[uiSrcIndex].ucPhase);
@@ -6369,12 +6369,12 @@ void utilDataMgr_WriteGecLog(UINT32 ulIndex)
         {
             if( strcmp(sGEC_ERRORCODE_TABLE[uiCount].ERROREVENT, "") == 0 ) //G100_Simon_0060
             {
-                sprintf(cStrTemp, "Error Code 0x%08x\0", sGEC_ERRORCODE_TABLE[uiCount].uiErrorIndex);
+                sprintf(cStrTemp, "Error Code 0x%08x", sGEC_ERRORCODE_TABLE[uiCount].uiErrorIndex);
                 uiStrlen = strlen(cStrTemp);
             }
             else
             {
-                sprintf(cStrTemp, "%s\0", sGEC_ERRORCODE_TABLE[uiCount].ERROREVENT);
+                sprintf(cStrTemp, "%s", sGEC_ERRORCODE_TABLE[uiCount].ERROREVENT);
                 uiStrlen = strlen(cStrTemp);
             }
             break;
@@ -6632,7 +6632,7 @@ void utilDataMgr_WriteSSTinfo(char *pcString)   //G100_Julie_0036
     {
         pFile = fopen(SST_INFO_TXT, "a+");
 
-		snprintf(cStrTemp, 127, pcString);
+		snprintf(cStrTemp, 127, "%s", pcString);
 
         if(cStrTemp[uiStrlen - 1] == '\r' || cStrTemp[uiStrlen - 1] == '\n')
         {
@@ -8078,7 +8078,7 @@ void utilDataMgr_EEPROM_RangeCheck(sEEPROM_SETTINGS *psEEP,sEEPROM_SETTINGS *psE
 			psEEP->sSystemDefault.uiLightEco_PWM_Dynamic_RLD[eLD_SEQ_G] = psEEP_DEF->sSystemDefault.uiLightEco_PWM_Dynamic_RLD[eLD_SEQ_G];
 
         //System Default
-        //sprintf(psEEP->sSystemDefault.ucSerialNumber, "%s\0", m_sProjectorInfo[ePI_UCSERIALNUMBER].cParaValue);
+        //sprintf(psEEP->sSystemDefault.ucSerialNumber, "%s", m_sProjectorInfo[ePI_UCSERIALNUMBER].cParaValue);
         //psEEP->sSystemDefault.ucFirstStartupFlag    =   (UINT8)atol(m_sStartup[eSU_UCFIRSTSTARTUPFLAG].cParaValue);
         //psEEP->sSystemDefault.ucPINProtect          =   (UINT8)atol(m_sStartup[eSU_UCPINPROTECT].cParaValue);
 		if(utilDataMgr_RangeCheck(edcPIN_PROTECT,psEEP->sSystemDefault.ucPINProtect) == eEXEC_CODE_FAIL)
@@ -8745,7 +8745,7 @@ void utilDataMgr_EEPROM_RangeCheck(sEEPROM_SETTINGS *psEEP,sEEPROM_SETTINGS *psE
             {
                 //psPara = utilDataMgr_HICC2_ParaTableGet(m_cSourceTableCommon[iCount]);
 
-                //sprintf(psEEP->sUserSystemSetting.sSourceSetting.cSourceName[m_cSourceNameShift[iCount]], "%s\0", psPara[eSCM_CSOURCENAME].cParaValue);
+                //sprintf(psEEP->sUserSystemSetting.sSourceSetting.cSourceName[m_cSourceNameShift[iCount]], "%s", psPara[eSCM_CSOURCENAME].cParaValue);
 
                 //psEEP->sUserSystemSetting.sSourceDependSetting[uiSrcIndex].ucAspectRatio        = (UINT8)atol(psPara[eSCM_UCASPECTRATIO].cParaValue);
                 //psEEP->sUserSystemSetting.sSourceDependSetting[uiSrcIndex].ucOverScan           = (UINT8)atol(psPara[eSCM_UCOVERSCAN].cParaValue);
@@ -9401,7 +9401,7 @@ static UINT8 utilDataMgr_ParaSet(const UINT16 uiIndex, UINT8 *pcData, const BOOL
                     }
                     else
                     {
-                        sprintf(pcData, "%s\0",psPara[ePI_UCSERIALNUMBER].cParaValue);
+                        sprintf(pcData, "%s",psPara[ePI_UCSERIALNUMBER].cParaValue);
                     }
                 }
                 break;
@@ -18132,7 +18132,7 @@ static UINT8 utilDataMgr_SourceParaSet_CM(const UINT16 uiIndex, UINT16 uiNode, s
                 }
                 else
                 {
-                    sprintf(pcData, "%s\0", psPara[eSCM_CSOURCENAME].cParaValue);
+                    sprintf(pcData, "%s", psPara[eSCM_CSOURCENAME].cParaValue);
                 }
             }
             break;
@@ -19668,80 +19668,80 @@ void utilDataMgr_LanInit_CM(sLAN_INFO_VALUES *psLanInfo)	//HICC2_Doulas_0003
         memset(cString, '\0', DATA_MGR_VALUE_LEN);
         memcpy(cString, m_sLan_Default[eLII_IPADDR].cParaValue, strlen((char *)m_sLan_Default[eLII_IPADDR].cParaValue));
 
-        sscanf((char*)cString, "%d.%d.%d.%d", &psLanInfo->ucLAN_IP[0], &psLanInfo->ucLAN_IP[1], &psLanInfo->ucLAN_IP[2], &psLanInfo->ucLAN_IP[3]);
+        sscanf((char*)cString, "%hhu.%hhu.%hhu.%hhu", &psLanInfo->ucLAN_IP[0], &psLanInfo->ucLAN_IP[1], &psLanInfo->ucLAN_IP[2], &psLanInfo->ucLAN_IP[3]);
 
         //////////////////////////////////////////
         ulCount = 0;
         memset(cString, '\0', DATA_MGR_VALUE_LEN);
         memcpy(cString, m_sLan_Default[eLII_SUBMASK].cParaValue, strlen((char *)m_sLan_Default[eLII_SUBMASK].cParaValue));
 
-        sscanf((char*)cString, "%d.%d.%d.%d", &psLanInfo->ucLAN_MASK[0], &psLanInfo->ucLAN_MASK[1], &psLanInfo->ucLAN_MASK[2], &psLanInfo->ucLAN_MASK[3]);
+        sscanf((char*)cString, "%hhu.%hhu.%hhu.%hhu", &psLanInfo->ucLAN_MASK[0], &psLanInfo->ucLAN_MASK[1], &psLanInfo->ucLAN_MASK[2], &psLanInfo->ucLAN_MASK[3]);
 
         //////////////////////////////////////////
         ulCount = 0;
         memset(cString, '\0', DATA_MGR_VALUE_LEN);
         memcpy(cString, m_sLan_Default[eLII_GATEWAY].cParaValue, strlen((char *)m_sLan_Default[eLII_GATEWAY].cParaValue));
 
-        sscanf((char*)cString, "%d.%d.%d.%d", &psLanInfo->ucLAN_GATEWAY[0], &psLanInfo->ucLAN_GATEWAY[1], &psLanInfo->ucLAN_GATEWAY[2], &psLanInfo->ucLAN_GATEWAY[3]);
+        sscanf((char*)cString, "%hhu.%hhu.%hhu.%hhu", &psLanInfo->ucLAN_GATEWAY[0], &psLanInfo->ucLAN_GATEWAY[1], &psLanInfo->ucLAN_GATEWAY[2], &psLanInfo->ucLAN_GATEWAY[3]);
 
         //////////////////////////////////////////
         ulCount = 0;
         memset(cString, '\0', DATA_MGR_VALUE_LEN);
         memcpy(cString, m_sLan_Default[eLII_PRIMARYDNS].cParaValue, strlen((char *)m_sLan_Default[eLII_PRIMARYDNS].cParaValue));
 
-        sscanf((char*)cString, "%d.%d.%d.%d", &psLanInfo->ucLAN_Primary_DNS[0], &psLanInfo->ucLAN_Primary_DNS[1], &psLanInfo->ucLAN_Primary_DNS[2], &psLanInfo->ucLAN_Primary_DNS[3]);
+        sscanf((char*)cString, "%hhu.%hhu.%hhu.%hhu", &psLanInfo->ucLAN_Primary_DNS[0], &psLanInfo->ucLAN_Primary_DNS[1], &psLanInfo->ucLAN_Primary_DNS[2], &psLanInfo->ucLAN_Primary_DNS[3]);
 
         //////////////////////////////////////////
         ulCount = 0;
         memset(cString, '\0', DATA_MGR_VALUE_LEN);
         memcpy(cString, m_sLan_Default[eLII_SECONDDNS].cParaValue, strlen((char *)m_sLan_Default[eLII_SECONDDNS].cParaValue));
 
-        sscanf((char*)cString, "%d.%d.%d.%d", &psLanInfo->ucLAN_Secondary_DNS[0], &psLanInfo->ucLAN_Secondary_DNS[1], &psLanInfo->ucLAN_Secondary_DNS[2], &psLanInfo->ucLAN_Secondary_DNS[3]);
+        sscanf((char*)cString, "%hhu.%hhu.%hhu.%hhu", &psLanInfo->ucLAN_Secondary_DNS[0], &psLanInfo->ucLAN_Secondary_DNS[1], &psLanInfo->ucLAN_Secondary_DNS[2], &psLanInfo->ucLAN_Secondary_DNS[3]);
 
         //////////////////////////////////////////
         ulCount = 0;
         memset(cString, '\0', DATA_MGR_VALUE_LEN);
         memcpy(cString, m_sLan_Default[eLII_STARTIPADDR].cParaValue, strlen((char *)m_sLan_Default[eLII_STARTIPADDR].cParaValue));
 
-        sscanf((char*)cString, "%d.%d.%d.%d", &psLanInfo->ucWLAN_Start_IP[0], &psLanInfo->ucWLAN_Start_IP[1], &psLanInfo->ucWLAN_Start_IP[2], &psLanInfo->ucWLAN_Start_IP[3]);
+        sscanf((char*)cString, "%hhu.%hhu.%hhu.%hhu", &psLanInfo->ucWLAN_Start_IP[0], &psLanInfo->ucWLAN_Start_IP[1], &psLanInfo->ucWLAN_Start_IP[2], &psLanInfo->ucWLAN_Start_IP[3]);
 
         //////////////////////////////////////////
         ulCount = 0;
         memset(cString, '\0', DATA_MGR_VALUE_LEN);
         memcpy(cString, m_sLan_Default[eLII_ENDIPADDR].cParaValue, strlen((char *)m_sLan_Default[eLII_ENDIPADDR].cParaValue));
 
-        sscanf((char*)cString, "%d.%d.%d.%d", &psLanInfo->ucWLAN_End_IP[0], &psLanInfo->ucWLAN_End_IP[1], &psLanInfo->ucWLAN_End_IP[2], &psLanInfo->ucWLAN_End_IP[3]);
+        sscanf((char*)cString, "%hhu.%hhu.%hhu.%hhu", &psLanInfo->ucWLAN_End_IP[0], &psLanInfo->ucWLAN_End_IP[1], &psLanInfo->ucWLAN_End_IP[2], &psLanInfo->ucWLAN_End_IP[3]);
 
         //////////////////////////////////////////
         ulCount = 0;
         memset(cString, '\0', DATA_MGR_VALUE_LEN);
         memcpy(cString, m_sLan_Default[eLII_WIFISUBMASK].cParaValue, strlen((char *)m_sLan_Default[eLII_WIFISUBMASK].cParaValue));
 
-        sscanf((char*)cString, "%d.%d.%d.%d", &psLanInfo->ucWLAN_MASK[0], &psLanInfo->ucWLAN_MASK[1], &psLanInfo->ucWLAN_MASK[2], &psLanInfo->ucWLAN_MASK[3]);
+        sscanf((char*)cString, "%hhu.%hhu.%hhu.%hhu", &psLanInfo->ucWLAN_MASK[0], &psLanInfo->ucWLAN_MASK[1], &psLanInfo->ucWLAN_MASK[2], &psLanInfo->ucWLAN_MASK[3]);
 
         //////////////////////////////////////////
         ulCount = 0;
         memset(cString, '\0', DATA_MGR_VALUE_LEN);
         memcpy(cString, m_sLan_Default[eLII_WIFIGATEWAY].cParaValue, strlen((char *)m_sLan_Default[eLII_WIFIGATEWAY].cParaValue));
 
-        sscanf((char*)cString, "%d.%d.%d.%d", &psLanInfo->ucWLAN_GATEWAY[0], &psLanInfo->ucWLAN_GATEWAY[1], &psLanInfo->ucWLAN_GATEWAY[2], &psLanInfo->ucWLAN_GATEWAY[3]);
+        sscanf((char*)cString, "%hhu.%hhu.%hhu.%hhu", &psLanInfo->ucWLAN_GATEWAY[0], &psLanInfo->ucWLAN_GATEWAY[1], &psLanInfo->ucWLAN_GATEWAY[2], &psLanInfo->ucWLAN_GATEWAY[3]);
 
         //////////////////////////////////////////
         ulCount = 0;
         memset(cString, '\0', DATA_MGR_VALUE_LEN);
         memcpy(cString, m_sLan_Default[eLII_CRESTRONIPADDR].cParaValue, strlen((char *)m_sLan_Default[eLII_CRESTRONIPADDR].cParaValue));
 
-        sscanf((char*)cString, "%d.%d.%d.%d", &psLanInfo->ucCrestron_IP[0], &psLanInfo->ucCrestron_IP[1], &psLanInfo->ucCrestron_IP[2], &psLanInfo->ucCrestron_IP[3]);
+        sscanf((char*)cString, "%hhu.%hhu.%hhu.%hhu", &psLanInfo->ucCrestron_IP[0], &psLanInfo->ucCrestron_IP[1], &psLanInfo->ucCrestron_IP[2], &psLanInfo->ucCrestron_IP[3]);
 
         //////////////////////////////////////////
         ulCount = 0;
         memset(cString, '\0', DATA_MGR_VALUE_LEN);
         memcpy(cString, m_sLan_Default[eLII_SERVICE].cParaValue, strlen((char *)m_sLan_Default[eLII_SERVICE].cParaValue));
 
-        sscanf((char*)cString, "%d.%d.%d.%d", &psLanInfo->ucPJLink_IP[0], &psLanInfo->ucPJLink_IP[1], &psLanInfo->ucPJLink_IP[2], &psLanInfo->ucPJLink_IP[3]);
+        sscanf((char*)cString, "%hhu.%hhu.%hhu.%hhu", &psLanInfo->ucPJLink_IP[0], &psLanInfo->ucPJLink_IP[1], &psLanInfo->ucPJLink_IP[2], &psLanInfo->ucPJLink_IP[3]);
 
-        sprintf(psLanInfo->ucLAN_MAC_Address , "%s\0", m_sLan_Default[eLII_MAC].cParaValue);
-        sprintf(psLanInfo->ucWLAN_SSID , "%s\0", m_sLan_Default[eLII_WIFISSID].cParaValue);
+        sprintf(psLanInfo->ucLAN_MAC_Address , "%s", m_sLan_Default[eLII_MAC].cParaValue);
+        sprintf(psLanInfo->ucWLAN_SSID , "%s", m_sLan_Default[eLII_WIFISSID].cParaValue);
 
         psLanInfo->ucCrestronIP_ID   = (UINT16)atol(m_sLan_Default[eLII_CRESTRONIPID].cParaValue);
         psLanInfo->ucCrestronIP_Port = (UINT16)atol(m_sLan_Default[eLII_CRESTRONPORT].cParaValue);
@@ -20017,7 +20017,7 @@ void utilDataMgr_FileToRAM_CM(sEEPROM_SETTINGS *psEEP)	//HICC2_Doulas_0003
 
 
         //System Default
-        sprintf(psEEP->sSystemDefault.ucSerialNumber, "%s\0", m_sProjectorInfo[ePI_UCSERIALNUMBER].cParaValue);
+        sprintf(psEEP->sSystemDefault.ucSerialNumber, "%s", m_sProjectorInfo[ePI_UCSERIALNUMBER].cParaValue);
         psEEP->sSystemDefault.ucFirstStartupFlag    =   (UINT8)atol(m_sStartup[eSU_UCFIRSTSTARTUPFLAG].cParaValue);
         psEEP->sSystemDefault.ucUSTFirstStartup     =   (UINT8)atol(m_sStartup[eSU_UCUSTFIRSTSTARTUP].cParaValue);
         psEEP->sSystemDefault.ucPINProtect          =   (UINT8)atol(m_sStartup[eSU_UCPINPROTECT].cParaValue);
@@ -20393,7 +20393,7 @@ void utilDataMgr_FileToRAM_CM(sEEPROM_SETTINGS *psEEP)	//HICC2_Doulas_0003
             {
                 psPara = utilDataMgr_ParaTableGet(m_cSourceTableCommon[iCount]);
 
-                sprintf(psEEP->sUserSystemSetting.sSourceSetting.cSourceName[uiSrcIndex], "%s\0", psPara[eSCM_CSOURCENAME].cParaValue);
+                sprintf(psEEP->sUserSystemSetting.sSourceSetting.cSourceName[uiSrcIndex], "%s", psPara[eSCM_CSOURCENAME].cParaValue);
 
                 psEEP->sUserSystemSetting.sSourceDependSetting[uiSrcIndex].ucAspectRatio        = (UINT8)FILE2RAM(edcSIZE_PRESETS, (UINT8)atol(psPara[eSCM_UCASPECTRATIO].cParaValue));
                 psEEP->sUserSystemSetting.sSourceDependSetting[uiSrcIndex].ucOverScan           = (UINT8)atol(psPara[eSCM_UCOVERSCAN].cParaValue);
@@ -20730,13 +20730,13 @@ void utilDataMgr_RAMToFileProjectorInfo_CM(sEEPROM_SETTINGS *psEEP, eDATA_NODE e
     if((utilDataMgr_MutexTake(__FUNCTION__) == TRUE) && (eDATA_NODE_PROJECTORINFO == eNode))
     {
         //sLayoutVersion
-        //sprintf(m_sProjectorInfo[ePI_UCMODELNAME].cParaValue, "%s\0", psEEP->sUserSystemSetting.sCommonSetting.ucModelName);
-        //sprintf(m_sProjectorInfo[ePI_UCCUSTOM_CODE].cParaValue, "%s\0", psEEP->sUserSystemSetting.sCommonSetting.ucCustomCode);
-        //sprintf(m_sProjectorInfo[ePI_UCSERIALNUMBER].cParaValue, "%s\0", psEEP->sSystemDefault.ucSerialNumber);
+        //sprintf(m_sProjectorInfo[ePI_UCMODELNAME].cParaValue, "%s", psEEP->sUserSystemSetting.sCommonSetting.ucModelName);
+        //sprintf(m_sProjectorInfo[ePI_UCCUSTOM_CODE].cParaValue, "%s", psEEP->sUserSystemSetting.sCommonSetting.ucCustomCode);
+        //sprintf(m_sProjectorInfo[ePI_UCSERIALNUMBER].cParaValue, "%s", psEEP->sSystemDefault.ucSerialNumber);
         sprintf(m_sProjectorInfo[ePI_UCSUBMINOR].cParaValue, "%d", psEEP->sLayoutVersion.ucSubminor);
         sprintf(m_sProjectorInfo[ePI_UCMINOR].cParaValue,    "%d", psEEP->sLayoutVersion.ucMinor);
         sprintf(m_sProjectorInfo[ePI_UCMAJOR].cParaValue,    "%d", psEEP->sLayoutVersion.ucMajor);
-		sprintf(m_sProjectorInfo[ePI_UCMODEL_SWITCH].cParaValue, "%d\0", psEEP->sSystemDefault.ucModelSwitchAdjust);   //A65_OPTOMA_Julie_0064
+		sprintf(m_sProjectorInfo[ePI_UCMODEL_SWITCH].cParaValue, "%d", psEEP->sSystemDefault.ucModelSwitchAdjust);   //A65_OPTOMA_Julie_0064
 
         utilDataMgr_Update(eNode);
 
@@ -20807,9 +20807,9 @@ void utilDataMgr_RAMToFileStartup_CM(sEEPROM_SETTINGS *psEEP, eDATA_NODE eNode)	
     if((utilDataMgr_MutexTake(__FUNCTION__) == TRUE) && (eDATA_NODE_STARTUP == eNode))
     {
         //System Default
-        sprintf(m_sStartup[eSU_UCFIRSTSTARTUPFLAG].cParaValue, "%d\0",  psEEP->sSystemDefault.ucFirstStartupFlag);
-        sprintf(m_sStartup[eSU_UCUSTFIRSTSTARTUP].cParaValue, "%d\0",  psEEP->sSystemDefault.ucUSTFirstStartup);
-        sprintf(m_sStartup[eSU_UCPINPROTECT].cParaValue, "%d\0",  psEEP->sSystemDefault.ucPINProtect );
+        sprintf(m_sStartup[eSU_UCFIRSTSTARTUPFLAG].cParaValue, "%d",  psEEP->sSystemDefault.ucFirstStartupFlag);
+        sprintf(m_sStartup[eSU_UCUSTFIRSTSTARTUP].cParaValue, "%d",  psEEP->sSystemDefault.ucUSTFirstStartup);
+        sprintf(m_sStartup[eSU_UCPINPROTECT].cParaValue, "%d",  psEEP->sSystemDefault.ucPINProtect );
 
         strncpy(m_sStartup[eSU_UCPASSWORD_0].cParaValue, &psEEP->sSystemDefault.ucPassWord[0], 1);
         strncpy(m_sStartup[eSU_UCPASSWORD_1].cParaValue, &psEEP->sSystemDefault.ucPassWord[1], 1);
@@ -20817,7 +20817,7 @@ void utilDataMgr_RAMToFileStartup_CM(sEEPROM_SETTINGS *psEEP, eDATA_NODE eNode)	
         strncpy(m_sStartup[eSU_UCPASSWORD_3].cParaValue, &psEEP->sSystemDefault.ucPassWord[3], 1);
         strncpy(m_sStartup[eSU_UCPASSWORD_4].cParaValue, &psEEP->sSystemDefault.ucPassWord[4], 1);
 
-        sprintf(m_sStartup[eSU_OPFU_CHECK].cParaValue, "%d\0",  psEEP->sSystemDefault.ucOPFU_Check );   //G100_Simon_0064
+        sprintf(m_sStartup[eSU_OPFU_CHECK].cParaValue, "%d",  psEEP->sSystemDefault.ucOPFU_Check );   //G100_Simon_0064
 
         utilDataMgr_Update(eNode);
 
@@ -21180,7 +21180,7 @@ void utilDataMgr_RAMToFileSourceTableCommon_CM(sEEPROM_SETTINGS *psEEP, eDATA_NO
         {
             if(utilDataMgr_MutexTake(__FUNCTION__) == TRUE)
             {
-                sprintf(psPara[eSCM_CSOURCENAME].cParaValue, "%s\0", psEEP->sUserSystemSetting.sSourceSetting.cSourceName[uiSrcIndex]);
+                sprintf(psPara[eSCM_CSOURCENAME].cParaValue, "%s", psEEP->sUserSystemSetting.sSourceSetting.cSourceName[uiSrcIndex]);
                 sprintf(psPara[eSCM_UCASPECTRATIO].cParaValue,  "%d", RAM2FILE(edcSIZE_PRESETS, psEEP->sUserSystemSetting.sSourceDependSetting[uiSrcIndex].ucAspectRatio));
                 sprintf(psPara[eSCM_UCOVERSCAN].cParaValue,     "%d", psEEP->sUserSystemSetting.sSourceDependSetting[uiSrcIndex].ucOverScan);
                 sprintf(psPara[eSCM_UCPHASE].cParaValue,        "%d", psEEP->sUserSystemSetting.sSourceDependSetting[uiSrcIndex].ucPhase);
@@ -21493,12 +21493,12 @@ void utilDataMgr_WriteGecLog_CM(UINT32 ulIndex)	//HICC2_Doulas_0003
         {
             if( strcmp(sGEC_ERRORCODE_TABLE[uiCount].ERROREVENT, "") == 0 ) //G100_Simon_0060
             {
-                sprintf(cStrTemp, "Error Code 0x%08x\0", sGEC_ERRORCODE_TABLE[uiCount].uiErrorIndex);
+                sprintf(cStrTemp, "Error Code 0x%08x", sGEC_ERRORCODE_TABLE[uiCount].uiErrorIndex);
                 uiStrlen = strlen(cStrTemp);
             }
             else
             {
-                sprintf(cStrTemp, "%s\0", sGEC_ERRORCODE_TABLE[uiCount].ERROREVENT);
+                sprintf(cStrTemp, "%s", sGEC_ERRORCODE_TABLE[uiCount].ERROREVENT);
                 uiStrlen = strlen(cStrTemp);
             }
             break;
@@ -21508,7 +21508,7 @@ void utilDataMgr_WriteGecLog_CM(UINT32 ulIndex)	//HICC2_Doulas_0003
     if(uiCount >= eERROR_LIST_INVALID)  //G100_Simon_0060
     {
         uOPDData.sErrorLog.dwGECCode = ulIndex;
-        snprintf(uOPDData.sErrorLog.cString, 127, "%s (%d)\0", "Undefined", lErrorRefVal);
+        snprintf(uOPDData.sErrorLog.cString, 127, "%s (%d)", "Undefined", lErrorRefVal);
         utilOPD_EventSet(eOPD_ERROR_LOG, &uOPDData);
         palDataMgr_OPDSnapshot(eOPD_SNAPSHOT_LOG);
         return;
@@ -21532,7 +21532,7 @@ void utilDataMgr_WriteGecLog_CM(UINT32 ulIndex)	//HICC2_Doulas_0003
     }
 
     uOPDData.sErrorLog.dwGECCode = ulIndex;
-    snprintf(uOPDData.sErrorLog.cString, 127, "%s (%d)\0", cStrTemp, lErrorRefVal);
+    snprintf(uOPDData.sErrorLog.cString, 127, "%s (%d)", cStrTemp, lErrorRefVal);
 
     if(sGEC_ERRORCODE_TABLE[uiCount].ucWriteCheck == GEC_ERROR)
     {
@@ -21708,7 +21708,7 @@ void utilDataMgr_WriteSSTinfo_CM(char *pcString)	//HICC2_Doulas_0003
     {
         pFile = fopen(SST_INFO_TXT, "a+");
 
-		snprintf(cStrTemp, 127, pcString);
+		snprintf(cStrTemp, 127, "%s", pcString);
 
         if(cStrTemp[uiStrlen - 1] == '\r' || cStrTemp[uiStrlen - 1] == '\n')
         {
@@ -22729,7 +22729,7 @@ void utilDataMgr_EEPROM_RangeCheck_CM(sEEPROM_SETTINGS *psEEP,sEEPROM_SETTINGS *
 			psEEP->sSystemDefault.uiLightEco_PWM_Dynamic_RLD[eLD_SEQ_G] = psEEP_DEF->sSystemDefault.uiLightEco_PWM_Dynamic_RLD[eLD_SEQ_G];
 
         //System Default
-        //sprintf(psEEP->sSystemDefault.ucSerialNumber, "%s\0", m_sProjectorInfo[ePI_UCSERIALNUMBER].cParaValue);
+        //sprintf(psEEP->sSystemDefault.ucSerialNumber, "%s", m_sProjectorInfo[ePI_UCSERIALNUMBER].cParaValue);
         //psEEP->sSystemDefault.ucFirstStartupFlag    =   (UINT8)atol(m_sStartup[eSU_UCFIRSTSTARTUPFLAG].cParaValue);
         //psEEP->sSystemDefault.ucPINProtect          =   (UINT8)atol(m_sStartup[eSU_UCPINPROTECT].cParaValue);
 		if(utilDataMgr_RangeCheck(edcPIN_PROTECT,psEEP->sSystemDefault.ucPINProtect) == eEXEC_CODE_FAIL)
@@ -23404,7 +23404,7 @@ void utilDataMgr_EEPROM_RangeCheck_CM(sEEPROM_SETTINGS *psEEP,sEEPROM_SETTINGS *
             {
                 //psPara = utilDataMgr_ParaTableGet(m_cSourceTableCommon[iCount]);
 
-                //sprintf(psEEP->sUserSystemSetting.sSourceSetting.cSourceName[m_cSourceNameShift[iCount]], "%s\0", psPara[eSCM_CSOURCENAME].cParaValue);
+                //sprintf(psEEP->sUserSystemSetting.sSourceSetting.cSourceName[m_cSourceNameShift[iCount]], "%s", psPara[eSCM_CSOURCENAME].cParaValue);
 
                 //psEEP->sUserSystemSetting.sSourceDependSetting[uiSrcIndex].ucAspectRatio        = (UINT8)atol(psPara[eSCM_UCASPECTRATIO].cParaValue);
                 //psEEP->sUserSystemSetting.sSourceDependSetting[uiSrcIndex].ucOverScan           = (UINT8)atol(psPara[eSCM_UCOVERSCAN].cParaValue);

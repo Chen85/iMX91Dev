@@ -213,7 +213,7 @@ int main()
 {
     ItemConfig_CSV_File_LoadToShm();
 
-    char *Name[2] = {"IMAGE_TINT\0", "IMAGE_SHARPNESS\0"};
+    char *Name[2] = {"IMAGE_TINT", "IMAGE_SHARPNESS"};
     sUI_ITEM_CFG UI_INFO[2];
     GetItemInfo_ByItemName(2, Name, UI_INFO);
     DbMsg("- <%s><%d>\n",     UI_INFO[0].ItemName, UI_INFO[0].Max);

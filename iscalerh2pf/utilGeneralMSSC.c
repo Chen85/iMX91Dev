@@ -168,39 +168,39 @@ const static sCLI_CONFIG m_sCli_General_Config[eccNumber] =
 const static sCLI_ERROR_MSG m_sErrorLut[eCLI_ERROR_NUMBER] =
 {
 
-    /*00*/{119,   "Syntax Error: Unknow Error\0"},  // CUart_NoError
-    /*01*/{10,    "Syntax Error: Invalid control\0"}, // CUart_LengthError
-    /*02*/{10,    "Syntax Error: dest address out of range:\0"}, // CUart_DestAddError
-    /*03*/{10,    "Syntax Error: src address out of range:\0"}, //CUart_SrcAddError
-    /*04*/{101,   "Control Not Found\0"}, //CUart_FuncCodeNotFound
-    /*05*/{10,    "Syntax Error: invalid dest address:\0"}, //CUart_FormatErr
-    /*06*/{10,    "Syntax Error: invalid code\0"}, //CUart_negativeErr
-    /*07*/{104,   "Invalid Value\0"}, //CUart_decimalErr
-    /*08*/{108,   "Exceeded Text Size\0"}, //CUart_StringErr
-    /*09*/{108,   "Exceeded Text Size\0"}, //CUart_StringTooBig
-    /*10*/{5,     "Too Few Parameters\0"}, //CUart_DataError
-    /*11*/{8,     "Checksum error\0"}, //CUart_CKSumNoSpace
-    /*12*/{8,     "Checksum error\0"}, //CUart_CKSumError
-    /*13*/{119,   "[fw]Message Type Error\0"}, //CUart_MessageTypeError
-    /*14*/{104,   "Invalid Value\0"}, //CUart_DataOverRange
-    /*15*/{119,   "[fw]Lookup Index Error\0"}, //CUart_LookupIndexErr
-    /*16*/{3,     "Invalid Parameter\0"}, //CUart_DataMustToBeDecimal
-    /*17*/{3,     "Invalid Parameter\0"}, //CUart_DataMustToBeString
-    /*18*/{105,   "Disabled Control\0"}, //CUart_MustDependOnSrc
-    /*19*/{119,   "[fw]Function no define\0"}, //CUart_FunctionNoDefine
-    /*20*/{119,   "[fw]Data Special check Fail\0"}, //CUart_DataSpecialCheckFail
-    /*21*/{119,   "[fw]Data Special src check Fail\0"}, //CUart_SpecialSourceDependCheckFail
-    /*22*/{105,   "Disabled Control\0"}, //CUart_SetFail
-    /*23*/{119,   "[fw]Request Fail\0"}, //CUart_RequestFail
-    /*24*/{119,   "[fw]ReplyFail Fail\0"}, //CUart_ReplyFail
-    /*25*/{102,   "Subcontrol Not Found\0"}, //CUart_SubCodeErr
-    /*26*/{7,     "Command not executed\0"}, //CUart_ComReadOnly
-    /*27*/{7,     "Command not executed\0"}, //CUart_ComWriteOnly
-    /*28*/{102,   "Subcontrol Not Found\0"}, //CUart_SubCodeNeed
-    /*29*/{110,   "Function protected\0"}, //CUart_ServiceCodeNeedWhenWrite
-    /*30*/{110,   "Function protected\0"}, //CUart_ServiceCodeNeedWhenRead
-    /*31*/{10,    "Syntax Error: N\0"}, //CUart_N_NoSpace
-    /*32*/{10,    "Syntax Error: P\0"}, //CUart_P_NoSpace
+    /*00*/{119,   "Syntax Error: Unknow Error"},  // CUart_NoError
+    /*01*/{10,    "Syntax Error: Invalid control"}, // CUart_LengthError
+    /*02*/{10,    "Syntax Error: dest address out of range:"}, // CUart_DestAddError
+    /*03*/{10,    "Syntax Error: src address out of range:"}, //CUart_SrcAddError
+    /*04*/{101,   "Control Not Found"}, //CUart_FuncCodeNotFound
+    /*05*/{10,    "Syntax Error: invalid dest address:"}, //CUart_FormatErr
+    /*06*/{10,    "Syntax Error: invalid code"}, //CUart_negativeErr
+    /*07*/{104,   "Invalid Value"}, //CUart_decimalErr
+    /*08*/{108,   "Exceeded Text Size"}, //CUart_StringErr
+    /*09*/{108,   "Exceeded Text Size"}, //CUart_StringTooBig
+    /*10*/{5,     "Too Few Parameters"}, //CUart_DataError
+    /*11*/{8,     "Checksum error"}, //CUart_CKSumNoSpace
+    /*12*/{8,     "Checksum error"}, //CUart_CKSumError
+    /*13*/{119,   "[fw]Message Type Error"}, //CUart_MessageTypeError
+    /*14*/{104,   "Invalid Value"}, //CUart_DataOverRange
+    /*15*/{119,   "[fw]Lookup Index Error"}, //CUart_LookupIndexErr
+    /*16*/{3,     "Invalid Parameter"}, //CUart_DataMustToBeDecimal
+    /*17*/{3,     "Invalid Parameter"}, //CUart_DataMustToBeString
+    /*18*/{105,   "Disabled Control"}, //CUart_MustDependOnSrc
+    /*19*/{119,   "[fw]Function no define"}, //CUart_FunctionNoDefine
+    /*20*/{119,   "[fw]Data Special check Fail"}, //CUart_DataSpecialCheckFail
+    /*21*/{119,   "[fw]Data Special src check Fail"}, //CUart_SpecialSourceDependCheckFail
+    /*22*/{105,   "Disabled Control"}, //CUart_SetFail
+    /*23*/{119,   "[fw]Request Fail"}, //CUart_RequestFail
+    /*24*/{119,   "[fw]ReplyFail Fail"}, //CUart_ReplyFail
+    /*25*/{102,   "Subcontrol Not Found"}, //CUart_SubCodeErr
+    /*26*/{7,     "Command not executed"}, //CUart_ComReadOnly
+    /*27*/{7,     "Command not executed"}, //CUart_ComWriteOnly
+    /*28*/{102,   "Subcontrol Not Found"}, //CUart_SubCodeNeed
+    /*29*/{110,   "Function protected"}, //CUart_ServiceCodeNeedWhenWrite
+    /*30*/{110,   "Function protected"}, //CUart_ServiceCodeNeedWhenRead
+    /*31*/{10,    "Syntax Error: N"}, //CUart_N_NoSpace
+    /*32*/{10,    "Syntax Error: P"}, //CUart_P_NoSpace
 };
 
 static UINT8 ucAMX_Step = eCLI_DECODE_AMX_STEP_A;
@@ -1544,7 +1544,7 @@ eCLI_ERROR_CODE utilGeneral_CLI_SYS_EmergencyTest(eCLI_MODE eAccessMode, sCLI_GE
 
             case 1:
             {
-                char String[256] = "ABCDEFGH 123456789 ABCDEFGH 123456789 ABCDEFGH 123456789 ABCDEFGH 123456789 ABCDEFGH 123456789 ABCDEFGH 123456789 ABCDEFGH 123456789 ABCDEFGH 123456789 ABCDEFGH 123456789 ABCDEFGH 123456789 ABCDEFGH 123456789 ABCDEFGH 123456789 KKKKK\0" ;
+                char String[256] = "ABCDEFGH 123456789 ABCDEFGH 123456789 ABCDEFGH 123456789 ABCDEFGH 123456789 ABCDEFGH 123456789 ABCDEFGH 123456789 ABCDEFGH 123456789 ABCDEFGH 123456789 ABCDEFGH 123456789 ABCDEFGH 123456789 ABCDEFGH 123456789 ABCDEFGH 123456789 KKKKK" ;
                 palDataMgr_Data_Access(edcEMERGENCY_MESSAGE_SHOWS, edaWRITE_THROUGH_WITH_ACTION, String);
             }
             break;
@@ -1796,7 +1796,7 @@ eCLI_ERROR_CODE utilGeneral_CFU(eCLI_MODE eAccessMode, sCLI_GENERAL_FORMAT* sCmd
     /*05*///eSYSTEM_UPGRADE_SELECT_STARTUP_BASED,
     /*06*///eSYSTEM_UPGRADE_SELECT_FPGA,
     /*07*///eSYSTEM_UPGRADE_SELECT_All,
-    char  ucOutputString[128] = {"\0"};
+    char  ucOutputString[128] = {""};
 
     if(eAccessMode == ecmRead)
     {
@@ -2105,7 +2105,7 @@ eCLI_ERROR_CODE utilGeneral_PWRSLEP(eCLI_MODE eAccessMode, sCLI_GENERAL_FORMAT* 
 eCLI_ERROR_CODE utilGeneral_StandbyMode(eCLI_MODE eAccessMode, sCLI_GENERAL_FORMAT* sCmdFormat)
 {
 
-	char ucOutputString[128] = {"\0"} ;
+	char ucOutputString[128] = {""} ;
 
     if(eAccessMode == ecmRead)
     {
@@ -2149,7 +2149,7 @@ eCLI_ERROR_CODE utilGeneral_AutoShutDown(eCLI_MODE eAccessMode, sCLI_GENERAL_FOR
 eCLI_ERROR_CODE utilGeneral_NetWorkRst(eCLI_MODE eAccessMode, sCLI_GENERAL_FORMAT* sCmdFormat)
 {
 
-	char ucOutputString[128] = {"\0"} ;
+	char ucOutputString[128] = {""} ;
 
     if(eAccessMode == ecmRead)
     {
@@ -2172,7 +2172,7 @@ eCLI_ERROR_CODE utilGeneral_NetWorkRst(eCLI_MODE eAccessMode, sCLI_GENERAL_FORMA
 eCLI_ERROR_CODE utilGeneral_NetWorkApply(eCLI_MODE eAccessMode, sCLI_GENERAL_FORMAT* sCmdFormat)
 {
 
-	char ucOutputString[128] = {"\0"} ;
+	char ucOutputString[128] = {""} ;
 
     if(eAccessMode == ecmRead)
     {
@@ -3499,7 +3499,7 @@ eCLI_ERROR_CODE utilGeneral_SIV(eCLI_MODE eAccessMode, sCLI_GENERAL_FORMAT* sCmd
 eCLI_ERROR_CODE utilGeneral_SST(eCLI_MODE eAccessMode, sCLI_GENERAL_FORMAT* sCmdFormat)       //A70LV_Doulas_0140  //T100_Simon_0050 //T100IR_Casper_0032
 {
     UINT8 ucString[64] = {0};
-    char  ucOutputString[128] = {"\0"};      //T100_Simon_0020 Start
+    char  ucOutputString[128] = {""};      //T100_Simon_0020 Start
     UINT8 ucIndex = 0;
     UINT8 ucVal = 0;
     INT32 iPIP_EN = 0;
@@ -3786,7 +3786,7 @@ eCLI_ERROR_CODE utilGeneral_SST(eCLI_MODE eAccessMode, sCLI_GENERAL_FORMAT* sCmd
 eCLI_ERROR_CODE utilGeneral_ILI(eCLI_MODE eAccessMode, sCLI_GENERAL_FORMAT* sCmdFormat)       //A70LV_Doulas_0140
 {
     UINT8 ucString[64];
-    char  ucOutputString[128] = {"\0"};     //T100_Simon_0020 Start
+    char  ucOutputString[128] = {""};     //T100_Simon_0020 Start
     UINT8 ucIndex = 0;
 
     if(eAccessMode == ecmRead)
@@ -3864,7 +3864,7 @@ eCLI_ERROR_CODE utilGeneral_DEF(eCLI_MODE eAccessMode, sCLI_GENERAL_FORMAT* sCmd
 eCLI_ERROR_CODE utilGeneral_ICI(eCLI_MODE eAccessMode, sCLI_GENERAL_FORMAT* sCmdFormat)       //A70LV_Doulas_0231 modify//A70LV_Doulas_0151
 {
     UINT8 ucString[64] = {0};
-    char  ucOutputString[128] = {"\0"};
+    char  ucOutputString[128] = {""};
     UINT8 ucIndex = 0;
     INT32 iVal;
 
@@ -4446,14 +4446,14 @@ eCLI_ERROR_CODE utilGeneral_LIF_LSHS(eCLI_MODE eAccessMode, sCLI_GENERAL_FORMAT*
 eCLI_ERROR_CODE utilGeneral_FVI(eCLI_MODE eAccessMode, sCLI_GENERAL_FORMAT* sCmdFormat)
 {
     UINT8 ucString[64] = {0};
-    char  ucOutputString[128] = {"\0"};
+    char  ucOutputString[128] = {""};
     UINT8 ucIndex = 0;
 
     if(eAccessMode == ecmRead)
     {
         UINT16 cIndex = 0, cTotal = 0;
         UINT32 ulDataCode;
-        char cVerString[64] = {"\0"};
+        char cVerString[64] = {""};
         char cMainCode[GENERAL_MAIN_CMD_LEN + 1]; //+1 for '\0'
         ucString[0] = '\0';
 
@@ -11411,7 +11411,7 @@ UINT8 utilGeneral_CLI_Handle(UINT8 cCh, UINT8 ucData) //A35G2_BRC_Casper_0047
     {
         if(m_sCLI_General_Info[cCh].ucSerialPortEcho)
         {
-            LOG_MSG(db_ALWAYS, "%c\0", ucData);
+            LOG_MSG(db_ALWAYS, "%c", ucData);
         }
     }
 
