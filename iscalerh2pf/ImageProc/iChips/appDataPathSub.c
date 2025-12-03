@@ -19,7 +19,7 @@
 #include "palImgMgr.h"
 #include "palGeoAPI.h"
 
-sGUI_CALLBACK GuiCb;
+extern sGUI_CALLBACK GuiCb;
 
 static sPAL_DATA_PATH_INFORMATION   m_sPalDataPathInfoSub;
 static PsSYSTEM_CONFIGURATION       m_psSysConfigurationSub;        //Default system settings, like TI gpConfiguration

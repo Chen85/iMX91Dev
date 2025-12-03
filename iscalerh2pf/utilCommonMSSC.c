@@ -31,7 +31,7 @@
 #include "palFormatterMgr.h"
 
 
-sGUI_CALLBACK GuiCb;
+extern sGUI_CALLBACK GuiCb;
 fpCLISTRINGCALLBACK fpCLICallback = NULL;
 static sCLI_DATA_INFO m_sLD_PWM_Info = {0};
 

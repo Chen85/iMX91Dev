@@ -27,7 +27,7 @@
 
 #define  PANEL_CHECK_COUNT (10)
 
-sGUI_CALLBACK GuiCb;
+extern sGUI_CALLBACK GuiCb;
 
 static sPAL_DATA_PATH_INFORMATION   m_sPalDataPathInfo;
 static PsSYSTEM_CONFIGURATION       m_psSysConfiguration;        //Default system settings, like TI gpConfiguration

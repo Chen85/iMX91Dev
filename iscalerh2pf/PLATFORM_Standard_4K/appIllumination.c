@@ -39,7 +39,7 @@
 
 static sPAL_ILLUMINATION_INFORMATION       m_sPalIllumInfo;
 
-sGUI_CALLBACK GuiCb;
+extern sGUI_CALLBACK GuiCb;
 
 static UINT32 ulLiteTime = 0; //T100_Casper_0032
 static sTEC_GATING_INFO  sTEC_GATING = {0};

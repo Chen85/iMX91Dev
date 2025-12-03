@@ -53,7 +53,7 @@
 
 static sPAL_ILLUMINATION_INFORMATION       m_sPalIllumInfo;
 
-sGUI_CALLBACK GuiCb;
+extern sGUI_CALLBACK GuiCb;
 
 static UINT8 m_cWorkCounterCheck = PHASE_LOCK_COUNT_DOWN;     //A70LV_Doulas_0212
 static UINT8 m_cPhaseLockMaxCounterCheck = 0;                 //A70LV_Doulas_0212
