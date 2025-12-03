@@ -244,6 +244,8 @@ typedef struct
 
 }sGUI_CALLBACK;
 
+extern sGUI_CALLBACK GuiCb;
+
 void GUI_RegCallback(sGUI_CALLBACK fpCallback);
 sGUI_CALLBACK Gui_fpCallbackGet(void);
 /////////  callback function end  /////////
