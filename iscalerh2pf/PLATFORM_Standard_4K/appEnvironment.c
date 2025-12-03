@@ -46,7 +46,7 @@ static sPAL_ENVIRONMENT_INFORMATION       m_sPalEnvInfo;
 static UINT8 MonitorFlag = 0; //A70LV_Larry_0031
 #endif
 
-extern sGUI_CALLBACK GuiCb;
+sGUI_CALLBACK GuiCb;
 
 static eAPP_ADC_STATE     m_AppADCState = eAPP_ADC_STATE_IDLE;    //A70LV_Doulas_0124
 static UINT8              m_acRecalibration = 0;

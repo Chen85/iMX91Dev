@@ -17,25 +17,6 @@
 #include "opdCtrlAPI.h"
 //#include "MemMap.h"
 
-float PM_EBIAS_GAMMA[3];
-int PM_EBIAS_GAMMA_COLOR;
-char PM_EBIAS_GMDT2[16][3][16];
-
-int                         PM_EBIAS_EN;
-int                         PM_EBIAS_SEL_CUR_X;
-int                         PM_EBIAS_SEL_CUR_Y;
-coord_t                     PM_EBIAS_CUR[2][2];
-int                         PM_EBIAS_PLT;
-int                         PM_EBIAS[16][3];
-int                         PM_EBIAS_AREA_TEST;
-int                         PM_EBIAS_CUR_MV;
-int                         PM_EBIAS_COLOR;
-int                         PM_BOARD;
-
-//===== parameters 1 =====//
-int                         PS_WP_HW;
-int                         PS_WP_VW;
-
 static UINT8 m_ucCurrentBank = 0;
 static UINT32 ulV_START;    //A70LV_Doulas_0042
 

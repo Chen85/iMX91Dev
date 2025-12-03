@@ -46,7 +46,7 @@ static UINT8 m_cDisableKey = 0; //for upgrade
 static UINT8 m_cUSTTestPattern = 0;//ZU860_Energy_0009 //A35G2_BRC_Casper_0088
 static UINT8 m_cFOTA_Status = eFOTA_SYSTEM_UPDATE_STATUS_IDLE;
 
-extern sGUI_CALLBACK GuiCb;
+sGUI_CALLBACK GuiCb;
 
 //static BOOL uHor_Flip = TRUE;
 //static BOOL uVer_Flip = TRUE;

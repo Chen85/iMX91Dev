@@ -63,7 +63,7 @@
 
 #include "conf.h"
 
-extern sGUI_CALLBACK GuiCb;
+sGUI_CALLBACK GuiCb;
 static sPAL_SYSTEM_INFORMATION  m_sPalSysInfo;                 //Use for system operation
 
 //Default system settings, like TI gpConfiguration

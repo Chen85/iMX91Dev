@@ -68,7 +68,7 @@
 
 #include "ProjectSettings.h"
 
-extern sGUI_CALLBACK GuiCb;
+sGUI_CALLBACK GuiCb;
 
 #define GENERAL_CMD_REQUEST        '?'
 #define GENERAL_CMD_REPLY          '!'

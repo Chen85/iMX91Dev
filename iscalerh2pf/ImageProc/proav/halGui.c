@@ -38,7 +38,7 @@ char JSON_Get(const cJSON *item, int iReadStatus);
 //	static int iBitmapTotalWidth = 0;
 //	static int iBitmapTotalHeight = 0;
 //static int iBitmapPaletteUsed = 768;
-extern UINT8 aiBitmapPalette[768];
+UINT8 aiBitmapPalette[768];
 
 
 static INT16 iTotalLanguageUsed = 2;

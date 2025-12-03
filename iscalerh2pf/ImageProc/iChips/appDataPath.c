@@ -35,7 +35,7 @@
 #define  XPR_PANEL_CHECK_COUNT (10)
 #define  XPR_RESET_TIMEOUT 5
 
-extern sGUI_CALLBACK GuiCb;
+sGUI_CALLBACK GuiCb;
 
 static sPAL_DATA_PATH_INFORMATION   m_sPalDataPathInfo;
 static PsSYSTEM_CONFIGURATION       m_psSysConfiguration;        //Default system settings, like TI gpConfiguration

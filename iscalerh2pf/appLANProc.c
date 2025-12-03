@@ -39,7 +39,7 @@
 #include "cmd_ap.h"
 #include "CommonAPI.h"
 
-extern sGUI_CALLBACK GuiCb;
+sGUI_CALLBACK GuiCb;
 
 
 typedef struct
