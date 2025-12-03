@@ -23,6 +23,7 @@
 
 ///////////////// callback function start ///////////////
 sGUI_CALLBACK sGuiCb ;
+sGUI_CALLBACK GuiCb;
 
 void Gui_RegCallback(sGUI_CALLBACK fpCallback)
 {

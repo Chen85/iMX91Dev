@@ -61,7 +61,7 @@
 #include "utilOptomaMSSCAPI.h"
 #endif
 
-sGUI_CALLBACK GuiCb;
+extern sGUI_CALLBACK GuiCb;
 static sPAL_SYSTEM_INFORMATION  m_sPalSysInfo;                 //Use for system operation
 
 //Default system settings, like TI gpConfiguration
