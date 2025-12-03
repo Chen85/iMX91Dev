@@ -1,3 +1,5 @@
+#include <stddef.h>
+
 #include "appDataMgr.h"
 #include "appDataItemAvailableMgr.h"
 #include "appLedProcAPI.h"
@@ -892,12 +894,13 @@ void palDataItemAvailable_Init(void)  //HICC2_Simon_0003
 {
     UINT16 uiCount = 0;
     UINT32 InitVal = 0;
+    size_t table_size = DATAITEM_AVAILABLE_TABLE_SIZE;
 
     for(uiCount = 0; uiCount < sDI_INVALID; uiCount++)
     {
-        if(uiCount >= DATAITEM_AVAILABLE_TABLE_SIZE)
+        if(uiCount >= table_size)
         {
-            printf("!!! Dataitem Size Error [PF %zu] [LIB %d]\r\n", DATAITEM_AVAILABLE_TABLE_SIZE, sDI_INVALID);
+            printf("!!! Dataitem Size Error [PF %zu] [LIB %d]\r\n", table_size, sDI_INVALID);
             break;
         }
 
@@ -909,12 +912,13 @@ void palDataItemAvailable_Poll(void)
 {
     UINT16 uiCount = 0;
     UINT32 CurVal = 0, NewVal = 0;
+    size_t table_size = DATAITEM_AVAILABLE_TABLE_SIZE;  //HICC2_Simon_0003
 
     for(uiCount = 0; uiCount < sDI_INVALID; uiCount++)
     {
-        if(uiCount >= DATAITEM_AVAILABLE_TABLE_SIZE)  //HICC2_Simon_0003
+        if(uiCount >= table_size)  //HICC2_Simon_0003
         {
-            printf("!!! Dataitem Size Error [PF %zu] [LIB %d]\r\n", DATAITEM_AVAILABLE_TABLE_SIZE, sDI_INVALID);
+            printf("!!! Dataitem Size Error [PF %zu] [LIB %d]\r\n", table_size, sDI_INVALID);
             break;
         }
 

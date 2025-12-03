@@ -39,7 +39,9 @@ void read_png_file(char *file_name, int *nWidth, int *nHeight)
         abort_("[read_png_file] File %s could not be opened for reading",
                file_name);
 
-    if (fread(header, 1, 8, fp) != 8)
+    size_t read_bytes = fread(header, 1, sizeof(header), fp);
+
+    if (read_bytes != sizeof(header))
         abort_("[read_png_file] File %s read header failed",
                file_name);
     if (png_sig_cmp((png_bytep) header, 0, 8))
