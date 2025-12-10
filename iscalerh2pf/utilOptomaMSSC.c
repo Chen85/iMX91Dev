@@ -10864,7 +10864,7 @@ void palSystem_Optoma_Error_Message(UINT32 ulErrorIndex)
 			}
 			else
 			{
-				sprintf(cString, "");
+				cString[0] = '\0';
 			}
 			utilOptoma_OutputInfoMsg(cString);
 

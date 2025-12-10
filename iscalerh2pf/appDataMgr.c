@@ -29509,7 +29509,7 @@ eEXEC_CODE palDataMgr_Access_Communication_Reset(eDATA_ACCESS_MODE eAccessMode, 
             palLANProcSendToLAN(edcNETWORK_FACTORY_RESET);  //G100_Simon_0010
             palLANProcSendToLAN(edcNETWORK_CONTROL_RESET);  //G100_Simon_0010
             palLANProcSendToLAN(edcSNMP_RESET);             //A35G2_CDS_Larry_0009
-            palDataMgr_Access_SNMP_Reset(eAccessMode, (UINT8*) iValue);         //G100_Tim_0019, add //A35G2_BRC_Casper_0047
+            palDataMgr_Access_SNMP_Reset(eAccessMode, (UINT8*)(uintptr_t) iValue);         //G100_Tim_0019, add //A35G2_BRC_Casper_0047
             palDataMgr_Access_NetworkFactoryReset(eAccessMode, &iValue);
 
             palLANProcSendToLAN(edcPROJECTOR_ID);       //G100_Simon_0034
@@ -38154,7 +38154,10 @@ eEXEC_CODE palDataMgr_Geo_SetBlendingTable(eDATA_ACCESS_MODE eAccessMode, void *
             return eEXEC_CODE_FAIL;
         }
         memset(pucDBD_Data, 0xFF, ulSize);
-        fread(pucDBD_Data, 1, ulSize, pFile);
+        if(fread(pucDBD_Data, 1, ulSize, pFile) != ulSize)
+        {
+            LOG_MSG(db_HAL_WARPING, "(func:%s, line:%d) fread fail\n", __FUNCTION__, __LINE__);
+        }
 
         LOG_MSG(db_HAL_WARPING, "\nWidth=%d , Height=%d\n", sDotByDotInfo->Width , sDotByDotInfo->Height) ;
 
@@ -38475,7 +38478,10 @@ eEXEC_CODE palDataMgr_Geo_ColorUniformityInterface(eDATA_ACCESS_MODE eAccessMode
             return eEXEC_CODE_FAIL;
         }
         memset(pucData, 0xFF, WARPING_COLOR_UNIFORMITY_SIZE);
-        fread(pucData, 1, WARPING_COLOR_UNIFORMITY_SIZE, pFile);
+        if(fread(pucData, 1, WARPING_COLOR_UNIFORMITY_SIZE, pFile) != WARPING_COLOR_UNIFORMITY_SIZE)
+        {
+            LOG_MSG(db_HAL_WARPING, "(func:%s, line:%d) fread fail\n", __FUNCTION__, __LINE__);
+        }
 
         if( sColorUniformityInfo->ucWriteEnable == eACU_SET_ICHIP_ONLY )
         {
@@ -48343,7 +48349,7 @@ void palDataMgr_AccessOPDEvent(UINT8 ucEvent, eDATA_CODE eDataCode, void *pValue
     switch(ucDataType)
     {
         case DATA_TYPE_STRING:
-            snprintf(uOPDData.sDataCode.acString, uiStringMaxLength, "%s", pValue);    //A35G2_Simon_0098
+            snprintf(uOPDData.sDataCode.acString, uiStringMaxLength, "%s", (char *)pValue);    //A35G2_Simon_0098
             break;
 
         case DATA_TYPE_UI_DIGIT_8:
@@ -58618,7 +58624,10 @@ int utilDataMgr_ReadFile_USBtest_periphery(BYTE *cimx, BYTE *cext, BYTE *cddp, B
 
 	while (!feof(pFile))
 	{
-		fgets(cStrTemp,63,pFile);
+		if(fgets(cStrTemp,63,pFile) == NULL)
+		{
+			break;
+		}
 
 		if(feof(pFile))
 		{
@@ -59943,7 +59952,10 @@ eEXEC_CODE palDataMgr_Default_LanInfo_Get(void)//HICC2_Julie_0057
         }
         while (!feof(pFile))
         {
-            fgets(cStrTemp, 255, pFile);
+            if(fgets(cStrTemp, 255, pFile) == NULL)
+            {
+                break;
+            }
             if(feof(pFile))
             {
                 break;//return 1;
@@ -60021,7 +60033,10 @@ eEXEC_CODE palDataMgr_IPV6_Default_LanInfo_Get(void) //HICC2_AC_0078
         }
         while (!feof(pFile))
         {
-            fgets(cStrTemp, 255, pFile);
+            if(fgets(cStrTemp, 255, pFile) == NULL)
+            {
+                break;
+            }
             if(feof(pFile))
             {
                 break;//return 1;

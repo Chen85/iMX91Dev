@@ -1,5 +1,4 @@
 //#include <string.h>
-#include <stdint.h>
 
 #include "dvC341.h"
 #include "dvC341_OSD.h"
@@ -974,7 +973,7 @@ void dvC341_SerialFlash_Write(UINT32 ulSflAd, UINT8 *pucBuffer, UINT32 ulDataSiz
     UINT8*  pucData = pucBuffer;
     UINT32  ulTotoalCheckSum = 0;
     UINT32  ulCheckSum = 0;
-    uintptr_t ulReadFlashAdd = (uintptr_t)pucBuffer;
+    UINT32  ulReadFlashAdd = (UINT32)(uintptr_t)pucBuffer;
     UINT32  ulSectorSize = 0; //A70LV_Larry_0158
 
     //matching 64k

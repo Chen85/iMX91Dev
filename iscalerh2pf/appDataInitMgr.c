@@ -1609,7 +1609,10 @@ void palDataMgr_sHSG_setting_Init_Default(void)
 
         pcData = malloc(size);
 
-        fread(pcData, sizeof(uint8_t), size, pFile);
+        if(fread(pcData, sizeof(uint8_t), size, pFile) != size)
+        {
+            printf("(func:%s, line:%d) fread fail\n", __FUNCTION__, __LINE__);
+        }
 
         fclose(pFile);
 
@@ -1977,7 +1980,10 @@ void palDataMgr_sColorSetting_Init_Default(void)    //A70LV_Doulas_0192 modify//
 
         pcData = malloc(size);
 
-        fread(pcData, sizeof(uint8_t), size, pFile);
+        if(fread(pcData, sizeof(uint8_t), size, pFile) != size)
+        {
+            printf("(func:%s, line:%d) fread fail\n", __FUNCTION__, __LINE__);
+        }
 
         fclose(pFile);
 
@@ -2111,7 +2117,10 @@ void palDataMgr_sHSG_ColorTemperature_Init_Default(void)
 
         pcOE_CT_Data = malloc(size);
 
-        fread(pcOE_CT_Data, sizeof(uint8_t), size, pcOECT_File);
+        if(fread(pcOE_CT_Data, sizeof(uint8_t), size, pcOECT_File) != size)
+        {
+            printf("(func:%s, line:%d) fread fail\n", __FUNCTION__, __LINE__);
+        }
 
         fclose(pcOECT_File);
 
@@ -2146,7 +2155,10 @@ void palDataMgr_sHSG_ColorTemperature_Init_Default(void)
 
         pcCT_Data = malloc(size);
 
-        fread(pcCT_Data, sizeof(uint8_t), size, pcCT_File);
+        if(fread(pcCT_Data, sizeof(uint8_t), size, pcCT_File) != size)
+        {
+            printf("(func:%s, line:%d) fread fail\n", __FUNCTION__, __LINE__);
+        }
 
         fclose(pcCT_File);
 
@@ -2260,7 +2272,10 @@ void palDataMgr_sGamma_Init_Default(void)
 
         pcData = malloc(size);
 
-        fread(pcData, sizeof(uint8_t), size, pFile);
+        if(fread(pcData, sizeof(uint8_t), size, pFile) != size)
+        {
+            printf("(func:%s, line:%d) fread fail\n", __FUNCTION__, __LINE__);
+        }
 
         fclose(pFile);
 

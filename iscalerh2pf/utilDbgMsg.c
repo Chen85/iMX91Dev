@@ -126,11 +126,16 @@ void utilSystem_Call(const char *pfmtstring, ...)
     if(utilDbgMsgTake())
     {
         va_list args;
+        int ret;
 
         va_start(args, pfmtstring);
         vsnprintf(m_sDbgMsgInfo.aucMsg, BUFFER_SIZE, pfmtstring, args);
 
-        system(m_sDbgMsgInfo.aucMsg);
+        ret = system(m_sDbgMsgInfo.aucMsg);
+        if(ret != 0)
+        {
+            printf("(func:%s, line:%d) system call fail, ret=%d\n", __FUNCTION__, __LINE__, ret);
+        }
 
         va_end(args);
 

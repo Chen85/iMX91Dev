@@ -105,7 +105,7 @@ INT32 utilDatabase_WriteInformationData(UINT32 ulIndex, UINT8 ucType, UINT8 ucGr
     switch(ucType)
     {
         case DATA_TYPE_STRING:
-            snprintf((char *)sWriteData.uValue.acString, 255, "%s", Data);
+            snprintf((char *)sWriteData.uValue.acString, 255, "%s", (char *)Data);
             break;
 
         case DATA_TYPE_UI_DIGIT_8:

@@ -1529,7 +1529,7 @@ BOOL dvC341_SemaphoreTake(BOOL cEnable, const char *pcSemaphore)
     {
         bResult = Board_SSP_SemaphoreGive(eBOARD_SSP_CS_C341);
 
-        sprintf(cLastTakeC341Semaphore, "");
+        cLastTakeC341Semaphore[0] = '\0';
     }
 
     return bResult;

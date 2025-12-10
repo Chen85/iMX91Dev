@@ -8,7 +8,7 @@
 //#include "ff.h"
 //#include "MemMap.h"
 //#include "halScaler.h"      //A70LV_Doulas_0014
-#include "dvC341.h"
+#include "dvC821.h"
 #include "utilCRCAPI.h"
 
 //#define STANDARD_C_MALLOC
@@ -34,12 +34,12 @@ char JSON_Get(const cJSON *item, int iReadStatus);
 //	static int iBitmapTotalWidth = 0;
 //	static int iBitmapTotalHeight = 0;
 //static int iBitmapPaletteUsed = 768;
-extern UINT8 aiBitmapPalette[768];
+UINT8 aiBitmapPalette[768];
 
 
 inline BOOL halGui_SemaphoreTake(const char *pcFunc)
 {
-    BOOL bResult = dvC341_SemaphoreTake(TRUE, pcFunc);
+    BOOL bResult = dvC821_SemaphoreTake(TRUE, pcFunc);
 
     return bResult;
 }
@@ -47,7 +47,7 @@ inline BOOL halGui_SemaphoreTake(const char *pcFunc)
 
 inline BOOL halGui_SemaphoreGive(const char *pcFunc)
 {
-    BOOL bResult = dvC341_SemaphoreTake(FALSE, pcFunc);
+    BOOL bResult = dvC821_SemaphoreTake(FALSE, pcFunc);
 
     return bResult;
 }
@@ -153,7 +153,7 @@ INT8 halGui_Paint_SubString( OSD_STRING_INFO sOsdString, START_POINT_INFO sDes_p
         {
             sSubString.uiStringLength = ((sOsdString.uiStringLength - uiCount) > CHAR_LINE_BUF_MAX) ? CHAR_LINE_BUF_MAX : (sOsdString.uiStringLength - uiCount);
 
-            cResult &= dvC341_Paint_String(sSubDes_position, sSubString, iTextColor, GUI_INHITBIT_COLOR, uiCount);
+            cResult &= dvC821_Paint_String(sSubDes_position, sSubString, iTextColor, GUI_INHITBIT_COLOR, uiCount);
 
             if((sOsdString.uiStringLength - uiCount) > CHAR_LINE_BUF_MAX)
             {
@@ -171,6 +171,7 @@ INT8 halGui_Paint_SubString( OSD_STRING_INFO sOsdString, START_POINT_INFO sDes_p
 
     return cResult;
 }
+
 
 #if (LOGO_REPLACE == 1)// R70G2_Bruce#0023
 INT8 LogoPaletteFlag = -1;
@@ -193,7 +194,7 @@ INT8 halGui_SecondLogoHWInit(void) //T100_Optoma_Coda:
 	if(halGui_InitSemaphore() != GUI_PASS)	   //A70LV_Doulas_0014
 		return ERROR_GUI_SEMAPHORE_FAIL;
 
-	//halC789Ctrl_OutputEnableSet(0);
+	halC789Ctrl_OutputEnableSet(0);
 
     UINT16 ret = 0;
     UINT8 Palette_toWrite[768] = {0};
@@ -220,7 +221,7 @@ INT8 halGui_SecondLogoHWInit(void) //T100_Optoma_Coda:
 
     if(halGui_SemaphoreTake(__FUNCTION__) == TRUE)
     {
-    	dvC341_2ND_LOGO_OSD_Init(256, Palette_toWrite, GUI_INHITBIT_COLOR, eCM_USER_LOGO_2D); //A65_OPTOMA_Julie_0067
+    	dvC821_2ND_LOGO_OSD_Init(256, Palette_toWrite, GUI_INHITBIT_COLOR, eCM_USER_LOGO_2D); //A65_OPTOMA_Julie_0067
 
         halGui_SemaphoreGive(__FUNCTION__);
         LOG_MSG(db_HAL_GUI, "%s() pass.\n", __FUNCTION__);
@@ -231,7 +232,7 @@ INT8 halGui_SecondLogoHWInit(void) //T100_Optoma_Coda:
     }
     LogoPaletteFlag = 1;
 	ServiceLogoPaletteFlag = 0;
-	//halC789Ctrl_OutputEnableSet(1);
+	halC789Ctrl_OutputEnableSet(1);
     LOG_MSG(db_UPGRADE, "%s(%d)\r\n", __FUNCTION__, LogoPaletteFlag);
     return GUI_PASS;
 }
@@ -243,7 +244,7 @@ INT8 halGui_Service_SecondLogoHWInit(void) //A65_OPTOMA_Julie_0076
 	if(halGui_InitSemaphore() != GUI_PASS)	   //A70LV_Doulas_0014
 		return ERROR_GUI_SEMAPHORE_FAIL;
 
-	//halC789Ctrl_OutputEnableSet(0);
+	halC789Ctrl_OutputEnableSet(0);
 
     UINT16 ret = 0;
     UINT8 Palette_toWrite[768] = {0};
@@ -270,7 +271,7 @@ INT8 halGui_Service_SecondLogoHWInit(void) //A65_OPTOMA_Julie_0076
 
     if(halGui_SemaphoreTake(__FUNCTION__) == TRUE)
     {
-    	dvC341_2ND_LOGO_OSD_Init(256, Palette_toWrite, GUI_INHITBIT_COLOR, eCM_USER_LOGO_SERVICE_2D); //A65_OPTOMA_Julie_0067
+    	dvC821_2ND_LOGO_OSD_Init(256, Palette_toWrite, GUI_INHITBIT_COLOR, eCM_USER_LOGO_SERVICE_2D); //A65_OPTOMA_Julie_0067
 
         halGui_SemaphoreGive(__FUNCTION__);
         LOG_MSG(db_HAL_GUI, "%s() pass.\n", __FUNCTION__);
@@ -281,7 +282,7 @@ INT8 halGui_Service_SecondLogoHWInit(void) //A65_OPTOMA_Julie_0076
     }
     ServiceLogoPaletteFlag = 1;
 	LogoPaletteFlag = 0;
-	//halC789Ctrl_OutputEnableSet(1);
+	halC789Ctrl_OutputEnableSet(1);
     LOG_MSG(db_UPGRADE, "%s(%d)\r\n", __FUNCTION__, ServiceLogoPaletteFlag);
     return GUI_PASS;
 }
@@ -331,12 +332,11 @@ INT8 halGui_SecondLogoPaletteStore(char *fileName, UINT8 ucIndex) //A65_OPTOMA_J
     return GUI_PASS;
 }
 #endif
-
 INT8 halGui_HWInit(INT16 iPalette_ColorAmount, UINT8 *pucPaletteData, UINT8 ucInhibit_Color)
 {
     if(halGui_SemaphoreTake(__FUNCTION__) == TRUE)
     {
-        dvC341_OSD_Init(iPalette_ColorAmount, pucPaletteData, ucInhibit_Color);  //need to get amount of palette color and palette data point
+        dvC821_OSD_Init(iPalette_ColorAmount, pucPaletteData, ucInhibit_Color);  //need to get amount of palette color and palette data point
 
         halGui_SemaphoreGive(__FUNCTION__);
 
@@ -354,7 +354,7 @@ INT8 halGui_OSDReload(void)
 {
     if(halGui_SemaphoreTake(__FUNCTION__) == TRUE)
     {
-        dvC341_OSD_Reload();
+        dvC821_OSD_Reload();
 
         halGui_SemaphoreGive(__FUNCTION__);
     }
@@ -367,7 +367,7 @@ INT8 halGui_2ND_LOGO_OSDReload(UINT8 ucIndex) //A65_OPTOMA_Julie_0076 //A65_OPTO
 {
     if(halGui_SemaphoreTake(__FUNCTION__) == TRUE)
     {
-        dvC341_OSD_2ND_LOGO_Reload(ucIndex);
+        dvC821_OSD_2ND_LOGO_Reload(ucIndex);
         halGui_SemaphoreGive(__FUNCTION__);
     }
     LOG_MSG(db_HAL_GUI, "(func:%s, line:%d)\n", __FUNCTION__, __LINE__);
@@ -400,7 +400,7 @@ INT8 halGui_OSD_On(COORDINATE sStart_Position, BLOCK_SIZE_INFO sDraw_Size, INT8 
         memcpy(&sRectSize,   &sDraw_Size,      sizeof(RECT_SIZE));
         memcpy(&sTransparentColor, &sTrap_Color, sizeof(OSD_TRANSPARENCY_COLOR));
 
-        dvC341_OSD_On(sStartPoint, sRectSize, GUI_ON, sTransparentColor);  //disable transparency color for  first stage
+        dvC821_OSD_On(sStartPoint, sRectSize, GUI_ON, sTransparentColor);  //disable transparency color for  first stage
         halGui_SemaphoreGive(__FUNCTION__);
     }
 
@@ -412,7 +412,7 @@ INT8 halGui_OSD_Off(void)
 {
     if(halGui_SemaphoreTake(__FUNCTION__) == TRUE)
     {
-        dvC341_OSD_Off();
+        dvC821_OSD_Off();
         halGui_SemaphoreGive(__FUNCTION__);
     }
 
@@ -424,7 +424,7 @@ INT8 halGui_OSD_Set_InhitbitColor( INT8 cEnable, INT16 iInhibit_Color )
 {
     if(halGui_SemaphoreTake(__FUNCTION__) == TRUE)
     {
-        dvC341_Inhibit_Color_Set(cEnable, iInhibit_Color);
+        dvC821_Inhibit_Color_Set(cEnable, iInhibit_Color);
         halGui_SemaphoreGive(__FUNCTION__);
     }
 
@@ -441,7 +441,7 @@ INT8 halGui_Paint_Bitmap(OSD_BITMAP_INFO sBitmap, START_POINT_INFO sDes_position
         memcpy(&sOsdBitmap,  &sBitmap, sizeof(OSD_BITMAP));
         memcpy(&sStartPoint, &sDes_position, sizeof(START_POINT));
 
-        dvC341_Paint_Bitmap(sOsdBitmap, sStartPoint);  //need to design return type from driver to Application at here
+        dvC821_Paint_Bitmap(sOsdBitmap, sStartPoint);  //need to design return type from driver to Application at here
 
         halGui_SemaphoreGive(__FUNCTION__);
     }
@@ -464,7 +464,7 @@ INT8 halGui_Paint_Specified_Bitmap(OSD_BITMAP_INFO sBitmap, COORDINATE sSrc_Offs
         memcpy(&sSrcSize, &sDraw_Size, sizeof(RECT_SIZE));
         memcpy(&sDesPosition, &sDraw_Position, sizeof(START_POINT));
 
-        dvC341_Paint_Specified_Bitmap(sOsdBitmap, sOffsetPosition, sSrcSize, sDesPosition);
+        dvC821_Paint_Specified_Bitmap(sOsdBitmap, sOffsetPosition, sSrcSize, sDesPosition);
 
         halGui_SemaphoreGive(__FUNCTION__);
     }
@@ -482,7 +482,7 @@ INT8 halGui_Paint_Specified_Bitmap(COORDINATE sSrc_Position, BLOCK_SIZE_INFO sDr
 	memcpy(&sDes_position, &sStart_Position, sizeof(START_POINT));
 
 	halGui_SemaphoreTake(__FUNCTION__);
-	dvC341_Paint_Specified_Bitmap(sBmp_position, sBmp_Size, sDes_position);  //need to design return type from driver to Application at her
+	dvC821_Paint_Specified_Bitmap(sBmp_position, sBmp_Size, sDes_position);  //need to design return type from driver to Application at her
 	halGui_SemaphoreGive(__FUNCTION__);
 
 	return GUI_FOUND;
@@ -507,10 +507,10 @@ INT8 halGui_Paint_TextHightLight(COORDINATE sStart_Position, BLOCK_SIZE_INFO sSi
     if(halGui_SemaphoreTake(__FUNCTION__) == TRUE)       //ZU860_Doulas_0136
     {
 #ifdef CUSTOM_OPTOMA_ZU860	//ZU860_Clare_0093
-        dvC341_Paint_Rectangle(sDes_position, sDes_size, GUI_C_SLIDER_BAR); 	// EK816U_626U_Energy_0019
+        dvC821_Paint_Rectangle(sDes_position, sDes_size, GUI_C_SLIDER_BAR); 	// EK816U_626U_Energy_0019
 #endif
         sDes_size.iHeight = sSize.iHeight;
-        iVal = dvC341_Paint_Rectangle(sDes_position, sDes_size, iColor_Index);
+        iVal = dvC821_Paint_Rectangle(sDes_position, sDes_size, iColor_Index);
 
         halGui_SemaphoreGive(__FUNCTION__);          //ZU860_Doulas_0136
     }
@@ -532,7 +532,7 @@ INT8 halGui_Paint_Rectangle(COORDINATE sStart_Position, BLOCK_SIZE_INFO sSize, I
         memcpy(&sStartPoint, &sStart_Position, sizeof(START_POINT));
         memcpy(&sRectSize,   &sSize, sizeof(RECT_SIZE));
 
-        cResult = (eRESULT)dvC341_Paint_Rectangle(sStartPoint, sRectSize, iColor_Index);
+        cResult = (eRESULT)dvC821_Paint_Rectangle(sStartPoint, sRectSize, iColor_Index);
 
         halGui_SemaphoreGive(__FUNCTION__);
     }
@@ -546,7 +546,7 @@ INT8 halGui_GuiData_EraseAll(void) //A70LV_Larry_0004
     if(halGui_SemaphoreTake(__FUNCTION__) == TRUE)
     {
         //call C734 SPI-flash erase fucntion
-        dvC341_SerialFlash_Erase_All();
+        dvC821_SerialFlash_Erase_All();
 
         LOG_MSG(db_DV_SCALER, "(func:%s, line:%d)Erase spi-flash complete!\n", __FUNCTION__, __LINE__);
 
@@ -560,7 +560,7 @@ INT8 halGui_GuiData_FlashEraseSector(UINT32 ulAddr, UINT32 ulSize) //A70LV_Larry
 {
     if(halGui_SemaphoreTake(__FUNCTION__) == TRUE)
     {
-        dvC341_SerialFlash_Erase_Sector(ulAddr, ulSize);
+        dvC821_SerialFlash_Erase_Sector(ulAddr, ulSize);
 
         halGui_SemaphoreGive(__FUNCTION__);
     }
@@ -572,8 +572,10 @@ INT8 halGui_GuiData_FlashWrite(UINT32 ulAddr, UINT8 *pucData, UINT32 ulSize) //A
 {
     if(halGui_SemaphoreTake(__FUNCTION__) == TRUE)
     {
-        dvC341_SerialFlash_Write(ulAddr, pucData, ulSize);
-
+        #ifdef SCALER_C821_C789
+        dvC821_SerialFlash_Write(ulAddr, pucData, ulSize);
+        #endif
+		
         halGui_SemaphoreGive(__FUNCTION__);
     }
 
@@ -634,7 +636,7 @@ UINT32 halGui_GuiData_PartialWrite(char *fileName, UINT32 ulAddr) //A70LV_Larry_
 
         if(halGui_SemaphoreTake(__FUNCTION__) == TRUE)
         {
-            ulCheckSum = dvC341_SerialFlash_CheckSum(ulAddr, 0x10000);
+            ulCheckSum = dvC821_SerialFlash_CheckSum(ulAddr, 0x10000);
 
             halGui_SemaphoreGive(__FUNCTION__);
         }
@@ -654,7 +656,7 @@ UINT32 halGui_GuiData_PartialWrite(char *fileName, UINT32 ulAddr) //A70LV_Larry_
 
             if(halGui_SemaphoreTake(__FUNCTION__) == TRUE)
             {
-                ulCheckSum = dvC341_SerialFlash_CheckSum(ulAddr, 0x10000);
+                ulCheckSum = dvC821_SerialFlash_CheckSum(ulAddr, 0x10000);
 
                 halGui_SemaphoreGive(__FUNCTION__);
             }
@@ -725,15 +727,8 @@ UINT32 halGui_GuiData_PartialWrite(char *fileName, UINT32 ulFlashAddr, UINT32 ul
     ulFileSize = ulBlock*FLASH_SECTION_SIZE;
 
     pcExtAddr = (UINT8 *)malloc(ulFileSize);
-    if (pcExtAddr == NULL)
-    {
-        return 0;
-    }
     memset(pcExtAddr, 0xFF, ulFileSize);
-    if(fread(pcExtAddr, ulSize, 1, pFile) != 1)
-    {
-        LOG_MSG(db_HAL_GUI, "(func:%s, line:%d) fread fail\r\n", __FUNCTION__, __LINE__);
-    }
+    fread(pcExtAddr, ulSize, 1, pFile);
     fclose(pFile);
     pcReadAddr = pcExtAddr;
 
@@ -756,7 +751,7 @@ UINT32 halGui_GuiData_PartialWrite(char *fileName, UINT32 ulFlashAddr, UINT32 ul
         {
             memset(pcReadBuffer, 0, FLASH_SECTION_SIZE);
 
-            dvC341_RAM_Read(ulRAMAddr, pcReadBuffer, FLASH_SECTION_SIZE);
+            dvC821_RAM_Read(ulRAMAddr, pcReadBuffer, FLASH_SECTION_SIZE);
             ulReadCRC = utilCRC16Calc(pcReadBuffer, FLASH_SECTION_SIZE);
 
             halGui_SemaphoreGive(__FUNCTION__);
@@ -768,15 +763,15 @@ UINT32 halGui_GuiData_PartialWrite(char *fileName, UINT32 ulFlashAddr, UINT32 ul
         {
             if(halGui_SemaphoreTake(__FUNCTION__) == TRUE)
             {
-                dvC341_SerialFlash_Erase_Sector(ulFlashAddr, FLASH_SECTION_SIZE);
-                dvC341_RAM_Write(ulRAMAddr, (pcExtAddr + ulCount * FLASH_SECTION_SIZE), FLASH_SECTION_SIZE);
+                dvC821_SerialFlash_Erase_Sector(ulFlashAddr, FLASH_SECTION_SIZE);
+                dvC821_RAM_Write(ulRAMAddr, (pcExtAddr + ulCount * FLASH_SECTION_SIZE), FLASH_SECTION_SIZE);
 
                 OSD_DMA_DDR3_WriteTo_Flash(ulRAMAddr, ulFlashAddr, 0, FLASH_SECTION_SIZE);
                 OSD_DMA_SerialFlash_Set(ulFlashAddr, ulRAMAddr, 0, FLASH_SECTION_SIZE);
 
                 memset(pcReadBuffer, 0, FLASH_SECTION_SIZE);
 
-                dvC341_RAM_Read(ulRAMAddr, pcReadBuffer, FLASH_SECTION_SIZE);
+                dvC821_RAM_Read(ulRAMAddr, pcReadBuffer, FLASH_SECTION_SIZE);
                 ulReadCRC2 = utilCRC16Calc(pcReadBuffer, FLASH_SECTION_SIZE);
 
                 halGui_SemaphoreGive(__FUNCTION__);
@@ -784,7 +779,7 @@ UINT32 halGui_GuiData_PartialWrite(char *fileName, UINT32 ulFlashAddr, UINT32 ul
 
             if(ulExtCRC != ulReadCRC2)
             {
-                LOG_MSG(db_UPGRADE, "Flash Copy Fail (ulExtCRC = 0x%X)(ulReadCRC2 = 0x%X)\n", ulExtCRC, ulReadCRC2);
+                LOG_MSG(db_UPGRADE, "Flash Copy Fail\n");
             }
             else
             {
@@ -805,36 +800,32 @@ UINT32 halGui_GuiData_PartialWrite(char *fileName, UINT32 ulFlashAddr, UINT32 ul
 }
 #endif /* 0 */
 
-UINT32 halGui_Upgrade(UINT8 ucFocus) //A35G2_CDS_Larry_0050
+void halGui_Upgrade(UINT8 ucFocus) //A35G2_CDS_Larry_0050
 {
-    UINT32 Result = 1;
-
     if(halGui_SemaphoreTake(__FUNCTION__) == TRUE)
     {
-        dvC341_OSD_Memory_Protect(0);
+        dvC821_OSD_Memory_Protect(0);
 
         halGui_SemaphoreGive(__FUNCTION__);
     }
 
     if(access(OSD_BITMAP_RAWDATA, 0) == 0)
     {
-        Result &= halGui_GuiData_PartialWrite(OSD_BITMAP_RAWDATA, DEF_SFL_OSD_PSAD_2K, (DEF_BITMAPAD_4K & 0x3fffffff), ucFocus);
+        halGui_GuiData_PartialWrite(OSD_BITMAP_RAWDATA, DEF_SFL_OSD_PSAD_2K, (DEF_BITMAPAD_4K & 0x3fffffff), ucFocus);
     }
     else if(access(CUSTOM_OSD_BITMAP_RAWDATA, 0) == 0) //A35G2_Larry_0067 for RD debug
     {
-        Result &= halGui_GuiData_PartialWrite(CUSTOM_OSD_BITMAP_RAWDATA, DEF_SFL_OSD_PSAD_2K, (DEF_BITMAPAD_4K & 0x3fffffff), ucFocus);
+        halGui_GuiData_PartialWrite(CUSTOM_OSD_BITMAP_RAWDATA, DEF_SFL_OSD_PSAD_2K, (DEF_BITMAPAD_4K & 0x3fffffff), ucFocus);
     }
 
     if(access(OSD_TEXT_RAWDATA, 0) == 0) //A35G2_Larry_0067 for RD debug
     {
-        Result &= halGui_GuiData_PartialWrite(OSD_TEXT_RAWDATA, DEF_SFL_OSD_FSAD_2K, (DEF_FONTAD_4K & 0x3fffffff), ucFocus);
+        halGui_GuiData_PartialWrite(OSD_TEXT_RAWDATA, DEF_SFL_OSD_FSAD_2K, (DEF_FONTAD_4K & 0x3fffffff), ucFocus);
     }
     else if(access(CUSTOM_OSD_TEXT_RAWDATA, 0) == 0)
     {
-        Result &= halGui_GuiData_PartialWrite(CUSTOM_OSD_TEXT_RAWDATA, DEF_SFL_OSD_FSAD_2K, (DEF_FONTAD_4K & 0x3fffffff), ucFocus);
+        halGui_GuiData_PartialWrite(CUSTOM_OSD_TEXT_RAWDATA, DEF_SFL_OSD_FSAD_2K, (DEF_FONTAD_4K & 0x3fffffff), ucFocus);
     }
-
-    return Result;
 }
 
 #if (LOGO_REPLACE == 1)
@@ -842,26 +833,20 @@ void halGui_Upgrade_Second_Logo_Replace(UINT8 ucFocus)  //A35G2_Coda_0067
 {
     if(halGui_SemaphoreTake(__FUNCTION__) == TRUE)
     {
-        dvC341_OSD_Memory_Protect(0);
+        dvC821_OSD_Memory_Protect(0);
 
         halGui_SemaphoreGive(__FUNCTION__);
     }
 
 	halGui_SecondLogoPaletteStore(TMP_2ND_LOGO_PALETTE_FILE, eCM_USER_LOGO_2D);
-	halGui_GuiData_PartialWrite(TMP_2ND_LOGO_RAWDATA_FILE, DEF_SFL_OSD_2ND_LOGO, (DEF_BITMAPAD_4K & 0x3fffffff), ucFocus);
-
-	if(halGui_SemaphoreTake(__FUNCTION__) == TRUE)
-	{
-		dvC341_OSD_Memory_Protect(1);
-		halGui_SemaphoreGive(__FUNCTION__);
-	}// HICC2_Bruce_0014
-}
+ 	halGui_GuiData_PartialWrite(TMP_2ND_LOGO_RAWDATA_FILE, DEF_SFL_OSD_2ND_LOGO, (DEF_BITMAPAD_4K & 0x3fffffff), ucFocus);
+ }
 
 void halGui_Upgrade_Service_Second_Logo_Replace(UINT8 ucFocus)  //A35G2_Coda_0067
 {
     if(halGui_SemaphoreTake(__FUNCTION__) == TRUE)
     {
-        dvC341_OSD_Memory_Protect(0);
+        dvC821_OSD_Memory_Protect(0);
 
         halGui_SemaphoreGive(__FUNCTION__);
     }
@@ -888,7 +873,7 @@ INT8 halGui_InitSemaphore(void)     //A70LV_Doulas_0014
 
 INT8 halGui_PanelSet(ePANEL_ID ePanelTimingId)      //A70LV_Doulas_0105
 {
-    dvC341_OSD_PanelSet(ePanelTimingId);
+    dvC821_OSD_PanelSet(ePanelTimingId);
     return GUI_PASS;
 }
 
@@ -896,7 +881,7 @@ INT8 halGui_PanelChange(ePANEL_ID ePanelTimingId)      //A70LV_Doulas_0105
 {
     if(halGui_SemaphoreTake(__FUNCTION__) == TRUE)
     {
-        dvC341_OSD_PanelChange(ePanelTimingId);
+        dvC821_OSD_PanelChange(ePanelTimingId);
 
         halGui_SemaphoreGive(__FUNCTION__);
     }
@@ -908,7 +893,7 @@ INT8 halGui_OSD_MenuTransparencySet(UINT8 ucValue)         //A70LV_Doulas_0122
 {
     if(halGui_SemaphoreTake(__FUNCTION__) == TRUE)
     {
-        dvC341_OSD_MenuTransparencySet(ucValue);
+        dvC821_OSD_MenuTransparencySet(ucValue);
 
         halGui_SemaphoreGive(__FUNCTION__);
     }
@@ -920,7 +905,7 @@ INT8 halGui_OSD_MenuTransparencyEnableSet(UINT8 ucEnable)         //A70LV_Doulas
 {
     if(halGui_SemaphoreTake(__FUNCTION__) == TRUE)
     {
-        dvC341_OSD_MenuTransparencyEnableSet(ucEnable);
+        dvC821_OSD_MenuTransparencyEnableSet(ucEnable);
 
         halGui_SemaphoreGive(__FUNCTION__);
     }
@@ -932,7 +917,7 @@ INT8 halGui_DrawRect(UINT16 uiXStart, UINT16 uiXWidth, UINT16 uiYStart, UINT16 u
 {
     if(halGui_SemaphoreTake(__FUNCTION__) == TRUE)
     {
-        dvC341_OSD_DrawRect(uiXStart, uiXWidth, uiYStart, uiYWidth, ucForeColor, ucBackColor);
+        dvC821_OSD_DrawRect(uiXStart, uiXWidth, uiYStart, uiYWidth, ucForeColor, ucBackColor);
 
         halGui_SemaphoreGive(__FUNCTION__);
     }
@@ -955,7 +940,7 @@ INT8 halGui_Paint_Line(COORDINATE sStart_Position, UINT8 width, INT16 iColor_Ind
 
     if(halGui_SemaphoreTake(__FUNCTION__) == TRUE)       //ZU860_Doulas_0136
     {
-        iVal = dvC341_Paint_Rectangle(sDes_position, sDes_size, iColor_Index);
+        iVal = dvC821_Paint_Rectangle(sDes_position, sDes_size, iColor_Index);
 
         halGui_SemaphoreGive(__FUNCTION__);          //ZU860_Doulas_0136
     }
@@ -965,12 +950,12 @@ INT8 halGui_Paint_Line(COORDINATE sStart_Position, UINT8 width, INT16 iColor_Ind
 
 void halGui_UpgradeAccess_Set(BOOL bEnable)	//A65_OPTOMA_Doulas_0126
 {
-    dvC341_UpgradeAccess_Set(bEnable);
+    dvC821_UpgradeAccess_Set(bEnable);
 }
 
 BOOL halGui_UpgradeAccess_Get(void)	//A65_OPTOMA_Doulas_0126
 {
-    return dvC341_UpgradeAccess_Get();
+    return dvC821_UpgradeAccess_Get();
 }
 
 //only for debug
@@ -978,7 +963,7 @@ void halGui_ShowOsdBitmapData(UINT32 ulStartVertPosition)	//A35G2_Simon_0114
 {
     if(halGui_SemaphoreTake(__FUNCTION__) == TRUE)
     {
-        dvC341_ShowOsdBitmapData(ulStartVertPosition);
+        dvC821_ShowOsdBitmapData(ulStartVertPosition);
 
         halGui_SemaphoreGive(__FUNCTION__);
     }
@@ -990,7 +975,7 @@ INT8 halGui_OSD_Memory_Protect(UINT8 Enable)
     if(halGui_SemaphoreTake(__FUNCTION__) == TRUE)
     {
         Enable = !!Enable;
-        dvC341_OSD_Memory_Protect(Enable);
+        dvC821_OSD_Memory_Protect(Enable);
 
         halGui_SemaphoreGive(__FUNCTION__);
     }

@@ -46,7 +46,7 @@
 #define BIST_KeyCheck_OPEN  6
 static UINT8 m_ucBIST_KeyStatus = BIST_KeyCheck_OFF; //HICC2_Steven_0002 end
 
-extern sGUI_CALLBACK GuiCb;
+sGUI_CALLBACK GuiCb;
 
 #define KEY_BUFFER_SIZE (8)
 static sQUEUE m_sInputRingBuffer;

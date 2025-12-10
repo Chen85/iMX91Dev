@@ -29,7 +29,11 @@ _GpioErr GPIO_ExportPin(uint32 pin)
     }
 
     snprintf(str, sizeof(str), "%d", pin);
-    write(fd, str, sizeof(str));
+    if(write(fd, str, sizeof(str)) < 0)
+    {
+        close(fd);
+        return GPIO_ERROR;
+    }
     close(fd);
     return GPIO_OK;
 }

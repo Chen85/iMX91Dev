@@ -1,5 +1,5 @@
 ﻿// HICC 2.0 Platform
-#define VER_MAJOR   (39)
+#define VER_MAJOR   (91)
 #define VER_MINOR   (65)
 
 

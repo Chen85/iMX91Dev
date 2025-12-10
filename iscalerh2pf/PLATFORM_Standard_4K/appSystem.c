@@ -2436,7 +2436,10 @@ eRESULT palSystem_VersionCheck(BOOL bAutoUpgrade)
         }
         else
         {
-            fscanf(fp, "Rootfs=%12s", aucVerString);
+            if(fscanf(fp, "Rootfs=%12s", aucVerString) != 1)
+            {
+                LOG_MSG(db_APP_SYSTEM, "(func:%s, line:%d) fscanf fail\n", __FUNCTION__, __LINE__);
+            }
             fclose(fp);
             if(eEXEC_CODE_PASS != palDataMgr_Data_Access(edcLAN_VERSION, edaWRITE_RAM_ONLY_NO_ACTION, aucVerString))
             {
@@ -2968,7 +2971,10 @@ eRESULT palSystem_UpgradeLPCMCU(UINT8 cIndex, BOOL bEnforce)
 
                 memset(pcBuffer, 0, ulSize);
 
-                fread(pcBuffer, 1, ulSize, pFile);
+                if(fread(pcBuffer, 1, ulSize, pFile) != ulSize)
+                {
+                    LOG_MSG(db_APP_SYSTEM, "(func:%s, line:%d) fread fail\n", __FUNCTION__, __LINE__);
+                }
 
                 fclose(pFile);
 
@@ -2994,7 +3000,10 @@ eRESULT palSystem_UpgradeLPCMCU(UINT8 cIndex, BOOL bEnforce)
 
                 memset(pcBuffer, 0, ulSize);
 
-                fread(pcBuffer, 1, ulSize, pFile);
+                if(fread(pcBuffer, 1, ulSize, pFile) != ulSize)
+                {
+                    LOG_MSG(db_APP_SYSTEM, "(func:%s, line:%d) fread fail\n", __FUNCTION__, __LINE__);
+                }
 
                 fclose(pFile);
 
@@ -3020,7 +3029,10 @@ eRESULT palSystem_UpgradeLPCMCU(UINT8 cIndex, BOOL bEnforce)
 
                 memset(pcBuffer, 0, ulSize);
 
-                fread(pcBuffer, 1, ulSize, pFile);
+                if(fread(pcBuffer, 1, ulSize, pFile) != ulSize)
+                {
+                    LOG_MSG(db_APP_SYSTEM, "(func:%s, line:%d) fread fail\n", __FUNCTION__, __LINE__);
+                }
 
                 fclose(pFile);
 

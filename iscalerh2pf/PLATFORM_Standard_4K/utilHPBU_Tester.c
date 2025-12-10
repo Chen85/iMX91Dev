@@ -4681,7 +4681,12 @@ unsigned char cTester_LO2G(HPBU_TEST_COM_DATA *data) //HICC2_Jacky_0002
 unsigned char cTester_USBT(HPBU_TEST_COM_DATA *data) //HICC2_Doulas_0077 Modify
 {
     BYTE cimx = 0, cext = 0, cddp = 0, cksz = 0;
-	system("/usr/bin/peripherytest");
+    int ret;
+	ret = system("/usr/bin/peripherytest");
+	if(ret != 0)
+	{
+		printf("(func:%s, line:%d) system call fail, ret=%d\n", __FUNCTION__, __LINE__, ret);
+	}
 	SYSTEM_CALL("sync");
     MS_SLEEP(1000);
 

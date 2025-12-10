@@ -1553,7 +1553,10 @@ ePAL_GEO_EXEC_CODE palGeo_Color_Uniformity_File_Apply(char *pcFileName)
         return palGeo_ExeResult(eHAL_WARPING_EXEC_CODE_MALLOC_FAIL);
     }
     memset(pucData, 0xFF, WARPING_COLOR_UNIFORMITY_SIZE);
-    fread(pucData, 1, WARPING_COLOR_UNIFORMITY_SIZE, pFile);
+    if(fread(pucData, 1, WARPING_COLOR_UNIFORMITY_SIZE, pFile) != WARPING_COLOR_UNIFORMITY_SIZE)
+    {
+        LOG_MSG(db_HAL_WARPING, "(func:%s, line:%d) fread fail\n", __FUNCTION__, __LINE__);
+    }
 
     for( ; ucCnt < 3; ucCnt++ )
     {

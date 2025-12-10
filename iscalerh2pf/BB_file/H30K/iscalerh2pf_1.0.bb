@@ -3,8 +3,8 @@ SECTION = "iScalerH2PF"
 LICENSE = "MIT"
 LIC_FILES_CHKSUM = "file://${COMMON_LICENSE_DIR}/MIT;md5=0835ade698e0bcf8506ecda2f7b4f302"
 
-SRC_URI = " \
-    file://src/ \
+SRC_URI = "file://*.h \
+           file://*.c \ 
 "
 
 
@@ -33,7 +33,7 @@ SRC_URI = " \
 
 PLATFORM_DEF = "PLATFORM_H30_4K"
 CUSTOM_DEF   = "CUSTOM_OPTOMA"
-S = "${WORKDIR}/src"
+S = "${WORKDIR}"
 EXEC_APP = "iScalerH2PF"
 DEPENDS = "glib-2.0 dbus libpng dbus-glib hpbulib"
 RDEPENDS_${PN} = "glib-2.0 dbus libpng dbus-glib hpbulib"
@@ -44,9 +44,6 @@ DATAPATH_DIR = ""
 INCLUDE_PLATFORM_PATH = "PLATFORM_Standard"
 OUTPUT_PANEL_CFG = "OUTPUT_PANEL_4K"
 DMD_RESOLUTION = "DMD_RES_WUXGA"
-
-APP_PREFIX ?= "/opt/usr"
-CFLAGS:append = " -I${STAGING_DIR_TARGET}${APP_PREFIX}/include"
 
 python () {
     platform = d.getVar('PLATFORM_DEF', True)
@@ -133,8 +130,6 @@ do_compile() {
         bbplain "DATAPATH_DIR           : ${DATAPATH_DIR}"
         bbplain "OUTPUT_PANEL_CFG       : ${OUTPUT_PANEL_CFG}"
         bbplain "DMD_RESOLUTION         : ${DMD_RESOLUTION}"
-        bbplain "WORKDIR                : ${WORKDIR}"
-        bbplain "{STAGING_DIR_TARGET}   : ${STAGING_DIR_TARGET}"
         bbplain "-----------------------------------------------------"
         bbplain "-----------------------------------------------------"
         

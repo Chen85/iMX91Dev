@@ -1254,7 +1254,10 @@ INT8 palGui_JSON_FileOpen(char *filename)
 
     memset(cbuf, '\0', size);
 
-    fread(cbuf, size, 1, pFile);
+    if(fread(cbuf, size, 1, pFile) != 1)
+    {
+        LOG_MSG(db_HAL_GUI, "(func:%s, line:%d) fread fail\r\n", __FUNCTION__, __LINE__);
+    }
 
     fclose(pFile);
 

@@ -455,20 +455,20 @@ typedef struct
 
 
 //===== Edgeblend Bias ====//
-extern int                  PM_EBIAS_EN;
-extern int                  PM_EBIAS_SEL_CUR_X;
-extern int                  PM_EBIAS_SEL_CUR_Y;
-extern coord_t              PM_EBIAS_CUR[2][2];
-extern int                  PM_EBIAS_PLT;
-extern int                  PM_EBIAS[16][3];
-extern int                  PM_EBIAS_AREA_TEST;
-extern int                  PM_EBIAS_CUR_MV;
-extern int                  PM_EBIAS_COLOR;
-extern int                  PM_BOARD;
+extern int                         PM_EBIAS_EN;
+extern int                         PM_EBIAS_SEL_CUR_X;
+extern int                         PM_EBIAS_SEL_CUR_Y;
+extern coord_t                     PM_EBIAS_CUR[2][2];
+extern int                         PM_EBIAS_PLT;
+extern int                         PM_EBIAS[16][3];
+extern int                         PM_EBIAS_AREA_TEST;
+extern int                         PM_EBIAS_CUR_MV;
+extern int                         PM_EBIAS_COLOR;
+extern int                         PM_BOARD;
 
 //===== parameters 1 =====//
-extern int                  PS_WP_HW;
-extern int                  PS_WP_VW;
+extern int                         PS_WP_HW;
+extern int                         PS_WP_VW;
 
 
 

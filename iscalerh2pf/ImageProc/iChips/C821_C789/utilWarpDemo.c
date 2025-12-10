@@ -2,32 +2,23 @@
 #include "Common.h"
 
 #include <math.h>
-#include "utilCRCAPI.h"
-#include "utilDbgMsg.h"
-#include "utilWarpDemo.h"
-#include "utilWarpDemo_Char.h"
 #include "utilCommon.h"
-#include "utilMisc.h"
-#include "ProcessMutexData.h"
 
 #ifdef SCALER_C821_C789
 #include "dvC789.h"
 #include "dvC789_WarpLight.h"
 #endif
 
-#ifdef SCALER_C341
-#include "dvC341.h"
-#include "dvC341_Geo.h"
-#endif
-
+#include "utilMisc.h"
+#include "utilDbgMsg.h"
+#include "ProcessMutexData.h"
+#include "utilWarpDemo.h"
+#include "utilWarpDemo_Char.h"
 #include "halWarping.h"
 #include "palImgMgr.h"
 #include "appDataMgr.h"
-#ifdef SIMULATOR_ISCALER
-#include "dvC341_OSD.h"
-#endif /* SIMULATOR_ISCALER */
 
-#if defined(CUSTOM_BARCO) || defined(CUSTOM_OPTOMA)               //A35G2_Simon_0087  //H2PF_Simon_0167
+#ifdef CUSTOM_BARCO               //A35G2_Simon_0087
 #define WARP_LIMIT_ENABLE 1
 #else
 #define WARP_LIMIT_ENABLE 0 //0 : uncheck warp limit OFF, 1 : check warp limit
@@ -41,26 +32,13 @@
 #define BLEND_GAMMA_MAX 		 eCM_BLENDING_GAMMA_NUMBER-1 //6					//G100_Doulas_0027 Modify
 #define BLEND_GAMMA_DEFAULT      eCM_BLENDING_GAMMA_2_2///4						//G100_Doulas_0027 Modify
 #define BLEND_WIDTH_H_MIN 192	//base on native resolution of platform, current setting is for WUXGA
-#define BLEND_WIDTH_H_MAX 1920	//base on native resolution of platform, current setting is for WUXGA
+#define BLEND_WIDTH_H_MAX 960	//base on native resolution of platform, current setting is for WUXGA
 #define BLEND_WIDTH_V_MIN 120	//base on native resolution of platform, current setting is for WUXGA
-#define BLEND_WIDTH_V_MAX 1200	//base on native resolution of platform, current setting is for WUXGA
+#define BLEND_WIDTH_V_MAX 600	//base on native resolution of platform, current setting is for WUXGA
 #define BLEND_WIDTH_ADJUST_STEP 4
 #define OSD_PRESET_INVALID 5
 #define PC_PRESET_INVALID 3
 
-#ifndef SCALER_C821_C789
-//#define dvC789_Read(a) 1
-//#define dvC789_WriteToBuffer(a,b)
-//#define dvC789_Buffer_Flush()
-//#define dvC789_Write(a,b)
-//#define dvC789_OSDACTStartConfig(a)
-#endif
-
-
-//#define dvC341_Read(a,b) 0
-//#define dvC341_WriteToBuffer(a,b,c)
-//#define dvC341_Write(a,b,c)
-//#define dvC341_Buffer_Flush()
 
 ///////////////// callback function start ///////////////
 sUTILWARPDEMO_CALLBACK sUtilWarpDemo_Callback ;
@@ -116,12 +94,8 @@ MODE_TABLE m_ModeTable[RES_ID__MAX] =
 	{	RES_ID__720P120,	12000,	13175, 	1280,	720,	1440,	763,	112, 	40,		32,			5,			POL__POS,	POL__NEG},
 	{	RES_ID__1080P48,	4800,	14850, 	1920,	1080,	2750,	1125,	192, 	41,		44,			5,			POL__POS,	POL__POS},
 	{	RES_ID__1080P120,	12000,	27000, 	1920,	1080,	2000,	1125,	48, 	40,		21,			4,			POL__POS,	POL__NEG},	//G100_Doulas_0027
-	{	RES_ID__WUXGA120,	12000,	60000, 	1920,	1200,	3064,	1634,	80, 	20,		64,			10,			POL__POS,	POL__NEG},  //G100_Doulas_0063
+	{	RES_ID__WUXGA120,	12000,	29700, 	1920,	1200,	2004,	1235,	48, 	19,		15,			5,			POL__POS,	POL__NEG},  //G100_Doulas_0063
 	{	RES_ID__WXGA120,	12000,	14850, 	1280,	800,	1460,	847,	56, 	20,		16,		    5,			POL__POS,	POL__NEG},	//R70G2_Doulas_0004
-	{	RES_ID__UHD60,	    6000,	60000, 	3840,	2160,	4560,	2194,	384, 	20,		96,		    5,			POL__POS,	POL__NEG},
-	{	RES_ID__WQUXGA60,	6000,	60000, 	3840,	2400,	4064,	2460,	80, 	20,		64,		    10,			POL__POS,	POL__NEG},
-	{	RES_ID__1080P240,	24000,	60000, 	1920,	1080,	2248,	1112,	192, 	10,		92,		    4,			POL__POS,	POL__NEG},
-	{	RES_ID__WUXGA240,	24000,	60000, 	1920,	1200,	2032,	1230,	40, 	10,		32,		    5,			POL__POS,	POL__NEG},
 };
 
 //SPI Flash Address
@@ -146,14 +120,12 @@ MODE_TABLE m_ModeTable[RES_ID__MAX] =
 #endif
 
 //RTCT Definition
-#ifndef PLATFORM_H30_4K
 #define	RTCT_THRU			0x000000	// 0000_0000_0000_0000 (All Transfer THRU)
 #define	RTCT_STOP			0x088888	// 1000_1000_1000_1000_1000 (All Transfer STOP)
 #define	RTCT_NORMAL			0x092165	// 0010_0001_0101_0101 (WPOVS_PI2VS_PI1VS_PO2VS_PO1VS)
 #define	RTCT_POVSSTOP		0x082188	// 0010_0001_0100_0100 (WPOVS_PI2VS_PI1VS_STOP__STOP_)
 #define	RTCT_PO1VSGO		0x052155
 #define	RTCT_WARP			0x092159
-#endif
 
 //===== Warp Param =====//   //G100_Doulas_0039
 // divide by 0
@@ -222,7 +194,6 @@ uint16 PS_PANEL_HS_W;		// HSyncWidth
 uint16 PS_PANEL_VS_W;		// VSyncWidth
 uint16 PS_PANEL_ACT_HST;	// HStart
 uint16 PS_PANEL_ACT_HW;		// HActive
-uint16 PS_PANEL_ACT_HW_1CH;		// HActive
 uint16 PS_PANEL_ACT_VST;	// VStart
 uint16 PS_PANEL_ACT_VW;		// VActive
 uint16 PS_PANEL_FV;	//format:Hz*100
@@ -241,19 +212,13 @@ uint16 m_nMoveContinueCount = 0;
 //====  OSD Test Pattern  ====
 #define GRID_LINE_WIDTH 1  //grid line size of ACU grid pattern //A70LK_CL_0001
 #define GRID_LINE_WIDTH_SEL 3  //selected grid line size of ACU grid pattern       //H2PF_Simon_0037
-#ifdef CONFIG_4K_DISPLAY
-#define OSD_BLEND_STR_WIDTH 120
-#define OSD_BLEND_STR_HEIGHT 64
-#define OSD_BLEND_BORDER_WIDTH 5
-#else
 #define OSD_BLEND_STR_WIDTH 100
 #define OSD_BLEND_STR_HEIGHT 64
 #define OSD_BLEND_BORDER_WIDTH 5
-#endif /* CONFIG_4K_DISPLAY */
 #define OSD_NATIVE_CHAR_LEN 0 //use native char length if set the length of each char to 0
 #define OSD_FIXED_CHAR_LEN 25 //fiexd length of each char in OSD string
 
-#define OSD_ACU_GRID_SIZE 120 //grid size of ACU grid pattern
+#define OSD_ACU_GRID_SIZE 60 //grid size of ACU grid pattern
 
 eOSD_POS m_eOsdPosition = OSD_POS__INVALID;
 ePAT_TYPE m_ePatternType = PAT_TYPE__OFF;
@@ -266,28 +231,18 @@ eCOLOR_IDX m_eOverlapColor = COLOR_IDX__DARK_GREEN;
 uint8 m_nNumberChar = 100;
 eDIR m_eBlendWidthSel = DIR__UP;
 uint8 m_nLineFeed = 0;
-bool m_OSD_DoubleSize = false;
-//bool m_IsCustomOSDOnRecord = false;   //H2PF_Simon_0136
 
 //===== Warp Param =====//
-//#define Def_Wp_Space_3D     32
-#define Def_Wp_Space_Native 32
-#define Def_Wp_Space		halWarping_DEF_WP_SPACE_Get()   //16// 16, 32						//G100_Doulas_0027 remove
-#define Def_Wp_Space_Bits	halWarping_DEF_WP_SPACE_BITS_Get()   //((Def_Wp_Space==32) ? 5 : 4)	//G100_Doulas_0027 Modify name Def_Wp_Space_Bit
-#define Def_Wp_Space_Bit 	halWarping_DEF_WP_SPACE_BITS_Get()
+//#define Def_Wp_Space		16// 16, 32						//G100_Doulas_0027 remove
+#define Def_Wp_Space_Bits	((Def_Wp_Space==32) ? 5 : 4)	//G100_Doulas_0027 Modify name Def_Wp_Space_Bit
 #define Def_HW_Max_GRDs		121	//Base on 1920				//G100_Doulas_0027 Modify name Def_HW_Max_GRD
 #define Def_VW_Max_GRDs		76	//Base on 1200                 //G100_Doulas_0042 Modify name Def_VW_Max_GRD
 
 //===== Warp Lim =====//
-#ifdef CUSTOM_OPTOMA
-#define Def_WPLIMANG_H	0.7  	// Limitation of H-slope : tan(35deg)     //H2PF_Simon_0167
-#define Def_WPLIMANG_V	1.0  	// Limitation of V-slope : tan(45deg)     //H2PF_Simon_0169
-#else
-#define Def_WPLIMANG_H	1.0	    // Limitation of H-slope : tan(45deg)
+#define Def_WPLIMANG_H	1.0	// Limitation of H-slope : tan(45deg)
 #define Def_WPLIMANG_V	5.67	// Limitation of V-slope : tan(80deg)
-#endif
 //#define Def_WPLIMVSH_L	(Def_Wp_Space/(1.0/3.0) * 16.0)	// Limitation of local V-shrink rate  //A65_OPTOMA_Doulas_0020//G100_Doulas_0065
-#define Def_WPLIMVSH_L	(Def_Wp_Space/(0.7) * 16.0) //(Def_Wp_Space/(0.7) * 16.0)	// Limitation of local V-shrink rate   //H2PF_Simon_0169
+#define Def_WPLIMVSH_L	(Def_Wp_Space/(0.6) * 16.0)	// Limitation of local V-shrink rate
 #define Def_WPLIMVSH_A	(Def_Wp_Space/(0.8) * 16.0)	// Limitation of averate V-shrink rate for WUXGA@120
 //#define Def_WPLIMVSH_A	(Def_Wp_Space/(1.0/2.0) * 16.0)	// Limitation of averate V-shrink rate for WUXGA@60
 #define Def_WPLIMHSH	(Def_Wp_Space/(1.0/12.0) * 16.0) 	// Limitation of H-shrink rate
@@ -404,6 +359,21 @@ uint16 m_egBct = 0; //A35G2_CDS_CL_0002//A35G2_Alan_0015
 UINT8 ucReApplyBlend = 0;
 
 void EnableTestPattern(BOOL bEnable, eBKG_COLOR eBkgColor, eAPPLY_BLEND eApplyBlend, eAPPLY_BLACKLEVEL eApplyBlackLevel, eOSD_POS bBeforeWarp);   //A65_OPTOMA_Doulas_0020
+
+//===Warp LUT====
+const uint8 LUT[10][24]={
+	{ 0x02, 0x03, 0x04, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x09, 0x0a, 0x0b, 0x0c, 0x0c, 0x0d, 0x0e, 0x0e, 0x0f, 0x0f, 0x11, 0x12, 0x13, 0x13, 0x14 },// 6s_c0.3_w0.0
+	{ 0xfe, 0xff, 0xff, 0x00, 0x01, 0x02, 0x03, 0x05, 0x06, 0x08, 0x09, 0x0b, 0x0c, 0x0e, 0x0f, 0x10, 0x12, 0x13, 0x14, 0x15, 0x17, 0x16, 0x18, 0x16 },// 6s_c0.4_w0.0
+	{ 0xfa, 0xfa, 0xfa, 0xfb, 0xfc, 0xfd, 0xff, 0x00, 0x02, 0x04, 0x06, 0x09, 0x0c, 0x0e, 0x11, 0x11, 0x16, 0x18, 0x1a, 0x1c, 0x1e, 0x1f, 0x1e, 0x1e },// 6s_c0.5_w0.0
+	{ 0xfb, 0xf9, 0xf8, 0xf8, 0xf7, 0xf8, 0xf9, 0xfb, 0xfc, 0xff, 0x01, 0x04, 0x08, 0x0c, 0x10, 0x13, 0x18, 0x1d, 0x21, 0x24, 0x27, 0x27, 0x28, 0x24 },// 6s_c0.6_w0.0
+	{ 0x00, 0xff, 0xfc, 0xfa, 0xf8, 0xf7, 0xf6, 0xf6, 0xf7, 0xf8, 0xfb, 0xfe, 0x01, 0x06, 0x0c, 0x12, 0x17, 0x1d, 0x23, 0x28, 0x2d, 0x2f, 0x30, 0x30 },// 6s_c0.7_w0.0
+	{ 0x05, 0x04, 0x02, 0x00, 0xfe, 0xfb, 0xf8, 0xf5, 0xf5, 0xf5, 0xf6, 0xf8, 0xfc, 0x00, 0x05, 0x0d, 0x13, 0x1a, 0x21, 0x28, 0x2d, 0x32, 0x36, 0x3c },// 6s_c0.8_w0.0
+	{ 0x06, 0x07, 0x06, 0x05, 0x03, 0x00, 0xfe, 0xfa, 0xf8, 0xf6, 0xf5, 0xf5, 0xf7, 0xfb, 0x00, 0x06, 0x0e, 0x16, 0x1e, 0x26, 0x2d, 0x32, 0x36, 0x40 },// 6s_c0.9_w0.0
+	{ 0x02, 0x04, 0x06, 0x07, 0x07, 0x05, 0x03, 0x00, 0xfd, 0xf9, 0xf6, 0xf4, 0xf4, 0xf6, 0xfa, 0x00, 0x08, 0x11, 0x1b, 0x25, 0x2e, 0x37, 0x3c, 0x40 },// 6s_c1.0_w0.0
+	{ 0x00, 0x00, 0x00, 0x01, 0x01, 0x01, 0x01, 0x00, 0xff, 0xfd, 0xfb, 0xf9, 0xf8, 0xf9, 0xfc, 0x00, 0x06, 0x0f, 0x1a, 0x26, 0x32, 0x3a, 0x3e, 0x40 },// 6s_c1.0_w1.0
+	{ 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xff, 0xfe, 0xfd, 0xfc, 0xfc, 0xfd, 0x00, 0x05, 0x0d, 0x18, 0x23, 0x2e, 0x38, 0x3e, 0x40 } // 6s_c1.0_w1.5
+};
+
 const float m_pfBlendGammaTable[7] = {1.8, 1.9, 2.0, 2.1, 2.2, 2.3, 2.4};
 const uint8 m_pnOverlapGridNumTable[5] = {4, 6, 8, 10, 12};
 BOOL m_bApBlendApply = FALSE;  //A65_OPTOMA_CL_0010
@@ -413,7 +383,6 @@ BOOL m_bApOnlyBlendApply = FALSE;  //only blend, no warp
 //set timeout to 1000ms
 BOOL WaitForReadFlashDone(void)
 {
-#ifdef SCALER_C821_C789
 	uint32 nSFLSTAT = 0xFF;
 	uint16 nRetry = 100;
 
@@ -430,17 +399,11 @@ BOOL WaitForReadFlashDone(void)
 		return FALSE;
 	else
 		return TRUE;
-#else
-
-	return TRUE;
-
-#endif
 }
 
 //set timeout to 3s, write bias for WUXGA(size=1200K) will take 2.5s
 BOOL WaitForWriteFlashDone(void)
 {
-#ifdef SCALER_C821_C789
 	uint32 nSFLSTAT = 0xFF;
 	uint16 nRetry = 300;
 
@@ -458,17 +421,11 @@ BOOL WaitForWriteFlashDone(void)
 		return FALSE;
 	else
 		return TRUE;
-#else
-
-	return TRUE;
-
-#endif
 }
 
 //Block Erase Cycle Time (64KB) max is 650ms
 BOOL WaitForEraseFlashDone(void)
 {
-#ifdef SCALER_C821_C789
 	uint32 nRDSR = 0xFF;
 	uint32 nSFLSTAT = 0xFF;
 	uint16 nRetry = 200;
@@ -496,16 +453,10 @@ BOOL WaitForEraseFlashDone(void)
 		return FALSE;
 	else
 		return TRUE;
-#else
-
-	return TRUE;
-
-#endif
 }
 
 BOOL EraseFlashSector(uint32 nFlashAddr, eFLASH_ERASE_MODE eEraseMode)    //G100_Doulas_0039
 {
-#ifdef SCALER_C821_C789
 	uint8 nRetry = 4;
 	BOOL err = FALSE;
 
@@ -547,17 +498,11 @@ BOOL EraseFlashSector(uint32 nFlashAddr, eFLASH_ERASE_MODE eEraseMode)    //G100
 	else
 		return TRUE;
 
-#else
-
-	return TRUE;
-
-#endif
 }
 
 //Please Erase Flash first before call this function
 BOOL Reg2Flash(uint32 nRamAddr, eDMA_TARGET eDmaTarget, uint32 nFlashAddr, uint32 nDataSize)
 {
-#ifdef SCALER_C821_C789
 	dvC789_WriteToBuffer(B0_OSDCT, 0x00);
 	//GIOS  000Fh  Use Serial Flash mode
 	dvC789_WriteToBuffer(B1_GIOS, 0x000F);
@@ -587,17 +532,11 @@ BOOL Reg2Flash(uint32 nRamAddr, eDMA_TARGET eDmaTarget, uint32 nFlashAddr, uint3
 	dvC789_WriteToBuffer(B1_SFLCT, 0x01);
 	dvC789_Buffer_Flush();
 
-#else
-
-
-#endif
-
 	return WaitForWriteFlashDone();
 }
 
 BOOL Flash2Reg(uint32 nRamAddr,eDMA_TARGET eDmaTarget, uint32 nFlashAddr, uint32 nDataSize)
 {
-#ifdef SCALER_C821_C789
 	dvC789_WriteToBuffer(B0_OSDCT, 0x00);
 	//GIOS  000Fh  Use Serial Flash mode
 	dvC789_WriteToBuffer(B1_GIOS, 0x000F);
@@ -622,17 +561,11 @@ BOOL Flash2Reg(uint32 nRamAddr,eDMA_TARGET eDmaTarget, uint32 nFlashAddr, uint32
 	dvC789_WriteToBuffer(B1_SFLCT, 0x02);
 	dvC789_Buffer_Flush();
 
-#else
-
-
-#endif
-
 	return WaitForReadFlashDone();
 }
 
 void Ram2Reg(uint32 nDataSize)
 {
-#ifdef SCALER_C821_C789
 	uint32 nStatus = 0;
 	uint16 nRetry = 500;
 
@@ -671,53 +604,10 @@ void Ram2Reg(uint32 nDataSize)
 	dvC789_WriteToBuffer(B0_OSDCT, 0x00);
 	dvC789_Buffer_Flush();
 
-#else
-
-	uint32 nStatus = 0;
-	uint16 nRetry = 500;
-
-	//data size
-	dvC341_WriteToBuffer(B4_BBACTHW, nDataSize-1, 0);
-	dvC341_WriteToBuffer(B4_BBACTVW, 0, 0);
-
-	//ram addr
-	dvC341_WriteToBuffer(B4_CPURAD, RAM_DATA_ADDR, 0);
-
-	//wait POVS
-	dvC341_WriteToBuffer(B4_BBVDLY, 0x00, 0);
-	dvC341_WriteToBuffer(B4_BBVSYCT, 0x01, 0);	// POVS
-
-	// SDRAM -> Register
-	dvC341_WriteToBuffer(B4_OSDCT, 0x0A, 0);
-	dvC341_Buffer_Flush();
-	while(TRUE)
-	{
-		nStatus = dvC341_Read(B4_BOSTAT, 0);
-		if((nStatus&BIT0) && (nRetry>=0))
-		{
-			MS_SLEEP(1);
-			nRetry--;
-			if(nRetry==0)
-			{
-				LOG_MSG(db_HAL_WARPING, "Ram2Reg() timeout, B0_BOSTAT=%02X\r\n", (unsigned int)nStatus);
-				break;
-			}else
-				continue;
-		}else
-			break;
-	}
-
-	dvC341_WriteToBuffer(B4_BBVSYCT, 0x00, 0);
-	dvC341_WriteToBuffer(B4_OSDCT, 0x00, 0);
-	dvC341_Buffer_Flush();
-
-#endif
-
 }
 
 void WriteC789Ram(uint8* pData, uint32 nStartAddr, uint32 nCount)
 {
-#ifdef SCALER_C821_C789
 	uint32 nIndex = 0;
 
 	dvC789_Write(B0_CPUWAD, nStartAddr);//Ram Address
@@ -730,15 +620,10 @@ void WriteC789Ram(uint8* pData, uint32 nStartAddr, uint32 nCount)
 	dvC789_WriteToBuffer(B0_CPUWAD, nStartAddr+nCount);//Ram Address
 	dvC789_Buffer_Flush();
 
-#else
-
-
-#endif
 }
 
 void ReadC789Ram(uint8* pData, uint32 nStartAddr, uint32 nCount)
 {
-#ifdef SCALER_C821_C789
 	uint32 nIndex = 0;
 	uint32 buf = 0;
 
@@ -751,15 +636,10 @@ void ReadC789Ram(uint8* pData, uint32 nStartAddr, uint32 nCount)
 		pData[nIndex] = (uint8)buf&0xff;
 	}
 
-#else
-
-
-#endif
 }
 
 BOOL Dram_Reg2Flash(uint32 nRamAddr, uint32 nFlashAddr, uint32 nSize)
 {
-#ifdef SCALER_C821_C789
 	uint16 nRetry = 100;
 	uint32 nCPUDTCTL = 0xFF;
 
@@ -777,12 +657,6 @@ BOOL Dram_Reg2Flash(uint32 nRamAddr, uint32 nFlashAddr, uint32 nSize)
 			LOG_MSG(db_HAL_WARPING,"Dram_Reg2Flash() timeout, nCPUDTCTL=%02X\r\n", (unsigned int)nCPUDTCTL);
 	} while ((nCPUDTCTL&BIT3) && (nRetry!=0));
 
-
-#else
-
-
-#endif
-
 	return Reg2Flash(nRamAddr, DMA_TARGET__SDRAM, nFlashAddr, nSize);
 }
 
@@ -793,9 +667,7 @@ BOOL Dram_Flash2Reg(uint32 nRamAddr, uint32 nFlashAddr, uint32 nSize)
 
 void SoftReset(void)
 {
-#ifdef SCALER_C821_C789
     dvC789_Write(BN_RSTCT, 0x01);
-#endif
 }
 
 
@@ -842,8 +714,8 @@ int CheckWpLimitA(int *x, int *y, float *diffy_y_sum, float *divn,
 	float diffx_x, diffy_x, diffx_y, diffy_y, idiffy_y;
 	float tan_h = 0;
 	float tan_v = 0;
-	int ihw = (PM_IACT_HW << 3);   //H2PF_Simon_0167
-	int ivw = (PM_IACT_VW << 3);
+	int ihw = (PM_IACT_HW << 4);
+	int ivw = (PM_IACT_VW << 4);
 	int x1 = (*x == PS_WP_HW_GRD) ? *x : *x + 1;
 	int y1 = (*y == PS_WP_VW_GRD) ? *y : *y + 1;
 
@@ -867,18 +739,15 @@ int CheckWpLimitA(int *x, int *y, float *diffy_y_sum, float *divn,
 
 			// Horizontal zoom
 			if (diffx_x <= 0) {// The zoom rate is infinite.
-                LOG_MSG(db_HAL_WARPING, "#7 diffx_x %f\r\n",  diffx_x);
 				return E_WpErrItv;
 			}
 			// Horizontal slope
 			tan_h = diffy_x / diffx_x;
 			if ((tan_h < (-Def_WPLIMANG_H)) || (tan_h > Def_WPLIMANG_H)) {
-                LOG_MSG(db_HAL_WARPING, "#1 tan_v %f\r\n",  tan_h);
 				return E_WpErrAngH;
 			}
 			// Horizontal shrink rate
 			if (diffx_x > Def_WPLIMHSH) {
-                LOG_MSG(db_HAL_WARPING, "#5 diffx_x %f\r\n",  diffx_x);
 				return E_WpErrHSh;
 			}
 		} // end if(x < PS_WP_HW_GRD)
@@ -891,18 +760,15 @@ int CheckWpLimitA(int *x, int *y, float *diffy_y_sum, float *divn,
 
 			// Vertical zoom
 			if (diffy_y <= 0) {// The zoom rate is infinite.
-                LOG_MSG(db_HAL_WARPING, "#7 diffy_y %f\r\n",  diffy_y);
 				return E_WpErrItv;
 			}
 			// Vertical local shrink rate
 			if (idiffy_y > Def_WPLIMVSH_L) {
-                LOG_MSG(db_HAL_WARPING, "#3 idiffy_y %f\r\n",  idiffy_y);
 				return E_WpErrVShL;
 			}
 			// Vertical slope
 			tan_v = diffx_y / diffy_y;
 			if ((tan_v < (-Def_WPLIMANG_V)) || (tan_v > Def_WPLIMANG_V)) {
-                LOG_MSG(db_HAL_WARPING, "#2 tan_v %f\r\n",  tan_v);
 				return E_WpErrAngV;
 			}
 
@@ -917,7 +783,6 @@ int CheckWpLimitA(int *x, int *y, float *diffy_y_sum, float *divn,
 int CheckWpLimitB( float *diffy_y_sum, float *divn )
 {
 	if( (*diffy_y_sum) > (Def_WPLIMVSH_A * (*divn)) ){
-        LOG_MSG(db_HAL_WARPING, "#4 diffy_y_sum %f diffy_y_sum %f\r\n",  (*diffy_y_sum), (*divn));
 		return E_WpErrVShA;
 	}
 
@@ -1398,14 +1263,7 @@ int CalcWpTable(Point2f cur_pos[][DEF_NUM_CUR_MAX_V], uint16 PS_WP_HW_GRD, uint1
 			}
 			x = x + (float)(i << Def_Wp_Space_Bit);
 			x = (x > tblx_max) ? tblx_max : (x < tblx_min) ? tblx_min : x;
-			if(halWarping_WarpDataDecimalPartRes_Get() == eWDP_3BIT)
-			{
-			    GV_WARP_TABLE_X[i][j] = (int)(x * 8 + 0.5);
-			}
-			else  //16
-			{
-			    GV_WARP_TABLE_X[i][j] = (int)(x * 16 + 0.5);
-			}
+			GV_WARP_TABLE_X[i][j] = (int)(x * 16 + 0.5);
 
 			// y
 			area = 0;
@@ -1424,15 +1282,7 @@ int CalcWpTable(Point2f cur_pos[][DEF_NUM_CUR_MAX_V], uint16 PS_WP_HW_GRD, uint1
 			}
 			y = y + (float)(j << Def_Wp_Space_Bit);
 			y = (y > tbly_max) ? tbly_max : (y < tbly_min) ? tbly_min : y;
-
-			if(halWarping_WarpDataDecimalPartRes_Get() == eWDP_3BIT)
-			{
-			    GV_WARP_TABLE_Y[i][j] = (int)(y * 8 + 0.5);
-			}
-			else  //16
-			{
-			    GV_WARP_TABLE_Y[i][j] = (int)(y * 16 + 0.5);
-			}
+			GV_WARP_TABLE_Y[i][j] = (int)(y * 16 + 0.5);
 
 #if WARP_LIMIT_ENABLE
 			// Check Limit
@@ -1440,10 +1290,7 @@ int CalcWpTable(Point2f cur_pos[][DEF_NUM_CUR_MAX_V], uint16 PS_WP_HW_GRD, uint1
 			{
 				err = CheckWpLimitA( &i, &j, &diffy_y_sum, &divn, PS_WP_HW_GRD, PS_WP_VW_GRD, PM_IACT_HW, PM_IACT_VW );
 				if (err != E_WpNoErr)
-				{
-                    LOG_MSG(db_HAL_WARPING, "CheckWpLimitA err %d\r\n", err);
 					return err;
-				}
 			}
 #endif
 		}
@@ -1454,10 +1301,7 @@ int CalcWpTable(Point2f cur_pos[][DEF_NUM_CUR_MAX_V], uint16 PS_WP_HW_GRD, uint1
 		{
 			err = CheckWpLimitB(&diffy_y_sum, &divn);
 			if (err != E_WpNoErr)
-			{
-                LOG_MSG(db_HAL_WARPING, "CheckWpLimitB err %d\r\n", err);
 				return err;
-			}
 		}
 #endif
 	}
@@ -1701,16 +1545,12 @@ void WriteWarpTable(uint8 nWarpSpace)
 	int temp_i;
 	int xad;
 
-	LOG_MSG(db_HAL_WARPING, "<< WriteWarpTable >> Start (%d)\r\n", nWarpSpace);
-
-#ifdef SCALER_C821_C789
-{
-    halWarping_TransferCtrl_Through();   //A35G2_CDS_Simon_0034
+    dvC789_Write(BN_RTCT, RTCT_THRU);   //A35G2_CDS_Simon_0034
 
     UINT16 uiDTCT = (UINT16)dvC789_Read(B5_DTCT);   //A35G2_CDS_Simon_0034
 
 	if( nWarpSpace == 32 ) {
-		if((m_e3dResId == RES_ID__1080P120) || (m_e3dResId == RES_ID__WUXGA120) || (m_e3dResId == RES_ID__WXGA120) || (m_e3dResId == RES_ID__WUXGA240))     //R70G2_Doulas_0004 Modify//G100_Doulas_0065
+		if((m_e3dResId == RES_ID__1080P120) || (m_e3dResId == RES_ID__WUXGA120) || (m_e3dResId == RES_ID__WXGA120))     //R70G2_Doulas_0004 Modify//G100_Doulas_0065
 		{
             if(uiDTCT & WARPING_DISTORTION_CORRECTION_TABLE_B)   //A35G2_CDS_Simon_0034
             {
@@ -1742,7 +1582,7 @@ void WriteWarpTable(uint8 nWarpSpace)
 		x2k_ad_ysft = 1;
 	}
 	else {
-		if((m_e3dResId == RES_ID__1080P120) || (m_e3dResId == RES_ID__WUXGA120) || (m_e3dResId == RES_ID__WXGA120) || (m_e3dResId == RES_ID__WUXGA240))      //R70G2_Doulas_0004 Modify//G100_Doulas_0065
+		if((m_e3dResId == RES_ID__1080P120) || (m_e3dResId == RES_ID__WUXGA120) || (m_e3dResId == RES_ID__WXGA120))      //R70G2_Doulas_0004 Modify//G100_Doulas_0065
 		{
             if(uiDTCT & WARPING_DISTORTION_CORRECTION_TABLE_B)   //A35G2_CDS_Simon_0034
             {
@@ -1797,7 +1637,7 @@ void WriteWarpTable(uint8 nWarpSpace)
 
 	if( Def_Wp_Space == 32 )
 	{
-		if((m_e3dResId == RES_ID__1080P120) || (m_e3dResId == RES_ID__WUXGA120) || (m_e3dResId == RES_ID__WXGA120) || (m_e3dResId == RES_ID__WUXGA240))   //R70G2_Doulas_0004 Modify//G100_Doulas_0065
+		if((m_e3dResId == RES_ID__1080P120) || (m_e3dResId == RES_ID__WUXGA120) || (m_e3dResId == RES_ID__WXGA120))   //R70G2_Doulas_0004 Modify//G100_Doulas_0065
 		{
             if(uiDTCT & WARPING_DISTORTION_CORRECTION_TABLE_B)   //A35G2_CDS_Simon_0034
             {
@@ -1824,7 +1664,7 @@ void WriteWarpTable(uint8 nWarpSpace)
 	}
 	else
 	{
-		if((m_e3dResId == RES_ID__1080P120) || (m_e3dResId == RES_ID__WUXGA120) || (m_e3dResId == RES_ID__WXGA120) || (m_e3dResId == RES_ID__WUXGA240))   //R70G2_Doulas_0004 Modify//G100_Doulas_0065
+		if((m_e3dResId == RES_ID__1080P120) || (m_e3dResId == RES_ID__WUXGA120) || (m_e3dResId == RES_ID__WXGA120))   //R70G2_Doulas_0004 Modify//G100_Doulas_0065
 		{
             if(uiDTCT & WARPING_DISTORTION_CORRECTION_TABLE_B)   //A35G2_CDS_Simon_0034
             {
@@ -1852,273 +1692,10 @@ void WriteWarpTable(uint8 nWarpSpace)
 	//flush register data
 	dvC789_Buffer_Flush();
 }
-#elif defined(SCALER_FPGA_F34)
-{
-    eHAL_WARPING_EXEC_CODE eResult = eHAL_WARPING_EXEC_CODE_PASS;
-
-    UINT8 acWarpTable[1024*40] = {0};
-    UINT32 ulTableSize = 0;
-
-	for( y = 0; y <= PS_WP_VW_GRD; y++ )
-	{
-		for( x = 0; x <= PS_WP_HW_GRD; x++ )
-		{
-			acWarpTable[ulTableSize++] =  GV_WARP_TABLE_X[x][y] & 0xff ;
-			acWarpTable[ulTableSize++] = (GV_WARP_TABLE_X[x][y] >> 8 ) & 0xff;
-			acWarpTable[ulTableSize++] =  GV_WARP_TABLE_Y[x][y] & 0xff ;
-			acWarpTable[ulTableSize++] = (GV_WARP_TABLE_Y[x][y] >> 8 ) & 0xff;
-		} // end for x
-
-		if(ulTableSize >= sizeof(acWarpTable))
-		{
-            LOG_MSG(db_HAL_WARPING, "!!! %s@%d over size (x=%d y=%d)\r\n", __FUNCTION__, __LINE__, PS_WP_HW_GRD, PS_WP_VW_GRD);
-		    break;
-		}
-	} // end for y
-
-    if(dvProAV_WarpTableDl2Chip(ulTableSize, &acWarpTable[0]) != rcSUCCESS)
-    {
-        eResult = eHAL_WARPING_EXEC_CODE_FAIL;
-        LOG_MSG(db_HAL_WARPING, "%s@%d Fail (Size %d)(%dx%d)\r\n", __FUNCTION__, __LINE__, ulTableSize, PS_WP_HW_GRD, PS_WP_VW_GRD);
-    }
-    else
-    {
-        LOG_MSG(db_HAL_WARPING, "%s@%d Write OK (%dx%d)\r\n", __FUNCTION__, __LINE__, PS_WP_HW_GRD, PS_WP_VW_GRD);
-        eResult = eHAL_WARPING_EXEC_CODE_PASS;
-    }
-
-}
-#elif defined(SCALER_C341)
-{
-    halWarping_TransferCtrl_Through();
-
-    UINT16 uiDTCT = (UINT16)dvC341_Read(B145_WPDTCTCH1, 0);
-
-	LOG_MSG(db_HAL_WARPING, "m_e3dResId %d\r\n", m_e3dResId);
-
-	if( nWarpSpace == 32 )
-	{
-		if(0)//(m_e3dResId == RES_ID__1080P120) || (m_e3dResId == RES_ID__WUXGA120) || (m_e3dResId == RES_ID__WXGA120))     //R70G2_Doulas_0004 Modify//G100_Doulas_0065
-		{
-            if(uiDTCT & WARPING_DISTORTION_CORRECTION_TABLE_B)   //A35G2_CDS_Simon_0034
-            {
-                dvC341_Write(B145_WPDTCTCH1, DTCT_BASE_ACCESS_ENABLE_32PIEXL_B | DTCT_BASE_WPOUTMD_IMPROVEMENT, 0);
-            }
-            else
-            {
-                dvC341_Write(B145_WPDTCTCH1, DTCT_BASE_ACCESS_ENABLE_32PIEXL_A | DTCT_BASE_WPOUTMD_IMPROVEMENT, 0);
-            }
-
-			//dvC341_WriteToBuffer(B145_WPDTCTCH1, 0x0c42);//120Hz
-		}
-		else
-		{
-		    LOG_MSG(db_HAL_WARPING, "nWarpSpace 32 / 4K60\r\n");
-
-            if(uiDTCT & WARPING_DISTORTION_CORRECTION_TABLE_B)   //A35G2_CDS_Simon_0034
-            {
-                dvC341_Write(B145_WPDTCTCH1, DTCT_BASE_ACCESS_ENABLE_32PIEXL_B, 0);
-            }
-            else
-            {
-                dvC341_Write(B145_WPDTCTCH1, DTCT_BASE_ACCESS_ENABLE_32PIEXL_A, 0);
-            }
-
-			//dvC341_WriteToBuffer(B145_WPDTCTCH1, 0x0842);//60Hz
-		}
-		adsft = 7;
-		x2k_grd_jmp = 128;
-		x2k_ad_jmp = 17664;
-		x2k_ad_ysft = 1;
-	}
-	else
-	{
-		if((m_e3dResId == RES_ID__1080P120) || (m_e3dResId == RES_ID__WUXGA120) || (m_e3dResId == RES_ID__WXGA120) || (m_e3dResId == RES_ID__WUXGA240))      //R70G2_Doulas_0004 Modify//G100_Doulas_0065
-		{
-            #ifdef DTCT_16PIEXL_ALWAYS_USE_TABLE_A
-            dvC341_Write(B145_WPDTCTCH1, DTCT_BASE_ACCESS_ENABLE_ALWAYS_TABLE_A | DTCT_BASE_WPOUTMD_IMPROVEMENT, 0);
-            #else
-            if(uiDTCT & WARPING_DISTORTION_CORRECTION_TABLE_B)   //A35G2_CDS_Simon_0034
-            {
-                dvC341_Write(B145_WPDTCTCH1, DTCT_BASE_ACCESS_ENABLE_16PIEXL_B | DTCT_BASE_WPOUTMD_IMPROVEMENT, 0);
-            }
-            else
-            {
-                dvC341_Write(B145_WPDTCTCH1, DTCT_BASE_ACCESS_ENABLE_16PIEXL_A | DTCT_BASE_WPOUTMD_IMPROVEMENT, 0);
-            }
-            #endif
-		    //dvC341_WriteToBuffer(B145_WPDTCTCH1, 0x0c40);//120Hz
-		}
-		else
-		{
-            #ifdef DTCT_16PIEXL_ALWAYS_USE_TABLE_A
-            dvC341_Write(B145_WPDTCTCH1, DTCT_BASE_ACCESS_ENABLE_ALWAYS_TABLE_A | DTCT_BASE_WPOUTMD_IMPROVEMENT, 0);
-            #else
-            if(uiDTCT & WARPING_DISTORTION_CORRECTION_TABLE_B)   //A35G2_CDS_Simon_0034
-            {
-                dvC341_Write(B145_WPDTCTCH1, DTCT_BASE_ACCESS_ENABLE_16PIEXL_B, 0);
-            }
-            else
-            {
-                dvC341_Write(B145_WPDTCTCH1, DTCT_BASE_ACCESS_ENABLE_16PIEXL_A, 0);
-            }
-            #endif
-			//dvC341_WriteToBuffer(B145_WPDTCTCH1, 0x0840);//60Hz
-		}
-		adsft = 8;
-		x2k_grd_jmp = 256;
-		x2k_ad_jmp = 35328;
-		x2k_ad_ysft = 1;
-	}
-
-	UINT32 uiYAd = 0 ;
-	UINT32 uiAd = 0;
-	UINT8 aucData[6] = {0};
-
-	UINT16 CRC16_WT_X = utilCRC16Calc((UINT8 *)GV_WARP_TABLE_X, sizeof(GV_WARP_TABLE_X));  //H2PF_Simon_0131
-	UINT16 CRC16_WT_Y = utilCRC16Calc((UINT8 *)GV_WARP_TABLE_Y, sizeof(GV_WARP_TABLE_Y));
-	if(CRC16_WT_X == CRC16_DEFAULT_WARP_TABLE_X &&
-	   CRC16_WT_Y == CRC16_DEFAULT_WARP_TABLE_Y )     //H2PF_Simon_0131
-    {
-        halWarping_FrameMemoryProcessCheck(TRUE);
-    }
-    else
-    {
-        halWarping_FrameMemoryProcessCheck(FALSE);
-    }
-
-	for( y = 0; y <= PS_WP_VW_GRD; y++ )
-	{
-        uiYAd = y;  //y - DEF_WP_OUT_VGRD;
-        uiAd = (UINT32)(uiYAd << adsft);
-
-        aucData[0] = uiAd & 0xff;
-        aucData[1] = (uiAd >> 8) & 0xff;
-        aucData[2] = (uiAd >> 16) & 0xff;
-        dvC341_BurstWrite_FixedAdd(B145_WPDTADCH1, 3, aucData);
-
-		xad = 0;
-		for( x = 0; x <= PS_WP_HW_GRD; x++ )
-		{
-		    #if 0
-			if ( xad == x2k_grd_jmp )
-			{// x >= 2k
-				temp_i = x2k_ad_jmp + (y<<x2k_ad_ysft);
-				dvC341_WriteToBuffer(B145_WPDTADCH1, temp_i&0xff, 0);
-				dvC341_WriteToBuffer(B145_WPDTADCH1, (temp_i>>8)&0xff, 0);
-			}
-			#endif
-
-			if ( xad == x2k_grd_jmp )
-			{// x >= 2k
-				uiAd = x2k_ad_jmp + (uiYAd<<x2k_ad_ysft);
-                aucData[0] = uiAd & 0xff;
-                aucData[1] = (uiAd >> 8) & 0xff;
-                aucData[2] = (uiAd >> 16) & 0xff;
-                dvC341_BurstWrite_FixedAdd(B145_WPDTADCH1, 3, aucData);
-			}
-
-			// write register
-			dvC341_WriteToBuffer(B145_WPDTDTCH1, GV_WARP_TABLE_X[x][y]&0xff, 0);
-			dvC341_WriteToBuffer(B145_WPDTDTCH1, (GV_WARP_TABLE_X[x][y]>>8)&0xff, 0);
-			dvC341_WriteToBuffer(B145_WPDTDTCH1, GV_WARP_TABLE_Y[x][y]&0xff, 0);
-			dvC341_WriteToBuffer(B145_WPDTDTCH1, (GV_WARP_TABLE_Y[x][y]>>8)&0xff, 0);
-			xad++;
-		} // end for x
-	} // end for y
-
-	dvC341_Buffer_Flush();
-
-	if( Def_Wp_Space == 32 )
-	{
-		if((m_e3dResId == RES_ID__1080P120) || (m_e3dResId == RES_ID__WUXGA120) || (m_e3dResId == RES_ID__WXGA120) || (m_e3dResId == RES_ID__WUXGA240))   //R70G2_Doulas_0004 Modify//G100_Doulas_0065
-		{
-            if(uiDTCT & WARPING_DISTORTION_CORRECTION_TABLE_B)   //A35G2_CDS_Simon_0034
-            {
-                dvC341_Write(B145_WPDTCTCH1, DTCT_BASE_ACCESS_DISABLE_32PIEXL_B | DTCT_BASE_WPOUTMD_IMPROVEMENT, 0);
-                dvC341_Write(B145_WPDTCTCH1, DTCT_BASE_ACCESS_DISABLE_32PIEXL_B | DTCT_BASE_WPOUTMD_IMPROVEMENT, CH_WPBANK_OFFSET);
-            }
-            else
-            {
-                dvC341_Write(B145_WPDTCTCH1, DTCT_BASE_ACCESS_DISABLE_32PIEXL_A | DTCT_BASE_WPOUTMD_IMPROVEMENT, 0);
-                dvC341_Write(B145_WPDTCTCH1, DTCT_BASE_ACCESS_DISABLE_32PIEXL_A | DTCT_BASE_WPOUTMD_IMPROVEMENT, CH_WPBANK_OFFSET);
-            }
-			//dvC341_WriteToBuffer(B145_WPDTCTCH1, 0x0c02);//120Hz
-		}
-		else
-		{
-            if(uiDTCT & WARPING_DISTORTION_CORRECTION_TABLE_B)   //A35G2_CDS_Simon_0034
-            {
-                dvC341_Write(B145_WPDTCTCH1, DTCT_BASE_ACCESS_DISABLE_32PIEXL_B, 0);
-                dvC341_Write(B145_WPDTCTCH1, DTCT_BASE_ACCESS_DISABLE_32PIEXL_B, CH_WPBANK_OFFSET);
-            }
-            else
-            {
-                dvC341_Write(B145_WPDTCTCH1, DTCT_BASE_ACCESS_DISABLE_32PIEXL_A, 0);
-                dvC341_Write(B145_WPDTCTCH1, DTCT_BASE_ACCESS_DISABLE_32PIEXL_A, CH_WPBANK_OFFSET);
-            }
-			//dvC341_WriteToBuffer(B145_WPDTCTCH1, 0x0802);//60Hz
-		}
-	}
-	else
-	{
-		if((m_e3dResId == RES_ID__1080P120) || (m_e3dResId == RES_ID__WUXGA120) || (m_e3dResId == RES_ID__WXGA120) || (m_e3dResId == RES_ID__WUXGA240))   //R70G2_Doulas_0004 Modify//G100_Doulas_0065
-		{
-            #ifdef DTCT_16PIEXL_ALWAYS_USE_TABLE_A
-            dvC341_Write(B145_WPDTCTCH1, DTCT_BASE_ACCESS_DISABLE_16PIEXL_B | DTCT_BASE_WPOUTMD_IMPROVEMENT, 0);
-            dvC341_Write(B145_WPDTCTCH1, DTCT_BASE_ACCESS_DISABLE_16PIEXL_B | DTCT_BASE_WPOUTMD_IMPROVEMENT, CH_WPBANK_OFFSET);
-            #else
-            if(uiDTCT & WARPING_DISTORTION_CORRECTION_TABLE_B)   //A35G2_CDS_Simon_0034
-            {
-                dvC341_Write(B145_WPDTCTCH1, DTCT_BASE_ACCESS_DISABLE_16PIEXL_B | DTCT_BASE_WPOUTMD_IMPROVEMENT, 0);
-                dvC341_Write(B145_WPDTCTCH1, DTCT_BASE_ACCESS_DISABLE_16PIEXL_B | DTCT_BASE_WPOUTMD_IMPROVEMENT, CH_WPBANK_OFFSET);
-            }
-            else
-            {
-                dvC341_Write(B145_WPDTCTCH1, DTCT_BASE_ACCESS_DISABLE_16PIEXL_A | DTCT_BASE_WPOUTMD_IMPROVEMENT, 0);
-                dvC341_Write(B145_WPDTCTCH1, DTCT_BASE_ACCESS_DISABLE_16PIEXL_A | DTCT_BASE_WPOUTMD_IMPROVEMENT, CH_WPBANK_OFFSET);
-            }
-            #endif
-			//dvC341_WriteToBuffer(B145_WPDTCTCH1, 0x0c00);//120Hz
-		}
-		else
-		{
-            #ifdef DTCT_16PIEXL_ALWAYS_USE_TABLE_A
-            dvC341_Write(B145_WPDTCTCH1, DTCT_BASE_ACCESS_DISABLE_16PIEXL_B, 0);
-            dvC341_Write(B145_WPDTCTCH1, DTCT_BASE_ACCESS_DISABLE_16PIEXL_B, CH_WPBANK_OFFSET);
-            #else
-            if(uiDTCT & WARPING_DISTORTION_CORRECTION_TABLE_B)   //A35G2_CDS_Simon_0034
-            {
-                dvC341_Write(B145_WPDTCTCH1, DTCT_BASE_ACCESS_DISABLE_16PIEXL_B, 0);
-                dvC341_Write(B145_WPDTCTCH1, DTCT_BASE_ACCESS_DISABLE_16PIEXL_B, CH_WPBANK_OFFSET);
-            }
-            else
-            {
-                dvC341_Write(B145_WPDTCTCH1, DTCT_BASE_ACCESS_DISABLE_16PIEXL_A, 0);
-                dvC341_Write(B145_WPDTCTCH1, DTCT_BASE_ACCESS_DISABLE_16PIEXL_A, CH_WPBANK_OFFSET);
-            }
-            #endif
-			//dvC341_WriteToBuffer(B145_WPDTCTCH1, 0x0800);//60Hz
-		}
-	}
-	//flush register data
-	dvC341_Buffer_Flush();
-
-	LOG_MSG(db_HAL_WARPING, "<< WriteWarpTable >> End\r\n");
-}
-#else
-{
-    message "WriteWarpTable is not available";
-}
-#endif
-
-}
 
 void WriteWarpLut(uint8 nHIdx, uint8 nVIdx)
 {
-#ifdef SCALER_C821_C789
-{
-    UINT8 aucBuffer[POLATION_NUMBER] = {0};
+	uint8 ii=0;
 
 	if (nHIdx > WARP_SHARPNESS_MAX)
 		nHIdx = WARP_SHARPNESS_MAX;
@@ -2126,53 +1703,16 @@ void WriteWarpLut(uint8 nHIdx, uint8 nVIdx)
 	if (nVIdx > WARP_SHARPNESS_MAX)
 		nVIdx = WARP_SHARPNESS_MAX;
 
-    memcpy(aucBuffer, &m_sPolationTable[nHIdx][0], POLATION_NUMBER);
-	dvC789_BurstWrite_AddInc(B6_HLUT0, POLATION_NUMBER, aucBuffer);
-    memcpy(aucBuffer, &m_sPolationTable[nVIdx][0], POLATION_NUMBER);
-	dvC789_BurstWrite_AddInc(B6_VLUT0, POLATION_NUMBER, aucBuffer);
+    for( ii = 0; ii < 24; ii++ ) {
+		dvC789_WriteToBuffer(B6_HLUT0+(ii<<8), LUT[nHIdx][ii]);// HLUT0-23
+	}
+	for( ii = 0; ii < 24; ii++ ) {
+		dvC789_WriteToBuffer(B6_VLUT0+(ii<<8), LUT[nVIdx][ii]);// VLUT0-23
+	}
+	//flush register data
+	dvC789_Buffer_Flush();
 
 	dvC789_AdaptiveScaleFilterLutEnable(FALSE);
-}
-#elif defined(SCALER_FPGA_F34)
-{
-    halWarping_SetWarp_ManualFilter(nHIdx, nVIdx);
-}
-#elif defined(SCALER_C341)
-{
-    UINT8 aucBuffer[POLATION_NUMBER] = {0};
-
-	if (nHIdx > WARP_SHARPNESS_MAX)
-		nHIdx = WARP_SHARPNESS_MAX;
-
-	if (nVIdx > WARP_SHARPNESS_MAX)
-		nVIdx = WARP_SHARPNESS_MAX;
-
-
-    for(UINT8 ch = eC341_CH1; ch < OUTPUT_CH_NUM; ch++)
-    {
-        if(ch == eC341_CH1)
-        {
-            memcpy(aucBuffer, &m_sPolationTable[nHIdx][0], POLATION_NUMBER);
-            dvC341_BurstWrite_AddInc(B146_WPHLUT0CH1, POLATION_NUMBER, aucBuffer);
-            memcpy(aucBuffer, &m_sPolationTable[nVIdx][0], POLATION_NUMBER);
-            dvC341_BurstWrite_AddInc(B146_WPVLUT0CH1, POLATION_NUMBER, aucBuffer);
-        }
-        else if(ch == eC341_CH2)
-        {
-            memcpy(aucBuffer, &m_sPolationTable[nHIdx][0], POLATION_NUMBER);
-            dvC341_BurstWrite_AddInc(B151_WPHLUT0CH2, POLATION_NUMBER, aucBuffer);
-            memcpy(aucBuffer, &m_sPolationTable[nVIdx][0], POLATION_NUMBER);
-            dvC341_BurstWrite_AddInc(B151_WPVLUT0CH2, POLATION_NUMBER, aucBuffer);
-        }
-    }
-
-	dvC341Geo_AdaptiveScaleFilterLutEnable(FALSE);
-}
-#else
-{
-    LOG_MSG(db_HAL_WARPING, "%s is not implemented !\r\n", __FUNCTION__);
-}
-#endif
 }
 
 uint8 CalcOsdWarpTable(void)
@@ -2268,8 +1808,6 @@ void CalcEgbBlackLevelGammaTable(uint8 color, uint8 plt, BOOL allplt, uint8 pnCo
 
 void WriteEgbBlackLevelGammaTable(uint8 color, uint8 plt, BOOL allplt)
 {
-#ifdef SCALER_C821_C789
-{
 	uint32 nRegVal = 0x0;
 	uint8 lv;
 	uint8 ad;
@@ -2316,75 +1854,9 @@ void WriteEgbBlackLevelGammaTable(uint8 color, uint8 plt, BOOL allplt)
 	nRegVal &= (~(acct << 1));
 	dvC789_Write(B7_EGBIASCT, nRegVal);
 }
-#elif defined(SCALER_C341)
-{
-	uint32 nRegVal = 0x0;
-	uint8 lv;
-	uint8 ad;
-	uint8 acct;
-	//color 0, 1, 2 = R, G, B
-	acct = ( color == 0 ) ? 0x1 :
-	       ( color == 1 ) ? 0x3 :
-	       ( color == 2 ) ? 0x5 :
-	       0x7;
-
-	for(eC341_CH eCH = eC341_CH1; eCH < OUTPUT_CH_NUM ; eCH++)
-	{
-    	nRegVal = dvC341Geo_Read(B147_WPEGBIASCTCH1, eCH);
-    	nRegVal &= ~(BIT1|BIT2|BIT3);    //H2PF_Simon_0109
-    	nRegVal |= (acct << 1);
-    	dvC341Geo_WriteToBuffer(B147_WPEGBIASCTCH1, nRegVal, eCH);
-
-    	if ( allplt == FALSE ) {
-    		ad = (plt < 16) ? (plt << 4) : 0;
-    		//EGBIASAD High nibble : table number (16), Low nibble : level bias (16)
-    		dvC341Geo_WriteToBuffer(B147_WPEGBIASADCH1, ad, eCH);
-
-    		if (color < 3) {
-    			for ( lv = 0; lv < 16; lv++ ) {
-    				dvC341Geo_WriteToBuffer( B147_WPEGBIASDTCH1, PM_EBIAS_GMDT[plt][color][lv], eCH);
-    			}
-    		}
-    		else {
-    			for ( lv = 0; lv < 16; lv++ ) {
-    				dvC341Geo_WriteToBuffer( B147_WPEGBIASDTCH1, PM_EBIAS_GMDT[plt][0][lv], eCH);
-    			}
-    		}
-    	}
-    	else {
-    		dvC341Geo_WriteToBuffer( B147_WPEGBIASADCH1, 0x00, eCH);
-
-    		for ( plt = 0; plt < 16; plt++ ) {
-    			if (color < 3) {
-    				for ( lv = 0; lv < 16; lv++ ) {
-    					dvC341Geo_WriteToBuffer( B147_WPEGBIASDTCH1, PM_EBIAS_GMDT[plt][color][lv], eCH);
-    				}
-    			}
-    			else {
-    				for ( lv = 0; lv < 16; lv++ ) {
-    					dvC341Geo_WriteToBuffer( B147_WPEGBIASDTCH1, PM_EBIAS_GMDT[plt][0][lv], eCH);
-    				}
-    			}
-    		}
-    	}
-    	dvC341Geo_Buffer_Flush();
-    	nRegVal &= (~(acct << 1));
-    	dvC341Geo_Write(B147_WPEGBIASCTCH1, nRegVal, eCH);
-    }
-
-}
-#else
-
-
-#endif
-}
 
 void WPLT( uint8 plt_sel, pos_t x, uint16 y )
-{
-#ifdef SCALER_C821_C789
-{
-
-// bias area file
+{// bias area file
 	uint32 nData = 0;
 	uint32 ad;
 	uint16 bbacthw;
@@ -2447,160 +1919,6 @@ void WPLT( uint8 plt_sel, pos_t x, uint16 y )
 		}
 	}
 }
-#elif defined(SCALER_C341)
-{
-
-// bias area file
-	uint32 nData = 0;
-	uint32 ad;
-	uint16 bbacthw;
-	uint8 fill;
-
-	if ( (x.st >= PS_PANEL_ACT_HW) || (x.end < 0) || (x.st >= x.end) ) { return; }
-
-	x.st = ( x.st < 0 ) ? 0 : x.st;
-	x.end = ( x.end >= PS_PANEL_ACT_HW ) ? PS_PANEL_ACT_HW - 1 : x.end;
-
-    //因為1個CPUDT，包含兩個 pixel 的 plt data (pixel0 + pixel1) (pixel2 + pixel3) ....
-    //所以如果 start 點在奇數點位置，先把原來的 data 讀回來，再合併要寫的 plt 到此 data 的 high half-byte
-	if ( (x.st & 0x01) == 1 )
-	{
-	    if(x.st < PS_PANEL_ACT_HW_1CH)
-	    {
-    		ad = DEF_WPEBIASSAD0 + ( x.st >> 1 ) + y * OSD_BIAS_MWI * EBIAS_LINEFEED_BASE;
-        }
-        else
-        {
-    		ad = DEF_WPEBIASSAD1 + ( (x.st - PS_PANEL_ACT_HW_1CH) >> 1 ) + y * OSD_BIAS_MWI * EBIAS_LINEFEED_BASE;
-        }
-
-		dvC341_WriteToBuffer(B4_CPURAD, ad, 0);
-		dvC341_WriteToBuffer(B4_CPUDTCTL, 0x01, 0);
-		dvC341_Buffer_Flush_Burst();
-		nData = dvC341_Read(B4_CPUDT, 0);
-		fill = (nData&0x0f) + ( plt_sel << 4 );
-		dvC341_WriteToBuffer(B4_CPUWAD, ad, 0);
-		dvC341_WriteToBuffer(B4_CPUDT, fill, 0);//Data write
-		//dvC341_Buffer_Flush_Burst();
-		x.st = x.st + 1;
-	}
-
-    //若 end  點在偶數位置，先把原來的 data 讀回來，再合併要寫的 plt 到此 data 的 low half-byte
-	if ( (x.st <= x.end) && ((x.end & 0x01) == 0) )
-	{
-		if(x.end < PS_PANEL_ACT_HW_1CH)
-	    {
-		    ad = DEF_WPEBIASSAD0 + ( x.end >> 1 ) + y * OSD_BIAS_MWI * EBIAS_LINEFEED_BASE;
-		}
-		else
-		{
-		    ad = DEF_WPEBIASSAD1 + ( (x.end - PS_PANEL_ACT_HW_1CH) >> 1 ) + y * OSD_BIAS_MWI * EBIAS_LINEFEED_BASE;
-		}
-
-		dvC341_WriteToBuffer(B4_CPURAD, ad, 0);
-		dvC341_WriteToBuffer(B4_CPUDTCTL, 0x01, 0);
-		dvC341_Buffer_Flush_Burst();
-		nData = dvC341_Read(B4_CPUDT, 0);
-		fill = (nData&0xf0) + plt_sel;
-		dvC341_WriteToBuffer(B4_CPUWAD, ad, 0);
-		dvC341_WriteToBuffer(B4_CPUDT, fill, 0);//Data write
-		//dvC341_Buffer_Flush_Burst();
-		if(x.end != 0)
-		{
-			x.end = x.end - 1;
-		}
-	}
-
-	if ( x.st <= x.end )
-	{
-	    //case 1 : 若 start 和 end 的位置，都在CH1 或是 都在CH2
-	    if(  (x.st <  PS_PANEL_ACT_HW_1CH && x.end <  PS_PANEL_ACT_HW_1CH) ||
-	         (x.st >= PS_PANEL_ACT_HW_1CH && x.end >= PS_PANEL_ACT_HW_1CH)
-	    )
-	    {
-	        if(x.st <  PS_PANEL_ACT_HW_1CH && x.end <  PS_PANEL_ACT_HW_1CH)
-	        {
-    		    ad = DEF_WPEBIASSAD0 + ( x.st >> 1 ) + y * OSD_BIAS_MWI * EBIAS_LINEFEED_BASE;
-    		}
-    		else
-    		{
-    		    ad = DEF_WPEBIASSAD1 + ( (x.st - PS_PANEL_ACT_HW_1CH) >> 1 ) + y * OSD_BIAS_MWI * EBIAS_LINEFEED_BASE;
-    		}
-
-    		bbacthw = (x.end >> 1) - (x.st >> 1);
-    		fill = (plt_sel<<4) + plt_sel;
-    		dvC341_WriteToBuffer(B4_CPUWAD, ad, 0);
-    		if ( bbacthw == 0 )
-    		{
-    			dvC341_WriteToBuffer(B4_BBACTHW, 0x00, 0);
-    			dvC341_WriteToBuffer(B4_CPUDT, fill, 0);//Data write
-    			dvC341_Buffer_Flush_Burst();
-    		}
-    		else
-    		{
-    			dvC341_WriteToBuffer(B4_OSDFILL, fill, 0);
-    			dvC341_WriteToBuffer(B4_BBACTHW, bbacthw, 0);
-    			dvC341_WriteToBuffer(B4_BBACTVW, 0x00, 0);
-    			dvC341_WriteToBuffer(B4_OSDCT, 0x01, 0);//FILL write
-    			dvC341_Buffer_Flush_Burst();
-    			do {nData = dvC341_Read(B4_BOSTAT, 0);}while(nData & 0x01);
-    			dvC341_Write(B4_OSDCT, 0x00, 0);
-    		}
-	    }
-	    //case2 : start點在CH1 , end點在CH2的狀況
-	    else if(x.st < PS_PANEL_ACT_HW_1CH && x.end >= PS_PANEL_ACT_HW_1CH)
-	    {
-	        //畫 CH1 的部分
-    		ad = DEF_WPEBIASSAD0 + ( x.st >> 1 ) + y * OSD_BIAS_MWI * EBIAS_LINEFEED_BASE;
-    		bbacthw = (PS_PANEL_ACT_HW_1CH - x.st) >> 1;
-    		fill = (plt_sel<<4) + plt_sel;
-    		dvC341_WriteToBuffer(B4_CPUWAD, ad, 0);
-    		if ( bbacthw == 0 )
-    		{
-    			dvC341_WriteToBuffer(B4_BBACTHW, 0, 0);
-    			dvC341_WriteToBuffer(B4_CPUDT, fill, 0);//Data write
-    			dvC341_Buffer_Flush_Burst();
-    		}
-    		else
-    		{
-    			dvC341_WriteToBuffer(B4_OSDFILL, fill, 0);
-    			dvC341_WriteToBuffer(B4_BBACTHW, bbacthw, 0);
-    			dvC341_WriteToBuffer(B4_BBACTVW, 0x00, 0);
-    			dvC341_WriteToBuffer(B4_OSDCT, 0x01, 0);//FILL write
-    			dvC341_Buffer_Flush_Burst();
-    			do {nData = dvC341_Read(B4_BOSTAT, 0);}while(nData & 0x01);
-    			dvC341_Write(B4_OSDCT, 0x00, 0);
-    		}
-
-	        //畫 CH2 的部分
-    		ad = DEF_WPEBIASSAD1 + 0 + y * OSD_BIAS_MWI * EBIAS_LINEFEED_BASE;  //一定從 x=0 開始畫
-    		bbacthw = (x.end - PS_PANEL_ACT_HW_1CH) >> 1 ;
-    		fill = (plt_sel<<4) + plt_sel;
-    		dvC341_WriteToBuffer(B4_CPUWAD, ad, 0);
-    		if ( bbacthw == 0 )
-    		{
-    			dvC341_WriteToBuffer(B4_BBACTHW, 0, 0);
-    			dvC341_WriteToBuffer(B4_CPUDT, fill, 0);//Data write
-    			dvC341_Buffer_Flush_Burst();
-    		}
-    		else
-    		{
-    			dvC341_WriteToBuffer(B4_OSDFILL, fill, 0);
-    			dvC341_WriteToBuffer(B4_BBACTHW, bbacthw, 0);
-    			dvC341_WriteToBuffer(B4_BBACTVW, 0x00, 0);
-    			dvC341_WriteToBuffer(B4_OSDCT, 0x01, 0);//FILL write
-    			dvC341_Buffer_Flush_Burst();
-    			do {nData = dvC341_Read(B4_BOSTAT, 0);}while(nData & 0x01);
-    			dvC341_Write(B4_OSDCT, 0x00, 0);
-    		}
-        }
-	}
-}
-#else
-
-
-#endif
-}
 
 //串列建立函數
 Node* CreateList(PointT *pnArr, uint8 nLen)
@@ -2636,16 +1954,16 @@ void PrintList(Node *pFirst)
 
 	if(pFirst==NULL)
 	{
-		LOG_MSG(db_HAL_WARPING,"List is empty!\n");
+		LOG_MSG(db_ALWAYS,"List is empty!\n");
 	}
 	else
 	{
 		while(pFirst!=NULL)
 		{
-			LOG_MSG(db_HAL_WARPING,"X,Y = %d, %d \t", pFirst->stPos.x, pFirst->stPos.y);
+			LOG_MSG(db_ALWAYS,"X,Y = %d, %d \t", pFirst->stPos.x, pFirst->stPos.y);
 			pFirst=pFirst->pNext;
 		}
-		LOG_MSG(db_HAL_WARPING,"\r\n");
+		LOG_MSG(db_ALWAYS,"\r\n");
 	}
 }
 
@@ -2816,7 +2134,7 @@ Node* GetNodeByDirection(eDIR eDir, uint8 nCnt)
 	Node* pnSearchNode[BLACKLEVEL_SEARCH_LEVEL][nCnt];
 
 	pTempFirstNode = m_pFirstNode[m_eAreaSelection];
-	if(utilWarp_GetOsdPatternType() == PAT_TYPE__BLACKLEVEL_ADD_POINT)
+	if(m_ePatternType == PAT_TYPE__BLACKLEVEL_ADD_POINT)
 	{
 		pTempEndNode = GetNextNode(m_pFirstNode[m_eAreaSelection], m_pnCurrentNode[m_eAreaSelection]);
 		nX = (m_pnCurrentNode[m_eAreaSelection]->stPos.x + pTempEndNode->stPos.x)/2;  //x of current point, current line = (current point x + next point of current point x) /2
@@ -2830,7 +2148,7 @@ Node* GetNodeByDirection(eDIR eDir, uint8 nCnt)
 	for(i=0;i<nCnt;i++)
 	{
 		//Current node as center and search in range of +-45 degree in each direction
-		if(utilWarp_GetOsdPatternType() == PAT_TYPE__BLACKLEVEL_ADD_POINT)
+		if(m_ePatternType == PAT_TYPE__BLACKLEVEL_ADD_POINT)
 		{
 			pTempEndNode = GetNextNode(m_pFirstNode[m_eAreaSelection], pTempFirstNode);
 			nSx= (pTempFirstNode->stPos.x + pTempEndNode->stPos.x)/2;
@@ -2906,7 +2224,7 @@ Node* GetNodeByDirection(eDIR eDir, uint8 nCnt)
 	{
 		if(nIndex[j] != 0)
 		{
-			if(utilWarp_GetOsdPatternType() == PAT_TYPE__BLACKLEVEL_ADD_POINT)
+			if(m_ePatternType == PAT_TYPE__BLACKLEVEL_ADD_POINT)
 			{
 				pTempEndNode = GetNextNode(m_pFirstNode[m_eAreaSelection], pnSearchNode[j][0]);
 				nSx= (pnSearchNode[j][0]->stPos.x + pTempEndNode->stPos.x)/2;
@@ -2922,7 +2240,7 @@ Node* GetNodeByDirection(eDIR eDir, uint8 nCnt)
 			pTargetNode = pnSearchNode[j][0];
 			for(i = 0; i< nIndex[j] ; i++)
 			{
-				if(utilWarp_GetOsdPatternType() == PAT_TYPE__BLACKLEVEL_ADD_POINT)
+				if(m_ePatternType == PAT_TYPE__BLACKLEVEL_ADD_POINT)
 				{
 					pTempEndNode = GetNextNode(m_pFirstNode[m_eAreaSelection], pnSearchNode[j][i]);
 					nSx= (pnSearchNode[j][i]->stPos.x + pTempEndNode->stPos.x)/2;
@@ -3285,8 +2603,6 @@ void CheckPointAndDraw(uint8 nPaletteSelect, uint16 nY, PointT pArray[], uint8 n
 
 void ClearBlackLevelArea(void)
 {
-#ifdef SCALER_C821_C789
-{
 	uint32 nData = 0;
 	uint32 ad;
 
@@ -3304,36 +2620,6 @@ void ClearBlackLevelArea(void)
 	dvC789_WriteToBuffer(B0_BBWMWI, m_nLineFeed);
 	dvC789_Buffer_Flush();
 }
-#elif defined(SCALER_C341)
-{
-	uint32 nData = 0;
-	uint32 ad;
-
-	dvC341_WriteToBuffer(B4_BBWMWI, 1024/128 /*(2048 / 2) / EBIAS_LINEFEED_BASE*/, 0);
-	//ad = OSD_BIAS_ADDR;
-	dvC341_WriteToBuffer(B4_CPUWAD, DEF_WPEBIASSAD0, 0);
-	dvC341_WriteToBuffer(B4_OSDFILL, 0x00, 0);
-	dvC341_WriteToBuffer(B4_BBACTHW, 1024 - 1, 0);
-	dvC341_WriteToBuffer(B4_BBACTVW, PS_PANEL_ACT_VW - 1, 0);
-	dvC341_WriteToBuffer(B4_OSDCT, 0x01, 0);//FILL write
-	dvC341_Buffer_Flush();
-
-	do {nData = dvC341_Read(B4_BOSTAT, 0);}while(nData & 0x01);
-
-    //for CH2
-	dvC341_WriteToBuffer(B4_CPUWAD, DEF_WPEBIASSAD1, 0);
-	dvC341_WriteToBuffer(B4_OSDCT, 0x01, 0);//FILL write
-	do {nData = dvC341_Read(B4_BOSTAT, 0);}while(nData & 0x01);
-
-	dvC341_WriteToBuffer(B4_OSDCT, 0x00, 0);
-	dvC341_WriteToBuffer(B4_BBWMWI, m_nLineFeed, 0);
-	dvC341_Buffer_Flush();
-}
-#else
-
-#endif
-
-}
 
 void WriteBlackLevelArea(void)
 {
@@ -3343,7 +2629,7 @@ void WriteBlackLevelArea(void)
 	uint8 nPaletteSelect = 0;
 	YBoundary nPt;
 
-	//ClearBlackLevelArea();
+	ClearBlackLevelArea();
 
 	for(k=0; k<BLACKLEVEL_AREA__NUM; k++)
 	{
@@ -3353,12 +2639,6 @@ void WriteBlackLevelArea(void)
 			ConvertLinkListToArray(m_pFirstNode[k]);
 			Convert2dTo3d();
 			nPt = FindYBoundary(m_pFirstNode[k]);
-
-        	if (m_bOutputNativeRes == FALSE)   //H2PF_Simon_0117
-        	{
-        		nPt.nYMin = (uint16)(nPt.nYMin * m_f3dResRatioY);
-        		nPt.nYMax = (uint16)(nPt.nYMax * m_f3dResRatioY);
-        	}
 
 			//SCAN Y direction
 			for(i = nPt.nYMin; i< nPt.nYMax; i++)
@@ -3389,8 +2669,6 @@ void WriteBlackLevelArea(void)
 
 void ApplyBlackLevel(eAPPLY_BLACKLEVEL eFlag)
 {
-#ifdef SCALER_C821_C789
-{
 	if((eFlag==APPLY_BLACKLEVEL__DISABLE) || (m_stWarpConfig.eWarpCtrl == WARP_CTRL__BASIC))//A65_OPTOMA_CL_0013
 	{
 		dvC789_Write(B7_EGBIASCT, 0x0050);
@@ -3417,11 +2695,9 @@ void ApplyBlackLevel(eAPPLY_BLACKLEVEL eFlag)
 			m_bRewriteOsdBlackLevelArea = FALSE;
 		}
 	}
-	else if((m_stWarpConfig.eWarpCtrl == WARP_CTRL__AP) && (utilWarp_GetOsdPatternType() == PAT_TYPE__OFF))  //A65_OPTOMA_CL_0010
+	else if((m_stWarpConfig.eWarpCtrl == WARP_CTRL__AP) && (m_ePatternType == PAT_TYPE__OFF))  //A65_OPTOMA_CL_0010
 	{
-	#if defined(CUSTOM_CHRISTIE) || defined(CUSTOM_FUJI) //A35G2_CDS_CL_0002
-
-	#else
+	#ifndef CUSTOM_CHRISTIE  //A35G2_CDS_CL_0002
             if(halWarping_TwistLinkFlag_Get() == FALSE)//A65_OPTOMA_CL_0016
             {
                 LOG_MSG(db_HAL_WARPING, "%s, Warp control = %d\r\n", __FUNCTION__, m_stWarpConfig.eWarpCtrl);
@@ -3429,57 +2705,6 @@ void ApplyBlackLevel(eAPPLY_BLACKLEVEL eFlag)
             }
 	#endif
 	}
-}
-#elif defined(SCALER_C341)
-{
-	if((eFlag==APPLY_BLACKLEVEL__DISABLE) || (m_stWarpConfig.eWarpCtrl == WARP_CTRL__BASIC))//A65_OPTOMA_CL_0013
-	{
-		dvC341_Write(B147_WPEGBIASCTCH1, 0x0050, 0);
-		dvC341_Write(B147_WPEGBIASCTCH1, 0x0050, CH_WPBANK_OFFSET);
-		//LOG_MSG(db_ALWAYS, "ApplyBlackLevel disabled = %d\r\n", m_bBlackLevelOn);
-	}
-	else if(m_stWarpConfig.eWarpCtrl == WARP_CTRL__ADVANCED)
-	{
-		if ((m_stWarpConfig.stOsd.stBlackLevel.bEnable[BLACKLEVEL_AREA__BOTTOM] == FALSE &&  //A65_OPTOMA_CL_0013
-			m_stWarpConfig.stOsd.stBlackLevel.bEnable[BLACKLEVEL_AREA__TOP] == FALSE))
-		{
-			dvC341_Write(B147_WPEGBIASCTCH1, 0x0050, 0);
-			dvC341_Write(B147_WPEGBIASCTCH1, 0x0050, CH_WPBANK_OFFSET);
-		}
-		else if(eFlag == APPLY_BLACKLEVEL__ENABLE)
-		{
-			dvC341_Write(B147_WPEGBIASCTCH1, 0x0051, 0);
-			dvC341_Write(B147_WPEGBIASCTCH1, 0x0051, CH_WPBANK_OFFSET);
-		}
-		else if(eFlag == APPLY_BLACKLEVEL__BY_CONFIG || eFlag == APPLY_BLACKLEVEL__WITHOSD)
-		{
-			WriteEgbBlackLevelGammaTable(0, 0, TRUE);
-			WriteEgbBlackLevelGammaTable(1, 0, TRUE);
-			WriteEgbBlackLevelGammaTable(2, 0, TRUE);
-            ClearBlackLevelArea();
-            dvC341_Write(B147_WPEGBIASCTCH1, 0x0051, 0);
-			dvC341_Write(B147_WPEGBIASCTCH1, 0x0051, CH_WPBANK_OFFSET);
-			WriteBlackLevelArea();
-			m_bRewriteOsdBlackLevelArea = FALSE;
-		}
-	}
-	else if((m_stWarpConfig.eWarpCtrl == WARP_CTRL__AP) && (utilWarp_GetOsdPatternType() == PAT_TYPE__OFF))  //A65_OPTOMA_CL_0010
-	{
-	#if defined(CUSTOM_CHRISTIE) || defined(CUSTOM_FUJI) //A35G2_CDS_CL_0002
-
-	#else
-            if(halWarping_TwistLinkFlag_Get() == FALSE)//A65_OPTOMA_CL_0016
-            {
-                LOG_MSG(db_HAL_WARPING, "%s, Warp control = %d\r\n", __FUNCTION__, m_stWarpConfig.eWarpCtrl);
-                m_bApBlacklevelApply = TRUE;
-            }
-	#endif
-	}
-}
-#else
-
-
-#endif
 }
 
 void UpdateBlackLevelNode(OSD_BlackLevel *pstBlackLevelFlash)
@@ -3654,10 +2879,6 @@ void WriteColorReg(UINT16 WritePaletteIdx , eCOLOR_IDX eColor)
 	{
 	    LOG_MSG(db_HAL_WARPING, "(func:%s,line:%d)Error PLT index %d, eColor %d\n", __FUNCTION__, __LINE__, WritePaletteIdx, eColor);
 	}
-
-#ifdef SIMULATOR_ISCALER
-    dvC341_WarpingDeomOSD_Palette_Set(WritePaletteIdx, PLTData);
-#endif /* SIMULATOR_ISCALER */
 }
 
 
@@ -3706,12 +2927,7 @@ void InitOsdPatternColor(void)
 	WriteColorReg(16, COLOR_IDX__BLACK_BKG);
 	WriteColorReg(17, COLOR_IDX__GREY192);  //H2PF_Simon_0037
 	WriteColorReg(m_stUserDefineOsdPalette.ucPaletteIndex, COLOR_IDX__USER_DEFINE);
-
-	#ifdef SCALER_C821_C789
 	dvC789_Buffer_Flush();
-	#elif defined(SCALER_C341)
-	dvC341_Buffer_Flush();
-	#endif
 }
 
 void InitOsdBlinkColor(void)
@@ -3733,15 +2949,7 @@ void InitOsdBlinkColor(void)
 	//Color2 of Blink2 Address(idx=257) for black level  //A65_OPTOMA_Doulas_0020
 	WriteColorReg(257, m_eBlackLevelCursorColor);
 
-    #ifdef SCALER_C821_C789
-    {
-	    dvC789_Buffer_Flush();
-	}
-	#elif defined(SCALER_C341)
-	{
-	    dvC341_Buffer_Flush();
-	}
-	#endif
+	dvC789_Buffer_Flush();
 }
 
 void InitOsdTransparentColor(void)
@@ -3821,50 +3029,19 @@ void InitControlPoint(void)
 	return;
 }
 
-static void OSD_Memory_Protect( INT8 cEnable, UINT32 ulReg_mproc )
-{
-    UINT32 ulMemProtecth;
-
-    ulMemProtecth = ( cEnable == 1 ) ? ulReg_mproc | 0x8000 : ulReg_mproc & 0x7fff;
-
-    dvC341_Write( B4_MPROTECT, ulMemProtecth & 0xffff, 0 );
-}
-
 void InitOsdChar(void)
 {
 	uint32 ii;
 
-    #ifdef SCALER_C821_C789
-    {
-    	//Set the write address
-    	dvC789_WriteToBuffer(B0_CPUWAD, OSD_FONT_ADDR);
-    	for (ii = 0; ii < m_nCharDataSize; ii++) {
-    		dvC789_WriteToBuffer(B0_CPUDT, m_pnCharData[ii]);
-    	}
-
-    	//Font size 64x64 mode enable
-    	dvC789_WriteToBuffer(B0_CBUFMD, 0x40);
-    	dvC789_Buffer_Flush();
+	//Set the write address
+	dvC789_WriteToBuffer(B0_CPUWAD, OSD_FONT_ADDR);
+	for (ii = 0; ii < m_nCharDataSize; ii++) {
+		dvC789_WriteToBuffer(B0_CPUDT, m_pnCharData[ii]);
 	}
-	#elif defined(SCALER_C341)
-	{
-        OSD_Memory_Protect( 0, DEF_MPROTECT_4K );
-    	//Set the write address
-    	dvC341_WriteToBuffer(B4_CPUWAD, DEF_GEO_FONTAD_4K, 0);
-    	for (ii = 0; ii < m_nCharDataSize; ii++) {
-    		dvC341_WriteToBuffer(B4_CPUDT, m_pnCharData[ii], 0);
-    	}
-        OSD_Memory_Protect( 1, DEF_MPROTECT_4K );
 
-    	//Font size 64x64 mode enable
-    	//dvC341_WriteToBuffer(B4_CBUFMD, 0x40, 0);   //C341 wait review first
-    	dvC341_Buffer_Flush();
-	}
-	#endif
-
-#ifdef SIMULATOR_ISCALER
-    dvC341_WarpingDeomOSDInit(sizeof(m_pnCharData), &m_pnCharData[0], sizeof(m_pnCharWidth), &m_pnCharWidth[0]);
-#endif /* SIMULATOR_ISCALER */
+	//Font size 64x64 mode enable
+	dvC789_WriteToBuffer(B0_CBUFMD, 0x40);
+	dvC789_Buffer_Flush();
 }
 
 void InitOutputTimingParam(void)
@@ -3877,15 +3054,14 @@ void InitOutputTimingParam(void)
 	PS_PANEL_VS_W = m_ModeTable[m_eCurrentResId].nVSyncWidth;
 	PS_PANEL_ACT_HST = m_ModeTable[m_eCurrentResId].nHStart;
 	PS_PANEL_ACT_HW = m_ModeTable[m_eCurrentResId].nHActive;
-	PS_PANEL_ACT_HW_1CH = PS_PANEL_ACT_HW/OUTPUT_CH_NUM;
 	PS_PANEL_ACT_VST = m_ModeTable[m_eCurrentResId].nVStart;
 	PS_PANEL_ACT_VW = m_ModeTable[m_eCurrentResId].nVActive;
 	PS_PANEL_FV = m_ModeTable[m_eCurrentResId].nFrameRate;
 
-	PS_WP_HW_GRD = ((PS_PANEL_ACT_HW%Def_Wp_Space)==0) ? PS_PANEL_ACT_HW/Def_Wp_Space : PS_PANEL_ACT_HW/Def_Wp_Space+1;
-	PS_WP_VW_GRD = ((PS_PANEL_ACT_VW%Def_Wp_Space)==0) ? PS_PANEL_ACT_VW/Def_Wp_Space : PS_PANEL_ACT_VW/Def_Wp_Space+1;
+	PS_WP_HW_GRD = ((PS_PANEL_ACT_HW%16)==0) ? PS_PANEL_ACT_HW/16 : PS_PANEL_ACT_HW/16+1;
+	PS_WP_VW_GRD = ((PS_PANEL_ACT_VW%16)==0) ? PS_PANEL_ACT_VW/16 : PS_PANEL_ACT_VW/16+1;
 
-	m_nLineFeed = DEF_OSD_PANEL_WIDTH / 128;
+	m_nLineFeed = PS_PANEL_ACT_HW/128;
 
 	m_fResRatioX = PS_PANEL_ACT_HW/(float)m_nNativeResH;  //G100_Doulas_0065
 	m_fResRatioY = PS_PANEL_ACT_VW/(float)m_nNativeResV;
@@ -3895,12 +3071,10 @@ void InitOutputTimingParam(void)
 		case RES_ID__XGA:
 		case RES_ID__XGA120:
 			m_nPointSize = 11;
-            m_OSD_DoubleSize = false;
 			break;
 		case RES_ID__WXGA:
 		case RES_ID__720P120:
 			m_nPointSize = 15;
-            m_OSD_DoubleSize = false;
 			break;
 		default:
 		case RES_ID__UWHD:
@@ -3910,16 +3084,7 @@ void InitOutputTimingParam(void)
 		case RES_ID__1080P120:	//G100_Doulas_0027
 		case RES_ID__WUXGA120:  //G100_Doulas_0063
 		case RES_ID__WXGA120:	//R70G2_Doulas_0004
-		case RES_ID__1080P240:
-		case RES_ID__WUXGA240:
 			m_nPointSize = 21;
-            m_OSD_DoubleSize = false;
-			break;
-
-		case RES_ID__UHD60:     //3840x2160
-		case RES_ID__WQUXGA60:  //3840x2400
-			m_nPointSize = 41;
-            m_OSD_DoubleSize = true;
 			break;
 	}
 	m_nBlackLevelPointSize = 11;  //for blacklevel pattern only //A65_OPTOMA_Doulas_0020
@@ -3939,23 +3104,12 @@ void SetOutputTiming(eRES_ID eCurrentResId)    //A65_OPTOMA_Doulas_0020
 	InitOutputTimingParam();
 
 	//Line Feed
-    #ifdef SCALER_C821_C789
 	dvC789_WriteToBuffer(B1_OSDMWI, m_nLineFeed);
 	dvC789_WriteToBuffer(B0_BBWMWI, m_nLineFeed);
 	dvC789_WriteToBuffer(B1_OSDACTHW, PS_PANEL_ACT_HW);    //A65_OPTOMA_Simon_0003
 	dvC789_WriteToBuffer(B1_OSDACTVW, PS_PANEL_ACT_VW);    //A65_OPTOMA_Simon_0003
     dvC789_OSDACTStartConfig(0);  //A65_OPTOMA_Simon_0003
 	dvC789_Buffer_Flush();
-	#elif defined(SCALER_C341)
-	dvC341_WriteToBuffer(B9_OSDMWI1CH1, m_nLineFeed, 0);
-	dvC341_WriteToBuffer(B4_BBWMWI, m_nLineFeed, 0);
-	dvC341_WriteToBuffer(B9_OSDACTHW1CH1, PS_PANEL_ACT_HW_1CH, 0);    //A65_OPTOMA_Simon_0003
-	dvC341_WriteToBuffer(B9_OSDACTVW1CH1, PS_PANEL_ACT_VW, 0);    //A65_OPTOMA_Simon_0003
-    dvC341Geo_OSDACTStartConfig(0);  //C341 wait review first
-	dvC341_Buffer_Flush();
-	#else
-
-	#endif
 }
 
 void OsdBlackLevel_ResetConfig(eBLACKLEVEL_AREA eAreaSelect)  //A65_OPTOMA_Doulas_0020
@@ -4012,7 +3166,7 @@ void ResetWarpConfig(void)   //A65_OPTOMA_Doulas_0020
 	m_stWarpConfig.stOsd.nWarpSharpness = WARP_SHARPNESS_DEFAULT;
 	m_stWarpConfig.stOsd.nOverlapGridNum = OVERLAP_GRID_NUM_DEFAULT;
 	m_stWarpConfig.stOsd.nBlendGamma = BLEND_GAMMA_DEFAULT;
-	#if defined(CUSTOM_BARCO) || defined(CUSTOM_OPTOMA)      //H2PF_Simon_0167
+	#ifdef CUSTOM_CHRISTIE
 	m_stWarpConfig.stOsd.bWarpLimit = TRUE;
 	#else
 	m_stWarpConfig.stOsd.bWarpLimit = FALSE;   //optoma no limit    //A35G2_Simon_0087
@@ -4117,7 +3271,6 @@ uint8 SaveWarpConfig(void)
 	//construct data
 	memcpy(&(stWrite.pnHeader), m_pnHeader, sizeof(m_pnHeader));
 	memcpy(&(stWrite.stWarpConfig), &m_stWarpConfig, sizeof(WARP_CONFIG));
-    stWrite.stWarpConfig.stOsd.bWarpLimit = TRUE;  //force enable Warp Limit   //H2PF_Simon_0168
 	stWrite.nChecksum = CalcChecksum((uint8*)(&stWrite), sizeof(WARP_CONFIG_FLASH)-sizeof(stWrite.nChecksum));
 	ucResult = utilWarp_ADVCurrentWarpSaveFile(&stWrite,nDataSize);
 	if(ucResult != FLASH_ACCESS__PASS)
@@ -4237,7 +3390,6 @@ uint8 LoadWarpConfig(void)
 
 	//restore warp config
 	memcpy(&m_stWarpConfig, &(stRead.stWarpConfig), sizeof(WARP_CONFIG));
-    m_stWarpConfig.stOsd.bWarpLimit = TRUE;  //force enable Warp Limit   //H2PF_Simon_0168
 
 	/*utilWarp_ADVCurrentWarpReloadFile(&stRead2);
 	if(memcmp(&stRead,&stRead,nDataSize) == 0)
@@ -4414,8 +3566,7 @@ void ApplyWarp(eAPPLY_WARP eFlag)
 {
     LOG_MSG(db_HAL_WARPING, "ApplyWarp (%d %d)\r\n\r\n", eFlag, m_stWarpConfig.eWarpCtrl);
 
-	halWarping_TransferCtrl_Through(); //A35G2_BRC_Casper_0046 //A35G2_BRC_Casper_0051
-
+	dvC789_WriteToBuffer(BN_RTCT, RTCT_THRU); //A35G2_BRC_Casper_0046 //A35G2_BRC_Casper_0051
 	switch(m_stWarpConfig.eWarpCtrl)
 	{
 		default:
@@ -4524,147 +3675,55 @@ eCOLOR_IDX DrawOsdRect_BackgroundColorIndexGet(void)
 
 void DrawOsdRect(eOSD_LAYER_TYPE eOsdLayerType, uint16 nHStart, uint16 nVStart, uint16 nWidth, uint16 nHeight, eCOLOR_IDX eColor)
 {
-#ifdef SCALER_C821_C789
-    {
-    	uint32 nOsdAddr = 0;
-    	uint32 nOsdAddrStart = 0;
-    	uint32 nStatus = 0;
-    	uint16 nRetry = 500;
-    	if(nWidth==0 || nHeight==0)
-    		return;
+	uint32 nOsdAddr = 0;
+	uint32 nOsdAddrStart = 0;
+	uint32 nStatus = 0;
+	uint16 nRetry = 500;
+	if(nWidth==0 || nHeight==0)
+		return;
 
-    	//draw size
-    	dvC789_WriteToBuffer(B0_BBACTHW, nWidth-1);	//Fill width is nWidth-1
-    	dvC789_WriteToBuffer(B0_BBACTVW, nHeight-1); 	//Fill height is nHeight-1
+	//draw size
+	dvC789_WriteToBuffer(B0_BBACTHW, nWidth-1);	//Fill width is nWidth-1
+	dvC789_WriteToBuffer(B0_BBACTVW, nHeight-1); 	//Fill height is nHeight-1
 
-    	//osd addr
-    	if(eOsdLayerType == OSD_LAYER_TYPE__TEMP)
-    		nOsdAddrStart = OSD_TEMP_ADDR;
-    	else if(eOsdLayerType == OSD_LAYER_TYPE__MAIN)
-    		nOsdAddrStart = m_OsdAddrLayerCurrent;
-    	else
-    		nOsdAddrStart = (m_OsdAddrLayerCurrent==m_OsdAddrLayer0) ? m_OsdAddrLayer1 : m_OsdAddrLayer0;
+	//osd addr
+	if(eOsdLayerType == OSD_LAYER_TYPE__TEMP)
+		nOsdAddrStart = OSD_TEMP_ADDR;
+	else if(eOsdLayerType == OSD_LAYER_TYPE__MAIN)
+		nOsdAddrStart = m_OsdAddrLayerCurrent;
+	else
+		nOsdAddrStart = (m_OsdAddrLayerCurrent==m_OsdAddrLayer0) ? m_OsdAddrLayer1 : m_OsdAddrLayer0;
 
-    	nOsdAddr = nOsdAddrStart+nVStart*PS_PANEL_ACT_HW+nHStart;
-    	dvC789_WriteToBuffer(B0_CPUWAD, nOsdAddr);
+	nOsdAddr = nOsdAddrStart+nVStart*PS_PANEL_ACT_HW+nHStart;
+	dvC789_WriteToBuffer(B0_CPUWAD, nOsdAddr);
 
-    	//file color
-    	dvC789_WriteToBuffer(B0_OSDFILL, eColor);
+	//file color
+	dvC789_WriteToBuffer(B0_OSDFILL, eColor);
 
-    	//exec OSDFILL
-    	dvC789_WriteToBuffer(B0_OSDCT, 0x01);
-    	dvC789_Buffer_Flush();
+	//exec OSDFILL
+	dvC789_WriteToBuffer(B0_OSDCT, 0x01);
+	dvC789_Buffer_Flush();
 
-    	while(TRUE)
-    	{
-    		nStatus = dvC789_Read(B0_BOSTAT);
-    		if((nStatus&BIT0) && (nRetry>=0))
-    		{
-    			MS_SLEEP(1);
-    			nRetry--;
-    			if(nRetry==0)
-    			{
-    				LOG_MSG(db_HAL_WARPING, "DrawOsdRect() timeout, B0_BOSTAT=%02X\r\n", (unsigned int)nStatus);
-    				break;
-    			}
-    			else
-    				continue;
-    		}
-    		else
-    			break;
-    	}
+	while(TRUE)
+	{
+		nStatus = dvC789_Read(B0_BOSTAT);
+		if((nStatus&BIT0) && (nRetry>=0))
+		{
+			MS_SLEEP(1);
+			nRetry--;
+			if(nRetry==0)
+			{
+				LOG_MSG(db_HAL_WARPING, "DrawOsdRect() timeout, B0_BOSTAT=%02X\r\n", (unsigned int)nStatus);
+				break;
+			}
+			else
+				continue;
+		}
+		else
+			break;
+	}
 
-    	dvC789_Write(B0_OSDCT, 0x00);
-    }
-
-#elif defined(SCALER_C341)
-
-    {
-    	uint32 nOsdAddr = 0;
-    	uint32 nOsdAddrStart = 0;
-    	uint32 nStatus = 0;
-    	uint16 nRetry = 500;
-        uint8  ucFastWrite = 0;
-    	if(nWidth==0 || nHeight==0)
-    		return;
-
-        //printf("DrawOsdRect %d (%d %d) (%d %d) %d\r\n", eOsdLayerType, nHStart, nVStart, nWidth, nHeight, eColor);
-
-        //if OSD 2X
-        if(m_OSD_DoubleSize == TRUE)
-        {
-            nHStart = nHStart / 2;
-            nVStart = nVStart / 2;
-            nWidth  = (nWidth  + 1) / 2 ;
-            nHeight = (nHeight + 1) / 2 ;
-        }
-
-#ifdef OSDCT_FASTEN_ON
-        if (nWidth >= OSDCT_FASTEN_TRANSFER_UNIT &&
-            nWidth % OSDCT_FASTEN_TRANSFER_UNIT == 0 &&
-            nHStart % OSDCT_FASTEN_TRANSFER_UNIT == 0)
-        {
-            nWidth = nWidth / OSDCT_FASTEN_TRANSFER_UNIT;
-            ucFastWrite = 1;
-        }
-#endif
-    	//draw size
-    	dvC341_WriteToBuffer(B4_BBWMWI,  m_nLineFeed, 0);
-    	dvC341_WriteToBuffer(B4_BBACTHW, nWidth-1, 0);	//Fill width is nWidth-1
-    	dvC341_WriteToBuffer(B4_BBACTVW, nHeight-1, 0); 	//Fill height is nHeight-1
-
-    	//osd addr
-    	if(eOsdLayerType == OSD_LAYER_TYPE__TEMP)
-    		nOsdAddrStart = OSD_TEMP_ADDR;
-    	else if(eOsdLayerType == OSD_LAYER_TYPE__MAIN)
-    		nOsdAddrStart = m_OsdAddrLayerCurrent;
-    	else
-    		nOsdAddrStart = (m_OsdAddrLayerCurrent==m_OsdAddrLayer0) ? m_OsdAddrLayer1 : m_OsdAddrLayer0;
-
-    	nOsdAddr = nOsdAddrStart+nVStart*DEF_OSD_PANEL_WIDTH+nHStart;
-    	dvC341_WriteToBuffer(B4_CPUWAD, nOsdAddr, 0);
-
-    	//file color
-    	dvC341_WriteToBuffer(B4_OSDFILL, eColor, 0);
-
-    	//exec OSDFILL
-    	if(ucFastWrite)
-        {
-            //Fast mode
-            dvC341_WriteToBuffer(B4_OSDCT, 0x11, 0);
-        }
-        else
-        {
-    	    dvC341_WriteToBuffer(B4_OSDCT, 0x01, 0);
-        }
-    	dvC341_Buffer_Flush();
-
-    	while(TRUE)
-    	{
-    		nStatus = dvC341_Read(B4_BOSTAT, 0);
-    		if((nStatus&BIT0) && (nRetry>=0))
-    		{
-    			MS_SLEEP(1);
-    			nRetry--;
-    			if(nRetry==0)
-    			{
-    				LOG_MSG(db_HAL_WARPING, "DrawOsdRect() timeout, B0_BOSTAT=%02X\r\n", (unsigned int)nStatus);
-    				break;
-    			}
-    			else
-    				continue;
-    		}
-    		else
-    			break;
-    	}
-
-    	dvC341_Write(B4_OSDCT, 0x00, 0);
-    }
-
-#endif
-#ifdef SIMULATOR_ISCALER
-    dvC341_WarpingDeomOSDRectangle(nHStart, nVStart, nWidth, nHeight, (uint16)eColor);
-#endif /* SIMULATOR_ISCALER */
+	dvC789_Write(B0_OSDCT, 0x00);
 }
 
 void DrawOsdRectBorder(uint16 nHStart, uint16 nVStart, uint16 nWidth, uint16 nHeight, eCOLOR_IDX eColor, uint8 nLineWidth)  //H2PF_Simon_0037
@@ -4688,7 +3747,6 @@ uint16 PreparedOsdString(uint8* pStr, uint8 nCharNum, uint8 nFixedCharLen, eCOLO
 	uint16 nOsdStrLen = 0;
 	uint8 nCharLen = 0;
 
-#ifdef SCALER_C821_C789
 	//set "Line attribute buffer"
 	dvC789_WriteToBuffer(B0_CBUFAD, 0x0A00+nLineIdx);
 	//Character height and double size flag
@@ -4721,53 +3779,8 @@ uint16 PreparedOsdString(uint8* pStr, uint8 nCharNum, uint8 nFixedCharLen, eCOLO
 	}
 	dvC789_Buffer_Flush();
 
-#elif defined(SCALER_C341)
-	//set "Line attribute buffer"
-	dvC341_WriteToBuffer(B4_CBUFAD, 0x0A00+nLineIdx, 0);
-	//Character height and double size flag
-	dvC341_WriteToBuffer(B4_CBUFDT, nDoubleSizeFlag+0x3F, 0);
-
-	//character buffer is 32 characters x 16 lines
-	//character attribute is 5 bytes
-	dvC341_WriteToBuffer(B4_CBUFAD, nLineIdx*32*5, 0);
-	for (nIdx = 0; nIdx < nCharNum; nIdx++) {
-
-		//replace the unsupported characters with "?"
-		if(pStr[nIdx]<0x20 || pStr[nIdx]>0x7E)
-			pStr[nIdx] = 0x3F;
-
-		//Character attribute (5 Bytes)
-		//(1st byte) Character code lower byte
-		dvC341_WriteToBuffer(B4_CBUFDT, pStr[nIdx]-0x20, 0);
-		//(2nd byte) Character code upper byte
-		dvC341_WriteToBuffer(B4_CBUFDT, 0x00, 0);
-		//(3rd byte) Character color
-		dvC341_WriteToBuffer(B4_CBUFDT, eCharColor, 0);
-		//(4th byte) Background color
-		dvC341_WriteToBuffer(B4_CBUFDT, eBkgColor, 0);
-		//(5th byte) Character width and double size flag
-		nCharLen = (nFixedCharLen == OSD_NATIVE_CHAR_LEN) ? m_pnCharWidth[pStr[nIdx]-0x20] : nFixedCharLen;
-		dvC341_WriteToBuffer(B4_CBUFDT, nDoubleSizeFlag+nCharLen, 0);
-
-		//string length on OSD
-		nOsdStrLen+=nCharLen;
-	}
-	dvC341_Buffer_Flush();
-
-#endif
 	//there is 1 pixel spacing between each char
-#ifdef CONFIG_4K_DISPLAY
-    if(m_OSD_DoubleSize == true)   //H2PF_Simon_0118
-    {
-	    return (bDoubleSize) ? (nOsdStrLen+nCharNum)*4 : (nOsdStrLen+nCharNum)*2;
-	}
-	else
-	{
-	    return (bDoubleSize) ? (nOsdStrLen+nCharNum)*2 : nOsdStrLen+nCharNum;
-	}
-#else
 	return (bDoubleSize) ? (nOsdStrLen+nCharNum)*2 : nOsdStrLen+nCharNum;
-#endif /* CONFIG_4K_DISPLAY */
 }
 
 void DrawOsdString(uint8 nCharNum, uint16 nHStart, uint16 nVStart, uint8 nLineIdx)
@@ -4778,7 +3791,6 @@ void DrawOsdString(uint8 nCharNum, uint16 nHStart, uint16 nVStart, uint8 nLineId
 	if(nCharNum<1)
 		return;
 
-#ifdef SCALER_C821_C789
 	//char buffer size
 	dvC789_WriteToBuffer(B0_CBUFHST, 0x00);
 	dvC789_WriteToBuffer(B0_CBUFHW, nCharNum-1);
@@ -4814,59 +3826,6 @@ void DrawOsdString(uint8 nCharNum, uint16 nHStart, uint16 nVStart, uint8 nLineId
 	}
 
 	dvC789_Write(B0_OSDCT, 0x00);
-
-#elif defined(SCALER_C341)
-
-    //dvC341_WriteToBuffer(B4_CBUFMD, 0x40, 0);   //C341 wait review first
-
-    UINT32 ulCBUFMD = dvC341_Read(B4_CBUFMD, 0);
-    dvC341_WriteToBuffer(B4_CBUFMD, 0x40, 0);   //C341 wait review first
-
-	//char buffer size
-	dvC341_WriteToBuffer(B4_CBUFHST, 0x00, 0);
-	dvC341_WriteToBuffer(B4_CBUFHW, nCharNum-1, 0);
-	dvC341_WriteToBuffer(B4_CBUFVST, nLineIdx, 0);
-	dvC341_WriteToBuffer(B4_CBUFVW, 0x00, 0);
-
-	//address of char buffer
-	dvC341_WriteToBuffer(B4_CPURAD, DEF_GEO_FONTAD_4K, 0);
-
-	//address of OSD
-    if(m_OSD_DoubleSize == TRUE)
-    {
-    	wad = m_OsdAddrLayerCurrent + (nVStart/2) * (PS_PANEL_ACT_HW/2) + (nHStart/2);
-    }
-    else
-    {
-    	wad = m_OsdAddrLayerCurrent + nVStart * DEF_OSD_PANEL_WIDTH + nHStart;
-    }
-	dvC341_WriteToBuffer(B4_CPUWAD, wad, 0);
-
-	//exec Character development
-	dvC341_WriteToBuffer(B4_OSDCT, 0x03, 0);
-	dvC341_Buffer_Flush();
-
-	while(TRUE)
-	{
-		nRegVal = dvC341_Read(B4_BOSTAT, 0);
-		if((nRegVal&BIT0) && (nRetry>=0))
-		{
-			MS_SLEEP(1);
-			nRetry--;
-			if(nRetry==0)
-			{
-				LOG_MSG(db_HAL_WARPING,"DrawOsdString() timeout, B0_BOSTAT=%02X\r\n", (unsigned int)nRegVal);
-				break;
-			}else
-				continue;
-		}else
-			break;
-	}
-
-    dvC341_WriteToBuffer(B4_CBUFMD, ulCBUFMD&0xFF, 0);   //C341 wait review first
-	dvC341_WriteToBuffer(B4_OSDCT, 0x00, 0);
-	dvC341_Buffer_Flush();
-#endif
 }
 
 //A65_OPTOMA_CL_0007
@@ -4876,11 +3835,10 @@ void CopyOsdRect(eOSD_LAYER_TYPE eOsdLayerType, uint16 nSrcHStart, uint16 nSrcVS
 	uint32 nOsdAddr = 0;
 	uint32 nStatus = 0;
 	uint16 nRetry = 500;
-    uint8 ucFastWrite = 0;
+
 	if(nWidth==0 || nHeight==0)
 		return;
 
-#ifdef SCALER_C821_C789
 	dvC789_WriteToBuffer(B0_BBWMWI, m_nLineFeed);
 	dvC789_WriteToBuffer(B0_BBRMWI, m_nLineFeed);
 	dvC789_WriteToBuffer(B0_BBACTHW, nWidth-1);	//Fill width is nWidth-1
@@ -4912,82 +3870,8 @@ void CopyOsdRect(eOSD_LAYER_TYPE eOsdLayerType, uint16 nSrcHStart, uint16 nSrcVS
 			break;
 
 	}
+
 	dvC789_Write(B0_OSDCT, 0x00);
-
-#elif defined(SCALER_C341)
-
-    if(m_OSD_DoubleSize == TRUE);
-    {
-        nSrcHStart = nSrcHStart / 2;
-        nSrcVStart = nSrcVStart / 2;
-        nDstHStart = nDstHStart / 2;
-        nDstVStart = nDstVStart / 2;
-        nWidth  = (nWidth + 1) / 2;
-        nHeight = (nHeight + 1) / 2;
-    }
-
-#ifdef OSDCT_FASTEN_ON
-    if (nWidth >= OSDCT_FASTEN_TRANSFER_UNIT &&
-        nWidth % OSDCT_FASTEN_TRANSFER_UNIT == 0)
-    {
-        nWidth = nWidth / OSDCT_FASTEN_TRANSFER_UNIT;
-        ucFastWrite = 1;
-    }
-#endif
-
-	dvC341_WriteToBuffer(B4_BBWMWI, m_nLineFeed, 0);
-	dvC341_WriteToBuffer(B4_BBRMWI, m_nLineFeed, 0);
-	dvC341_WriteToBuffer(B4_BBACTHW, nWidth-1, 0);	//Fill width is nWidth-1
-	dvC341_WriteToBuffer(B4_BBACTVW, nHeight-1, 0); //Fill height is nHeight-1
-	nOsdAddr = m_OsdAddrLayerCurrent+nDstVStart*DEF_OSD_PANEL_WIDTH+nDstHStart;
-	dvC341_WriteToBuffer(B4_CPUWAD, nOsdAddr, 0);
-	if(eOsdLayerType == OSD_LAYER_TYPE__TEMP)
-    {
-		nOsdAddr = OSD_TEMP_ADDR+nSrcVStart*DEF_OSD_PANEL_WIDTH+nSrcHStart;
-#ifdef SIMULATOR_ISCALER
-        dvC341_WarpingDeomOSD_Copy2Temp(nSrcHStart, nSrcVStart, nDstHStart, nDstVStart, nWidth, nHeight, 1);
-#endif /* SIMULATOR_ISCALER */
-    }
-	else
-    {
-		nOsdAddr = m_OsdAddrLayerCurrent+nSrcVStart*DEF_OSD_PANEL_WIDTH+nSrcHStart;
-#ifdef SIMULATOR_ISCALER
-        dvC341_WarpingDeomOSD_Copy2Temp(nSrcHStart, nSrcVStart, nDstHStart, nDstVStart, nWidth, nHeight, 0);
-#endif /* SIMULATOR_ISCALER */
-    }
-	dvC341_WriteToBuffer(B4_CPURAD, nOsdAddr, 0);
-    if(ucFastWrite)
-    {
-	    dvC341_WriteToBuffer(B4_OSDCT, 0x12, 0);		// BitBLT exe
-    }
-    else
-    {
-	    dvC341_WriteToBuffer(B4_OSDCT, 0x02, 0);		// BitBLT exe
-    }
-	dvC341_Buffer_Flush();
-
-	while(TRUE)
-	{
-		nStatus = dvC341_Read(B4_BOSTAT, 0);
-		if((nStatus&BIT0) && (nRetry>=0))
-		{
-			MS_SLEEP(1);
-			nRetry--;
-			if(nRetry==0)
-			{
-				LOG_MSG(db_HAL_WARPING, "CopyOsdRect() timeout, B0_BOSTAT=%02X\r\n", (unsigned int)nStatus);
-				break;
-			}else
-				continue;
-		}else
-			break;
-
-	}
-	dvC341_Write(B4_OSDCT, 0x00, 0);
-#endif
-#ifdef SIMULATOR_ISCALER
-    OSD_CurrentCopy();
-#endif /* SIMULATOR_ISCALER */
 }
 
 //A65_OPTOMA_CL_0007
@@ -5018,18 +3902,6 @@ static uint16 AnalyzePixelCircle(uint16 nDataSize)
 	}
 
 	return nDataValueSize;
-}
-
-void Custom_OSD_On(void)
-{
-    UINT32 OSDMODE1 = dvC341_Read(B9_OSDMODE2CH1, 0);
-
-    OSDMODE1 &= ~(BIT3 | BIT2);
-    OSDMODE1 |= (BIT2 | BIT1 | BIT0);
-
-    dvC341_WriteToBuffer(B9_OSDMODE2CH1, OSDMODE1, 0);
-    dvC341_WriteToBuffer(B9_OSDMODE2CH1, OSDMODE1, CH_BANK_OFFSET);
-	dvC341_Buffer_Flush();
 }
 
 //A65_OPTOMA_CL_0007
@@ -5106,7 +3978,7 @@ nMaxYRect	: Y方向要被畫的結束的Rect
 nStepX		: 一次要進幾個Grid + 黑色 的 Step
 nStepY		: 一次要進幾個Grid + 黑色 的 Step
 ***************************************************/
-static void DrawApCirclePattern(void)
+static void DrawApCirclePattern()
 {
 	uint8 nForeRColor = m_psCircleInfo->color_red;
 	uint8 nForeGColor = m_psCircleInfo->color_green;
@@ -5126,10 +3998,10 @@ static void DrawApCirclePattern(void)
 	BOOL bShowLastSpot = m_psCircleInfo->bShowLast;
 	BOOL bClearOsd = m_psCircleInfo->bClearOSD;
 
-    LOG_MSG(db_HAL_WARPING, "AF : r, g, b = %d, %d, %d\r\n", nForeRColor, nForeGColor, nForeBColor);
-    LOG_MSG(db_HAL_WARPING, "AF : Xstart, Xend, Xoffset, Xstep = %d, %d, %d, %d\r\n", nMinXRect, nMaxXRect, nOffsetX, nStepX);
-    LOG_MSG(db_HAL_WARPING, "AF : Ystart, Yend, Yoffset, Ystep = %d, %d, %d, %d\r\n", nMinYRect, nMaxYRect, nOffsetY, nStepY);
-    LOG_MSG(db_HAL_WARPING, "AF : Radius, Space, Showlast, Clear = %d, %d, %d, %d\r\n", nRectSizeX, nSpaceX, bShowLastSpot, bClearOsd);
+    LOG_MSG(db_ALWAYS, "AF : r, g, b = %d, %d, %d\r\n", nForeRColor, nForeGColor, nForeBColor);
+    LOG_MSG(db_ALWAYS, "AF : Xstart, Xend, Xoffset, Xstep = %d, %d, %d, %d\r\n", nMinXRect, nMaxXRect, nOffsetX, nStepX);
+    LOG_MSG(db_ALWAYS, "AF : Ystart, Yend, Yoffset, Ystep = %d, %d, %d, %d\r\n", nMinYRect, nMaxYRect, nOffsetY, nStepY);
+    LOG_MSG(db_ALWAYS, "AF : Radius, Space, Showlast, Clear = %d, %d, %d, %d\r\n", nRectSizeX, nSpaceX, bShowLastSpot, bClearOsd);
 
 	uint16 nNumRecX = (PS_PANEL_ACT_HW - nOffsetX)/nSpaceX;
 	uint16 nNumRecY = (PS_PANEL_ACT_VW - nOffsetY)/nSpaceY;
@@ -5276,15 +4148,6 @@ void DrawOsdLinePattern(uint16 nP1X, uint16 nP1Y, uint16 nP2X, uint16 nP2Y, eCOL
 	uint16 x, y, dx, dy, tempr;
 	int times;
 	int sign;
-	uint16 ratio = 4; //lowest value is 2
-
-	if(ratio >= 2)
-	{
-        nP1X /= ratio;
-        nP1Y /= ratio;
-        nP2X /= ratio;
-        nP2Y /= ratio;
-    }
 
 	dy = abs(nP1Y - nP2Y);
 	dx = abs(nP1X - nP2X);
@@ -5321,9 +4184,9 @@ void DrawOsdLinePattern(uint16 nP1X, uint16 nP1Y, uint16 nP2X, uint16 nP2Y, eCOL
 			rndRx = TLx;
 		}
 		remainder = 0;
-		DrawOsdRect(OSD_LAYER_TYPE__MAIN, rndLx*ratio, y*ratio, (rndRx-rndLx+1)*ratio, ratio/2, eColor);
+		DrawOsdRect(OSD_LAYER_TYPE__MAIN, rndLx, y, rndRx-rndLx+1, 1, eColor);
 
-		for(y=TLy+1;y<=BLy;(y = y+abs(sign)))
+		for(y=TLy+1;y<=BLy;y++)
 		{
 			tempr = remainder + dx;
 			times = tempr / dy;
@@ -5338,7 +4201,7 @@ void DrawOsdLinePattern(uint16 nP1X, uint16 nP1Y, uint16 nP2X, uint16 nP2Y, eCOL
 				rndLx = (tempr >= dy) ? rndRx + sign : rndRx;
 				rndRx = (tempr >= dy) ? rndRx + sign * times : rndRx;
 			}
-			DrawOsdRect(OSD_LAYER_TYPE__MAIN, rndLx*ratio, y*ratio, (rndRx-rndLx+1)*ratio, ratio/2, eColor);
+			DrawOsdRect(OSD_LAYER_TYPE__MAIN, rndLx, y, rndRx-rndLx+1, 1, eColor);
 		}
 	}
 	else
@@ -5374,10 +4237,9 @@ void DrawOsdLinePattern(uint16 nP1X, uint16 nP1Y, uint16 nP2X, uint16 nP2Y, eCOL
 			rndRy = TLy;
 		}
 		remainder = 0;
+		DrawOsdRect(OSD_LAYER_TYPE__MAIN, x, rndLy, 1, rndRy-rndLy+1,eColor);
 
-		DrawOsdRect(OSD_LAYER_TYPE__MAIN, x*ratio, rndLy*ratio, ratio/2, (rndRy-rndLy+1)*ratio,eColor);
-
-		for(x=TLx+1;x<=BLx;(x = x+abs(sign)))
+		for(x=TLx+1;x<=BLx;x++)
 		{
 			tempr = remainder + dy;
 			times = tempr / dx;
@@ -5392,7 +4254,7 @@ void DrawOsdLinePattern(uint16 nP1X, uint16 nP1Y, uint16 nP2X, uint16 nP2Y, eCOL
 				rndLy = (tempr >= dx) ? rndRy + sign : rndRy;
 				rndRy = (tempr >= dx) ? rndRy + sign * times : rndRy;
 			}
-			DrawOsdRect(OSD_LAYER_TYPE__MAIN, x*ratio, rndLy*ratio, ratio/2, (rndRy-rndLy+1)*ratio, eColor);
+			DrawOsdRect(OSD_LAYER_TYPE__MAIN, x, rndLy, 1, rndRy-rndLy+1, eColor);
 		}
 	}
 
@@ -5641,7 +4503,7 @@ void DrawOsdWarpGridPointsPattern(void)
 			if(nPointIdxX==m_nSelCtlPointX && nPointIdxY==m_nSelCtlPointY)
 			{
 				eCOLOR_IDX eColor = m_stWarpConfig.stOsd.eCursorColor;
-				if( utilWarp_GetOsdPatternType() == PAT_TYPE__WARP_MOV_CTRL_POINT )
+				if( m_ePatternType==PAT_TYPE__WARP_MOV_CTRL_POINT )
 					eColor = COLOR_IDX__BLINK;
 
 				DrawOsdRect(OSD_LAYER_TYPE__MAIN, nPointPosX, nPointPosY, m_nPointSize, m_nPointSize, eColor);
@@ -5691,7 +4553,7 @@ void DrawOsdWarpGridPointsPattern(void)
 			}
 			else
 			{
-				if(utilWarp_GetOsdPatternType() != PAT_TYPE__WARP_MOV_CTRL_POINT)
+				if(m_ePatternType!=PAT_TYPE__WARP_MOV_CTRL_POINT)
 				{
 					DrawOsdRect(OSD_LAYER_TYPE__MAIN, nPointPosX, nPointPosY, m_nPointSize, m_nPointSize, GridColorPaletteIndexGet());
 				}
@@ -5846,7 +4708,7 @@ void DrawOsdWarpGridPattern(void)
 
 			if(nCount <= nLRemain)
 			    nOffset++;
-		}while((nOffset < PS_PANEL_ACT_HW/2) && (nOffset < stBlendWidth.nL));
+		}while(nOffset < PS_PANEL_ACT_HW/2);
 
 		// Draw the right vertical line
 		nOffset = PS_PANEL_ACT_HW-1;
@@ -5863,7 +4725,7 @@ void DrawOsdWarpGridPattern(void)
 
 			if((nCount <= OverlapGridNum) && (nCount > OverlapGridNum-nRRemain))
 	            nOffset--;
-		}while((nOffset > PS_PANEL_ACT_HW/2) && ((PS_PANEL_ACT_HW - nOffset - 1) < stBlendWidth.nR));
+		}while(nOffset > PS_PANEL_ACT_HW/2);
 
 		// Draw the horizontal line between the upper and the bottom lines ( 2 pixels for each )
 		DrawOsdRect(OSD_LAYER_TYPE__MAIN, 0, PS_PANEL_ACT_VW/2-1, PS_PANEL_ACT_HW, 2, GridColorPaletteIndexGet());
@@ -5890,7 +4752,7 @@ void DrawOsdWarpGridPattern(void)
 	//		LOG_MSG(db_ALWAYS, "nCount = %d, nOffset = %d, nTRemain = %d\r\n", nCount, nOffset, nTRemain);
 			if(nCount <= nTRemain)
 			    nOffset++;
-		}while((nOffset < PS_PANEL_ACT_VW/2) && (nOffset < stBlendWidth.nT));
+		}while(nOffset < PS_PANEL_ACT_VW/2);
 
 		//Draw the horizontal bottom line
 		nOffset = PS_PANEL_ACT_VW-1;
@@ -5913,11 +4775,12 @@ void DrawOsdWarpGridPattern(void)
 	//		LOG_MSG(db_ALWAYS, "nCount = %d, nOffset = %d, nBRemain = %d\r\n", nCount, nOffset, nBRemain);
 			if((nCount <= OverlapGridNum) && (nCount > OverlapGridNum-nBRemain))
 	            nOffset--;
-		} while((nOffset > PS_PANEL_ACT_VW/2) && ((PS_PANEL_ACT_VW - nOffset -1) < stBlendWidth.nB));
+		} while(nOffset > PS_PANEL_ACT_VW/2);
 	}
+    //G100_Tim_0066, mod, end
 
 	//Draw control point
-	if(utilWarp_GetOsdPatternType() != PAT_TYPE__WARP_NO_CTRL_POINT)
+	if (m_ePatternType!=PAT_TYPE__WARP_NO_CTRL_POINT)
 	{
 		//control points
 		for(nPointIdxY = 0 ;nPointIdxY < DEF_NUM_CUR_MAX_V; nPointIdxY++)   //G100_Doulas_0059
@@ -5929,28 +4792,12 @@ void DrawOsdWarpGridPattern(void)
 					continue;
 				}
 
-                ControlPointIdxToPos(nPointIdxX, nPointIdxY, &nPointPosX, &nPointPosY);
+				ControlPointIdxToPos(nPointIdxX, nPointIdxY, &nPointPosX, &nPointPosY);
 
-                if((nPointIdxY != 0) && (nPointIdxY != DEF_NUM_CUR_MAX_V - 1) && (nPointIdxX == 0))
-                {
-                    if((nPointPosY + m_nPointSize/2 > stBlendWidth.nT) && (nPointPosY + m_nPointSize/2 < (PS_PANEL_ACT_VW - stBlendWidth.nB)))
-                    {
-                        DrawOsdRect(OSD_LAYER_TYPE__MAIN, nPointPosX, nPointPosY + m_nPointSize/2, PS_PANEL_ACT_HW, GRID_LINE_WIDTH, GridColorPaletteIndexGet());
-                    }
-                }
-
-                if((nPointIdxX != 0) && (nPointIdxX != DEF_NUM_CUR_MAX_H - 1) && (nPointIdxY == 0))
-                {
-                    if((nPointPosX + m_nPointSize/2 > stBlendWidth.nL) && (nPointPosX + m_nPointSize/2 < (PS_PANEL_ACT_HW - stBlendWidth.nR)))
-                    {
-                        DrawOsdRect(OSD_LAYER_TYPE__MAIN, nPointPosX + m_nPointSize/2, nPointPosY, GRID_LINE_WIDTH, PS_PANEL_ACT_VW, GridColorPaletteIndexGet());
-                    }
-                }
-
-				if(nPointIdxX == m_nSelCtlPointX && nPointIdxY == m_nSelCtlPointY)
+				if(nPointIdxX==m_nSelCtlPointX && nPointIdxY==m_nSelCtlPointY)
 				{
 					eCOLOR_IDX eColor = m_stWarpConfig.stOsd.eCursorColor;
-					if(utilWarp_GetOsdPatternType() == PAT_TYPE__WARP_MOV_CTRL_POINT)
+					if(m_ePatternType==PAT_TYPE__WARP_MOV_CTRL_POINT)
 						eColor = COLOR_IDX__BLINK;
 
 					DrawOsdRect(OSD_LAYER_TYPE__MAIN, nPointPosX, nPointPosY, m_nPointSize, m_nPointSize, eColor);
@@ -5997,7 +4844,7 @@ void DrawOsdWarpGridPattern(void)
 				}
 				else
 				{
-					if(utilWarp_GetOsdPatternType() !=  PAT_TYPE__WARP_MOV_CTRL_POINT)
+					if(m_ePatternType!=PAT_TYPE__WARP_MOV_CTRL_POINT)
 					{
 						DrawOsdRect(OSD_LAYER_TYPE__MAIN, nPointPosX, nPointPosY, m_nPointSize, m_nPointSize, GridColorPaletteIndexGet());
 					}
@@ -6209,7 +5056,7 @@ void DrawOsdBlendWidth(eDIR eDir, uint16 nWidth)
 {
 	char pStr[32];
 	uint8 nCharNum = 0;
-	uint16 nOsdStrLen = 0;
+	uint8 nOsdStrLen = 0;
 	uint16 nRectPosX, nRectPosY, nStrPosX;
 	uint16 nRectWidth, nRectHeight, nBorderWidth;
 	eCOLOR_IDX eStrColor;
@@ -6223,25 +5070,11 @@ void DrawOsdBlendWidth(eDIR eDir, uint16 nWidth)
 
 	//Let the OSD of "Blend Width" same size.
 	//if(m_eCurrentResId == RES_ID__WUXGA)
-	if(m_OSD_DoubleSize == true)
 	{
 		bDoubleSize = TRUE;
-#ifdef CONFIG_4K_DISPLAY
-		nRectWidth *= 4;
-		nRectHeight *= 4;
-		nBorderWidth *= 4;
-#else
-        nRectWidth *= 2;
-        nRectHeight *= 2;
-        nBorderWidth *= 2;
-#endif /* CONFIG_4K_DISPLAY */
-	}
-	else   //H2PF_Simon_0118
-	{
-		bDoubleSize = TRUE;
-        nRectWidth *= 2;
-        nRectHeight *= 2;
-        nBorderWidth *= 2;
+		nRectWidth *= 2;
+		nRectHeight *= 2;
+		nBorderWidth *= 2;
 	}
 
 
@@ -6279,25 +5112,21 @@ void DrawOsdBlendWidth(eDIR eDir, uint16 nWidth)
 	nCharNum = sprintf(pStr, "%d", nWidth);
 	//set the string to C789 char buff and get the the string length on OSD
 	nOsdStrLen = PreparedOsdString((uint8*)pStr, nCharNum, OSD_FIXED_CHAR_LEN, eStrColor, eStrBgColor, eDir, bDoubleSize);
-    //start address of the string
+	//start address of the string
 	nStrPosX = nRectPosX+nRectWidth-nBorderWidth-nOsdStrLen;
-    //printf("%d = %d + %d + %d + %d\r\n", nStrPosX, nRectPosX, nRectWidth, nBorderWidth, nOsdStrLen);
 	//back ground color of the string area
 	DrawOsdRect(OSD_LAYER_TYPE__MAIN, nRectPosX, nRectPosY, nRectWidth, nRectHeight, eStrBgColor);
 	//draw the string from C789 char buff to OSD
 	DrawOsdString(nCharNum, nStrPosX, nRectPosY, eDir);
-#ifdef SIMULATOR_ISCALER
-    dvC341_WarpingDeomOSDString((uint8*)pStr, nCharNum, nStrPosX/2, nRectPosY/2, eStrColor, eStrBgColor);
-#endif /* SIMULATOR_ISCALER */
 	//draw the border of the string area in select mode
 	DrawOsdRectBorder(nRectPosX, nRectPosY, nRectWidth, nRectHeight, COLOR_IDX__WHITE, GRID_LINE_WIDTH);  //H2PF_Simon_0037
 }
 
 eCOLOR_IDX GetBlendWidthCursorColor(eDIR eDir)
 {
-	if((utilWarp_GetOsdPatternType() == PAT_TYPE__SEL_BLEND_WIDTH) && (m_eBlendWidthSel==eDir))
+	if((m_ePatternType==PAT_TYPE__SEL_BLEND_WIDTH) && (m_eBlendWidthSel==eDir))
 		return m_stWarpConfig.stOsd.eCursorColor;
-	else if((utilWarp_GetOsdPatternType() == PAT_TYPE__ADJ_BLEND_WIDTH) && (m_eBlendWidthSel==eDir))
+	else if((m_ePatternType==PAT_TYPE__ADJ_BLEND_WIDTH) && (m_eBlendWidthSel==eDir))
 		return COLOR_IDX__BLINK;
 	else
 		return GridColorPaletteIndexGet();
@@ -6421,19 +5250,19 @@ void DrawOsdBlendWidthPattern(void) //A35G2_BRC_Casper_0046
 		DrawOsdRect(OSD_LAYER_TYPE__MAIN, 0, PS_PANEL_ACT_VW-(stBlendOffset.nB+stBlendWidth.nB)-GRID_LINE_WIDTH, PS_PANEL_ACT_HW, GRID_LINE_WIDTH, eCursorColor);
 	}
 
-	if(utilWarp_GetOsdPatternType() != PAT_TYPE__BLEND_NO_CTRL_POINT)
+	if(m_ePatternType != PAT_TYPE__BLEND_NO_CTRL_POINT)
 	{
 		//left blend width
 		DrawOsdBlendWidth(DIR__LEFT, m_stWarpConfig.stOsd.nBlendWidthL);
 
-    	//right blend width
-    	DrawOsdBlendWidth(DIR__RIGHT, m_stWarpConfig.stOsd.nBlendWidthR);
+	//right blend width
+	DrawOsdBlendWidth(DIR__RIGHT, m_stWarpConfig.stOsd.nBlendWidthR);
 
-    	//top blend width
-    	DrawOsdBlendWidth(DIR__UP, m_stWarpConfig.stOsd.nBlendWidthT);
+	//top blend width
+	DrawOsdBlendWidth(DIR__UP, m_stWarpConfig.stOsd.nBlendWidthT);
 
-    	//bottom blend width
-    	DrawOsdBlendWidth(DIR__DOWN, m_stWarpConfig.stOsd.nBlendWidthB);
+	//bottom blend width
+	DrawOsdBlendWidth(DIR__DOWN, m_stWarpConfig.stOsd.nBlendWidthB);
 	}
 
 }
@@ -6564,7 +5393,7 @@ void DrawOsdBlackLevelCursor(eBLACKLEVEL_AREA eAreaSelect)  //A65_OPTOMA_Doulas_
 	pNextNode = m_pFirstNode[eAreaSelect];
 	nCount = GetTotalCountOfList(m_pFirstNode[eAreaSelect]);
 
-	if(utilWarp_GetOsdPatternType() == PAT_TYPE__BLACKLEVEL_ADD_POINT)
+	if(m_ePatternType == PAT_TYPE__BLACKLEVEL_ADD_POINT)
 	{
 		//draw dash rectangle at middle
 		pTargetNode = GetNextNode(m_pFirstNode[eAreaSelect], m_pnCurrentNode[m_eAreaSelection]);
@@ -6582,7 +5411,7 @@ void DrawOsdBlackLevelCursor(eBLACKLEVEL_AREA eAreaSelect)  //A65_OPTOMA_Doulas_
 	{
 		if(pNextNode == m_pnCurrentNode[m_eAreaSelection])
 		{
-			if(utilWarp_GetOsdPatternType() == PAT_TYPE__BLACKLEVEL_MOV_POINT)
+			if(m_ePatternType == PAT_TYPE__BLACKLEVEL_MOV_POINT)
 			{
 				eColor = COLOR_IDX__BLINK;  //A65_OPTOMA_Doulas_0024
 			}
@@ -6590,11 +5419,11 @@ void DrawOsdBlackLevelCursor(eBLACKLEVEL_AREA eAreaSelect)  //A65_OPTOMA_Doulas_
 			{
 				eColor = m_stWarpConfig.stOsd.eCursorColor;  //A65_OPTOMA_Doulas_0024
 			}
-			if(utilWarp_GetOsdPatternType() == PAT_TYPE__BLACKLEVEL_ADD_POINT)
+			if(m_ePatternType == PAT_TYPE__BLACKLEVEL_ADD_POINT)
 			{
 				eColor = m_eBlackLevelGridColor;
 			}
-			if(utilWarp_GetOsdPatternType() == PAT_TYPE__BLACKLEVEL_DEL_POINT)
+			if(m_ePatternType == PAT_TYPE__BLACKLEVEL_DEL_POINT)
 			{
 				bDeletePtMode = TRUE;
 			}
@@ -6604,7 +5433,7 @@ void DrawOsdBlackLevelCursor(eBLACKLEVEL_AREA eAreaSelect)  //A65_OPTOMA_Doulas_
 			eColor = m_eBlackLevelGridColor;
 		}
 
-		if(utilWarp_GetOsdPatternType() == PAT_TYPE__BLACKLEVEL_MOV_POINT)
+		if(m_ePatternType == PAT_TYPE__BLACKLEVEL_MOV_POINT)
 		{
 			//DrawFullCursor(pNextNode->stPos.x, pNextNode->stPos.y, CURSOR_TYPE__NORMAL, eColor);	//A65_OPTOMA_Doulas_0097
 			DrawFullCursor((uint16)(pNextNode->stPos.x*m_fResRatioX), (uint16)(pNextNode->stPos.y*m_fResRatioY), CURSOR_TYPE__NORMAL, eColor);	//A65_OPTOMA_Doulas_0097
@@ -6642,14 +5471,14 @@ void DrawOsdBlackLevelBoundary(eBLACKLEVEL_AREA eAreaSelect)  //A65_OPTOMA_Doula
 	for(i= 0; i<nCount; i++)
 	{
 		eColorLine = m_eBlackLevelGridColor;
-		if((utilWarp_GetOsdPatternType()  == PAT_TYPE__BLACKLEVEL_ADD_POINT)
+		if((m_ePatternType == PAT_TYPE__BLACKLEVEL_ADD_POINT)
 			&& (pNextNode == m_pnCurrentNode[m_eAreaSelection]))
 		{
 			eColorLine = m_stWarpConfig.stOsd.eCursorColor;  //A65_OPTOMA_Doulas_0024
 		}
 
 
-		if(i == nCount - 1)
+		if(i == nCount -1)
 		{
 			//last node, draw a line between last node and first node
 			//DrawOsdLinePattern(pNextNode->stPos.x, pNextNode->stPos.y, m_pFirstNode[eAreaSelect]->stPos.x, m_pFirstNode[eAreaSelect]->stPos.y, eColorLine);	//A65_OPTOMA_Doulas_0097
@@ -6690,7 +5519,6 @@ void ApplyBlendGamma(float fGamma)
 	uint16 nVal;
 	uint16 nDataSize = 0;
 
-#ifdef SCALER_C821_C789
 	nRegVal = dvC789_Read(B7_EGBCT);
 	nRegVal |= 0x0100; //Select R,G,B and Edge blend gamma CPU access enable
 
@@ -6743,84 +5571,6 @@ void ApplyBlendGamma(float fGamma)
 
 	//execute DMA blend gamma
 	Ram2Reg(nDataSize);
-
-#elif defined(SCALER_C341)
-
-    UINT8 Value = 0;
-    if(fGamma == (float)1.8) Value = (UINT8)eCM_BLENDING_GAMMA_1_8;
-    else if(fGamma == (float)1.9) Value = (UINT8)eCM_BLENDING_GAMMA_1_9;
-    else if(fGamma == (float)2.0) Value = (UINT8)eCM_BLENDING_GAMMA_2_0;
-    else if(fGamma == (float)2.1) Value = (UINT8)eCM_BLENDING_GAMMA_2_1;
-    else if(fGamma == (float)2.2) Value = (UINT8)eCM_BLENDING_GAMMA_2_2;
-    else if(fGamma == (float)2.3) Value = (UINT8)eCM_BLENDING_GAMMA_2_3;
-    else if(fGamma == (float)2.4) Value = (UINT8)eCM_BLENDING_GAMMA_2_4;
-    else LOG_MSG(db_HAL_WARPING, "Blend Gamma Error %f\r\n", fGamma);
-
-
-    LOG_MSG(db_HAL_WARPING, "Gamma %f\r\n", fGamma);
-
-    halWarp_BlendingParameterSet(eBLENDING_EVENT_GAMMA, &Value);
-    halWarp_BlendingGammaSet();
-
-
-    #if 0
-	nRegVal = dvC341_Read(B147_WPEGBCTCH1, 0);
-	nRegVal |= 0x0100; //Select R,G,B and Edge blend gamma CPU access enable
-
-	//DRAM Addr
-	dvC341_WriteToBuffer(B4_CPUWAD, RAM_DATA_ADDR, 0);
-
-	// RGBNK of B7_EGBCT
-	dvC341_WriteToBuffer(B4_CPUDT, 0x00, 0);
-	dvC341_WriteToBuffer(B4_CPUDT, 147, 0);
-	nDataSize += 2;
-
-	//high byte of B7_EGBCT register addr
-	dvC341_WriteToBuffer(B4_CPUDT, 0x09, 0);
-	dvC341_WriteToBuffer(B4_CPUDT, GET_BYTE1(nRegVal), 0);
-	nDataSize += 2;
-
-	// B7_EGBGMAD register addr
-	dvC341_WriteToBuffer(B4_CPUDT, 0x28, 0);
-	dvC341_WriteToBuffer(B4_CPUDT, 0x00, 0);
-	dvC341_WriteToBuffer(B4_CPUDT, 0x28, 0);
-	dvC341_WriteToBuffer(B4_CPUDT, 0x00, 0);
-	nDataSize += 4;
-
-	for ( ii = 0; ii < 1024; ii++ )
-	{
-		fVal = pow( ((float)ii / 1024), 1 / fGamma ) * 65536 + 0.5;
-		nVal = ( fVal < 0 ) ? 0 : ( fVal > 65535 ) ? 65535 : (int)fVal;
-		// B7_EGBGMDT register addr
-		dvC341_WriteToBuffer(B4_CPUDT, 0x29, 0);
-		dvC341_WriteToBuffer(B4_CPUDT, GET_BYTE0(nVal), 0);
-		dvC341_WriteToBuffer(B4_CPUDT, 0x29, 0);
-		dvC341_WriteToBuffer(B4_CPUDT, GET_BYTE1(nVal), 0);
-		nDataSize += 4;
-	}
-
-	nRegVal &= (~0x0100);
-	//high byte of B7_EGBCT register addr
-	dvC341_WriteToBuffer(B4_CPUDT, 0x09, 0);
-	dvC341_WriteToBuffer(B4_CPUDT, GET_BYTE1(nRegVal), 0);
-	nDataSize += 2;
-
-	// RGBNK of B0_BOSTAT
-	dvC341_WriteToBuffer(B4_CPUDT, 0x00, 0);
-	dvC341_WriteToBuffer(B4_CPUDT, 0x00, 0);
-	nDataSize += 2;
-
-	//Reset DRAM Addr
-	dvC341_WriteToBuffer(B4_CPUWAD, 0x00, 0);
-	dvC341_Buffer_Flush();
-
-	//execute DMA blend gamma
-	Ram2Reg(nDataSize);
-	#endif
-
-#else
-
-#endif
 }
 
 
@@ -6829,31 +5579,6 @@ void ApplyEdgeBlendSetting(BLEND_WIDTH stBlendWidth, BLEND_OFFSET stBlendOffset,
 	float lcoef_f, rcoef_f, tcoef_f, bcoef_f;
 	uint16 lcoef_i, rcoef_i, tcoef_i, bcoef_i;
 	uint32 nRegVal = 0x00;
-    UINT16 uiEGBCT = 0;
-    sEDGE_BLENDING_PARA sEdgeBlending = {0};
-
-    #if 0
-	printf("stBlendWidth <%d %d %d %d>\r\n", stBlendWidth.nL
-	                                       , stBlendWidth.nR
-	                                       , stBlendWidth.nT
-	                                       , stBlendWidth.nB);
-
-	printf("stBlendOffset <%d %d %d %d>\r\n", stBlendOffset.nL
-                                            , stBlendOffset.nR
-                                            , stBlendOffset.nT
-                                            , stBlendOffset.nB);
-
-    printf("fGamma %f\r\n\r\n", fGamma);
-    #endif
-
-    sEdgeBlending.uiBlending_T_St = stBlendOffset.nT;
-    sEdgeBlending.uiBlending_B_St = stBlendOffset.nB;
-    sEdgeBlending.uiBlending_L_St = stBlendOffset.nL;
-    sEdgeBlending.uiBlending_R_St = stBlendOffset.nR;
-    sEdgeBlending.uiBlending_T_Width = stBlendWidth.nT;
-    sEdgeBlending.uiBlending_B_Width = stBlendWidth.nB;
-    sEdgeBlending.uiBlending_L_Width = stBlendWidth.nL;
-    sEdgeBlending.uiBlending_R_Width = stBlendWidth.nR;
 
     if((stBlendWidth.nL < 4) && (stBlendOffset.nL != 0))
     {
@@ -6901,20 +5626,70 @@ void ApplyEdgeBlendSetting(BLEND_WIDTH stBlendWidth, BLEND_OFFSET stBlendOffset,
 		if ( bcoef_i < 0x8000 ) { bcoef_i = 0x8000; }
 	}
 
-    sEdgeBlending.ucBlending_T_Enable = (tcoef_i != 0) ? 1:0;
-    sEdgeBlending.ucBlending_B_Enable = (bcoef_i != 0) ? 1:0;
-    sEdgeBlending.ucBlending_L_Enable = (lcoef_i != 0) ? 1:0;
-    sEdgeBlending.ucBlending_R_Enable = (rcoef_i != 0) ? 1:0;
+	dvC789_WriteToBuffer(B7_LEGBHST, stBlendOffset.nL);
+	if(lcoef_i == 0)
+	{
+		dvC789_WriteToBuffer(B7_HEGBINIT, 0x80);
+		dvC789_WriteToBuffer(B7_LEGBHW, 0x0000);
+		dvC789_WriteToBuffer(B7_LEGBCOEF, 0x0000);
+	}
+	else
+	{
+		nRegVal |= BIT0;
+		dvC789_WriteToBuffer(B7_HEGBINIT, 0x00);
+		dvC789_WriteToBuffer(B7_LEGBHW, stBlendWidth.nL);
+		dvC789_WriteToBuffer(B7_LEGBCOEF, lcoef_i);
+	}
 
-    uiEGBCT = halWarp_EdgeBlendingSet(sEdgeBlending);
+	dvC789_WriteToBuffer(B7_REGBHST, PS_PANEL_ACT_HW-(stBlendOffset.nR+stBlendWidth.nR));
+	if(rcoef_i == 0)
+	{
+		dvC789_WriteToBuffer(B7_REGBHW, 0x0000);
+		dvC789_WriteToBuffer(B7_REGBCOEF, 0x0000);
+	}
+	else
+	{
+		nRegVal |= BIT1;
+		dvC789_WriteToBuffer(B7_REGBHW, stBlendWidth.nR);
+		dvC789_WriteToBuffer(B7_REGBCOEF, rcoef_i);
+	}
 
-    halWarp_BlendingParameterSet(eBLENDING_EVENT_GAMMA, &m_stWarpConfig.stOsdBasic.stBlendingPara.ucBlendingGamma);       //H2PF_Simon_0165
+	dvC789_WriteToBuffer(B7_TEGBVST, stBlendOffset.nT);
+	if(tcoef_i == 0)
+	{
+		dvC789_WriteToBuffer(B7_VEGBINIT, 0x80);
+		dvC789_WriteToBuffer(B7_TEGBVW, 0x0000);
+		dvC789_WriteToBuffer(B7_TEGBCOEF, 0x0000);
+	}
+	else
+	{
+		nRegVal |= BIT2;
+		dvC789_WriteToBuffer(B7_VEGBINIT, 0x00);
+		dvC789_WriteToBuffer(B7_TEGBVW, stBlendWidth.nT);
+		dvC789_WriteToBuffer(B7_TEGBCOEF, tcoef_i);
+	}
 
-    //Apply Blend Gamma
-    if(uiEGBCT & 0x0F)
-    {
-        halWarp_BlendingGammaCoefSet(fGamma);
-    }
+	dvC789_WriteToBuffer(B7_BEGBVST, PS_PANEL_ACT_VW-(stBlendOffset.nB+stBlendWidth.nB));
+	if(bcoef_i == 0)
+	{
+		dvC789_WriteToBuffer(B7_BEGBVW, 0x0000);
+		dvC789_WriteToBuffer(B7_BEGBCOEF, 0x0000);
+	}
+	else
+	{
+		nRegVal |= BIT3;
+		dvC789_WriteToBuffer(B7_BEGBVW, stBlendWidth.nB);
+		dvC789_WriteToBuffer(B7_BEGBCOEF, bcoef_i);
+	}
+	dvC789_Buffer_Flush();
+
+	if(nRegVal & 0x0F)
+	{
+		nRegVal |= BIT4;
+		ApplyBlendGamma(fGamma);
+	}
+
+	dvC789_Write(B7_EGBCT, nRegVal);
 }
 
 
@@ -6924,10 +5699,9 @@ void ApplyBlend(eAPPLY_BLEND eFlag) //A35G2_BRC_Casper_0046
 	BLEND_WIDTH stBlendWidth;
 	BLEND_OFFSET stBlendOffset;
 	uint16 uiEgbct = 0;//A35G2_CDS_CL_0002//A35G2_Alan_0015
-    ePAT_TYPE ePatternType = utilWarp_GetOsdPatternType();
 
 	LOG_MSG(db_HAL_WARPING, "ApplyBlend (%d %d)\r\n",eFlag, m_stWarpConfig.eWarpCtrl );
-	LOG_MSG(db_HAL_WARPING, "m_ePatternType => (%d %d)\r\n\r\n", ePatternType , m_stWarpConfig.stOsd.bShowBlendOnWarpPattern);
+	LOG_MSG(db_HAL_WARPING, "m_ePatternType => (%d %d)\r\n\r\n",m_ePatternType , m_stWarpConfig.stOsd.bShowBlendOnWarpPattern);
 
 	if((eFlag==APPLY_BLEND__DISABLE) || (m_stWarpConfig.eWarpCtrl == WARP_CTRL__BASIC)
 #ifdef CUSTOM_BARCO //A35G2_Wesley_0093
@@ -6938,12 +5712,12 @@ void ApplyBlend(eAPPLY_BLEND eFlag) //A35G2_BRC_Casper_0046
 		//G100_Tim_0092, add, start
 #endif
         || (    ( m_stWarpConfig.stOsd.bShowBlendOnWarpPattern == FALSE )
-             && (   ( ePatternType == PAT_TYPE__WARP_SEL_CTRL_POINT )
-                 || ( ePatternType == PAT_TYPE__WARP_MOV_CTRL_POINT )
-                 || ( ePatternType == PAT_TYPE__WARP_NO_CTRL_POINT )
-                 || ( ePatternType == PAT_TYPE__SEL_BLEND_WIDTH )
-                 || ( ePatternType == PAT_TYPE__ADJ_BLEND_WIDTH )
-                 || ( ePatternType == PAT_TYPE__BLEND_NO_CTRL_POINT )
+             && (   ( m_ePatternType == PAT_TYPE__WARP_SEL_CTRL_POINT )
+                 || ( m_ePatternType == PAT_TYPE__WARP_MOV_CTRL_POINT )
+                 || ( m_ePatternType == PAT_TYPE__WARP_NO_CTRL_POINT )
+                 || ( m_ePatternType == PAT_TYPE__SEL_BLEND_WIDTH )
+                 || ( m_ePatternType == PAT_TYPE__ADJ_BLEND_WIDTH )
+                 || ( m_ePatternType == PAT_TYPE__BLEND_NO_CTRL_POINT )
                  )
              )
     )
@@ -6952,21 +5726,17 @@ void ApplyBlend(eAPPLY_BLEND eFlag) //A35G2_BRC_Casper_0046
 	    {
     		if( (eFlag==APPLY_BLEND__DISABLE)  ||
         		( ( m_stWarpConfig.stOsd.bShowBlendOnWarpPattern == FALSE )
-                     && (   ( ePatternType == PAT_TYPE__WARP_SEL_CTRL_POINT )
-                         || ( ePatternType == PAT_TYPE__WARP_MOV_CTRL_POINT )
-                         || ( ePatternType == PAT_TYPE__WARP_NO_CTRL_POINT )
-                         || ( ePatternType == PAT_TYPE__SEL_BLEND_WIDTH )
-                         || ( ePatternType == PAT_TYPE__ADJ_BLEND_WIDTH )
-                         || ( ePatternType == PAT_TYPE__BLEND_NO_CTRL_POINT )
+                     && (   ( m_ePatternType == PAT_TYPE__WARP_SEL_CTRL_POINT )
+                         || ( m_ePatternType == PAT_TYPE__WARP_MOV_CTRL_POINT )
+                         || ( m_ePatternType == PAT_TYPE__WARP_NO_CTRL_POINT )
+                         || ( m_ePatternType == PAT_TYPE__SEL_BLEND_WIDTH )
+                         || ( m_ePatternType == PAT_TYPE__ADJ_BLEND_WIDTH )
+                         || ( m_ePatternType == PAT_TYPE__BLEND_NO_CTRL_POINT )
                          )
                 )
             )//get uiEgbct (basic + disable or ap + disable)
     		{
-    		    #ifdef SCALER_C821_C789
                 uiEgbct = (UINT16)dvC789_Read(B7_EGBCT);
-                #elif defined(SCALER_C341)
-                uiEgbct = (UINT16)dvC341_Read(B147_WPEGBCTCH1, 0);
-                #endif
                 LOG_MSG(db_HAL_WARPING, "Read uiEgbct = %d\n",uiEgbct);
                 //save in global variable if value is not zero
                 if(uiEgbct)
@@ -6974,13 +5744,7 @@ void ApplyBlend(eAPPLY_BLEND eFlag) //A35G2_BRC_Casper_0046
                     m_egBct = uiEgbct;
                     LOG_MSG(db_HAL_WARPING, "save to global variable = %d\n",m_egBct);
     			}
-    		    #ifdef SCALER_C821_C789
     			dvC789_Write(B7_EGBCT, 0x00);
-                #elif defined(SCALER_C341)
-                uiEgbct &= 0xFF80;
-    			dvC341_Write(B147_WPEGBCTCH1, uiEgbct, 0);
-                dvC341_Write(B152_WPEGBCTCH2, uiEgbct, 0);
-                #endif
     		}
     		else if(eFlag==APPLY_BLEND__BY_CONFIG)//reapply uiEgbct (basic + config)
     		{
@@ -7001,14 +5765,7 @@ void ApplyBlend(eAPPLY_BLEND eFlag) //A35G2_BRC_Casper_0046
     	}
 	    #else
 	    {
-    		#ifdef SCALER_C821_C789
 		    dvC789_Write(B7_EGBCT, 0x00);
-            #elif defined(SCALER_C341)
-            uiEgbct = (UINT16)dvC341Geo_Read(B147_WPEGBCTCH1, 0);
-            uiEgbct &= 0xFF80;
-			dvC341_Write(B147_WPEGBCTCH1, uiEgbct, 0);
-            dvC341_Write(B152_WPEGBCTCH2, uiEgbct, 0);
-            #endif
         }
 	    #endif
 	}
@@ -7043,7 +5800,7 @@ void ApplyBlend(eAPPLY_BLEND eFlag) //A35G2_BRC_Casper_0046
         }
 		#endif
 	}
-	else if((m_stWarpConfig.eWarpCtrl == WARP_CTRL__AP) && (ePatternType == PAT_TYPE__OFF))  //A65_OPTOMA_CL_0010
+	else if((m_stWarpConfig.eWarpCtrl == WARP_CTRL__AP) && (m_ePatternType == PAT_TYPE__OFF))  //A65_OPTOMA_CL_0010
 	{
 		#ifdef CUSTOM_CHRISTIE  //A35G2_CDS_CL_0002//A35G2_Alan_0015
             if(eFlag==APPLY_BLEND__BY_CONFIG)//reapply uiEgbct (ap + config)
@@ -7166,13 +5923,10 @@ void EnableTestPattern(BOOL bEnable, eBKG_COLOR eBkgColor, eAPPLY_BLEND eApplyBl
 {
 	uint16 nData;
 	uint16 nHST, nVST, nHW, nVW;
-
-	m_eOsdPosition = bBeforeWarp;
-
-#ifdef SCALER_C821_C789
-
 	uint8 nOSDMODE;
 
+
+	m_eOsdPosition = bBeforeWarp;
 	if (bEnable)
 	{
 		nHST = PS_PANEL_ACT_HST;
@@ -7246,176 +6000,9 @@ void EnableTestPattern(BOOL bEnable, eBKG_COLOR eBkgColor, eAPPLY_BLEND eApplyBl
 			dvC789_Write(B1_OSDMODE, 0x04);  //OUTPUT SIDE
 		}
 	}
-
-#elif defined(SCALER_C341)
-
-	UINT16 OSDMODE2 = (UINT16)dvC341_Read(B9_OSDMODE1CH1, 0);
-	LOG_MSG(db_HAL_WARPING, "B OSDMODE2 0x%04x\r\n", OSDMODE2);
-
-    if (bEnable)
-	{
-		if(bBeforeWarp == OSD_POS__BEFORE_WARP)
-		{
-		    halWarpOSD_Draw_InsertLocation(eWDT_BEFORE_WARP);
-		}
-		else
-		{
-		    halWarpOSD_Draw_InsertLocation(eWDT_AFTER_WARP);
-		}
-
-        //CH1
-		dvC341_WriteToBuffer(B9_OSDSAD1CH1, m_OsdAddrLayerCurrent, 0);
-
-        //CH2
-		dvC341_WriteToBuffer(B9_OSDSAD1CH1, m_OsdAddrLayerCurrent + (DEF_OSD_PANEL_WIDTH)/2, CH_BANK_OFFSET);
-
-		//config OSDMODE
-		OSDMODE2 &= ~(BIT3|BIT2|BIT1|BIT0);
-
-		if(eBkgColor == BKG_COLOR__BLACK)  //H2PF_Simon_0153
-		{
-            if(bBeforeWarp == OSD_POS__BEFORE_WARP)
-			{
-			    /*Bitmap OSD is displayed without transparency.INPUT SIDE*/
-				OSDMODE2 |= BIT2|BIT1;
-			}
-			else
-			{
-			    /*Bitmap OSD is displayed without transparency.OUTPUT SIDE*/
-				OSDMODE2 |= BIT1;
-			}
-		}
-		else
-		{
-            if(bBeforeWarp == OSD_POS__BEFORE_WARP )
-            {
-                /*Bitmap OSD is displayed with transparency.INPUT SIDE*/  /* before warp */
-                OSDMODE2 |= BIT2|BIT1|BIT0;
-            }
-            else
-            {
-                OSDMODE2 |= BIT1|BIT0; /*Bitmap OSD is displayed with transparency.*/  /* after warp */
-            }
-		}
-
-		m_OsdAddrLayerCurrent = ( m_OsdAddrLayerCurrent != m_OsdAddrLayer0 ) ? m_OsdAddrLayer0 : m_OsdAddrLayer1;
-	}
-	else
-	{
-#if 0
-		if(bBeforeWarp == OSD_POS__BEFORE_WARP)
-		{
-			OSDMODE2 |= BIT2;
-            OSDMODE2 &= ~(BIT1|BIT0);
-		}
-		else
-		{
-			OSDMODE2 &= ~(BIT3|BIT2|BIT1|BIT0); //OUTPUT SIDE
-		}
-#endif /* 0 */
-
-        OSDMODE2 &= ~(BIT1|BIT0);
-	}
-
-    dvC341_Buffer_Flush();
-
-    //insert OSD 時
-    //若有兩個 OSD insert 至相同的 position
-    //則先 insert 的會在上層
-    //後 insert 的會在下層 (被上層的覆蓋)
-    //所以 OSD2 要 insert before warping，則先 disable OSD1
-    if(bEnable)
-    {
-        //disable OSD1
-#if 0
-        UINT32 OSDMODE1 = dvC341_Read(B9_OSDMODE1CH1, 0);
-        UINT32 OSDMODE1_New = OSDMODE1;
-        if(OSDMODE1 | (BIT1) == (BIT1))    //H2PF_Simon_0136
-        {
-            OSDMODE1_New &= (~BIT1);  //disable OSD
-            m_IsCustomOSDOnRecord = TRUE;    //H2PF_Simon_0136
-        }
-        else
-        {
-            m_IsCustomOSDOnRecord = FALSE;     //H2PF_Simon_0136
-        }
-        OSDMODE1_New |= (BIT2 | BIT3);  //without OSD insertion
-
-        dvC341_Write( B0_RTCT0, (RTCT_OP_STOP<<4)|RTCT_OP_STOP, 0 );
-
-        if(eApplyBlackLevel == APPLY_BLACKLEVEL__WITHOSD ||
-           eApplyBlackLevel == APPLY_BLACKLEVEL__ENABLE)    //H2PF_Simon_0112
-        {
-            OSDMODE1_New &= ~(BIT3 | BIT2 | BIT1);
-            if(OSDMODE1 | (BIT1) == (BIT1))    //H2PF_Simon_0136
-            {
-                OSDMODE1_New |= (BIT1);
-            }
-            OSDMODE1_New |= (BIT2 | BIT0);
-
-            dvC341_WriteToBuffer(B9_OSDMODE1CH1, OSDMODE1_New, 0);
-            dvC341_WriteToBuffer(B9_OSDMODE1CH1, OSDMODE1_New, CH_BANK_OFFSET);
-
-        }
-        else
-        {
-            dvC341_WriteToBuffer(B9_OSDMODE1CH1, OSDMODE1_New & (~BIT1), 0);
-    	    dvC341_WriteToBuffer(B9_OSDMODE1CH1, OSDMODE1_New & (~BIT1), CH_BANK_OFFSET);
-        }
-#endif /* 0 */
-
-
-        dvC341_Write( B0_RTCT0, (RTCT_OP_STOP<<4)|RTCT_OP_STOP, 0 );
-
-    	//enable OSD2
-    	dvC341_WriteToBuffer(B9_OSDMODE1CH1, OSDMODE2, 0);
-    	dvC341_WriteToBuffer(B9_OSDMODE1CH1, OSDMODE2, CH_BANK_OFFSET);
-
-        dvC341_Buffer_Flush();
-
-        dvC341_Write( B0_RTCT0, (RTCT_OP_POVSCH1CH2<<4)|RTCT_OP_POVSCH1CH2, 0 );
-        dvC341_wait1_povs(eC341_CH_V0); //OSD CH1 wait_povs
-#ifdef SIMULATOR_ISCALER
-		dvC341_WarpingDeomOSDOn();
-#endif /* SIMULATOR_ISCALER */
-    }
-    else
-    {
-        UINT32 ulRtct = dvC341_Read(B0_RTCT0, 0) & 0xff;
-        //enable OSD1
-        //UINT32 OSDMODE1 = dvC341_Read(B9_OSDMODE2CH1, 0);
-        //if(m_IsCustomOSDOnRecord == TRUE)    //H2PF_Simon_0136
-        //{
-            //OSDMODE1 |= (BIT1);  //enable OSD
-            ///m_IsCustomOSDOnRecord = FALSE;
-        //}
-
-        dvC341_Write( B0_RTCT0, (RTCT_OP_STOP<<4)|RTCT_OP_STOP, 0 );
-
-        //disable OSD2
-    	dvC341_WriteToBuffer(B9_OSDMODE1CH1, OSDMODE2, 0);
-    	dvC341_WriteToBuffer(B9_OSDMODE1CH1, OSDMODE2, CH_BANK_OFFSET);
-
-        //OSDMODE1 &= ~(BIT3); //insert before warp
-        //OSDMODE1 |= (BIT2);  //insert before warp
-    	//dvC341_WriteToBuffer(B9_OSDMODE2CH1, OSDMODE1, 0);
-    	//dvC341_WriteToBuffer(B9_OSDMODE2CH1, OSDMODE1, CH_BANK_OFFSET);
-        dvC341_Buffer_Flush();
-
-        dvC341_Write( B0_RTCT0, (RTCT_OP_POVSCH3CH4<<4)|RTCT_OP_POVSCH1CH2, 0 );
-        dvC341_wait1_povs(eC341_CH_V0); //OSD CH1 wait_povs
-        dvC341_Write( B0_RTCT0, ulRtct, 0 );
-    }
-
-	//dvC341_Buffer_Flush();
-
-	LOG_MSG(db_HAL_WARPING, "A OSDMODE2 0x%04x\r\n", OSDMODE2);
-
-#endif
-
 	ApplyBlend(eApplyBlend);
 #if (ADVANCED_BLACK_LEVEL == TRUE)
-	ApplyBlackLevel(eApplyBlackLevel);
+	ApplyBlackLevel(eApplyBlackLevel);    //A65_OPTOMA_Doulas_0020
 #endif
 }
 
@@ -7432,13 +6019,7 @@ uint32 TimeElapsedMs(void)
 void utilWarp_GetDeviceId(void)
 {
 	UINT32 nData = 0;
-
-	#ifdef SCALER_C821_C789
     nData = dvC789_Read(B10_DEVICECODE);
-    #elif defined(SCALER_C341)
-    nData = dvC341_Read(B178_DEVICECODE, 0);
-    #endif
-
 	LOG_MSG(db_HAL_WARPING, "device ID is %02X\r\n", nData);
 }
 
@@ -7447,7 +6028,7 @@ UINT8 utilWarp_SysInit(eRES_ID eCurrentResId, eRES_ID e3dResId)  //A65_OPTOMA_Do
 	uint16 nIdx;
 	UINT8 ucResult = FLASH_ACCESS__PASS;	//A65_OPTOMA_Doulas_0167
 
-	LOG_MSG(db_HAL_WARPING, "%s Start (%d %d)\r\n", __FUNCTION__, eCurrentResId, e3dResId);
+	LOG_MSG(db_HAL_WARPING, "%s Start\r\n", __FUNCTION__);
 
 	m_e3dResId = e3dResId;                                        //G100_Doulas_0065
 	m_nNativeResH = m_ModeTable[NATIVE_RES_ID].nHActive;
@@ -7455,10 +6036,10 @@ UINT8 utilWarp_SysInit(eRES_ID eCurrentResId, eRES_ID e3dResId)  //A65_OPTOMA_Do
 	m_n3dResH = m_ModeTable[m_e3dResId].nHActive;
 	m_n3dResV = m_ModeTable[m_e3dResId].nVActive;
 
-	NATIVE_WP_HW_GRD = ((m_nNativeResH%Def_Wp_Space_Native)==0) ? m_nNativeResH/Def_Wp_Space_Native : m_nNativeResH/Def_Wp_Space_Native+1;
-	NATIVE_WP_VW_GRD = ((m_nNativeResV%Def_Wp_Space_Native)==0) ? m_nNativeResV/Def_Wp_Space_Native : m_nNativeResV/Def_Wp_Space_Native+1;
-	THREED_WP_HW_GRD = ((m_n3dResH%Def_Wp_Space)==0) ? m_n3dResH/Def_Wp_Space : m_n3dResH/Def_Wp_Space+1;
-	THREED_WP_VW_GRD = ((m_n3dResV%Def_Wp_Space)==0) ? m_n3dResV/Def_Wp_Space : m_n3dResV/Def_Wp_Space+1;
+	NATIVE_WP_HW_GRD = ((m_nNativeResH%16)==0) ? m_nNativeResH/16 : m_nNativeResH/16+1;
+	NATIVE_WP_VW_GRD = ((m_nNativeResV%16)==0) ? m_nNativeResV/16 : m_nNativeResV/16+1;
+	THREED_WP_HW_GRD = ((m_n3dResH%16)==0) ? m_n3dResH/16 : m_n3dResH/16+1;
+	THREED_WP_VW_GRD = ((m_n3dResV%16)==0) ? m_n3dResV/16 : m_n3dResV/16+1;
 	m_f3dResRatioX = (float)m_n3dResH/(float)m_nNativeResH;
 	m_f3dResRatioY = (float)m_n3dResV/(float)m_nNativeResV;
 
@@ -7469,8 +6050,8 @@ UINT8 utilWarp_SysInit(eRES_ID eCurrentResId, eRES_ID e3dResId)  //A65_OPTOMA_Do
 		PS_CUR_DEF_IX[nIdx] = (float)(m_nNativeResH * nIdx) / (float)(DEF_NUM_CUR_MAX_H-1);
 		PS_CUR_DEF_IY[nIdx] = (float)(m_nNativeResV * nIdx) / (float)(DEF_NUM_CUR_MAX_V-1);
 	}
-	m_OsdAddrLayer0 = DEF_OSDSAD_LAYER3_4K;
-	m_OsdAddrLayer1 = DEF_OSDSAD_LAYER4_4K;
+	m_OsdAddrLayer0 = OSD_BASIC_ADDR;
+	m_OsdAddrLayer1 = OSD_BASIC_ADDR+0x240000;
 	m_OsdAddrLayerCurrent = m_OsdAddrLayer0;
 
 	clock_gettime(CLOCK_MONOTONIC, &m_stStartTime);
@@ -7492,7 +6073,7 @@ UINT8 utilWarp_SysInit(eRES_ID eCurrentResId, eRES_ID e3dResId)  //A65_OPTOMA_Do
 	ApplyWarp(APPLY_WARP__RE_CALC);				//A65_OPTOMA_Doulas_0167
 
 	//kenton_temp_check reset RTCT
-	halWarping_TransferCtrl_Through();
+	dvC789_WriteToBuffer(BN_RTCT, RTCT_THRU);
 	//set BLACK as transparent color
 	//halWarpOSD_OSD_Transparent_Set(TRUE,
     //                               COLOR_IDX__BLACK_BKG,
@@ -7500,6 +6081,17 @@ UINT8 utilWarp_SysInit(eRES_ID eCurrentResId, eRES_ID e3dResId)  //A65_OPTOMA_Do
     //                               COLOR_IDX__BLACK_BKG,
     //                               m_eOverlapColor
     //                               );
+
+	//Enable color palette
+	dvC789_WriteToBuffer(B1_OSDCT, 0x40);
+	//address of black level area
+	dvC789_WriteToBuffer(B9_EBIASSAD, OSD_BIAS_ADDR);
+	//Specify the edge blend bias data memory read linefeed width by EBIASMWI[7:0]x256 bytes
+	dvC789_WriteToBuffer(B9_EBIASMWI, OSD_BIAS_MWI);
+	////address of dot by dot blending area
+	dvC789_WriteToBuffer(B9_EGBDBDSAD, OSD_DBD_ADDR);
+	dvC789_WriteToBuffer(B9_EGBDBDMWI, OSD_DBD_8BIT_MWI);
+	dvC789_Buffer_Flush();
 
 	//load warp config
 	if(LoadWarpConfig()==FLASH_ACCESS__PASS)
@@ -7545,9 +6137,7 @@ UINT8 utilWarp_SysInit(eRES_ID eCurrentResId, eRES_ID e3dResId)  //A65_OPTOMA_Do
 	//m_nSelCtlPointY = 0;  //A65_OPTOMA_Doulas_0020
 	//InitGridColor();      //A65_OPTOMA_Doulas_0020
 	InitRunTimeParam();     //A65_OPTOMA_Doulas_0020
-	//dvC789_Write(B1_OSDMODE, 0x00);		//G100_Doulas_0027 debug   //init at driver init (dvC341Geo_Init / dvC789_Init)
-    //if(m_ePatternType!=PAT_TYPE__OFF)//H30K_David_0045    //H2PF_Simon_0136 remove
-    utilWarp_ShowOsdPattern(PAT_TYPE__OFF);
+	dvC789_Write(B1_OSDMODE, 0x00);		//G100_Doulas_0027 debug
 
 	if(m_stWarpConfig.eWarpCtrl == WARP_CTRL__ADVANCED)		//G100_Doulas_0027 Add,basic return
 	{
@@ -7670,7 +6260,6 @@ uint8 utilWarp_LoadOsdPreset(uint8 nIdx)
 	{
 		//restore origin warp config
 		memcpy(&m_stWarpConfig, &stWarpConfigBackup, sizeof(WARP_CONFIG));
-        m_stWarpConfig.stOsd.bWarpLimit = TRUE;  //force enable Warp Limit   //H2PF_Simon_0168
 		return FLASH_ACCESS__VERIFY_CONFIG_ERR;
 	}
 
@@ -7996,7 +6585,7 @@ BOOL utilWarp_MoveControlPoint(eDIR eDir)
 	float fNewPos;
 	uint8 nMovePixel;
 	uint8 err = E_WpNoErr;
-	halWarping_TransferCtrl_Through(); 		//G100_Doulas_0027
+	dvC789_WriteToBuffer(BN_RTCT, RTCT_THRU);  		//G100_Doulas_0027
 	if (eDir!=m_eMovePrevDir)
 	{
 		m_eMovePrevDir = eDir;
@@ -8127,9 +6716,8 @@ BOOL utilWarp_MoveControlPoint(eDIR eDir)
 	else
 	{
 		//make the movement be 1 of next adjustment
-		//m_eMovePrevDir = DIR__INVALID;  //H2PF_Simon_0161 , 超過極限時， 讓 repeat key 還是可以累加 nMovePixel (避免走不回來)
-		//if(nMovePixel==1)
-	        clock_gettime(CLOCK_MONOTONIC, &m_stStartTime);  //H2PF_Simon_0161
+		m_eMovePrevDir = DIR__INVALID;
+		if(nMovePixel==1)
 			return FALSE;
 	}
 
@@ -8148,9 +6736,7 @@ void utilWarp_WriteDefaultWarpTable(void)
 	uint16 nIdxX, nIdxY;
 	uint16 nDtX, nDtY;
 
-    halWarping_TransferCtrl_Through();   //A35G2_CDS_Simon_0034
-
-#ifdef SCALER_C821_C789
+    dvC789_Write(BN_RTCT, RTCT_THRU);   //A35G2_CDS_Simon_0034
 
     UINT16 uiDTCT = (UINT16)dvC789_Read(B5_DTCT);
     if(uiDTCT & WARPING_DISTORTION_CORRECTION_TABLE_B)   //A35G2_CDS_Simon_0034
@@ -8200,89 +6786,6 @@ void utilWarp_WriteDefaultWarpTable(void)
     {
         dvC789_Write(B5_DTCT, DTCT_BASE_ACCESS_DISABLE_16PIEXL_A);
     }
-
-#elif defined(SCALER_C341)
-
-    #if 0
-    UINT16 uiDTCT = (UINT16)dvC341_Read(B145_WPDTCTCH1, 0);
-	INT32 adsft = 7;
-	INT32 x2k_grd_jmp = 128;
-	INT32 x2k_ad_jmp = 17664;
-	INT32 x2k_ad_ysft = 1;
-	UINT32 uiYAd = 0 ;
-	UINT32 uiAd = 0;
-	UINT8 aucData[6] = {0};
-	UINT32 xad;
-
-    if(uiDTCT & WARPING_DISTORTION_CORRECTION_TABLE_B)   //A35G2_CDS_Simon_0034
-    {
-        dvC341_Write(B145_WPDTCTCH1, DTCT_BASE_ACCESS_ENABLE_32PIEXL_B, 0);
-    }
-    else
-    {
-        dvC341_Write(B145_WPDTCTCH1, DTCT_BASE_ACCESS_ENABLE_32PIEXL_A, 0);
-    }
-
-	//RGB common correction; 16-pixel Spacing; Select Table A; Access Table A
-	//dvC341_WriteToBuffer(B5_DTCT, 0x0040);
-
-	for(nIdxY = 0 ; nIdxY <= PS_WP_VW_GRD; nIdxY++)
-	{
-        uiYAd = nIdxY;  //y - DEF_WP_OUT_VGRD;
-        uiAd = (UINT32)(uiYAd << adsft);
-
-        aucData[0] = uiAd & 0xff;
-        aucData[1] = (uiAd >> 8) & 0xff;
-        aucData[2] = (uiAd >> 16) & 0xff;
-        dvC341_BurstWrite_FixedAdd(B145_WPDTADCH1, 3, aucData);
-
-		for(nIdxX = 0; nIdxX <= PS_WP_HW_GRD; nIdxX++)
-		{
-		    if ( xad == x2k_grd_jmp )
-			{// x >= 2k
-				uiAd = x2k_ad_jmp + (uiYAd<<x2k_ad_ysft);
-                aucData[0] = uiAd & 0xff;
-                aucData[1] = (uiAd >> 8) & 0xff;
-                aucData[2] = (uiAd >> 16) & 0xff;
-                dvC341_BurstWrite_FixedAdd(B145_WPDTADCH1, 3, aucData);
-			}
-
-            if(halWarping_DEF_WP_SPACE_Get() == DEF_WP_SPACE_2K)  //16
-            {
-    			nDtX = nIdxX << 8;
-    			nDtY = nIdxY << 8;
-            }
-            else  //DEF_WP_SPACE_4K  //32
-            {
-    			nDtX = nIdxX << 8;
-    			nDtY = nIdxY << 8;
-            }
-
-			//First access  : Set the low-byte of X-coordinate to DTDT[7:0]
-			dvC341_WriteToBuffer(B145_WPDTDTCH1, GET_BYTE0(nDtX), 0);
-			//Second access : Set the high-byte of X-coordinate to DTDT[7:0]
-			dvC341_WriteToBuffer(B145_WPDTDTCH1, GET_BYTE1(nDtX), 0);
-			//Third access  : Set the low-byte of Y-coordinate to DTDT[7:0]
-			dvC341_WriteToBuffer(B145_WPDTDTCH1, GET_BYTE0(nDtY), 0);
-			//Fourth access  : Set the high-byte of Y-coordinate to DTDT[7:0]
-			dvC341_WriteToBuffer(B145_WPDTDTCH1, GET_BYTE1(nDtY), 0);
-		}
-	}
-
-	//dvC341_WriteToBuffer(B5_DTCT, 0x0000);
-	dvC341_Buffer_Flush();
-
-    if(uiDTCT & WARPING_DISTORTION_CORRECTION_TABLE_B)   //A35G2_CDS_Simon_0034
-    {
-        dvC341_Write(B145_WPDTCTCH1, DTCT_BASE_ACCESS_DISABLE_32PIEXL_B, 0);
-    }
-    else
-    {
-        dvC341_Write(B145_WPDTCTCH1, DTCT_BASE_ACCESS_DISABLE_32PIEXL_A, 0);
-    }
-    #endif
-
-#endif
 
 }
 
@@ -8373,15 +6876,15 @@ void OSD_Color_Init(void)
 
 void utilWarp_ShowOsdPattern(ePAT_TYPE eType)
 {
-	ePAT_TYPE m_ePatternType_Old = utilWarp_GetOsdPatternType();	//G100_Doulas_0044 Add
+	ePAT_TYPE m_ePatternType_Old = m_ePatternType;	//G100_Doulas_0044 Add
 	UINT32 ulColor = 0;			//G100_Doulas_0090
 	eAPPLY_BLACKLEVEL eApplyBlackLevel = APPLY_BLACKLEVEL__DISABLE;    //A65_OPTOMA_Doulas_0020  //A35G2_CDS_CL_0002
 	eAPPLY_BLEND eApplyBlend = APPLY_BLEND__DISABLE;    //A65_OPTOMA_CL_0016  //A35G2_CDS_CL_0002 //A35G2_Alan_0015
 
 	LOG_MSG(db_HAL_WARPING, "(%s,%d) utilWarp_ShowOsdPattern %d (pre %d) Start\r\n", __FUNCTION__, __LINE__, eType, m_ePatternType_Old);		//A65_OPTOMA_Doulas_0095
-    utilWarp_SetOsdPatternType(eType);
-	halWarping_TransferCtrl_Through();
-
+	m_ePatternType = eType;
+	//dvC789_WriteToBuffer(BN_RTCT, RTCT_THRU);  		//A65_OPTOMA_Doulas_0136//G100_Doulas_0027
+	dvC789_Write( BN_RTCT, RTCT_THRU);					//A65_OPTOMA_Doulas_0136
 	switch(eType)
 	{
 		default:
@@ -8389,7 +6892,7 @@ void utilWarp_ShowOsdPattern(ePAT_TYPE eType)
 			//sUtilWarpDemo_Callback.fpGui_OSD_ON_SetCb(ets_ON); //###
             //sUtilWarpDemo_Callback.fpGui_SendUpdateOSDEventCb();	//G100_Doulas_0044
             palDataMgr_UI_EventSend(edcOSD_SHOW, TRUE, NULL);
-            //palDataMgr_UI_EventSend(edcUI_EVENT_UPDATE_OSD, TRUE, NULL);
+            palDataMgr_UI_EventSend(edcUI_EVENT_UPDATE_OSD, TRUE, NULL);
 			//save warp control point/blend width if updated.
 			if (m_bOsdWarpParamChanged)
 			{
@@ -8401,16 +6904,14 @@ void utilWarp_ShowOsdPattern(ePAT_TYPE eType)
 			}
 
 			eApplyBlackLevel = (m_bRewriteOsdBlackLevelArea) ? APPLY_BLACKLEVEL__BY_CONFIG : APPLY_BLACKLEVEL__ENABLE;    //A65_OPTOMA_Doulas_0020
-
-            #if (ADVANCED_BLEND)
+#ifdef CUSTOM_BARCO   //wait review
             ApplyBlend(APPLY_BLEND__BY_CONFIG);  //A35G2_Wesley_0056 Merge G50 V1.80
-            #endif
+#endif
 
 #if (ADVANCED_BLACK_LEVEL == TRUE)
 			EnableTestPattern(FALSE, BKG_COLOR__BLACK, APPLY_BLEND__BY_CONFIG, eApplyBlackLevel, m_eOsdPosition);
 #else
-			//ulColor = (UINT8)dvC789_Read(B1_BOTRANS3);												//G100_Doulas_0090
-			halWarping_OSD_TransparentColor_Get(eTC_SLOT3, &ulColor);
+			ulColor = (UINT8)dvC789_Read(B1_BOTRANS3);												//G100_Doulas_0090
 			DrawOsdRect(OSD_LAYER_TYPE__MAIN, 0, 0, PS_PANEL_ACT_HW, PS_PANEL_ACT_VW, ulColor);		//G100_Doulas_0090
 			#ifndef CUSTOM_CHRISTIE  //A35G2_Simon_0115
 			EnableTestPattern(TRUE, BKG_COLOR__TRANSPARENT, APPLY_BLEND__BY_CONFIG, eApplyBlackLevel, m_eOsdPosition);  //A65_OPTOMA_Doulas_0020 //A35G2_Wesley_0056 Merge G50 V1.80
@@ -8427,7 +6928,7 @@ void utilWarp_ShowOsdPattern(ePAT_TYPE eType)
 				//sUtilWarpDemo_Callback.fpGui_OSD_ON_SetCb(ets_OFF); //###
             	//sUtilWarpDemo_Callback.fpGui_SendUpdateOSDEventCb();
                 palDataMgr_UI_EventSend(edcOSD_SHOW, FALSE, NULL);
-                //palDataMgr_UI_EventSend(edcUI_EVENT_UPDATE_OSD, TRUE, NULL);
+                palDataMgr_UI_EventSend(edcUI_EVENT_UPDATE_OSD, TRUE, NULL);
 			}
 			utilWarp_SetColorPaletteGroupIndex(COLOR_PALETTE__OSD); //A65_OPTOMA_CL_0007
 
@@ -8440,11 +6941,7 @@ void utilWarp_ShowOsdPattern(ePAT_TYPE eType)
             {
                 DrawOsdWarpGridLinesPatternPtoolset();
             }
-#ifdef CUSTOM_CHRISTIE
-            DrawOsdWarpGridPointsPattern();
-#else
-            DrawOsdWarpGridPattern();
-#endif /* CUSTOM_CHRISTIE */
+			DrawOsdWarpGridPointsPattern();
 			eApplyBlackLevel = (halWarping_TwistLinkFlag_Get() == TRUE) ? APPLY_BLACKLEVEL__BY_CONFIG : APPLY_BLACKLEVEL__DISABLE;
 			EnableTestPattern(TRUE, m_stWarpConfig.stOsd.eBkgColor, APPLY_BLEND__BY_CONFIG, eApplyBlackLevel,OSD_POS__BEFORE_WARP);
             break;
@@ -8460,23 +6957,14 @@ void utilWarp_ShowOsdPattern(ePAT_TYPE eType)
             {
                 DrawOsdWarpGridLinesPatternPtoolset();
             }
-#ifdef CUSTOM_CHRISTIE
-            DrawOsdWarpGridPointsPattern();
-#else
-            DrawOsdWarpGridPattern();
-#endif /* CUSTOM_CHRISTIE */
-
+			DrawOsdWarpGridPointsPattern();
 			eApplyBlackLevel = (halWarping_TwistLinkFlag_Get() == TRUE) ? APPLY_BLACKLEVEL__BY_CONFIG : APPLY_BLACKLEVEL__DISABLE;
 			EnableTestPattern(TRUE, m_stWarpConfig.stOsd.eBkgColor, APPLY_BLEND__BY_CONFIG, eApplyBlackLevel,OSD_POS__BEFORE_WARP);
             // G50_Keven_0003	 //A35G2_Wesley_0093 <<<
             break;
 
 		case PAT_TYPE__WARP_NO_CTRL_POINT:
-#ifdef CUSTOM_CHRISTIE
-            DrawOsdWarpGridLinesPattern();
-#else
-            DrawOsdWarpGridPattern();
-#endif /* CUSTOM_CHRISTIE */
+			DrawOsdWarpGridLinesPattern();  // G50_Keven_0003, follow Tim's modification //A35G2_Wesley_0093
 			EnableTestPattern(TRUE, m_stWarpConfig.stOsd.eBkgColor, APPLY_BLEND__DISABLE, APPLY_BLACKLEVEL__DISABLE, OSD_POS__BEFORE_WARP);  //A65_OPTOMA_Doulas_0020
 			break;
 
@@ -8487,7 +6975,7 @@ void utilWarp_ShowOsdPattern(ePAT_TYPE eType)
 				//sUtilWarpDemo_Callback.fpGui_OSD_ON_SetCb(ets_OFF); //###
             	//sUtilWarpDemo_Callback.fpGui_SendUpdateOSDEventCb();
                 palDataMgr_UI_EventSend(edcOSD_SHOW, FALSE, NULL);
-                //palDataMgr_UI_EventSend(edcUI_EVENT_UPDATE_OSD, TRUE, NULL);
+                palDataMgr_UI_EventSend(edcUI_EVENT_UPDATE_OSD, TRUE, NULL);
 			}
 			utilWarp_SetColorPaletteGroupIndex(COLOR_PALETTE__OSD); //A65_OPTOMA_CL_0007
 
@@ -8517,7 +7005,6 @@ void utilWarp_ShowOsdPattern(ePAT_TYPE eType)
 
 		//This belong to color palette set COLOR_PALETTE__OSD
 		case PAT_TYPE__BLACKLEVEL_PREVIEW:   //A65_OPTOMA_Doulas_0020
-		    Custom_OSD_On();
 			utilWarp_SetColorPaletteGroupIndex(COLOR_PALETTE__OSD); //A65_OPTOMA_CL_0007
 			#if 0 //A65_OPTOMA_Doulas_0023 remove
 			if(m_ePatternType_Old == PAT_TYPE__OFF)		//A65_OPTOMA_Doulas_0020 Add
@@ -8527,24 +7014,8 @@ void utilWarp_ShowOsdPattern(ePAT_TYPE eType)
 			}
 			#endif
 			DrawOsdBlackLevelPreviewPattern();
-			eApplyBlackLevel = (m_bRewriteOsdBlackLevelArea) ? APPLY_BLACKLEVEL__WITHOSD : APPLY_BLACKLEVEL__ENABLE; //APPLY_BLACKLEVEL__BY_CONFIG : APPLY_BLACKLEVEL__ENABLE;
+			eApplyBlackLevel = (m_bRewriteOsdBlackLevelArea) ? APPLY_BLACKLEVEL__BY_CONFIG : APPLY_BLACKLEVEL__ENABLE;
 			EnableTestPattern(TRUE, BKG_COLOR__TRANSPARENT, APPLY_BLEND__DISABLE, eApplyBlackLevel, OSD_POS__AFTER_WARP);
-			//Custom_OSD_On();
-			break;
-
-		case PAT_TYPE__BLACKLEVEL_BOUNDARY:   //H2PF_Simon_0155
-		    Custom_OSD_On();
-			utilWarp_SetColorPaletteGroupIndex(COLOR_PALETTE__OSD);
-			DrawOsdBlackLevelPreviewPattern();
-			eApplyBlackLevel = (m_bRewriteOsdBlackLevelArea) ? APPLY_BLACKLEVEL__WITHOSD : APPLY_BLACKLEVEL__ENABLE;
-            if(m_stWarpConfig.stOsd.stBlackLevel.ucBoundary == TRUE)
-            {
-			    EnableTestPattern(TRUE, BKG_COLOR__TRANSPARENT, APPLY_BLEND__DISABLE, eApplyBlackLevel, OSD_POS__AFTER_WARP);
-            }
-            else
-            {
-                EnableTestPattern(FALSE, BKG_COLOR__TRANSPARENT, APPLY_BLEND__DISABLE, eApplyBlackLevel, OSD_POS__AFTER_WARP);
-            }
 			break;
 
 //		case PAT_TYPE__EMPTY: //A35G2_BRC_Casper_0046
@@ -8561,7 +7032,7 @@ void utilWarp_ShowOsdPattern(ePAT_TYPE eType)
                 //sUtilWarpDemo_Callback.fpGui_OSD_ON_SetCb(ets_OFF); //###
                 //sUtilWarpDemo_Callback.fpGui_SendUpdateOSDEventCb();
             	palDataMgr_UI_EventSend(edcOSD_SHOW, FALSE, NULL);
-                //palDataMgr_UI_EventSend(edcUI_EVENT_UPDATE_OSD, TRUE, NULL);
+                palDataMgr_UI_EventSend(edcUI_EVENT_UPDATE_OSD, TRUE, NULL);
             }
             utilWarp_SetColorPaletteGroupIndex(COLOR_PALETTE__OSD); //A65_OPTOMA_CL_0007
             DrawOsdRect(OSD_LAYER_TYPE__MAIN, 0, 0, PS_PANEL_ACT_HW, PS_PANEL_ACT_VW, COLOR_IDX__WHITE);
@@ -8581,7 +7052,7 @@ void utilWarp_ShowOsdPattern(ePAT_TYPE eType)
                 //sUtilWarpDemo_Callback.fpGui_OSD_ON_SetCb(ets_OFF); //###
                 //sUtilWarpDemo_Callback.fpGui_SendUpdateOSDEventCb();
             	palDataMgr_UI_EventSend(edcOSD_SHOW, FALSE, NULL);
-                //palDataMgr_UI_EventSend(edcUI_EVENT_UPDATE_OSD, TRUE, NULL);
+                palDataMgr_UI_EventSend(edcUI_EVENT_UPDATE_OSD, TRUE, NULL);
             }
             utilWarp_SetColorPaletteGroupIndex(COLOR_PALETTE__OSD); //A65_OPTOMA_CL_0007
             DrawOsdRect(OSD_LAYER_TYPE__MAIN, 0, 0, PS_PANEL_ACT_HW, PS_PANEL_ACT_VW, COLOR_IDX__BLACK);
@@ -8601,7 +7072,7 @@ void utilWarp_ShowOsdPattern(ePAT_TYPE eType)
                 //sUtilWarpDemo_Callback.fpGui_OSD_ON_SetCb(ets_OFF); //###
                 //sUtilWarpDemo_Callback.fpGui_SendUpdateOSDEventCb();
             	palDataMgr_UI_EventSend(edcOSD_SHOW, FALSE, NULL);
-                //palDataMgr_UI_EventSend(edcUI_EVENT_UPDATE_OSD, TRUE, NULL);
+                palDataMgr_UI_EventSend(edcUI_EVENT_UPDATE_OSD, TRUE, NULL);
             }
             utilWarp_SetColorPaletteGroupIndex(COLOR_PALETTE__OSD); //A65_OPTOMA_CL_0007
             DrawOsdAcuGridPattern();
@@ -8621,7 +7092,7 @@ void utilWarp_ShowOsdPattern(ePAT_TYPE eType)
                 //sUtilWarpDemo_Callback.fpGui_OSD_ON_SetCb(ets_OFF); //###
                 //sUtilWarpDemo_Callback.fpGui_SendUpdateOSDEventCb();
             	palDataMgr_UI_EventSend(edcOSD_SHOW, FALSE, NULL);
-                //palDataMgr_UI_EventSend(edcUI_EVENT_UPDATE_OSD, TRUE, NULL);
+                palDataMgr_UI_EventSend(edcUI_EVENT_UPDATE_OSD, TRUE, NULL);
             }
             utilWarp_SetColorPaletteGroupIndex(COLOR_PALETTE__OSD); //A65_OPTOMA_CL_0007
             DrawOsdAcuCenterGridPattern();
@@ -8640,7 +7111,7 @@ void utilWarp_ShowOsdPattern(ePAT_TYPE eType)
                 //sUtilWarpDemo_Callback.fpGui_OSD_ON_SetCb(ets_OFF); //###
                 //sUtilWarpDemo_Callback.fpGui_SendUpdateOSDEventCb();
             	palDataMgr_UI_EventSend(edcOSD_SHOW, FALSE, NULL);
-                //palDataMgr_UI_EventSend(edcUI_EVENT_UPDATE_OSD, TRUE, NULL);
+                palDataMgr_UI_EventSend(edcUI_EVENT_UPDATE_OSD, TRUE, NULL);
             }
             utilWarp_SetColorPaletteGroupIndex(COLOR_PALETTE__OSD); //A65_OPTOMA_CL_0007
             DrawOsdRect(OSD_LAYER_TYPE__MAIN, 0, 0, PS_PANEL_ACT_HW, PS_PANEL_ACT_VW, COLOR_IDX__WHITE);
@@ -8661,7 +7132,7 @@ void utilWarp_ShowOsdPattern(ePAT_TYPE eType)
                 //sUtilWarpDemo_Callback.fpGui_OSD_ON_SetCb(ets_OFF); //###
                 //sUtilWarpDemo_Callback.fpGui_SendUpdateOSDEventCb();
             	palDataMgr_UI_EventSend(edcOSD_SHOW, FALSE, NULL);
-                //palDataMgr_UI_EventSend(edcUI_EVENT_UPDATE_OSD, TRUE, NULL);
+                palDataMgr_UI_EventSend(edcUI_EVENT_UPDATE_OSD, TRUE, NULL);
             }
             utilWarp_SetColorPaletteGroupIndex(COLOR_PALETTE__OSD); //A65_OPTOMA_CL_0007
             DrawOsdAcuBlackBorderMultipleSelectPattern();
@@ -8682,7 +7153,7 @@ void utilWarp_ShowOsdPattern(ePAT_TYPE eType)
                 //sUtilWarpDemo_Callback.fpGui_OSD_ON_SetCb(ets_OFF); //###
                 //sUtilWarpDemo_Callback.fpGui_SendUpdateOSDEventCb();
             	palDataMgr_UI_EventSend(edcOSD_SHOW, FALSE, NULL);
-                //palDataMgr_UI_EventSend(edcUI_EVENT_UPDATE_OSD, TRUE, NULL);
+                palDataMgr_UI_EventSend(edcUI_EVENT_UPDATE_OSD, TRUE, NULL);
             }
             utilWarp_SetColorPaletteGroupIndex(COLOR_PALETTE__OSD); //A65_OPTOMA_CL_0007
             DrawOsdRect(OSD_LAYER_TYPE__MAIN, 0, 0, PS_PANEL_ACT_HW, PS_PANEL_ACT_VW, COLOR_IDX__USER_DEFINE);
@@ -8787,92 +7258,26 @@ ePAT_TYPE utilWarp_GetOsdPatternType(void)
 
 void utilWarp_SetOsdPatternType(ePAT_TYPE eType)
 {
-    sPROCESS_MUTEX_DATA *sProcessMutexData = (sPROCESS_MUTEX_DATA *)SharedMem_GetMapPtr(eSB_PROCESS_MUTEX_DATA);
-    sProcessMutexData->sWARPING_INFO.AdvWarpPatternIndex = (UINT8)eType;
 	m_ePatternType = eType;
 }
 
 
 void utilWarp_HideOsdPattern(BOOL bHide)			//A65_OPTOMA_Doulas_0211 Add
 {
+	uint8 nOSDMODE;
+
 	LOG_MSG(db_HAL_WARPING,"utilWarp_HideOsdPattern %d\r\n",bHide);		//A35G2_Owen_0002 //A65_OPTOMA_Doulas_0239 debug
-
-#ifdef SCALER_C821_C789
-
-    uint8 nOSDMODE = dvC789_Read(B1_OSDMODE);
+    nOSDMODE = dvC789_Read(B1_OSDMODE);
     if(bHide)
     {
         nOSDMODE &= 0xfd;
     }
-    else if(utilWarp_GetOsdPatternType() != PAT_TYPE__OFF)
+    else if(m_ePatternType != PAT_TYPE__OFF)
     {
         nOSDMODE |= 0x02;
     }
 
     dvC789_Write(B1_OSDMODE, nOSDMODE);
-
-#elif defined(SCALER_C341)
-
-    uint16 nOSDMODE_CH1 = dvC341_Read(B9_OSDMODE1CH1, 0);
-    uint16 nOSDMODE_CH2 = dvC341_Read(B25_OSDMODE1CH2, 0);
-    if(bHide)
-    {
-        nOSDMODE_CH1 &= 0xfffd;
-        nOSDMODE_CH2 &= 0xfffd;
-    }
-    else if(utilWarp_GetOsdPatternType() != PAT_TYPE__OFF)
-    {
-        nOSDMODE_CH1 |= 0x0002;
-        nOSDMODE_CH2 |= 0x0002;
-    }
-
-    dvC341_Write( B0_RTCT6, (RTCT_OP_WPPOVSCH1CH2<<4)|RTCT_OP_WPPOVSCH1CH2, 0 );
-    dvC341_Write( B9_OSDMODE1CH1,  nOSDMODE_CH1, 0);
-    dvC341_Write( B25_OSDMODE1CH2, nOSDMODE_CH2, 0);
-    dvC341_Write( B0_RTCT6, 0, 0 );
-
-#endif
-}
-
-void utilWarp_HideBlacklevelBoundaryPattern(BOOL bHide)
-{
-	LOG_MSG(db_HAL_WARPING,"%s %d\r\n",__func__, bHide);
-
-#ifdef SCALER_C821_C789
-
-    uint8 nOSDMODE = dvC789_Read(B1_OSDMODE);
-    if(bHide)
-    {
-        nOSDMODE &= 0xfd;
-    }
-    else if(utilWarp_GetOsdPatternType() != PAT_TYPE__OFF)
-    {
-        nOSDMODE |= 0x03;
-    }
-
-    dvC789_Write(B1_OSDMODE, nOSDMODE);
-
-#elif defined(SCALER_C341)
-
-    uint16 nOSDMODE_CH1 = dvC341_Read(B9_OSDMODE1CH1, 0);
-    uint16 nOSDMODE_CH2 = dvC341_Read(B25_OSDMODE1CH2, 0);
-    if(bHide)
-    {
-        nOSDMODE_CH1 &= (~BIT1);
-        nOSDMODE_CH2 &= (~BIT1);
-    }
-    else if(utilWarp_GetOsdPatternType() != PAT_TYPE__OFF)
-    {
-        nOSDMODE_CH1 |= (BIT1|BIT0);
-        nOSDMODE_CH2 |= (BIT1|BIT0);
-    }
-
-    dvC341_Write( B0_RTCT6, (RTCT_OP_WPPOVSCH1CH2<<4)|RTCT_OP_WPPOVSCH1CH2, 0 );
-    dvC341_Write( B9_OSDMODE1CH1,  nOSDMODE_CH1, 0);
-    dvC341_Write( B25_OSDMODE1CH2, nOSDMODE_CH2, 0);
-    dvC341_Write( B0_RTCT6, 0, 0 );
-
-#endif
 }
 
 void utilWarp_SelectOsdBlendWidth(eDIR eDir)
@@ -8900,7 +7305,7 @@ BOOL utilWarp_AdjustOsdBlendWidth(eADJ eAdj)
 
 	if(eAdj >= ADJ__INVALID)
 		return FALSE;
-	halWarping_TransferCtrl_Through();  		//G100_Doulas_0027
+	dvC789_WriteToBuffer(BN_RTCT, RTCT_THRU);  		//G100_Doulas_0027
 
 	if (eAdj!=m_eAdjPrevAction)    //A65_OPTOMA_Doulas_0020
 	{
@@ -9023,7 +7428,7 @@ BOOL utilWarp_AdjustOsdBlendWidth(eADJ eAdj) //A35G2_BRC_Casper_0046
 
 	if(eAdj >= ADJ__INVALID)
 		return FALSE;
-	halWarping_TransferCtrl_Through();  		//G100_Doulas_0027
+	dvC789_WriteToBuffer(BN_RTCT, RTCT_THRU);  		//G100_Doulas_0027
 	//get value
 	if(m_eBlendWidthSel==DIR__LEFT)
 		nVal = m_stWarpConfig.stOsd.nBlendWidthL;
@@ -9357,7 +7762,7 @@ eBLACKLEVEL_AREA utilWarp_OsdBlackLevel_GetArea(void)
 //return false : not changed
 BOOL utilWarp_OsdBlackLevel_SetEnable(BOOL bEnable)
 {
-	halWarping_TransferCtrl_Through();	//A65_OPTOMA_Doulas_0136
+	dvC789_Write( BN_RTCT, RTCT_THRU);	//A65_OPTOMA_Doulas_0136
 	if(bEnable == m_stWarpConfig.stOsd.stBlackLevel.bEnable[m_eAreaSelection])
 	{
 		return FALSE;
@@ -9487,7 +7892,7 @@ BOOL utilWarp_OsdBlackLevel_DeletePoint(void)
 
 void utilWarp_OsdBlackLevel_ResetConfig(void)
 {
-	halWarping_TransferCtrl_Through();	//A65_OPTOMA_Doulas_0136
+	dvC789_Write( BN_RTCT, RTCT_THRU);	//A65_OPTOMA_Doulas_0136
 	m_eAreaSelection = BLACKLEVEL_AREA__TOP;
 	OsdBlackLevel_ResetConfig(m_eAreaSelection);
 	if(SaveWarpConfig()!=FLASH_ACCESS__PASS)
@@ -9615,8 +8020,8 @@ void utilWarp_PrintWarpConfig(void)  //A65_OPTOMA_Doulas_0020
 	LOG_MSG(db_ALWAYS, "NATIVE_WP_VW_GRD = %d\r\n", NATIVE_WP_VW_GRD);
 	LOG_MSG(db_ALWAYS, "THREED_WP_HW_GRD = %d\r\n", THREED_WP_HW_GRD);
 	LOG_MSG(db_ALWAYS, "THREED_WP_VW_GRD = %d\r\n", THREED_WP_VW_GRD);
-	LOG_MSG(db_ALWAYS, "m_f3dResRatioX = %f\r\n", m_f3dResRatioX);
-	LOG_MSG(db_ALWAYS, "m_f3dResRatioY = %f\r\n", m_f3dResRatioY);
+	LOG_MSG(db_ALWAYS, "m_f3dResRatioX = %d\r\n", m_f3dResRatioX);
+	LOG_MSG(db_ALWAYS, "m_f3dResRatioY = %d\r\n", m_f3dResRatioY);
 	LOG_MSG(db_ALWAYS, "--------------\r\n");
 
 	switch(m_stWarpConfig.stOsd.eWarpPoint)
@@ -10328,12 +8733,7 @@ void utilBasicBlendSettingSet(sBLENDING_BASIC stBlendingBasic)		//G100_Doulas_00
 		ucDataChanged = TRUE;	//G100_Doulas_0047 Modify
 	}
 	memcpy(&m_stWarpConfig.stOsdBasic.stBlendingPara, &(stBlendingBasic), sizeof(sBLENDING_BASIC));
-
-    #if (ADVANCED_BLEND == TRUE)
-    m_stWarpConfig.stOsd.nBlendGamma = stBlendingBasic.ucBlendingGamma;    //H2PF_Simon_0165
-    #endif
-
-    if(ucDataChanged)	//G100_Doulas_0035 Modify
+	if(ucDataChanged)	//G100_Doulas_0035 Modify
 	{
 		//LOG_MSG(db_ALWAYS," +++++++===Change==++++\r\n");
 		SaveWarpConfig();	//G100_Doulas_0028 remove
@@ -10383,10 +8783,6 @@ void utilBasicWarpSettingGet(sWARP_BASIC *stWarpingBasic)		//G100_Doulas_0027
 
 void utilBasicBlendSettingGet(sBLENDING_BASIC *stBlendingBasic)
 {
-    #if (ADVANCED_BLEND == TRUE)
-    m_stWarpConfig.stOsdBasic.stBlendingPara.ucBlendingGamma = m_stWarpConfig.stOsd.nBlendGamma;    //H2PF_Simon_0165
-    #endif
-
 	memcpy(stBlendingBasic,&m_stWarpConfig.stOsdBasic.stBlendingPara, sizeof(sBLENDING_BASIC));
 
 	LOG_MSG(db_HAL_WARPING," ucBlending_T_Enable     %d \r\n",m_stWarpConfig.stOsdBasic.stBlendingPara.ucBlending_T_Enable);
@@ -10772,11 +9168,9 @@ uint8 utilWarp_LoadMemoryPreset(uint8 nIdx)			//G100_Doulas_0027
 	{
 		//restore origin warp config
 		memcpy(&m_stWarpConfig, &stWarpConfigBackup, sizeof(WARP_CONFIG));
-        m_stWarpConfig.stOsd.bWarpLimit = TRUE;  //force enable Warp Limit   //H2PF_Simon_0168
 		return FLASH_ACCESS__VERIFY_CONFIG_ERR;
 	}
 
-    m_stWarpConfig.stOsd.bWarpLimit = TRUE;  //force enable Warp Limit   //H2PF_Simon_0168
 
 	//apply new warp config
 	//m_nSelCtlPointX = 0;
@@ -10925,6 +9319,27 @@ uint8 utilWarp_LoadBasicWarpMemoryPreset(uint8 nIdx)
 	m_nSelCtlPointX = 0;
 	m_nSelCtlPointY = 0;
 	InitGridColor();
+
+#if 0
+	if(m_stWarpConfig.eWarpCtrl == WARP_CTRL__BASIC)		//basic return
+	{
+		return SaveWarpConfig();
+	}
+	else if(m_stWarpConfig.eWarpCtrl == WARP_CTRL__ADVANCED)
+	{
+    	ApplyWarp(APPLY_WARP__BY_CONFIG);
+
+    	#if 0
+    	ApplyBlend(APPLY_BLEND__BY_CONFIG);
+    	#endif
+    }
+
+
+#ifdef SUPPORT_WARP_CONTROL_PC	//kenton_temp_check
+//	C821_ApplyBias(APPLY_BLEND__BY_CONFIG);
+#endif
+#endif
+
 
 	//save warp config
 	return SaveWarpConfig();
@@ -11158,11 +9573,7 @@ INT8 utilWarp_GetFileData(INT8 *cFileName, UINT8 *paucData, UINT32 ulSize)		//G1
     }
 
     memset(paucData, 0, ulSize);
-    if(fread(paucData, 1, ulSize, pFile) != ulSize)
-    {
-        fclose(pFile);
-        return UTILMISC_NO_FILE;
-    }
+    fread(paucData, 1, ulSize, pFile);
 
     fclose(pFile);
 
@@ -11198,7 +9609,7 @@ UINT8 utilWarp_ADVCurrentWarpReloadFile(void *stRead)		//G100_Doulas_0027
         return FLASH_ACCESS__FAIL;
     }
 
-    snprintf(cFileName, 128, "%s/%s", ADV_WAPR_PATH, m_cWarpFileName[WARPFILE_NUMBER - 1]);
+    snprintf(cFileName, 128, "%s/%s\0", ADV_WAPR_PATH, m_cWarpFileName[WARPFILE_NUMBER - 1]);
 
     if(utilWarp_GetFileData(cFileName, pucData, ulSize) == UTILMISC_NO_FILE)
     {
@@ -11225,7 +9636,7 @@ UINT8 utilWarp_ADVCurrentWarpSaveFile(void *stWrite,UINT16 uisize)		//G100_Doula
         mkdir(ADV_WAPR_PATH, 0777);
     }
 
-    snprintf(cFileName, 128, "%s/%s", ADV_WAPR_PATH, m_cWarpFileName[WARPFILE_NUMBER - 1]);
+    snprintf(cFileName, 128, "%s/%s\0", ADV_WAPR_PATH, m_cWarpFileName[WARPFILE_NUMBER - 1]);
 
 	//if (NULL == (lb = fopen("/mnt/ADVWarpCurrent.bin", "w+")))   //open file
 	if (NULL == (lb = fopen(cFileName, "w+")))   //open file
@@ -11254,7 +9665,7 @@ UINT8 utilWarp_ADVMemoryWarpReloadFile(void *stRead, UINT8 ucIndex)		//G100_Doul
         return FLASH_ACCESS__FAIL;
     }
 
-    snprintf((char *)cFileName, 128, "%s/%s", ADV_WAPR_PATH, m_cWarpFileName[ucIndex]);
+    snprintf((char *)cFileName, 128, "%s/%s\0", ADV_WAPR_PATH, m_cWarpFileName[ucIndex]);
 
     if(utilWarp_GetFileData(cFileName, pucData, ulSize) == UTILMISC_NO_FILE)		//G100_Doulas_0027
     {
@@ -11282,7 +9693,7 @@ UINT8 utilWarp_ADVMemoryWarpSaveFile(void *stWrite,UINT16 uisize,UINT8 ucIndex)	
         return FLASH_ACCESS__FAIL;
     }
 
-    snprintf((char *)cFileName, 128, "%s/%s", ADV_WAPR_PATH, m_cWarpFileName[ucIndex]);
+    snprintf((char *)cFileName, 128, "%s/%s\0", ADV_WAPR_PATH, m_cWarpFileName[ucIndex]);
 
 	if (NULL == (lb = fopen(cFileName, "w+")))   //open file
 	{
@@ -11303,7 +9714,7 @@ UINT8 utilWarp_ADVMemoryWarpClearFile(UINT8 ucIndex)			//G100_Doulas_0027
 #ifndef SIMULATOR_ISCALER
 	char cFileName[128] = {'\0'};
 
-    snprintf((char *)cFileName, 128, "%s/%s", ADV_WAPR_PATH, m_cWarpFileName[ucIndex]);
+    snprintf((char *)cFileName, 128, "%s/%s\0", ADV_WAPR_PATH, m_cWarpFileName[ucIndex]);
 
 	if(access(cFileName, 0) == 0)	//have file
 	{
@@ -11321,7 +9732,7 @@ UINT8 utilWarp_ADVWarpClearAllFile(void)		//G100_Doulas_0027
 #ifndef SIMULATOR_ISCALER
 	char cFileName[128] = {'\0'};
 
-    snprintf(cFileName, 128, "%s/%s", ADV_WAPR_PATH, m_cWarpFileName[WARPFILE_NUMBER - 1]);
+    snprintf(cFileName, 128, "%s/%s\0", ADV_WAPR_PATH, m_cWarpFileName[WARPFILE_NUMBER - 1]);
 
     if(access(cFileName, 0) == 0)	//have file
 	{
@@ -11377,7 +9788,7 @@ BOOL utilWarp_GridPoint_SetColIndex(UINT8 nPointX)
 		if(m_stWarpConfig.stOsd.bWarpInnerOn)
 		{
 			m_nSelCtlPointX = ucData*nPointX;
-			if(utilWarp_GetOsdPatternType() == PAT_TYPE__WARP_SEL_CTRL_POINT)
+			if(m_ePatternType == PAT_TYPE__WARP_SEL_CTRL_POINT)
 			{
 				//utilWarp_ShowOsdPattern(PAT_TYPE__WARP_SEL_CTRL_POINT);   //set row 時再 redraw
 			}
@@ -11390,7 +9801,7 @@ BOOL utilWarp_GridPoint_SetColIndex(UINT8 nPointX)
 				 && (ucData*nPointX == 0 || ucData*nPointX == (DEF_NUM_CUR_MAX_H-1))))
 			{
 				m_nSelCtlPointX = ucData*nPointX;
-				if(utilWarp_GetOsdPatternType() == PAT_TYPE__WARP_SEL_CTRL_POINT)
+				if(m_ePatternType == PAT_TYPE__WARP_SEL_CTRL_POINT)
 				{
 					//utilWarp_ShowOsdPattern(PAT_TYPE__WARP_SEL_CTRL_POINT);   //set row 時再 redraw
 				}
@@ -11419,7 +9830,7 @@ BOOL utilWarp_GridPoint_SetRowIndex(UINT8 nPointY) //A35G2_BRC_Casper_0046
 		if(m_stWarpConfig.stOsd.bWarpInnerOn)
 		{
 			m_nSelCtlPointY = ucData*nPointY;
-			if(utilWarp_GetOsdPatternType() == PAT_TYPE__WARP_SEL_CTRL_POINT)
+			if(m_ePatternType == PAT_TYPE__WARP_SEL_CTRL_POINT)
 			{
 				utilWarp_ShowOsdPattern(PAT_TYPE__WARP_SEL_CTRL_POINT);
 			}
@@ -11432,7 +9843,7 @@ BOOL utilWarp_GridPoint_SetRowIndex(UINT8 nPointY) //A35G2_BRC_Casper_0046
 				 && (ucData*nPointY == 0 || ucData*nPointY == (DEF_NUM_CUR_MAX_V-1))))
 			{
 				m_nSelCtlPointY = ucData*nPointY;
-				if(utilWarp_GetOsdPatternType() == PAT_TYPE__WARP_SEL_CTRL_POINT)
+				if(m_ePatternType == PAT_TYPE__WARP_SEL_CTRL_POINT)
 				{
 					utilWarp_ShowOsdPattern(PAT_TYPE__WARP_SEL_CTRL_POINT);
 				}
@@ -11463,7 +9874,7 @@ BOOL utilWarp_GridPoint_SetColRowIndex(UINT8 nPointX, UINT8 nPointY)
 		{
 			m_nSelCtlPointX = ucData_H*nPointX;
 			m_nSelCtlPointY = ucData_V*nPointY;
-			if(utilWarp_GetOsdPatternType() == PAT_TYPE__WARP_SEL_CTRL_POINT)
+			if(m_ePatternType == PAT_TYPE__WARP_SEL_CTRL_POINT)
 			{
 				utilWarp_ShowOsdPattern(PAT_TYPE__WARP_SEL_CTRL_POINT);
 			}
@@ -11484,7 +9895,7 @@ BOOL utilWarp_GridPoint_SetColRowIndex(UINT8 nPointX, UINT8 nPointY)
 			{
 				m_nSelCtlPointX = ucData_H*nPointX;
 				m_nSelCtlPointY = ucData_V*nPointY;
-				if(utilWarp_GetOsdPatternType() == PAT_TYPE__WARP_SEL_CTRL_POINT)
+				if(m_ePatternType == PAT_TYPE__WARP_SEL_CTRL_POINT)
 				{
 					utilWarp_ShowOsdPattern(PAT_TYPE__WARP_SEL_CTRL_POINT);
 				}
@@ -11809,7 +10220,7 @@ BOOL utilWarp_SetOsdBlendWidth(eDIR eDir, UINT16 nOverlapPixel) //A35G2_BRC_Casp
         if((m_ePatternType == PAT_TYPE__BLEND_NO_CTRL_POINT)
             ||(m_ePatternType == PAT_TYPE__WARP_SEL_CTRL_POINT))
 #else
-        if(utilWarp_GetOsdPatternType() != PAT_TYPE__OFF)
+        if(m_ePatternType != PAT_TYPE__OFF)
 #endif
 		{
 			m_bOsdWarpParamChanged = TRUE;
@@ -11982,8 +10393,9 @@ BOOL utilWarp_SetOsdBlendOffset(eDIR eDir, UINT16 nOffsetPixel) //A35G2_BRC_Casp
 #if 0   // G50_Keven_0003	//A35G2_Wesley_0093
         if(m_ePatternType == PAT_TYPE__BLEND_NO_CTRL_POINT)
 #else
-        if(utilWarp_GetOsdPatternType() != PAT_TYPE__OFF)
+        if(m_ePatternType != PAT_TYPE__OFF)
 #endif
+
 		{
 			m_bOsdWarpParamChanged = TRUE;
 			utilWarp_ShowOsdPattern(m_ePatternType);
@@ -12006,7 +10418,7 @@ void utilWarp_ResetBlendConfig(void) //A35G2_BRC_Casper_0046
 		LOG_MSG(db_HAL_WARPING,"save blend config fail\r\n");
 
 	ApplyBlend(APPLY_BLEND__BY_CONFIG);
-	if(utilWarp_GetOsdPatternType() == PAT_TYPE__WARP_SEL_CTRL_POINT || utilWarp_GetOsdPatternType() == PAT_TYPE__BLEND_NO_CTRL_POINT)
+	if(m_ePatternType == PAT_TYPE__WARP_SEL_CTRL_POINT || m_ePatternType == PAT_TYPE__BLEND_NO_CTRL_POINT)
 	{
 		utilWarp_ShowOsdPattern(m_ePatternType);
 	}
@@ -12022,7 +10434,7 @@ void utilWarp_ResetWarpSetting(void) //A35G2_BRC_Casper_0046
 		LOG_MSG(db_HAL_WARPING,"save blend config fail\r\n");
 
 	ApplyWarp(APPLY_WARP__RE_CALC);
-	if(utilWarp_GetOsdPatternType() == PAT_TYPE__WARP_SEL_CTRL_POINT || utilWarp_GetOsdPatternType() == PAT_TYPE__BLEND_NO_CTRL_POINT)
+	if(m_ePatternType == PAT_TYPE__WARP_SEL_CTRL_POINT || m_ePatternType == PAT_TYPE__BLEND_NO_CTRL_POINT)
 	{
 		utilWarp_ShowOsdPattern(m_ePatternType);
 	}
@@ -12037,14 +10449,14 @@ void utilWarp_ResetWarpControlPoint(void) //A35G2_BRC_Casper_0047
 
 BOOL utilWarp_GetWarpPatternState(void) //A35G2_BRC_Casper_0046
 {
-	return ((utilWarp_GetOsdPatternType() == PAT_TYPE__WARP_SEL_CTRL_POINT) ? TRUE : FALSE);
+	return ((m_ePatternType == PAT_TYPE__WARP_SEL_CTRL_POINT) ? TRUE : FALSE);
 }
 
 void utilWarp_ReDrawWarpPattern(void) //A35G2_BRC_Casper_0047
 {
-	if(utilWarp_GetOsdPatternType() == PAT_TYPE__WARP_SEL_CTRL_POINT
-		|| utilWarp_GetOsdPatternType() == PAT_TYPE__WARP_MOV_CTRL_POINT
-		|| utilWarp_GetOsdPatternType() == PAT_TYPE__WARP_NO_CTRL_POINT)
+	if(m_ePatternType == PAT_TYPE__WARP_SEL_CTRL_POINT
+		|| m_ePatternType == PAT_TYPE__WARP_MOV_CTRL_POINT
+		|| m_ePatternType == PAT_TYPE__WARP_NO_CTRL_POINT)
 	{
 		utilWarp_ShowOsdPattern(m_ePatternType);
 	}
@@ -12055,7 +10467,7 @@ void utilWarp_OsdBlackLevel_ResetConfigBottom(void)	//A65_OPTOMA_Doulas_0029
 {
 	UINT8 ucOldSelect = m_eAreaSelection;
 
-	halWarping_TransferCtrl_Through();	//A65_OPTOMA_Doulas_0136
+	dvC789_Write( BN_RTCT, RTCT_THRU);	//A65_OPTOMA_Doulas_0136
 	m_eAreaSelection = BLACKLEVEL_AREA__BOTTOM;
 	OsdBlackLevel_ResetConfig(m_eAreaSelection);
 	if(SaveWarpConfig()!=FLASH_ACCESS__PASS)
@@ -12080,7 +10492,7 @@ void utilWarp_OsdBlackLevel_ResetConfigTop(void)		//A65_OPTOMA_Doulas_0029
 {
 	UINT8 ucOldSelect = m_eAreaSelection;
 
-	halWarping_TransferCtrl_Through();	//A65_OPTOMA_Doulas_0136
+	dvC789_Write( BN_RTCT, RTCT_THRU);	//A65_OPTOMA_Doulas_0136
 	m_eAreaSelection = BLACKLEVEL_AREA__TOP;
 	OsdBlackLevel_ResetConfig(m_eAreaSelection);
 	if(SaveWarpConfig()!=FLASH_ACCESS__PASS)
@@ -12125,13 +10537,8 @@ eCOLOR_PALETTE_GROUP utilWarp_GetColorPaletteGroupIndex(void)
 //return false: not changed
 BOOL utilWarp_SetColorPaletteGroupIndex(eCOLOR_PALETTE_GROUP eColorPaletteIndex)
 {
-    #ifdef SCALER_C821_C789
 	dvC789_Write(B1_OSDMWI, m_nLineFeed);  //A65_OPTOMA_CL_0010
 	dvC789_Write(B0_BBWMWI, m_nLineFeed);
-	#elif defined(SCALER_C341)
-	dvC341_Write(B9_OSDMWI1CH1, m_nLineFeed, 0);  //A65_OPTOMA_CL_0010
-	dvC341_Write(B4_BBWMWI, m_nLineFeed, 0);
-	#endif
 
     LOG_MSG(db_HAL_WARPING, "Init Color Palette group to %d (pre %d)\r\n", eColorPaletteIndex, m_ucColorPalette);
 
@@ -12242,12 +10649,12 @@ BOOL utilWarp_SetShowBlendOnWarpPattern(BOOL bShow)
     }
 
     m_stWarpConfig.stOsd.bShowBlendOnWarpPattern = bShow;
-    if(     ( utilWarp_GetOsdPatternType() == PAT_TYPE__WARP_SEL_CTRL_POINT )
-        ||  ( utilWarp_GetOsdPatternType() == PAT_TYPE__WARP_MOV_CTRL_POINT )
-        ||  ( utilWarp_GetOsdPatternType() == PAT_TYPE__WARP_NO_CTRL_POINT )
-        ||  ( utilWarp_GetOsdPatternType() == PAT_TYPE__SEL_BLEND_WIDTH )
-        ||  ( utilWarp_GetOsdPatternType() == PAT_TYPE__ADJ_BLEND_WIDTH )
-        ||  ( utilWarp_GetOsdPatternType() == PAT_TYPE__BLEND_NO_CTRL_POINT )
+    if(     ( m_ePatternType == PAT_TYPE__WARP_SEL_CTRL_POINT )
+        ||  ( m_ePatternType == PAT_TYPE__WARP_MOV_CTRL_POINT )
+        ||  ( m_ePatternType == PAT_TYPE__WARP_NO_CTRL_POINT )
+        ||  ( m_ePatternType == PAT_TYPE__SEL_BLEND_WIDTH )
+        ||  ( m_ePatternType == PAT_TYPE__ADJ_BLEND_WIDTH )
+        ||  ( m_ePatternType == PAT_TYPE__BLEND_NO_CTRL_POINT )
     )
     {
         utilWarp_ShowOsdPattern(m_ePatternType);
@@ -12266,7 +10673,7 @@ BOOL utilWarp_SetDrawOverlapGridOnWarpPattern(BOOL bDraw)
 		return FALSE;
 
 	m_stWarpConfig.stOsd.bDrawOverlapGridOnWarpPattern = bDraw;
-	if(utilWarp_GetOsdPatternType() == PAT_TYPE__WARP_SEL_CTRL_POINT)
+	if(m_ePatternType == PAT_TYPE__WARP_SEL_CTRL_POINT)
 	{
 		utilWarp_ShowOsdPattern(m_ePatternType);
 	}
@@ -12286,32 +10693,18 @@ UINT32 utilWarp_NativePanel_Get(void)
 
     switch(Panel)
 	{
-	    case ePANEL_ID_3840x2400_60HZ:
-	        return RES_ID__WQUXGA60;
-
-	    case ePANEL_ID_3840x2160_60HZ:
-	        return RES_ID__UHD60;
-
 	    case ePANEL_ID_WUXGA_60HZ:
 	        return RES_ID__WUXGA;
 
 	    case ePANEL_ID_1080P_60HZ:
 	        return RES_ID__1080P60;
 
-	    case ePANEL_ID_WUXGA_240HZ: //HICC2_Casper_0042
-	        return RES_ID__WUXGA240;
-
-	    case ePANEL_ID_WUXGA_120HZ:
-	        return RES_ID__WUXGA120;
-
 	    default:
 	        LOG_MSG(db_HAL_WARPING, "%s: Get Native Panel Fail (%d)\r\n", __FUNCTION__, Panel);
 	}
 
-	return RES_ID__WQUXGA60;
+	return RES_ID__MAX;
 }
-
-
 
 
 

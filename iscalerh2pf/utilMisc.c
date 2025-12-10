@@ -15,7 +15,11 @@ INT8 utilMisc_GetFileData(INT8 *cFileName, UINT8 *paucData, UINT32 ulSize)
     }
 
     memset(paucData, 0, ulSize);
-    fread(paucData, 1, ulSize, pFile);
+    if(fread(paucData, 1, ulSize, pFile) != ulSize)
+    {
+        fclose(pFile);
+        return UTILMISC_NO_FILE;
+    }
 
     fclose(pFile);
 
